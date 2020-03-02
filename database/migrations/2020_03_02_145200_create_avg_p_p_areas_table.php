@@ -20,7 +20,7 @@ class CreateAvgPPAreasTable extends Migration
             $table->double('avgPotential');
             $table->double('avgPerformance');
             $table->foreign('idSurveyComplete')->references('id')->on('survey_completes');
-            $table->foreign('idArea')->references('id')->on('areas');
+            $table->foreign('Area')->references('id')->on('areas');
             $table->timestamps();
         });
     }
