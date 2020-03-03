@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use DB;
 
-class AvgAllFinalController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +16,20 @@ class AvgAllFinalController extends Controller
     public function index()
     {
         //
+        //$userid = Auth::id();
+        $dados = User::All();
+        $arrayInfo = [];
+        for($i = 0; $i < count($dados); $i++) {
+            $userID = $dados[$i]->id;
+            array_push($arrayInfo, "foto");
+            array_push($arrayInfo, $dados[$i]->name);
+            $departmentID = DB::table('professional_infos')->where('user_id', $userID)->value('department_id');
+            $officeID = DB::table('office_deps')->where('iddepartments', $departmentID)->value('idoffice');
+            $office = DB::table('offices')->where('id', $officeID)->value('description');
+            array_push($arrayInfo, $office);
+        }
+
+        return view('testeEmployees')->with('dados',$arrayInfo);
     }
 
     /**
@@ -47,7 +62,7 @@ class AvgAllFinalController extends Controller
     public function show(User $user)
     {
         //
-        $users = User::all(); //transferir esta var para a pagina aonde é precisa
+         
     }
 
     /**
