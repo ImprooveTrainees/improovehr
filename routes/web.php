@@ -26,3 +26,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/personalInfo', 'PersonalInfoController@index');
+
+Route::get('/professionalInfo', 'ProfessionalInfoController@index');
