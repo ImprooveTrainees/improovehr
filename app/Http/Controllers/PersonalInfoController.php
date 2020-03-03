@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\personalInfo;
 use Illuminate\Http\Request;
-
+use DB;
+use Auth;
 class PersonalInfoController extends Controller
 {
     /**
@@ -14,7 +15,28 @@ class PersonalInfoController extends Controller
      */
     public function index()
     {
-        //
+        $userid = Auth::id();
+        $userName = DB::table('users')->where('id', $userid)->value('name');
+        $Bdate = DB::table('personal_infos')->where('user_id', $userid)->value('birth_date');
+        $Email = DB::table('users')->where('id', $userid)->value('email');
+
+        $status = DB::table('personal_infos')->where('user_id', $userid)->value('status');
+        $nif = DB::table('personal_infos')->where('user_id', $userid)->value('tax_number');
+        $academicQual = DB::table('personal_infos')->where('user_id', $userid)->value('academic_qual');
+        $mobile = DB::table('personal_infos')->where('user_id', $userid)->value('phone');
+        $address = DB::table('personal_infos')->where('user_id', $userid)->value('address');
+        $zip = DB::table('personal_infos')->where('user_id', $userid)->value('zip_code');
+        $city = DB::table('personal_infos')->where('user_id', $userid)->value('city');
+        $iban = DB::table('personal_infos')->where('user_id', $userid)->value('iban');
+
+        $actualYear = date("Y/m/d");       
+        $date1=date_create($Bdate);
+        $date2=date_create($actualYear);
+        $diff=date_diff($date1,$date2);
+        $age = $diff->format("%Y%"); //formato anos
+
+        return view('/testePersonalInfo',compact('userName','Bdate','Email','status','age','nif', 'academicQual','mobile','address','zip','city','iban'));
+        
     }
 
     /**
@@ -47,6 +69,9 @@ class PersonalInfoController extends Controller
     public function show(personalInfo $personalInfo)
     {
         //
+
+
+
     }
 
     /**
