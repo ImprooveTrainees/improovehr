@@ -18,14 +18,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="css/mystyle.css">
+    <link rel="stylesheet" href="main/main.css">
 </head>
 <body>
 <img src="img/login.svg" alt="improove" srcset="" id="login_first">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card bg-light">
+        <div class="login_box">
+            <div class="card bg-light card_login">
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
