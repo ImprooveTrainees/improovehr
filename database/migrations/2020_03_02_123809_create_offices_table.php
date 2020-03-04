@@ -18,6 +18,9 @@ class CreateOfficesTable extends Migration
             $table->String('description');
             $table->String('adress');
             $table->timestamps();
+            $table->String('mail');
+            $table->String('contact');
+            $table->String('country');
         });
     }
 

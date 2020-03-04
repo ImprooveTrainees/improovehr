@@ -19,6 +19,10 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
+Route::get('/survey', function () {
+    return view('survey');
+});
+
 
 Auth::routes();
 
@@ -28,3 +32,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personalInfo', 'PersonalInfoController@index');
 
 Route::get('/professionalInfo', 'ProfessionalInfoController@index');
+
+Route::get('/GeneralSettings', 'OfficesController@index');
