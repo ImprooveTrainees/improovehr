@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\offices;
 use Illuminate\Http\Request;
+use DB;
+use Auth;
 
 class OfficesController extends Controller
 {
@@ -14,7 +16,19 @@ class OfficesController extends Controller
      */
     public function index()
     {
-        //
+        $userid = Auth::id();
+        $idDepartment = DB::table('users')->where('id', $userid)->value('iddepartment');
+        $idOffice = DB::table('office_deps')->where('iddepartments', $idDepartment)->value('idoffice');
+        $compName = DB::table('offices')->where('id', $idOffice)->value('description');
+        $compAddress = DB::table('offices')->where('id', $idOffice)->value('adress');
+        $compMail = DB::table('offices')->where('id', $idOffice)->value('mail');
+        $compContact = DB::table('offices')->where('id', $idOffice)->value('contact');
+        $compCountry = DB::table('offices')->where('id', $idOffice)->value('country');
+
+
+        return view('/settings',compact('idDepartment','idOffice','compName','compAddress','compMail','compContact','compCountry'));
+
+
     }
 
     /**
