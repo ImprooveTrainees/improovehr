@@ -36,7 +36,9 @@
 </div>
 
 <!-- Page Content -->
+<h1><a href="/logout"><button>Logout - TROCAR DE LUGAR</button></a></h1>
 <div class="content">
+   
     <!-- Your Block -->
     <div class="block">
         <div class="block-header">

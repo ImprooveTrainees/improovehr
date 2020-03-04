@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 
 class UserController extends Controller
 {
@@ -121,5 +122,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+    public function logout()
+    {
+        //
+        Auth::logout();
+        return redirect()->intended('/');
     }
 }
