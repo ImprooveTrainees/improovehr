@@ -22,11 +22,19 @@ class AbsenceController extends Controller
 
         $absences = absence::all();
 
-        $absence = absence::select('status','end_date','start_date')->where('id_user', $userid)->get();
+        $absence = absence::select('absence_type','status','end_date','start_date','motive','attachment')->where('id_user', $userid)->get();
 
-        $array_abs = array();
+        $array_vacations = array();
+
+        $array_absences = array();
 
         foreach($absence as $abs) {
+
+
+
+            if($abs->absence_type==1) {
+
+            //LIST - VACATIONS
 
             $start = $abs->start_date;
 
@@ -35,20 +43,30 @@ class AbsenceController extends Controller
             $stat = $abs->status;
 
 
-
             $start = substr($start, 0,-9);
             $end = substr($end, 0,-9);
 
-            array_push($array_abs, $start, $end, $stat);
+            array_push($array_vacations, $start, $end, $stat);
 
+            } else {
 
+                //LIST - ABSENCES
+
+                $start = $abs->start_date;
+
+                $end = $abs->end_date;
+
+                $stat = $abs->status;
+
+                $motive = $abs->motive;
+
+                $attachment = $abs->attachment;
+
+                array_push($array_absences,$start,$end,$stat,$attachment,$motive);
+
+            }
 
         }
-
-
-        //$new_date = date("Y-m-d H:i:s",strtotime($date_time));
-
-        //$holiday_row = absence::whereId($query)->get();
 
 
         //$status = DB::table('absences')->where('id_user', $userid)->value('status');
@@ -56,10 +74,10 @@ class AbsenceController extends Controller
         //$start_date = DB::table('absences')->where('id_user', $userid)->value('start_date');
 
 
-
-
-        return view('/testeAbsences',compact('user','array_abs'));
+        return view('Absences.testeAbsences',compact('user','array_vacations','array_absences'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,6 +87,8 @@ class AbsenceController extends Controller
     public function create()
     {
         //
+
+        return view('Absences.createVacations');
     }
 
     /**
@@ -77,9 +97,27 @@ class AbsenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $userid = Auth::id();
+
+        // error_log(request('start_date'));
+        // error_log(request('end_date'));
+
+        $vacation = new absence();
+
+        $vacation->id_user=$userid;
+        $vacation->absence_type=1;
+        $vacation->attachment="";
+        $vacation->status="Pending";
+        $vacation->start_date = request('start_date');
+        $vacation->end_date = request('end_date');
+        $vacation->motive = "";
+
+
+        $vacation->save();
+
+        return redirect('/testeAbsences')->with('msgVacation','Vacation submitted. Waiting for approval.');
     }
 
     /**

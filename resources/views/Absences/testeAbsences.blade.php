@@ -67,10 +67,10 @@
             <div class="content">
                 <div class="title m-b-md">
 
-                <button class="tablink" onclick="openPage('Holidays', this, 'red')">Holidays</button>
+                <button class="tablink" onclick="openPage('Vacations', this, 'red')">Vacations</button>
                 <button class="tablink" onclick="openPage('Absences', this, 'green')" id="defaultOpen">Absences</button>
 
-                <div id="Holidays" class="tabcontent">
+                <div id="Vacations" class="tabcontent">
                     <table>
                     <tr>
                         <th>Start Date</th>
@@ -78,24 +78,53 @@
                         <th>Approval</th>
                     </tr>
 
-                @for($i=0;$i<count($array_abs);$i+=3)
+                @for($i=0;$i<count($array_vacations);$i+=3)
                     <tr>
-                    <td> {{$array_abs[$i]}} </td>
-                    <td> {{$array_abs[$i+1]}} </td>
-                    <td> {{$array_abs[$i+2]}} </td>
+                    <td> {{$array_vacations[$i]}} </td>
+                    <td> {{$array_vacations[$i+1]}} </td>
+                    <td> {{$array_vacations[$i+2]}} </td>
                     </tr>
                 @endfor
 
                     </table>
 
+                    <button type="button" onclick="window.location='{{ url("createVacations") }}'">ADD NEW VACATION</button>
+
+
                 </div>
 
                 <div id="Absences" class="tabcontent">
-                    <h3>Absences</h3>
-                    <p>Some news this fine day!</p>
-                </div>
+                    <table>
+                    <tr>
+                        <th>Start Date and Time</th>
+                        <th>End Date and Time</th>
+                        <th>Approval</th>
+                        <th>Attachment</th>
+                        <th>Motive</th>
+                    </tr>
+
+                    @for($i=0;$i<count($array_absences);$i+=5)
+                        <tr>
+                        <td> {{$array_absences[$i]}} </td>
+                        <td> {{$array_absences[$i+1]}} </td>
+                        <td> {{$array_absences[$i+2]}} </td>
+                        <td> {{$array_absences[$i+3]}} </td>
+                        <td> {{$array_absences[$i+4]}} </td>
+                        </tr>
+                    @endfor
+
+
+                    </table>
+
+                    <button>Add New Absence</button>
 
                 </div>
+
+
+
+                </div>
+
+                <p class="msgVacation">{{ session('msgVacation') }}</p>
 
             </div>
 
