@@ -487,7 +487,7 @@
             <!-- Main Container -->
             <main id="main-container">
 
-                @yield('content');
+                @yield('content')
 
             </main>
             <!-- END Main Container -->
