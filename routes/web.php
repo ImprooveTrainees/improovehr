@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/testeAbsences', 'AbsenceController@index');
 Route::get('/createVacations', 'AbsenceController@create');
+Route::get('/createAbsences', 'AbsenceController@createAbs');
 Route::post('/testeAbsences', 'AbsenceController@store');
 
 Auth::routes();

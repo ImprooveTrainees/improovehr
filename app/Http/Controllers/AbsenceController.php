@@ -89,6 +89,14 @@ class AbsenceController extends Controller
         //
 
         return view('Absences.createVacations');
+
+    }
+
+    public function createAbs()
+    {
+        //
+
+        return view('Absences.createAbsences');
     }
 
     /**
@@ -106,18 +114,48 @@ class AbsenceController extends Controller
 
         $vacation = new absence();
 
-        $vacation->id_user=$userid;
-        $vacation->absence_type=1;
-        $vacation->attachment="";
-        $vacation->status="Pending";
-        $vacation->start_date = request('start_date');
-        $vacation->end_date = request('end_date');
-        $vacation->motive = "";
+        $absence = new absence();
+
+        $msg = '';
+
+        $op = request('op');
+
+        if($op==1) {
+
+            $vacation->id_user=$userid;
+            $vacation->absence_type=1;
+            $vacation->attachment="";
+            $vacation->status="Pending";
+            $vacation->start_date = request('start_date');
+            $vacation->end_date = request('end_date');
+            $vacation->motive = "";
 
 
-        $vacation->save();
+            $vacation->save();
 
-        return redirect('/testeAbsences')->with('msgVacation','Vacation submitted. Waiting for approval.');
+            $msg='Vacation submitted. Waiting for approval.';
+
+
+        } else {
+
+            $absence->id_user=$userid;
+            $absence->absence_type=request('type');
+            $absence->attachment=request('attachment');
+            $absence->status="Pending";
+            $absence->start_date = request('start_date');
+            $absence->end_date = request('end_date');
+            $absence->motive = request('motive');
+
+
+            $absence->save();
+
+            $msg='Absence submitted. Waiting for approval.';
+
+        }
+
+        return redirect('/testeAbsences')->with('msgAbs',$msg);
+
+
     }
 
     /**

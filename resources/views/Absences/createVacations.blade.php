@@ -81,6 +81,8 @@
                     <label for="end_date">End Date </label>
                     <input type="date" id="end_date" name="end_date">
 
+                    <input type="hidden" value=1 name="op">
+
                     <input type="submit" value="ADD VACATION">
 
                 </form>
@@ -90,6 +92,8 @@
                 </div>
 
             </div>
+            <br><br>
+            <a href="/testeAbsences">Back</a>
 
         </div>
     </body>

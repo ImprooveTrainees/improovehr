@@ -67,66 +67,54 @@
             <div class="content">
                 <div class="title m-b-md">
 
-                <button class="tablink" onclick="openPage('Vacations', this, 'red')">Vacations</button>
-                <button class="tablink" onclick="openPage('Absences', this, 'green')" id="defaultOpen">Absences</button>
-
-                <div id="Vacations" class="tabcontent">
-                    <table>
-                    <tr>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Approval</th>
-                    </tr>
-
-                @for($i=0;$i<count($array_vacations);$i+=3)
-                    <tr>
-                    <td> {{$array_vacations[$i]}} </td>
-                    <td> {{$array_vacations[$i+1]}} </td>
-                    <td> {{$array_vacations[$i+2]}} </td>
-                    </tr>
-                @endfor
-
-                    </table>
-
-                    <button type="button" onclick="window.location='{{ url("createVacations") }}'">ADD NEW VACATION</button>
-
+                    <h1>CREATE A NEW ABSENCE</h1>
 
                 </div>
 
-                <div id="Absences" class="tabcontent">
-                    <table>
-                    <tr>
-                        <th>Start Date and Time</th>
-                        <th>End Date and Time</th>
-                        <th>Approval</th>
-                        <th>Attachment</th>
-                        <th>Motive</th>
-                    </tr>
+                <div class="wrapper">
 
-                    @for($i=0;$i<count($array_absences);$i+=5)
-                        <tr>
-                        <td> {{$array_absences[$i]}} </td>
-                        <td> {{$array_absences[$i+1]}} </td>
-                        <td> {{$array_absences[$i+2]}} </td>
-                        <td> {{$array_absences[$i+3]}} </td>
-                        <td> {{$array_absences[$i+4]}} </td>
-                        </tr>
-                    @endfor
+                <form action="/testeAbsences" method="POST" class="action">
+                    @csrf
 
+                    <label for="type">Type of Absence</label>
+                    <select name="type" id="type">
+                        <option value="2">Excused Absence</option>
+                        <option value="3">Unexcused Absence</option>
+                        <option value="4">Maternity Leave</option>
+                        <option value="5">Medical Leave</option>
+                    </select>
 
-                    </table>
+                    <label for="motive">Motive</label>
+                    <input type="text" id="motive" name="motive">
 
-                    <button type="button" onclick="window.location='{{ url("createAbsences") }}'">ADD NEW ABSENCE</button>
+                    <br><br>
 
-                </div>
+                    <label for="start_date" >Start Date </label>
+                    <input type="datetime-local" id="start_date" name="start_date">
+
+                    <label for="end_date">End Date </label>
+                    <input type="datetime-local" id="end_date" name="end_date">
+
+                    <br><br>
+
+                    <label for="attachment">Attach File</label>
+                    <input type="file" id="attachment" name="attachment" accept="file_extension|pdf/*|image">
+
+                    <br><br>
+
+                    <input type="hidden" value=2 name="op">
+
+                    <input type="submit" value="ADD ABSENCE">
+
+                </form>
 
 
 
                 </div>
-
-                <p>{{ session('msgAbs') }}</p>
 
             </div>
+            <br><br>
+            <a href="/testeAbsences">Back</a>
 
         </div>
     </body>
