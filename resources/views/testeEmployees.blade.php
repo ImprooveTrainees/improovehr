@@ -31,12 +31,10 @@
             <th>Time</th>
             <th>Supervisor</th>
         </tr>
-        @foreach ($dados as $dado)
-        <tr>
-        <td>{{$dado}}</td>
-        </tr>
-            
-        @endforeach
+
+
+       <?php echo $msg ?>   
+     
 
 
     </table>
