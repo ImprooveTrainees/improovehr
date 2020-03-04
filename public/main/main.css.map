@@ -4,7 +4,9 @@
     "sources": [
         "main.scss",
         "../mobile/components/login/_login.scss",
-        "../screens/components/login/_login.scss"
+        "../screens/components/login/_login.scss",
+        "../mobile/components/main_page/_mainpage.scss",
+        "../screens/components/main_page/_mainpage.scss"
     ],
     "names": [],
     "file": "main.css"
