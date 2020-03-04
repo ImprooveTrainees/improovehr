@@ -23,6 +23,10 @@ Route::get('/survey', function () {
     return view('survey');
 });
 
+Route::get('/testeAbsences', 'AbsenceController@index');
+Route::get('/createVacations', 'AbsenceController@create');
+Route::get('/createAbsences', 'AbsenceController@createAbs');
+Route::post('/testeAbsences', 'AbsenceController@store');
 
 Auth::routes();
 
@@ -34,3 +38,4 @@ Route::get('/personalInfo', 'PersonalInfoController@index');
 Route::get('/professionalInfo', 'ProfessionalInfoController@index');
 
 Route::get('/GeneralSettings', 'OfficesController@index');
+Route::get('/employees', 'UserController@index');
