@@ -223,7 +223,6 @@
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Home</span>
                             </a>
                         </li>
-                        <li class="nav-main-heading">Heading</li>
                         <li class="nav-main-item">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <i class="fas fa-user"></i>
@@ -270,6 +269,13 @@
                 <div class="content-header">
                     <!-- Right Section -->
                     <div class="d-flex align-items-center">
+                        <!-- Toggle Sidebar -->
+                        <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
+                        <button type="button" class="btn btn-sm btn-dual mr-2 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+                            <i class="fa fa-fw fa-bars"></i>
+                        </button>
+                        <!-- END Toggle Sidebar -->
+                        
                         {{-- <!-- User Dropdown -->
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -330,13 +336,6 @@
                     <!-- END Right Section -->
                     <!-- Left Section -->
                     <div class="d-flex align-items-center">
-                        <!-- Toggle Sidebar -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
-                        <button type="button" class="btn btn-sm btn-dual mr-2 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
-                            <i class="fa fa-fw fa-bars"></i>
-                        </button>
-                        <!-- END Toggle Sidebar -->
-
                         <!-- Toggle Mini Sidebar -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
                         {{-- <button type="button" class="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" data-toggle="layout" data-action="sidebar_mini_toggle">
