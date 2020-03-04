@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\professionalInfo;
 use Illuminate\Http\Request;
-
+use DB;
+use Auth;
+use App\userattachments;
 class ProfessionalInfoController extends Controller
 {
     /**
@@ -14,7 +16,20 @@ class ProfessionalInfoController extends Controller
      */
     public function index()
     {
-        //
+        $userid = Auth::id();
+        $contract_id = DB::table('professional_infos')->where('user_id', $userid)->value('contract_id');
+        $role = DB::table('contracts')->where('id',$contract_id)->value('position');
+        $contractype = DB::table('contract_types')->where('id',$contract_id)->value('description');
+        $department_id = DB::table('professional_infos')->where('user_id',$userid)->value('department_id');
+        $department = DB::table('departments')->where('id',$department_id)->value('description');
+        $startdate = DB::table('contracts')->where('id',$contract_id)->value('start_date');
+        $endDate = DB::table('contracts')->where('id',$contract_id)->value('end_date');
+        // $userAttachments =  DB::table('userattachments')->where('user_id',$userid)->value('files');
+        $userAttachments = userattachments::select('files')->where('user_id',$userid)->get();
+
+
+        return view('/testeProfessionalInfo',compact('contract_id','role','contractype','department','startdate','endDate','userAttachments'));
+
     }
 
     /**
