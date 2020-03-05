@@ -23,7 +23,7 @@
                         <tbody>
                             <tr>
                                 <td>12</td>
-                                <td>12</td>
+                                <td>12</td> 
                                 <td>12</td>
                                 <td>12</td>
                             </tr>
@@ -36,7 +36,6 @@
 </div>
 
 <!-- Page Content -->
-<h1><a href="/logout"><button>Logout - TROCAR DE LUGAR</button></a></h1>
 <div class="content">
    
     <!-- Your Block -->
