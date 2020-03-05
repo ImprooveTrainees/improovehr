@@ -19,7 +19,7 @@ Route::get('/logout', 'UserController@logout')->middleware('auth');
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
-})->middleware('auth');
+});
 
 Route::get('/survey', function () {
     return view('survey');
@@ -41,3 +41,4 @@ Route::get('/professionalInfo', 'ProfessionalInfoController@index')->middleware(
 
 Route::get('/GeneralSettings', 'OfficesController@index')->middleware('auth');
 Route::get('/employees', 'UserController@index')->middleware('auth');
+
