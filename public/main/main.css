@@ -1,0 +1,79 @@
+.login_box {
+  position: absolute;
+  margin: auto;
+  left: auto;
+  top: 60%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 80%;
+}
+
+#login_first {
+  width: 100%;
+  right: 0;
+  height: auto;
+  position: absolute;
+}
+
+.card_login {
+  border-radius: 30px;
+}
+
+@media screen and (min-width: 800px) {
+  #login_first {
+    width: 160%;
+  }
+  .login_box {
+    top: 60%;
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #login_first {
+    width: 100%;
+  }
+  .login_box {
+    width: 35%;
+  }
+}
+
+.cardbox1 {
+  height: 90%;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+}
+
+.username {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.username input {
+  margin-left: 40px;
+  width: 70%;
+}
+
+.status {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.status select {
+  margin-left: 40px;
+  width: 70%;
+#logout {
+  margin-left: 11%;
+}
+/*# sourceMappingURL=main.css.map */
