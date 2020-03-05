@@ -250,6 +250,11 @@
                                         <span class="nav-main-link-name">Holidays/Absences</span>
                                     </a>
                                 </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link" href="javascript:void(0)">
+                                        <span class="nav-main-link-name">Employees</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-main-item">
@@ -449,6 +454,10 @@
                             </div>
                         </div>
                         <!-- END Notifications Dropdown -->
+                        
+                        <!-- LOGOUT -->
+                        <a href="/logout"><button type="button" class="btn btn-sm btn-dual" id="logout">Logout</button></a>
+                        <!-- END LOGOUT -->
                     </div>
                     <!-- END Left Section -->
                 </div>

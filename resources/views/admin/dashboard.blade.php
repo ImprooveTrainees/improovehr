@@ -23,7 +23,7 @@
                         <tbody>
                             <tr>
                                 <td>12</td>
-                                <td>12</td>
+                                <td>12</td> 
                                 <td>12</td>
                                 <td>12</td>
                             </tr>
@@ -37,6 +37,7 @@
 
 <!-- Page Content -->
 <div class="content">
+   
     <!-- Your Block -->
     <div class="block">
         <div class="block-header">
