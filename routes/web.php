@@ -33,9 +33,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/personalInfo', 'PersonalInfoController@index');
+Route::get('/personal', 'PersonalInfoController@index');
 
 Route::get('/professionalInfo', 'ProfessionalInfoController@index');
 
 Route::get('/GeneralSettings', 'OfficesController@index');
 Route::get('/employees', 'UserController@index');
+
+Route::get('/personal', function () {
+    return view('personal_info');
+});

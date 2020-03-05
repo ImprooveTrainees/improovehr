@@ -21,6 +21,7 @@
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
         <!-- END Stylesheets -->
+        <link rel="stylesheet" href="main/main.css">
     </head>
     <body>
         <!-- Page Container -->
@@ -275,7 +276,7 @@
                             <i class="fa fa-fw fa-bars"></i>
                         </button>
                         <!-- END Toggle Sidebar -->
-                        
+
                         {{-- <!-- User Dropdown -->
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -487,7 +488,7 @@
             <!-- Main Container -->
             <main id="main-container">
 
-                @yield('content');
+                @yield('content')
 
             </main>
             <!-- END Main Container -->
