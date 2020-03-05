@@ -37,8 +37,15 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::get('/personalInfo', 'PersonalInfoController@index')->middleware('auth');
 
+Route::get('/personal', 'PersonalInfoController@index');
 Route::get('/professionalInfo', 'ProfessionalInfoController@index')->middleware('auth');
 
 Route::get('/GeneralSettings', 'OfficesController@index')->middleware('auth');
 Route::get('/employees', 'UserController@index')->middleware('auth');
 
+Route::get('/GeneralSettings', 'OfficesController@index');
+Route::get('/employees', 'UserController@index');
+
+Route::get('/personal', function () {
+    return view('personal_info');
+});

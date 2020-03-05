@@ -29,14 +29,14 @@ class PersonalInfoController extends Controller
         $city = DB::table('personal_infos')->where('user_id', $userid)->value('city');
         $iban = DB::table('personal_infos')->where('user_id', $userid)->value('iban');
 
-        $actualYear = date("Y/m/d");       
+        $actualYear = date("Y/m/d");
         $date1=date_create($Bdate);
         $date2=date_create($actualYear);
         $diff=date_diff($date1,$date2);
         $age = $diff->format("%Y%"); //formato anos
 
-        return view('/testePersonalInfo',compact('userName','Bdate','Email','status','age','nif', 'academicQual','mobile','address','zip','city','iban'));
-        
+        return view('/personal_info',compact('userName','Bdate','Email','status','age','nif', 'academicQual','mobile','address','zip','city','iban'));
+
     }
 
     /**
