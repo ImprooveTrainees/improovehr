@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\offices;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class OfficesController extends Controller
     {
 
     }
+
 
     /**
      * Show the form for creating a new resource.
