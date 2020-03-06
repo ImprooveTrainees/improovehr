@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -41,5 +42,13 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id';
+
+
+      public function contractUser() {
+        return $this->hasOne('App\contract', 'iduser', 'id');
+      }
+      public function departments() {
+        return $this->belongsToMany('App\departments','users_deps', 'idUser', 'id');
+      }
 
 }
