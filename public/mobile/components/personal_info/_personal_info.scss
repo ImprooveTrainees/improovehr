@@ -1,44 +1,75 @@
-#profile{
+@mixin gridBox {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 86px 220px 40px;
+    grid-template-rows: auto;
+    float: none;
+    font-size: 11pt;
+}
+
+.bprofile{
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.birthday,
+.academic,
+.status,
+.username,
+.age,
+.mobile,
+.emailprofile,
+.nif,
+.address,
+.city,
+.zipcode {
+    @include gridBox();
+}
+
+#profile {
     border-radius: 50%;
     width: 15%;
     height: auto;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 
-.box1{
+.box1 {
     margin-left: 4%;
     margin-top: 3%;
+
+    p {
+        margin: auto;
+        color: rgba(128, 128, 128, 0.692);
+        font-size: 10pt;
+    }
+
+    hr {
+        width: 20%;
+        display: inline-block;
+        margin-top: 5px;
+    }
 }
 
-.cardbox1{
-    height: 90%;
+.cardbox1 {
+    height: 98%;
     width: 90%;
     margin: auto;
     border-radius: 25px;
 }
 
-.username{
-    display: flex;
-    align-items: center;
-    float: none;
-}
-
-.username input{
+input,
+select {
     margin-left: 40px;
-    width: 70%;// 500px para baixo
+    width: 70%; // 500px para baixo
 }
 
-.status{
-    display: flex;
-    align-items: center;
-}
-
-.status select{
-    margin-left: 40px;
-    width: 70%;
-}
-.status label{
-    margin-left: 0;
+.status {
+    label {
+        margin-left: 0;
+    }
 }
 
 @import '../../../screens/components/personal_info/_personal_info';

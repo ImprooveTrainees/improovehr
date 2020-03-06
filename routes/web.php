@@ -34,3 +34,6 @@ Route::get('/admin', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/personalInfo', 'UserController@index');
+Route::get('/absences', 'AbsenceController@index');
+Route::post('/absences', 'AbsenceController@store');
