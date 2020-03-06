@@ -19,7 +19,7 @@ Route::get('/offices', 'OfficesDepsController@index');
 
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('auth.login');
 });
 
 
@@ -37,3 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personalInfo', 'UserController@index');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
