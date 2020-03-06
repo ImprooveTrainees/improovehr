@@ -86,15 +86,6 @@ class AbsenceController extends Controller
     {
         //
 
-        return view('Absences.createVacations');
-
-    }
-
-    public function createAbs()
-    {
-        //
-
-        return view('Absences.createAbsences');
     }
 
     /**
