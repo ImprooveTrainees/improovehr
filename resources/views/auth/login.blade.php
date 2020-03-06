@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
+<img src="img/login.svg" alt="improove" srcset="" id="login_first">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
+        <div class="login_box">
+            <div class="card bg-light card_login">
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -65,6 +65,7 @@
                             </div>
                         </div>
                     </form>
+                    <img/>
                 </div>
             </div>
         </div>
