@@ -25,3 +25,8 @@ Route::get('/personal', function () {
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
+
+Route::get('/absences', 'AbsenceController@index');
+Route::get('/createVacations', 'AbsenceController@create');
+Route::get('/createAbsences', 'AbsenceController@createAbs');
+Route::post('/absences', 'AbsenceController@store');
