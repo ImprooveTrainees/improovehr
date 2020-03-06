@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
-class user extends Controller
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +16,15 @@ class user extends Controller
     public function index()
     {
         //
+        //$idAutenticado = Auth::User()->id;
+        $users = User::where('id', 1)->first();
+        $actualYear = date("Y/m/d");       
+        $date1=date_create($users->birthDate);
+        $date2=date_create($actualYear);
+        $diff=date_diff($date1,$date2);
+        $age = $diff->format("%Y%"); //formato anos
+
+        return view('testePersonalInfo')->with('users', $users)->with('age', $age);
     }
 
     /**
@@ -46,6 +57,7 @@ class user extends Controller
     public function show($id)
     {
         //
+        
     }
 
     /**
