@@ -72,7 +72,7 @@ class AbsenceController extends Controller
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('Absences.absences',compact('user','array_vacations','array_absences'));
+        return view('absences',compact('user','array_vacations','array_absences'));
     }
 
 
