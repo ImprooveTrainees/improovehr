@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-    Improove HR - Personal Info
+    Improove HR - Absences
 @endsection
 
 @section('content')
