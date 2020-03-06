@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\departments;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class DepartmentsController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
