@@ -73,7 +73,7 @@
 
                 <div class="wrapper">
 
-                <form action="/testeAbsences" method="POST" class="action">
+                <form action="/absences" method="POST" class="action">
                     @csrf
 
                     <label for="start_date" >Start Date </label>
@@ -93,7 +93,7 @@
 
             </div>
             <br><br>
-            <a href="/testeAbsences">Back</a>
+            <a href="/absences">Back</a>
 
         </div>
     </body>
