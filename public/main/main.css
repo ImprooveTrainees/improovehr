@@ -42,11 +42,47 @@
   margin-left: 11%;
 }
 
+.bprofile {
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.birthday,
+.academic,
+.status,
+.username,
+.age,
+.mobile,
+.emailprofile,
+.nif,
+.address,
+.city,
+.zipcode {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 86px 220px 40px;
+      grid-template-columns: 86px 220px 40px;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  float: none;
+  font-size: 11pt;
+}
+
 #profile {
   border-radius: 50%;
   width: 15%;
   height: auto;
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 
 .box1 {
@@ -54,38 +90,27 @@
   margin-top: 3%;
 }
 
+.box1 p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.box1 hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+}
+
 .cardbox1 {
-  height: 90%;
+  height: 98%;
   width: 90%;
   margin: auto;
   border-radius: 25px;
 }
 
-.username {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  float: none;
-}
-
-.username input {
-  margin-left: 40px;
-  width: 70%;
-}
-
-.status {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.status select {
+input,
+select {
   margin-left: 40px;
   width: 70%;
 }
@@ -95,11 +120,60 @@
 }
 
 @media screen and (min-width: 768px) {
-  .username {
+  .username,
+  .academic,
+  .age,
+  .emailprofile,
+  .address {
     float: left;
   }
-  .status label {
+  .status label,
+  .birthday label,
+  .mobile label,
+  .nif label,
+  .city label {
     margin-left: 20px;
+  }
+}
+
+@media (min-width: 425px) and (max-width: 1024px) {
+  .birthday,
+  .academic,
+  .status,
+  .username,
+  .age,
+  .mobile,
+  .emailprofile,
+  .nif,
+  .address,
+  .city,
+  .zipcode {
+    -ms-grid-columns: 86px 190px 40px;
+        grid-template-columns: 86px 190px 40px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .birthday,
+  .academic,
+  .status,
+  .username,
+  .age,
+  .mobile,
+  .emailprofile,
+  .nif,
+  .address,
+  .city,
+  .zipcode {
+    -ms-grid-columns: 86px 140px 40px;
+        grid-template-columns: 86px 140px 40px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
+  .cardbox1 {
+    margin-top: 3%;
   }
 }
 /*# sourceMappingURL=main.css.map */

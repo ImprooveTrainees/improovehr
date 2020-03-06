@@ -1,13 +1,59 @@
 
 //WINDOW 768PX UP
-@media screen and (min-width: 768px){
-.username input{
-    // width: 70%;
+@media screen and (min-width: 768px) {
+
+    .username,
+    .academic,
+    .age,
+    .emailprofile,
+    .address {
+        float: left;
+    }
+
+    .status label,
+    .birthday label,
+    .mobile label,
+    .nif label,
+    .city label {
+        margin-left: 20px;
+    }
+
 }
-.username{
-    float: left;
+
+@media (min-width: 425px) and (max-width: 1024px) {
+    .birthday,
+    .academic,
+    .status,
+    .username,
+    .age,
+    .mobile,
+    .emailprofile,
+    .nif,
+    .address,
+    .city,
+    .zipcode {
+        grid-template-columns: 86px 190px 40px;
+        grid-template-rows: auto;
+    }
 }
-.status label{
-    margin-left: 20px;
-}
+
+@media screen and (max-width: 425px) {
+    .birthday,
+    .academic,
+    .status,
+    .username,
+    .age,
+    .mobile,
+    .emailprofile,
+    .nif,
+    .address,
+    .city,
+    .zipcode {
+        grid-template-columns: 86px 140px 40px;
+        grid-template-rows: auto;
+    }
+
+    .cardbox1{
+        margin-top: 3%;
+    }
 }
