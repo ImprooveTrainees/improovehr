@@ -1,7 +1,13 @@
 
-//WINDOW 500PX UP
-@media screen and (min-width: 500px){
+//WINDOW 768PX UP
+@media screen and (min-width: 768px){
 .username input{
     // width: 70%;
+}
+.username{
+    float: left;
+}
+.status label{
+    margin-left: 20px;
 }
 }

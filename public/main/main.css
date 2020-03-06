@@ -68,6 +68,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  float: none;
 }
 
 .username input {
@@ -87,5 +88,18 @@
 .status select {
   margin-left: 40px;
   width: 70%;
+}
+
+.status label {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .username {
+    float: left;
+  }
+  .status label {
+    margin-left: 20px;
+  }
 }
 /*# sourceMappingURL=main.css.map */

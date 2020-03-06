@@ -20,6 +20,7 @@
 .username{
     display: flex;
     align-items: center;
+    float: none;
 }
 
 .username input{
@@ -35,6 +36,9 @@
 .status select{
     margin-left: 40px;
     width: 70%;
+}
+.status label{
+    margin-left: 0;
 }
 
 @import '../../../screens/components/personal_info/_personal_info';
