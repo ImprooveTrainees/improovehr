@@ -6,7 +6,10 @@
 
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
+    <div class="box1">
+    <img src="img/man.png" alt="img" id="profile">
 <form class="form-group">
+
     <div class="form-group username">
         <label for="">Username:</label>
       <input type="text" class="form-control" id="inputPassword2" placeholder="Name">
@@ -22,7 +25,13 @@
               <option>5</option>
             </select>
           </div>
+
+          <div class="form-group username">
+            <label for="">Username:</label>
+          <input type="text" class="form-control" id="inputPassword2" placeholder="Name">
+        </div>
   </form>
+    </div>
 </div>
 
 @endsection

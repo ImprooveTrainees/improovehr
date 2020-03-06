@@ -1,3 +1,15 @@
+#profile{
+    border-radius: 50%;
+    width: 15%;
+    height: auto;
+    margin-bottom: 5%;
+}
+
+.box1{
+    margin-left: 4%;
+    margin-top: 3%;
+}
+
 .cardbox1{
     height: 90%;
     width: 90%;
@@ -6,18 +18,16 @@
 }
 
 .username{
-    margin-left: 10px;
     display: flex;
     align-items: center;
 }
 
 .username input{
     margin-left: 40px;
-    width: 70%;
+    width: 70%;// 500px para baixo
 }
 
 .status{
-    margin-left: 10px;
     display: flex;
     align-items: center;
 }
