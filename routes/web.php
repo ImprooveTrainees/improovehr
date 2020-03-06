@@ -27,6 +27,10 @@ Route::get('/personal', function () {
     return view('personal_info');
 });
 
+Route::get('/professional', function () {
+    return view('professional_info');
+});
+
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
@@ -37,3 +41,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personalInfo', 'UserController@index');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
+
