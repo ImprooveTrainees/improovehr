@@ -25,3 +25,5 @@ Route::get('/personal', function () {
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
+
+Route::get('/personalInfo', 'UserController@index');

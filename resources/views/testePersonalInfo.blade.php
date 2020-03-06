@@ -22,36 +22,36 @@
 <body>
 <img src="" alt="">
     <div id="personalInfo">
-    Nome: <span>{{$userName}}</span>
+    Nome: <span>{{$users->name}}</span>
         <br>
-    Birthday date: <span>{{$Bdate}}</span>
+    Birthday date: <span>{{$users->birthDate}}</span>
         <br>
-    Email: <span>{{$Email}}</span>
+    Email: <span>{{$users->email}}</span>
         <br>
 
-        Status: <span>{{$status}}</span>
+        Status: <span>{{$users->status}}</span>
         <br>
         Age: <span>{{$age}}</span>
         <br>
-        NIF: <span>{{$iban}}</span>
+        NIF: <span>{{$users->taxNumber}}</span>
         <br>
         
-        Academic Qualifications: <span>{{$academicQual}}</span>
+        Academic Qualifications: <span>{{$users->academicQual}}</span>
         <br>
-    Mobile:  <span>{{$mobile}}</span>
+    Mobile:  <span>{{$users->phone}}</span>
     </div>
 <br>
     <div id="addressData">
-        Address: <span>{{$address}}</span>
+        Address: <span>{{$users->address}}</span>
         <br>
-        ZIP-Code: <span>{{$zip}}</span>
+        ZIP-Code: <span>{{$users->zip_code}}</span>
         <br>
-        City: <span>{{$city}}</span>
+        City: <span>{{$users->city}}</span>
         <br>
     </div>
 <br>
     <div id="bankData">
-    IBAN: <span>{{$iban}}</span>
+    IBAN: <span>{{$users->iban}}</span>
     </div>
     <br>
     <div id="socialNetwork">
