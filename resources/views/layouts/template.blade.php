@@ -11,6 +11,8 @@
         <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
         <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
         <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
@@ -259,8 +261,8 @@
                         </li>
                         <li class="nav-main-item">
                             <a class="nav-main-link" href="">
-                                <img src="img/i_eval.svg" alt="" srcset="">
-                                <span class="nav-main-link-name" style="margin-left: 7%;">Evaluations</span>
+                                <i class="material-icons">assessment</i>
+                                <span class="nav-main-link-name" style="margin-left: 6%;">Evaluations</span>
                             </a>
                         </li>
                     </ul>
@@ -454,7 +456,7 @@
                             </div>
                         </div>
                         <!-- END Notifications Dropdown -->
-                        
+
                         <!-- LOGOUT -->
                         <a href="/logout"><button type="button" class="btn btn-sm btn-dual" id="logout">Logout</button></a>
                         <!-- END LOGOUT -->
