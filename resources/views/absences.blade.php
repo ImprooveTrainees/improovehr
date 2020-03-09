@@ -26,6 +26,10 @@
                 <button class="tablink" onclick="openPage('Vacations', this, 'grey')">Vacations</button>
                 <button class="tablink" onclick="openPage('Absences', this, 'grey')" id="defaultOpen">Absences</button>
 
+                @foreach($listAbsencesTotal as $list)
+                    <p>{{$list->status}}</p>
+                @endforeach
+
                 <div id="Vacations" class="tabcontent">
                     <table>
                     <tr>

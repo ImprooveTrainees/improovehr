@@ -27,5 +27,5 @@ Route::get('/admin', function () {
 });
 
 Route::get('/personalInfo', 'UserController@index');
-Route::get('/absences', 'AbsenceController@index');
+Route::get('/absences', 'AbsenceController@show');
 Route::post('/absences', 'AbsenceController@store');

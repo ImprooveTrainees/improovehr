@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\absence;
+use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -14,15 +15,20 @@ class AbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         $user = Auth::user();
 
-        //$userid = Auth::id();
 
-        $userid=1;
+        // $userid = Auth::id();
 
-        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $userid)->get();
+        $id_user = $id;
+
+        $listAbsencesPending = absence::all()->where('status','Pending');
+
+        $listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+
+        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
         $array_vacations = array();
 
@@ -72,7 +78,7 @@ class AbsenceController extends Controller
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('absences',compact('user','array_vacations','array_absences'));
+        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal'));
     }
 
 
@@ -152,9 +158,13 @@ class AbsenceController extends Controller
      * @param  \App\absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function show(absence $absence)
+    public function show()
     {
-        //
+        //$userid = Auth::id();
+
+        $userid = 1;
+
+        return $this->index($userid);
     }
 
     /**
