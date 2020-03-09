@@ -1,43 +1,4 @@
-@extends('layouts.template')
-
-@section('title')
-    Improove HR Tool
-@endsection
-@section('content')
-<!-- <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Simple table teste</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <tbody class="table">
-                        <thead class="text-primary">
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                            </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<!-- Page Content -->
-<div class="content">
-
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset='utf-8' />
@@ -120,19 +81,17 @@
   }
 
   #wrap {
-    width: 100%;
+    width: 1100px;
     margin: 0 auto;
   }
 
   #external-events {
     float: left;
-    width: 200px;
-    padding: 35px 10px;
+    width: 150px;
+    padding: 0 10px;
     border: 1px solid #ccc;
     background: #eee;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 6%;
+    text-align: left;
   }
 
   #external-events h4 {
@@ -159,35 +118,29 @@
 
   #calendar {
     float: right;
-    width: 65%;
-  }
-
-  #boxcalendar {
-    margin: auto;
-    height: 100%;
-    width: 95%;
-    border-radius: 8px;
+    width: 900px;
   }
 
 </style>
 </head>
 <body>
-<div class="shadow p-1 bg-white" id="boxcalendar">
   <div id='wrap'>
 
     <div id='external-events'>
       <h4>Draggable Events</h4>
 
       <div id='external-events-list'>
-        <div class='fc-event'>Faltas</div>
-        <div class='fc-event'>Férias</div>
+        <div class='fc-event'>My Event 1</div>
+        <div class='fc-event'>My Event 2</div>
+        <div class='fc-event'>My Event 3</div>
+        <div class='fc-event'>My Event 4</div>
+        <div class='fc-event'>My Event 5</div>
       </div>
 
-      <!-- <p>
+      <p>
         <input type='checkbox' id='drop-remove' />
         <label for='drop-remove'>remove after drop</label>
-      </p> -->
-
+      </p>
     </div>
 
     <div id='calendar'></div>
@@ -195,15 +148,5 @@
     <div style='clear:both'></div>
 
   </div>
-</div>
 </body>
 </html>
-
-</div>
-<!-- END Page Content -->
-
-@endsection
-
-@section('scripts')
-
-@endsection
