@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 
 
@@ -48,7 +49,20 @@ class User extends Authenticatable
         return $this->hasOne('App\contract', 'iduser', 'id');
       }
       public function departments() {
-        return $this->belongsToMany('App\departments','users_deps', 'idUser', 'id');
+         return $this->belongsToMany('App\departments','users_deps', 'idUser', 'idDepartment');
       }
+      public function officeDescricao($id) {
+        $officeDescricao = DB::table('users')
+            ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
+            ->join('offices_deps', 'users_deps.idDepartment', '=', 'offices_deps.idDepartment')
+            ->join('offices', 'offices_deps.idOffice', '=', 'offices.id')
+            ->where('users.id','=',$id)
+            ->select('offices.description')
+            ->get();
+
+        return $officeDescricao;
+     }
+
+
 
 }
