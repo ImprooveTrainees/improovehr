@@ -14,7 +14,7 @@
                 <button class="tablink" onclick="openPage('Absences', this, 'grey')" id="defaultOpen">Absences</button>
 
                 <?php
-                    echo $id_typeuser;
+                    echo $listAbsencesTotal;
                 ?>
 
                 <div id="Vacations" class="tabcontent">
@@ -43,8 +43,11 @@
                 </div>
 
                 <div id="Absences" class="tabcontent">
+
+                @if($id_typeuser>1 && $id_typeuser<4)
                     <table>
                     <tr>
+                        <th>User &nbsp&nbsp|&nbsp&nbsp</th>
                         <th>Start Date and Time &nbsp&nbsp|&nbsp&nbsp </th>
                         <th>End Date and Time &nbsp&nbsp|&nbsp&nbsp</th>
                         <th>Attachment &nbsp&nbsp|&nbsp&nbsp</th>
@@ -53,15 +56,14 @@
                     </tr>
 
 
-                @if($id_typeuser>1 && $id_typeuser<4)
-
                     @foreach($listAbsencesPending as $list)
                         <tr>
+                        <td>ALGUEM</td>
                         <td> {{$list->start_date}} </td>
                         <td> {{$list->end_date}} </td>
                         <td> {{$list->attachment}}</td>
                         <td> {{$list->motive}} </td>
-                        <td> {{$list->status}} </td>
+                        <td> <button class="approval_btn"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
                         </tr>
 
                     @endforeach
@@ -73,6 +75,15 @@
 
 
                 @else
+
+                <table>
+                    <tr>
+                        <th>Start Date and Time &nbsp&nbsp|&nbsp&nbsp </th>
+                        <th>End Date and Time &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Attachment &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Motive &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Approval</th>
+                    </tr>
 
                     @for($i=0;$i<count($array_absences);$i+=5)
                         <tr>

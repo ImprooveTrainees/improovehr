@@ -25,10 +25,13 @@ class AbsenceController extends Controller
 
         $id_typeuser = $user->roles->id;
 
+        $listAbsencesPending = $user->userAbsence()->where('status','Pending');
 
-        $listAbsencesPending = absence::all()->where('status','Pending');
+        $listAbsencesTotal = $user->userAbsence()->whereIn('status','Concluded','Disapproved','Approved');
 
-        $listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+        //$listAbsencesPending = absence::all()->where('status','Pending');
+
+        //$listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
 
         $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 

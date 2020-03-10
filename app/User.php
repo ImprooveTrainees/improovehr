@@ -76,5 +76,16 @@ class User extends Authenticatable
      }
 
 
+    public function userAbsence() {
+
+        $userAbsence = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->select('absences.*','users.name as user_name','users.photo as user_photo')
+        ->get();
+
+        return $userAbsence;
+
+    }
+
 
 }
