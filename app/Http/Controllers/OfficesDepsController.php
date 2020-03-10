@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\offices_deps;
 use Illuminate\Http\Request;
@@ -14,7 +15,11 @@ class OfficesDepsController extends Controller
      */
     public function index()
     {
-        //
+        $office = DB::table('offices')->get();
+        $department = DB::table('departments')->get();
+        $userdepartment = DB::table('users_deps')->get();
+
+        return view ('teste_office', ['offices'=> $office],['departments'=> $department]);
     }
 
     /**
