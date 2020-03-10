@@ -18,7 +18,7 @@ class UserController extends Controller
         //
         //$idAutenticado = Auth::User()->id;
         $users = User::where('id', 1)->first();
-        $actualYear = date("Y/m/d");       
+        $actualYear = date("Y/m/d");
         $date1=date_create($users->birthDate);
         $date2=date_create($actualYear);
         $diff=date_diff($date1,$date2);
@@ -57,7 +57,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
-        
+
     }
 
     /**

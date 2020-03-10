@@ -1,0 +1,93 @@
+#table_hol {
+    margin-top: 3%;
+}
+
+.fa-check {
+    color: green;
+}
+
+.fa-times {
+    color: red;
+}
+
+#approval {
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 35px 80px;
+
+    h5 {
+        margin: auto;
+        margin-left: 20px;
+    }
+
+    p {
+        margin: auto;
+    }
+}
+
+#startday,
+#endday {
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 90px;
+
+    p,
+    h5 {
+        margin: auto;
+    }
+}
+
+#startday {
+    float: left;
+    margin-left: 5%;
+    width: 35%;
+}
+
+#endday {
+    float: left;
+    width: 30%;
+}
+
+.cardbox2 {
+    height: 70px;
+    width: 90%;
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 3%;
+    a:hover{
+        color: rgb(197, 197, 197);
+        cursor: pointer;
+    }
+}
+
+.cardbox3 {
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left: 2%;
+    display: grid;
+    grid-template-columns: 45px 150px;
+    align-items: baseline;
+    h4{
+        color: rgb(197, 197, 197);
+    }
+
+    .fa-plus {
+        margin-left: 10px;
+        margin-top: 9px;
+    }
+}
+
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(26, 224, 0);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@import '../../../screens/components/holidays/_holidays';

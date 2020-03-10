@@ -41,3 +41,7 @@ Route::post('/absences', 'AbsenceController@store');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/holidays', function () {
+    return view('holidays');
+});
