@@ -74,6 +74,17 @@ class User extends Authenticatable
 
         return $officeDescricao;
      }
+      public function managerDoUser($id) {
+        $manager = DB::table('users')
+            ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
+            ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
+            ->join('contracts', 'users.id', '=', 'contracts.iduser')
+            ->where('users.id','=',$id)
+            ->select('users.name')
+            ->get();
+
+        return $manager;
+     }
 
 
 
