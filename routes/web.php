@@ -35,3 +35,10 @@ Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
 Route::post('/editar', 'UserController@edit');
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/holidays', function () {
+    return view('holidays');
+});

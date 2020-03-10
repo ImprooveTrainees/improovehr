@@ -42,6 +42,14 @@
   margin-left: 11%;
 }
 
+#log_name h5,
+#log_name h6 {
+  color: white;
+  margin: auto;
+  margin-bottom: 3%;
+  text-align: center;
+}
+
 .bprofile {
   width: 25%;
   margin-left: auto;
@@ -184,6 +192,117 @@
     margin-top: 3%;
   }
 }
+
+#table_hol {
+  margin-top: 3%;
+}
+
+.fa-check {
+  color: green;
+}
+
+.fa-times {
+  color: red;
+}
+
+#approval {
+  margin-top: 1%;
+  height: 50px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 35px 80px;
+      grid-template-columns: 35px 80px;
+}
+
+#approval h5 {
+  margin: auto;
+  margin-left: 20px;
+}
+
+#approval p {
+  margin: auto;
+}
+
+#startday,
+#endday {
+  margin-top: 1%;
+  height: 50px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 90px;
+      grid-template-columns: 90px;
+}
+
+#startday p,
+#startday h5,
+#endday p,
+#endday h5 {
+  margin: auto;
+}
+
+#startday {
+  float: left;
+  margin-left: 5%;
+  width: 35%;
+}
+
+#endday {
+  float: left;
+  width: 30%;
+}
+
+.cardbox2 {
+  height: 70px;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+  margin-top: 3%;
+}
+
+.cardbox2 a:hover {
+  color: #c5c5c5;
+  cursor: pointer;
+}
+
+.cardbox3 {
+  height: 40px;
+  width: 40px;
+  margin: auto;
+  border-radius: 25px;
+  margin-top: 10px;
+  margin-left: 2%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 45px 150px;
+      grid-template-columns: 45px 150px;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.cardbox3 h4 {
+  color: #c5c5c5;
+}
+
+.cardbox3 .fa-plus {
+  margin-left: 10px;
+  margin-top: 9px;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #1ae000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+  #endday {
+    width: 35%;
+  }
+}
+/*# sourceMappingURL=main.css.map */
 /*# sourceMappingURL=main.css.map */
 
 /* Temporary  Style For Abscences */
