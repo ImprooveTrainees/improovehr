@@ -62,8 +62,6 @@ class UserController extends Controller
             $msg .= "<td>".$tempoEmpresa."</td>";
             $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->id)->first()->name."</td>";
             $msg .= "</tr>";
-
-
         }
         
         
@@ -113,6 +111,10 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         //
+        $name = $request->input('name');
+        $status = $request->input('status');
+        $academic = $request->input('academic');
+        $birthday = $request->input('birthday');
         
 
     }
