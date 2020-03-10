@@ -19,16 +19,17 @@ class AbsenceController extends Controller
     {
         $user = Auth::user();
 
-        //$id_user= Auth::user()->id;
-
-        $id_user=1;
+        $id_user= Auth::user()->id;
 
         $id_typeuser = $user->roles->id;
 
+        $listAbsencesPending = $user->userAbsence()->where('status','Pending');
 
-        $listAbsencesPending = absence::all()->where('status','Pending');
+        $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
 
-        $listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+        //$listAbsencesPending = absence::all()->where('status','Pending');
+
+        //$listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
 
         $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
@@ -106,9 +107,7 @@ class AbsenceController extends Controller
      */
     public function store()
     {
-        //$userid = Auth::id();
-
-        $userid=1;
+        $userid = Auth::id();
 
         $vacation = new absence();
 
@@ -185,9 +184,17 @@ class AbsenceController extends Controller
      * @param  \App\absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, absence $absence)
+    public function update()
     {
-        //
+        $op = request('op');
+
+        if($op==3) {
+
+            DB::table('absences')
+            ->where('id', 3)
+            ->update(['title' => "Updated Title"]);
+
+        }
     }
 
     /**
