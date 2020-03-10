@@ -229,7 +229,7 @@
 
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link active" href="">
+                            <a class="nav-main-link active" href="/admin">
                                 <i class="fas fa-home"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Home</span>
                             </a>
