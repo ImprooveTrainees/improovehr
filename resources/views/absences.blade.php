@@ -6,19 +6,6 @@
 
 @section('content')
         <div class="flex-center position-ref full-height">
-           @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
@@ -26,9 +13,9 @@
                 <button class="tablink" onclick="openPage('Vacations', this, 'grey')">Vacations</button>
                 <button class="tablink" onclick="openPage('Absences', this, 'grey')" id="defaultOpen">Absences</button>
 
-                @foreach($listAbsencesTotal as $list)
-                    <p>{{$list->status}}</p>
-                @endforeach
+                <?php
+                    echo $id_typeuser;
+                ?>
 
                 <div id="Vacations" class="tabcontent">
                     <table>
@@ -60,23 +47,47 @@
                     <tr>
                         <th>Start Date and Time &nbsp&nbsp|&nbsp&nbsp </th>
                         <th>End Date and Time &nbsp&nbsp|&nbsp&nbsp</th>
-                        <th>Approval &nbsp&nbsp|&nbsp&nbsp</th>
                         <th>Attachment &nbsp&nbsp|&nbsp&nbsp</th>
-                        <th>Motive</th>
+                        <th>Motive &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Approval</th>
                     </tr>
+
+
+                @if($id_typeuser>1 && $id_typeuser<4)
+
+                    @foreach($listAbsencesPending as $list)
+                        <tr>
+                        <td> {{$list->start_date}} </td>
+                        <td> {{$list->end_date}} </td>
+                        <td> {{$list->attachment}}</td>
+                        <td> {{$list->motive}} </td>
+                        <td> {{$list->status}} </td>
+                        </tr>
+
+                    @endforeach
+                    </table>
+                    <br>
+                    <hr>
+                    <br>
+
+
+
+                @else
 
                     @for($i=0;$i<count($array_absences);$i+=5)
                         <tr>
                         <td> {{$array_absences[$i]}} </td>
                         <td> {{$array_absences[$i+1]}} </td>
-                        <td> {{$array_absences[$i+2]}} </td>
-                        <td> {{$array_absences[$i+3]}} </td>
                         <td> {{$array_absences[$i+4]}} </td>
+                        <td> {{$array_absences[$i+3]}} </td>
+                        <td> {{$array_absences[$i+2]}} </td>
                         </tr>
+
                     @endfor
-
-
                     </table>
+
+                @endif
+
 
                     <!-- Button trigger modal absence -->
                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAbsence">

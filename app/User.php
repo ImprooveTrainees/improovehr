@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\UserType;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -44,6 +45,17 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    public function roles() {
+
+        // $userid = Auth::id();
+
+        // $type = UserType::select('id')->where('description',$role)->get();
+
+        // return User::where('idtypeuser', $type)->where('id', $userid)->get();
+
+        return $this->hasOne('App\UserType','id','idusertype');
+
+    }
 
       public function contractUser() {
         return $this->hasOne('App\contract', 'iduser', 'id');
