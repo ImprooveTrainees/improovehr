@@ -13,9 +13,9 @@
                 <button class="tablink" onclick="openPage('Vacations', this, 'grey')">Vacations</button>
                 <button class="tablink" onclick="openPage('Absences', this, 'grey')" id="defaultOpen">Absences</button>
 
-                <?php
+                <!-- <?php
                     echo $listAbsencesTotal;
-                ?>
+                ?> -->
 
                 <div id="Vacations" class="tabcontent">
                     <table>
@@ -58,12 +58,12 @@
 
                     @foreach($listAbsencesPending as $list)
                         <tr>
-                        <td>ALGUEM</td>
+                        <td> {{$list->user_name}} </td>
                         <td> {{$list->start_date}} </td>
                         <td> {{$list->end_date}} </td>
                         <td> {{$list->attachment}}</td>
                         <td> {{$list->motive}} </td>
-                        <td> <button class="approval_btn"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
+                        <td> <button id="{{$list->id}}" onclick="getID(this.id)" type="button" class="approval_btn" data-toggle="modal" data-target="#modalApproval"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
                         </tr>
 
                     @endforeach
@@ -72,6 +72,28 @@
                     <hr>
                     <br>
 
+                    <table>
+                    <tr>
+                        <th>User &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Start Date and Time &nbsp&nbsp|&nbsp&nbsp </th>
+                        <th>End Date and Time &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Attachment &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Motive &nbsp&nbsp|&nbsp&nbsp</th>
+                        <th>Approval</th>
+                    </tr>
+
+                    @foreach($listAbsencesTotal as $list2)
+                        <tr>
+                        <td>{{$list2->user_name}}</td>
+                        <td> {{$list2->start_date}} </td>
+                        <td> {{$list2->end_date}} </td>
+                        <td> {{$list2->attachment}}</td>
+                        <td> {{$list2->motive}} </td>
+                        <td> {{$list2->status}} </td>
+                        </tr>
+
+                    @endforeach
+                    </table>
 
 
                 @else
@@ -224,6 +246,40 @@
 
                     <!-- End Modal Vacations -->
 
+                   <!-- Modal Approval -->
+                   <div class="modal fade" id="modalApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this absence?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/absences" method="POST" class="action">
+                        <div class="modal-body">
+
+                        @csrf
+
+                        <input type="hidden" value=3 name="op">
+
+                        <!-- <input type="submit" value="ADD VACATION"> -->
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                        </div>
+
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- End Modal Approval -->
+
+
 
     </body>
     <!-- JAVASCRIPT FOR HIDE/SHOW VACATION/ABSENCES TAB -->
@@ -261,6 +317,8 @@
         }
     </script>
     <!-- END JAVASCRIPT POP UP MESSAGE -->
+
+
 
 @endsection
 
