@@ -58,6 +58,7 @@ class UserController extends Controller
             $diff=date_diff($date1,$date2);
             $tempoEmpresa = $diff->format("%Y%")." years";
             $msg .= "<td>".$tempoEmpresa."</td>";
+            $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->id)->first()->name."</td>";
             $msg .= "</tr>";
 
 
