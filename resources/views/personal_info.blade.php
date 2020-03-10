@@ -14,9 +14,9 @@
     <div class="form-group username">
         <label for="">Name:</label>
         @if($users->name == null)
-      <input type="text" class="form-control" placeholder="Insira o nome">
+      <input type="text" name="name" class="form-control" placeholder="Insira o nome">
         @else
-        <input type="text" class="form-control" value={{$users->name}}>
+        <input type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}}>
         @endif
     </div>
 
@@ -61,9 +61,9 @@
         <div class="form-group birthday">
             <label for="">Birthday Date:</label>
              @if($users->phone == null)
-            <input type="date" name="birthday" class="form-control" placeholder="Name">
+            <input type="date" name="birthday" class="form-control" placeholder="Insert Birthday Date">
             @else
-            <input type="number" name="birthday" class="form-control" value={{$users->phone}}>
+            <input type="number" name="birthday" class="form-control" placeholder="Insert Birthday Date" value={{$users->phone}}>
             @endif
         </div>
 
@@ -73,7 +73,7 @@
             @if($users->phone == null)
            <input type="number" name="mobile" class="form-control" id="mobilenumber" placeholder="Insert phone number">
             @else
-            <input type="number" name="mobile" class="form-control" value={{$users->phone}}>
+            <input type="number" name="mobile" placeholder="Insert phone number" class="form-control" value={{$users->phone}}>
             @endif
         </div>
 
@@ -82,7 +82,7 @@
             @if($users->email == null)
            <input type="email" name="email" class="form-control" id="emailprofile" placeholder="Insert email">
             @else
-            <input type="email" name="email" class="form-control" value={{$users->email}}>
+            <input type="email" name="email" class="form-control" placeholder="Insert email" value={{$users->email}}>
             @endif
         </div>
 
@@ -91,7 +91,7 @@
              @if($users->taxNumber == null)
            <input type="number" name="nif" class="form-control" id="nifnumber" placeholder="Insert NIF">
             @else
-            <input type="number" name="nif" class="form-control" value={{$users->taxNumber}}>
+            <input type="number" name="nif" class="form-control" placeholder="Insert NIF" value={{$users->taxNumber}}>
             @endif
         </div>
 
@@ -106,7 +106,7 @@
             @if($users->address == null)
            <input type="text" name="Address" class="form-control" placeholder="Insert Address">
             @else
-            <input type="text" name="Address" class="form-control" value={{$users->address}}>
+            <input type="text" name="Address" class="form-control" placeholder="Insert Address" value={{$users->address}}>
             @endif
         </div>
 
@@ -115,7 +115,7 @@
             @if($users->city == null)
            <input type="text" name="city" class="form-control" placeholder="Insert City">
             @else
-            <input type="text" name="city" class="form-control" value={{$users->city}}>
+            <input type="text" name="city" class="form-control" placeholder="Insert City" value={{$users->city}}>
             @endif
         </div>
 
@@ -124,7 +124,7 @@
             @if($users->zip_code == null)
            <input type="text" name="zip" class="form-control" id="nifnumber" placeholder="Insert zip-code">
             @else
-            <input type="text" name="zip" class="form-control" value={{$users->zip_code}}>
+            <input type="text" name="zip" class="form-control" placeholder="Insert zip-code"> value={{$users->zip_code}}>
             @endif
         </div>
 
@@ -138,7 +138,7 @@
              @if($users->sosName == null)
            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name">
             @else
-            <input type="text" name="sosName" class="form-control" value={{$users->sosName}}>
+            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name" value={{$users->sosName}}>
             @endif
         </div>
 
@@ -147,7 +147,7 @@
             @if($users->sosContact == null)
             <input type="number" name="sosContact" class="form-control" id="mobilenumber" placeholder="Insert Number">
             @else
-            <input type="text" name="sosContact" class="form-control" value={{$users->sosContact}}>
+            <input type="text" name="sosContact" class="form-control" placeholder="Insert Number" value={{$users->sosContact}}>
             @endif
         </div>
 
@@ -161,7 +161,7 @@
              @if($users->iban == null)
             <input type="text" name="iban" class="form-control" id="iban" placeholder="Insert IBAN">
             @else
-            <input type="text" name="iban" class="form-control" value={{$users->iban}}>
+            <input type="text" name="iban" class="form-control" placeholder="Insert IBAN" value={{$users->iban}}>
             @endif
         </div>
 

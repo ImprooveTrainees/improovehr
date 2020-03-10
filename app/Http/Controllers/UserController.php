@@ -114,6 +114,10 @@ class UserController extends Controller
     {
         //
 
+        $name = $request->input('name');
+        $status = $request->input('status');
+        $academic = $request->input('academic');
+        $birthday = $request->input('birthday');
 
     }
 
