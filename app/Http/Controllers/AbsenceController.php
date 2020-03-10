@@ -15,14 +15,16 @@ class AbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
         $user = Auth::user();
 
+        //$id_user= Auth::user()->id;
 
-        // $userid = Auth::id();
+        $id_user=1;
 
-        $id_user = $id;
+        $id_typeuser = $user->roles->id;
+
 
         $listAbsencesPending = absence::all()->where('status','Pending');
 
@@ -72,13 +74,15 @@ class AbsenceController extends Controller
 
         }
 
+        //$mssg = is('Admin');
+
 
         //$status = DB::table('absences')->where('iduser', $userid)->value('status');
         //$end_date = DB::table('absences')->where('iduser', $userid)->value('end_date');
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal'));
+        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal','id_typeuser'));
     }
 
 
@@ -160,11 +164,7 @@ class AbsenceController extends Controller
      */
     public function show()
     {
-        //$userid = Auth::id();
-
-        $userid = 1;
-
-        return $this->index($userid);
+        //
     }
 
     /**
