@@ -28,6 +28,7 @@
             <th>Name</th>
             <th>Company</th>
             <th>Role</th>
+            <th>Department<th>
             <th>Time</th>
             <th>Supervisor</th>
         </tr>

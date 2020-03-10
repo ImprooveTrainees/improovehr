@@ -36,6 +36,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personalInfo', 'UserController@index');
 Route::get('/absences', 'AbsenceController@index');
+Route::get('/createVacations', 'AbsenceController@create');
+Route::get('/createAbsences', 'AbsenceController@createAbs');
+Route::get('/employees', 'UserController@employees');
+Route::get('/absences', 'AbsenceController@show');
 Route::post('/absences', 'AbsenceController@store');
 
 Auth::routes();
