@@ -111,10 +111,7 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         //
-        $name = $request->input('name');
-        $status = $request->input('status');
-        $academic = $request->input('academic');
-        $birthday = $request->input('birthday');
+
         
 
     }
