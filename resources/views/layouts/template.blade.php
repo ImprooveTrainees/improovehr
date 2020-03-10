@@ -24,6 +24,9 @@
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
         <!-- END Stylesheets -->
         <link rel="stylesheet" href="main/main.css">
+
+        <link rel="stylesheet" href="assets/js/plugins/datatables/dataTables.bootstrap4.css">
+        <link rel="stylesheet" href="assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
     </head>
     <body>
         <!-- Page Container -->
@@ -39,10 +42,10 @@
                     <!-- END User Avatar -->
 
                     <!-- User Info -->
-                    <div class="ml-2">
+                    {{-- <div class="ml-2">
                         <a class="link-fx text-dark font-w600" href="javascript:void(0)">Administrator</a>
                     </div>
-                    <!-- END User Info -->
+                    <!-- END User Info --> --}}
 
                     <!-- Close Side Overlay -->
                     <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
@@ -219,9 +222,14 @@
 
                 <!-- Side Navigation -->
                 <div class="content-side content-side-full">
+                    <div id="log_name">
+                        <h5>Welcome,</h5>
+                        <h6>{{ Auth::user()->name}}</h6>
+                    </div>
+
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link active" href="">
+                            <a class="nav-main-link active" href="/admin">
                                 <i class="fas fa-home"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Home</span>
                             </a>
@@ -233,7 +241,7 @@
                             </a>
                             <ul class="nav-main-submenu">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/personal">
                                         <span class="nav-main-link-name">Personal Info</span>
                                     </a>
                                 </li>
@@ -248,7 +256,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/holidays">
                                         <span class="nav-main-link-name">Holidays/Absences</span>
                                     </a>
                                 </li>
@@ -458,7 +466,14 @@
                         <!-- END Notifications Dropdown -->
 
                         <!-- LOGOUT -->
-                        <a href="/logout"><button type="button" class="btn btn-sm btn-dual" id="logout">Logout</button></a>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-dual" id="logout" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">Logout</button>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
                         <!-- END LOGOUT -->
                     </div>
                     <!-- END Left Section -->
@@ -524,5 +539,16 @@
         <!-- OneUI JS -->
         <script src="assets/js/oneui.core.min.js"></script>
         <script src="assets/js/oneui.app.min.js"></script>
+
+        <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="assets/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
+        <script src="assets/js/plugins/datatables/buttons/buttons.print.min.js"></script>
+        <script src="assets/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
+        <script src="assets/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
+        <script src="assets/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+
+        <!-- Page JS Code -->
+        <script src="assets/js/pages/be_tables_datatables.min.js"></script>
     </body>
 </html>

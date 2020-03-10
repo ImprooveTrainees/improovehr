@@ -12,20 +12,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/offices', function () {
-    return view('teste_office');
-});
+
 Route::get('/offices', 'OfficesDepsController@index');
 
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('auth.login');
 });
 
 
-Route::get('/personal', function () {
-    return view('personal_info');
-});
 
 Route::get('/professional', function () {
     return view('professional_info');
@@ -40,7 +35,17 @@ Route::get('/','FullCalendarController@index')->name('index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/personalInfo', 'UserController@index');
+Route::get('/personal', 'UserController@index');
+Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
 
+Route::post('/editar', 'UserController@edit');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/holidays', function () {
+    return view('holidays');
+});
