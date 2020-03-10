@@ -27,8 +27,10 @@ class UserController extends Controller
         $date2=date_create($actualYear);
         $diff=date_diff($date1,$date2);
         $age = $diff->format("%Y%"); //formato anos
+        $statusArray = ['Married', 'Single', 'Other'];
+        $statusAcademic = ['Doctorate', 'Masters', 'Graduate', 'High School', 'Middle School', 'Elementary School'];
 
-        return view('personal_info')->with('users', $users)->with('age', $age);
+        return view('personal_info')->with('users', $users)->with('age', $age)->with('statusArray', $statusArray)->with('statusAcademic', $statusAcademic);
     }
 
     public function employees()
@@ -108,9 +110,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
+        
+
     }
 
     /**
