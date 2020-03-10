@@ -6,6 +6,7 @@ use App\User;
 use App\offices;
 use App\departments;
 use App\offices_deps;
+use Auth;
 use Illuminate\Http\Request;
 
 
@@ -27,7 +28,7 @@ class UserController extends Controller
         $diff=date_diff($date1,$date2);
         $age = $diff->format("%Y%"); //formato anos
 
-        return view('testePersonalInfo')->with('users', $users)->with('age', $age);
+        return view('personal_info')->with('users', $users)->with('age', $age);
     }
 
     public function employees()

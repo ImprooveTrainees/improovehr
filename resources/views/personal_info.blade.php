@@ -13,7 +13,7 @@
 <form class="form-group">
     <div class="form-group username">
         <label for="">Name:</label>
-      <input type="text" class="form-control" placeholder="Name">
+      <input type="text" class="form-control" placeholder={{$users->name}}>
     </div>
 
         <div class="form-group status">
