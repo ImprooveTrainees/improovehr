@@ -176,6 +176,8 @@
   <div id='wrap'>
 
     <div id='external-events'>
+
+    <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
       <h4>Draggable Events</h4>
 
       <div id='external-events-list'>
@@ -183,10 +185,10 @@
         <div class='fc-event'>Férias</div>
       </div>
 
-      <!-- <p>
+      <p>
         <input type='checkbox' id='drop-remove' />
         <label for='drop-remove'>remove after drop</label>
-      </p> -->
+      </p>
 
     </div>
 

@@ -8,7 +8,9 @@
         "../mobile/components/main_page/_mainpage.scss",
         "../screens/components/main_page/_mainpage.scss",
         "../mobile/components/personal_info/_personal_info.scss",
-        "../screens/components/personal_info/_personal_info.scss"
+        "../screens/components/personal_info/_personal_info.scss",
+        "../mobile/components/profissional_info/_profissional_info.scss",
+        "../screens/components/profissional_info/_profissional_info.scss"
     ],
     "names": [],
     "file": "main.css"
