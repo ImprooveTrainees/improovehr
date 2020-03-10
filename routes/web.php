@@ -33,5 +33,5 @@ Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
-
+Route::post('/editar', 'UserController@edit');
 
