@@ -303,3 +303,30 @@
   }
 }
 /*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=main.css.map */
+
+/* Temporary  Style For Abscences */
+
+.approval_btn {
+
+    background-color: #4CAF50;
+    border: none;
+    padding: 10px;
+    margin: 8px 4px;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+.repproval_btn {
+
+    background-color: #CB2424;
+    border: none;
+    padding: 10px;
+    margin: 8px 4px;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+/* End Temporary  Style For Abscences */
