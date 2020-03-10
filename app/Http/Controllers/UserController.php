@@ -19,8 +19,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        //$idAutenticado = Auth::User()->id;
-        $users = User::where('id', 1)->first();
+        $idAutenticado = Auth::User()->id;
+        $users = User::where('id', $idAutenticado)->first();
         $actualYear = date("Y/m/d");       
         $date1=date_create($users->birthDate);
         $date2=date_create($actualYear);
