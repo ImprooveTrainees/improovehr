@@ -164,9 +164,19 @@
 
   #boxcalendar {
     margin: auto;
-    height: 100%;
+    height: 101%;
     width: 95%;
     border-radius: 8px;
+  }
+
+  #ferias{
+    margin-left: 50px;
+    width: 25%;
+    height: 25%;
+  }
+
+  #teste{
+      ;
   }
 
 </style>
@@ -175,24 +185,48 @@
 <div class="shadow p-1 bg-white" id="boxcalendar">
   <div id='wrap'>
 
-    <div id='external-events'>
+    <!-- <div id='external-events'> -->
 
-    <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
-      <h4>Draggable Events</h4>
+    <!-- <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
+      <h4>Draggable Events</h4> -->
 
       <div id='external-events-list'>
-        <div class='fc-event'>Faltas</div>
-        <div class='fc-event'>Férias</div>
+        <!-- <div class='fc-event'>Faltas</div>
+        <div class='fc-event'>Férias</div> -->
       </div>
 
-      <p>
+      <!-- <p>
         <input type='checkbox' id='drop-remove' />
         <label for='drop-remove'>remove after drop</label>
-      </p>
+      </p> -->
 
     </div>
 
     <div id='calendar'></div>
+<div id="teste">
+<div class="shadow p-3 mb-5 bg-white rounded" id="ferias">
+  <div class="row">
+    <div class="col">
+      Holidays
+    </div>
+  </div>
+  </div>
+  <div class="shadow p-3 mb-5 bg-white rounded" id="ferias">
+  <div class="row">
+    <div class="col">
+      Absences
+    </div>
+  </div>
+  </div>
+  <div class="shadow p-3 mb-5 bg-white rounded" id="ferias">
+  <div class="row">
+    <div class="col">
+      Time Accomplished
+    </div>
+    </div>
+  </div>
+</div>
+</div>
 
     <div style='clear:both'></div>
 
