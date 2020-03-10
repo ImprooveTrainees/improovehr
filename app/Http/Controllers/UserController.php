@@ -6,6 +6,7 @@ use App\User;
 use App\offices;
 use App\departments;
 use App\offices_deps;
+use Auth;
 use Illuminate\Http\Request;
 
 
@@ -26,8 +27,10 @@ class UserController extends Controller
         $date2=date_create($actualYear);
         $diff=date_diff($date1,$date2);
         $age = $diff->format("%Y%"); //formato anos
+        $statusArray = ['Married', 'Single', 'Other'];
+        $statusAcademic = ['Doctorate', 'Masters', 'Graduate', 'High School', 'Middle School', 'Elementary School'];
 
-        return view('testePersonalInfo')->with('users', $users)->with('age', $age);
+        return view('personal_info')->with('users', $users)->with('age', $age)->with('statusArray', $statusArray)->with('statusAcademic', $statusAcademic);
     }
 
     public function employees()
@@ -57,6 +60,7 @@ class UserController extends Controller
             $diff=date_diff($date1,$date2);
             $tempoEmpresa = $diff->format("%Y%")." years";
             $msg .= "<td>".$tempoEmpresa."</td>";
+            $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->id)->first()->name."</td>";
             $msg .= "</tr>";
 
 
@@ -106,9 +110,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
+        
+
     }
 
     /**
