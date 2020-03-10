@@ -63,7 +63,7 @@
                         <td> {{$list->end_date}} </td>
                         <td> {{$list->attachment}}</td>
                         <td> {{$list->motive}} </td>
-                        <td> <button id="{{$list->id}}" onclick="getID(this.id)" type="button" class="approval_btn" data-toggle="modal" data-target="#modalApproval"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
+                        <td> <button type="button" class="approval_btn" data-toggle="modal" data-target="#modalApproval"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
                         </tr>
 
                     @endforeach
@@ -131,7 +131,7 @@
 
 
                 </div>
-
+                <p id="id_row">ID ROW : </p>
                 <!-- <p>{{ session('msgAbs') }}</p> -->
 
             </div>
@@ -261,6 +261,8 @@
 
                         @csrf
 
+                        <p id="id_row">ID ROW : </p>
+
                         <input type="hidden" value=3 name="op">
 
                         <!-- <input type="submit" value="ADD VACATION"> -->
@@ -318,6 +320,12 @@
     </script>
     <!-- END JAVASCRIPT POP UP MESSAGE -->
 
+    <script>
+           function getID(clicked) {
+                document.getElementbyId('id_row').innerHTML=clicked;
+            }
+
+    </script>
 
 
 @endsection
