@@ -27,6 +27,8 @@
 
         <link rel="stylesheet" href="assets/js/plugins/datatables/dataTables.bootstrap4.css">
         <link rel="stylesheet" href="assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
+
+
     </head>
     <body>
         <!-- Page Container -->
@@ -226,10 +228,9 @@
                         <h5>Welcome,</h5>
                         <h6>{{ Auth::user()->name}}</h6>
                     </div>
-
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link active" href="">
+                            <a class="nav-main-link active" href="/admin">
                                 <i class="fas fa-home"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Home</span>
                             </a>
@@ -241,7 +242,7 @@
                             </a>
                             <ul class="nav-main-submenu">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/personal">
                                         <span class="nav-main-link-name">Personal Info</span>
                                     </a>
                                 </li>
@@ -256,21 +257,34 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/holidays">
                                         <span class="nav-main-link-name">Holidays/Absences</span>
-                                    </a>
-                                </li>
-                                <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
-                                        <span class="nav-main-link-name">Employees</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="">
+                            <a class="nav-main-link" href="javascript:void(0)">
+                                <i class="fas fa-users"></i>
+                                <span class="nav-main-link-name" style="margin-left: 6%;">Employees</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link" href="javascript:void(0)">
                                 <i class="material-icons">assessment</i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Evaluations</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link" href="javascript:void(0)">
+                                <i class="fas fa-file-import"></i>
+                                <span class="nav-main-link-name" style="margin-left: 6%;">Reports</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link" href="javascript:void(0)">
+                                <i class="fas fa-cog"></i>
+                                <span class="nav-main-link-name" style="margin-left: 6%;">Settings</span>
                             </a>
                         </li>
                     </ul>
@@ -550,5 +564,7 @@
 
         <!-- Page JS Code -->
         <script src="assets/js/pages/be_tables_datatables.min.js"></script>
+
+        <script src="js/myscripts.js"></script>
     </body>
 </html>

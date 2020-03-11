@@ -280,8 +280,8 @@
           align-items: baseline;
 }
 
-.cardbox3 h4 {
-  color: #c5c5c5;
+.cardbox3 h5 {
+  color: #acacac;
 }
 
 .cardbox3 .fa-plus {
@@ -297,36 +297,28 @@
   display: inline-block;
 }
 
+.modal-body {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-columns: 220px;
+      grid-template-columns: 220px;
+}
+
+.modal-body h5 {
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.modal-body input {
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
   #endday {
     width: 35%;
   }
 }
 /*# sourceMappingURL=main.css.map */
-/*# sourceMappingURL=main.css.map */
-
-/* Temporary  Style For Abscences */
-
-.approval_btn {
-
-    background-color: #4CAF50;
-    border: none;
-    padding: 10px;
-    margin: 8px 4px;
-    border-radius: 50%;
-    cursor: pointer;
-
-}
-
-.repproval_btn {
-
-    background-color: #CB2424;
-    border: none;
-    padding: 10px;
-    margin: 8px 4px;
-    border-radius: 50%;
-    cursor: pointer;
-
-}
-
-/* End Temporary  Style For Abscences */
