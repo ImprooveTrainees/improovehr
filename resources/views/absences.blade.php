@@ -63,7 +63,7 @@
                         <td> {{$list->end_date}} </td>
                         <td> {{$list->attachment}}</td>
                         <td> {{$list->motive}} </td>
-                        <td> <button type="button" class="approval_btn" data-toggle="modal" data-target="#modalApproval"></button>Approve <button class="repproval_btn"></button>Disapprove </td>
+                        <td> <button id="{{$list->id}}" onClick="reply_click(this.id)" type="button" class="approval_btn" data-toggle="modal" data-target="#modalApproval"></button>Approve <button id="{{$list->id}}" onClick="reply_click2(this.id)" type="button" class="repproval_btn" data-toggle="modal" data-target="#modalDisapproval"></button>Disapprove </td>
                         </tr>
 
                     @endforeach
@@ -111,8 +111,8 @@
                         <tr>
                         <td> {{$array_absences[$i]}} </td>
                         <td> {{$array_absences[$i+1]}} </td>
-                        <td> {{$array_absences[$i+4]}} </td>
                         <td> {{$array_absences[$i+3]}} </td>
+                        <td> {{$array_absences[$i+4]}} </td>
                         <td> {{$array_absences[$i+2]}} </td>
                         </tr>
 
@@ -131,7 +131,7 @@
 
 
                 </div>
-                <p id="id_row">ID ROW : </p>
+
                 <!-- <p>{{ session('msgAbs') }}</p> -->
 
             </div>
@@ -261,12 +261,13 @@
 
                         @csrf
 
-                        <p id="id_row">ID ROW : </p>
-
                         <input type="hidden" value=3 name="op">
+
+                        <input id="updateForm" type="hidden" value="" name="upd">
 
                         <!-- <input type="submit" value="ADD VACATION"> -->
 
+                        <!-- <p id="texto"></p> -->
 
                         </div>
                         <div class="modal-footer">
@@ -281,6 +282,42 @@
 
                     <!-- End Modal Approval -->
 
+
+                   <!-- Modal Disapproval -->
+                   <div class="modal fade" id="modalDisapproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to disapprove this absence?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="/absences" method="POST" class="action">
+                        <div class="modal-body">
+
+                        @csrf
+
+                        <input type="hidden" value=4 name="op">
+
+                        <input id="updateForm2" type="hidden" value="" name="upd">
+
+                        <!-- <input type="submit" value="ADD VACATION"> -->
+
+                        <!-- <p id="texto"></p> -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                        </div>
+
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- End Modal Disapproval -->
 
 
     </body>
@@ -320,13 +357,24 @@
     </script>
     <!-- END JAVASCRIPT POP UP MESSAGE -->
 
+    <!-- JAVASCRIPT UPDATE RECORD -->
     <script>
-           function getID(clicked) {
-                document.getElementbyId('id_row').innerHTML=clicked;
-            }
-
+    function reply_click(clicked_id)
+        {
+            document.getElementById("updateForm").value = clicked_id;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
+    </script>
+        <script>
+    function reply_click2(clicked_id)
+        {
+            document.getElementById("updateForm2").value = clicked_id;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
     </script>
 
+
+      <!-- END JAVASCRIPT UPDATE RECORD -->
 
 @endsection
 
