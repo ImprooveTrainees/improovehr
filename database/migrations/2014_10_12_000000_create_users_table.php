@@ -36,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->string('sosRelationship')->nullable();
             $table->string('sosName')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('linkedIn')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

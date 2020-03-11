@@ -7,7 +7,12 @@
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/man.png" alt="img" id="profile">
+    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile"> 
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@endif
     <p>Personal Data</p>
     <hr>
 <form class="form-group" action="/editar">
@@ -60,10 +65,10 @@
 
         <div class="form-group birthday">
             <label for="">Birthday Date:</label>
-             @if($users->phone == null)
+             @if($users->birthDate == null)
             <input type="date" name="birthday" class="form-control" placeholder="Insert Birthday Date">
             @else
-            <input type="number" name="birthday" class="form-control" placeholder="Insert Birthday Date" value={{$users->phone}}>
+            <input type="date" name="birthday" class="form-control" value={{$users->birthDate}}>
             @endif
         </div>
 
@@ -104,9 +109,9 @@
         <div class="form-group address">
             <label for="">Address:</label>
             @if($users->address == null)
-           <input type="text" name="Address" class="form-control" placeholder="Insert Address">
+           <input type="text" name="address" class="form-control" placeholder="Insert Address">
             @else
-            <input type="text" name="Address" class="form-control" placeholder="Insert Address" value={{$users->address}}>
+            <input type="text" name="address" class="form-control" placeholder="Insert Address" value={{$users->address}}>
             @endif
         </div>
 
@@ -124,7 +129,7 @@
             @if($users->zip_code == null)
            <input type="text" name="zip" class="form-control" id="nifnumber" placeholder="Insert zip-code">
             @else
-            <input type="text" name="zip" class="form-control" placeholder="Insert zip-code"> value={{$users->zip_code}}>
+            <input type="text" name="zip" class="form-control" placeholder="Insert zip-code" value={{$users->zip_code}}>
             @endif
         </div>
 
@@ -166,24 +171,19 @@
         </div>
 
         <div id="subtitle">
-            <p>social Network</p>
+            <p>Social Network</p>
             <hr>
-        </div>
-
-        <div class="form-group address">
-            <label for="">Facebook:</label>
-          <input type="text" class="form-control" id="nifnumber" placeholder="Insert Link">
         </div>
 
         <div class="form-group city">
             <label for="">LinkedIn:</label>
-          <input type="text" class="form-control" placeholder="Insert Link">
+            @if($users->linkedIn == null)
+            <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link">
+            @else
+            <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link" value={{$users->linkedIn}}>
+            @endif
         </div>
 
-        <div class="form-group zipcode">
-            <label for="">Instagram:</label>
-          <input type="text" class="form-control" id="nifnumber" placeholder="Insert Link">
-        </div>
   <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
   </form>
     </div>
