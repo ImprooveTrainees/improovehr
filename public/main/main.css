@@ -280,8 +280,8 @@
           align-items: baseline;
 }
 
-.cardbox3 h4 {
-  color: #c5c5c5;
+.cardbox3 h5 {
+  color: #acacac;
 }
 
 .cardbox3 .fa-plus {
@@ -295,6 +295,25 @@
   background-color: #1ae000;
   border-radius: 50%;
   display: inline-block;
+}
+
+.modal-body {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-columns: 220px;
+      grid-template-columns: 220px;
+}
+
+.modal-body h5 {
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.modal-body input {
+  text-align: center;
 }
 
 @media screen and (min-width: 768px) {

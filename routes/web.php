@@ -25,8 +25,6 @@ Route::get('/testecarousel', function () {
 });
 
 
-
-
 Route::get('/professional', function () {
     return view('professional_info');
 });

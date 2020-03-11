@@ -114,6 +114,46 @@ class UserController extends Controller
     {
         //
 
+        $name = $request->input('name');
+        $status = $request->input('status');
+        $academic = $request->input('academic');
+        $birthday = $request->input('birthday');
+        $mobile = $request->input('mobile');
+        $email = $request->input('email');
+        $nif = $request->input('nif');
+        $address = $request->input('address');
+        $city = $request->input('city');
+        $zip = $request->input('zip');
+        $sosName = $request->input('sosName');
+        $sosContact = $request->input('sosContact');
+        $iban = $request->input('iban');
+        $linkedIn = $request->input('linkedIn');
+
+
+        $userLogado = User::find(Auth::User()->id);
+
+        $userLogado->name = $name;
+        $userLogado->status = $status;
+        $userLogado->academicQual = $academic;
+        $userLogado->birthDate = $birthday;
+        $userLogado->phone = $mobile;
+        $userLogado->email = $email;
+        $userLogado->taxNumber = $nif;
+        $userLogado->address = $address;
+        $userLogado->city = $city;
+        $userLogado->zip_code = $zip;
+        $userLogado->sosName = $sosName;
+        $userLogado->sosContact = $sosContact;
+        $userLogado->iban = $iban;
+        $userLogado->linkedIn = $linkedIn;
+
+
+        $userLogado->save();
+
+        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');;
+
+
+
 
     }
 
