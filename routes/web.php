@@ -22,18 +22,29 @@ Route::get('/', function () {
 
 
 
+Route::get('/professional', function () {
+    return view('professional_info');
+});
+
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
-Auth::routes();
+Route::get('/professional', function () {
+    return view('testeProfessionalInfo');
+});
 
+Auth::routes();
+Route::get('/professional', 'ProfessionalInfoController@index');
+Route::POST('/professional', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
+
 Route::get('/editar', 'UserController@edit');
+Route::post('/absences', 'AbsenceController@update');
 
 Auth::routes();
 

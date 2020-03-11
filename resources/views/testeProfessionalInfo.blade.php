@@ -23,27 +23,36 @@
 <img src="" alt="">
     <div id="enterprisedata">
         <hr>
-        EnterPrise Data<br><br>
-    Role: <span>{{$role}}</span> <br>
-    Type of contract: <span>{{$contractype}}</span><br>
-    Department: <span>{{$department}}</span><br>
-    Admission Date: <span>{{$startdate}}</span><br>
-    End of contract: <span>{{$endDate}}</span>
-    <hr>
-    Documents<br><br>
-    User Attachments: <span>
-        @foreach ($userAttachments as $item)
-        {{$item->files}}<br>
+        <h4>EnterPrise data</h4><br>
+        {{-- {{$profInfo}}<br> --}}
+
+        @foreach ($profInfo as $row)
+
+        <label for="role"><b>Role:--</b>{{$row->position}}</label><br>
+        <label for="role"><b>Department:--</b>{{$row->description}}</label><br>
+        <label for="role"><b>Type of Contract:--</b>{{$row->contracType}}</label><br>
+        <label for="role"><b>Admission Date:--</b>{{$row->start_date}}</label><br>
+        <label for="role"><b>End Date of Contract:--</b>{{$row->end_date}}</label><br>
+
         @endforeach
-        {{-- {{$userAttachments}} --}}
 
-
-
-
-
-    </span>
+    Documents<br><br>
+    <b>User Attachments:</b> <span>
+        @foreach ($usersAttachments as $item)
+        {{$item->files}}--||--
+        @endforeach
+        {{-- {{$usersAttachments}} --}}
     <hr>
+    </div>
 
+    <div id="editProfile">
+        <form  method="POST" >
+            <input type="file" name="user_img" accept="file_extension|pdf/*|image">
+            @csrf
+            <br><br>
+            <button type="submit">Upload img</button>
+
+        </form>
 
     </div>
 
