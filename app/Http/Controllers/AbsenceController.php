@@ -163,7 +163,32 @@ class AbsenceController extends Controller
      */
     public function show()
     {
-        //
+
+        $user = Auth::user();
+
+        $id_user = Auth::user()->id;
+
+        $userContract = $user->contractUser->start_date;
+
+        $current_date = date("Y/m/d");
+
+        //VER USERCONTROLLER
+
+        //User->ID
+        //Contract->start_date
+        //Current date
+        //Nr of days per year : If (current date-start_date) < 1 year = 2xMonth (20days max)
+        //Nr of days per year : If (current date-start_date) > 1 year = 2xMonth (22days)
+        //Vacations list (where absence type =1 and iduser=iduser)
+        //Select all from 2019
+        //Select all from 2020
+        //FROM 2019 : (COUNT DAYS where status = concluded from '19) - Nr of days per year
+        //FROM 2020 (current year): nr of days per year + 2019 (if current date<april) - (COUNT DAYS where status = concluded from '20)
+        // return view('absences',compact('user','iduser'));
+
+        return view('testeNumberHolidays')->with('userContract',$userContract)->with('current_date',$current_date);
+
+
     }
 
     /**

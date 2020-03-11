@@ -52,3 +52,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/holidays', function () {
     return view('holidays');
 });
+
+Route::get('/testeNumberHolidays', 'AbsenceController@show');
