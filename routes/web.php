@@ -44,6 +44,7 @@ Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
 
 Route::post('/editar', 'UserController@edit');
+Route::post('/absences', 'AbsenceController@update');
 
 Auth::routes();
 
