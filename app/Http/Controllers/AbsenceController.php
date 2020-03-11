@@ -117,6 +117,8 @@ class AbsenceController extends Controller
 
         $op = request('op');
 
+        $value = request('upd');
+
         if($op==1) {
 
             $vacation->iduser=$userid;
@@ -147,6 +149,23 @@ class AbsenceController extends Controller
             $absence->save();
 
             $msg='Absence submitted. Waiting for approval.';
+
+        } else if($op==3) {
+
+            DB::table('absences')
+            ->where('id', $value)
+            ->update(['status' => "Approved"]);
+
+            $msg = "Absence approved with success.";
+
+
+        } else if($op==4) {
+
+            DB::table('absences')
+            ->where('id', $value)
+            ->update(['status' => "Disapproved"]);
+
+            $msg = "Absence disapproved with success.";
 
         }
 
@@ -186,30 +205,7 @@ class AbsenceController extends Controller
      */
     public function update()
     {
-        $value = request('upd');
-
-        $op = request('op');
-
-        if($op==3) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Approved"]);
-
-            $msg = "Absence approved with success.";
-
-
-        } else if($op==4) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Disapproved"]);
-
-            $msg = "Absence disapproved with success.";
-
-        }
-
-        return redirect('/absences')->with('msgAbs',$msg);
+        //
 
     }
 
