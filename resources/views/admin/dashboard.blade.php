@@ -40,7 +40,12 @@
         <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <link href='{{asset('assets/fullcalendar/packages/core/main.css')}}' rel='stylesheet' />
 <link href='{{asset('assets/fullcalendar/packages/daygrid/main.css')}}' rel='stylesheet' />
 <link href='{{asset('assets/fullcalendar//packages/timegrid/main.css')}}' rel='stylesheet' />
@@ -176,7 +181,9 @@
   }
 
   #teste{
-      ;
+    margin-left: 0px;
+    width: 100%;
+    height: 100%;
   }
 
 </style>
@@ -222,16 +229,42 @@
   <div class="row">
     <div class="col">
       Time Accomplished
+            </div>
+        </div>
     </div>
-    </div>
-  </div>
 </div>
 </div>
 
     <div style='clear:both'></div>
 
-  </div>
 </div>
+
+  <!-- <section id="team">
+        <div class="container my-3 py-5 text-center">
+            <div class="row mb-5">
+                <div class="col">
+                    <h1>Our Team</h1>
+                        <p class="mt-3">nmnnnnnn</p>
+                    </div>
+                </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="../../../public/img/cristian-newman-f49XhYbpiA0-unsplash.jpg" alt="" class="img-fluid rounded-circle w-50 mb-3">
+                            <h3>Susan Williams</h3>
+                                <h5>Manager</h5>
+                                    <p>jjjjjjjjjjjjjjjjjjjj</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+</div>
+
 </body>
 </html>
 

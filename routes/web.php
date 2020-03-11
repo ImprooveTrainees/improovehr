@@ -20,6 +20,12 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/testecarousel', function () {
+    return view('testecarousel');
+});
+
+
+
 
 Route::get('/professional', function () {
     return view('professional_info');
