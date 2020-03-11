@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\absence;
+use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -18,11 +19,19 @@ class AbsenceController extends Controller
     {
         $user = Auth::user();
 
-        //$userid = Auth::id();
+        $id_user= Auth::user()->id;
 
-        $userid=1;
+        $id_typeuser = $user->roles->id;
 
-        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $userid)->get();
+        $listAbsencesPending = $user->userAbsence()->where('status','Pending');
+
+        $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
+
+        //$listAbsencesPending = absence::all()->where('status','Pending');
+
+        //$listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+
+        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
         $array_vacations = array();
 
@@ -66,13 +75,15 @@ class AbsenceController extends Controller
 
         }
 
+        //$mssg = is('Admin');
+
 
         //$status = DB::table('absences')->where('iduser', $userid)->value('status');
         //$end_date = DB::table('absences')->where('iduser', $userid)->value('end_date');
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('absences',compact('user','array_vacations','array_absences'));
+        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal','id_typeuser'));
     }
 
 
@@ -96,9 +107,7 @@ class AbsenceController extends Controller
      */
     public function store()
     {
-        //$userid = Auth::id();
-
-        $userid=1;
+        $userid = Auth::id();
 
         $vacation = new absence();
 
@@ -152,7 +161,7 @@ class AbsenceController extends Controller
      * @param  \App\absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function show(absence $absence)
+    public function show()
     {
         //
     }
@@ -175,9 +184,17 @@ class AbsenceController extends Controller
      * @param  \App\absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, absence $absence)
+    public function update()
     {
-        //
+        $op = request('op');
+
+        if($op==3) {
+
+            DB::table('absences')
+            ->where('id', 3)
+            ->update(['title' => "Updated Title"]);
+
+        }
     }
 
     /**

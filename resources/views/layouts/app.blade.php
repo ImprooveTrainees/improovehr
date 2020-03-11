@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Improove HR') }}</title>
+    <title>Improove HR - Login</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -33,8 +33,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
+                    {{-- <ul class="navbar-nav mr-auto">
+                    </ul> --}}
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -69,10 +69,9 @@
                     </ul>
                 </div>
             </div>
-            @yield('content')
         </nav>
-
-        <main class="">
+<main class="">
+            @yield('content')
         </main>
     </div>
 </body>

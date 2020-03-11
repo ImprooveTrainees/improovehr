@@ -1,5 +1,17 @@
-#logout{
+#logout {
     margin-left: 11%;
+}
+
+#log_name {
+
+    h5,
+    h6 {
+        color: white;
+        margin: auto;
+        margin-bottom: 3%;
+        text-align: center;
+    }
+
 }
 
 @import '../../../screens/components/main_page/_mainpage';
