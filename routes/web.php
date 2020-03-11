@@ -30,10 +30,13 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
-Route::get('/','FullCalendarController@index')->name('index');
+Route::get('/professional', function () {
+    return view('testeProfessionalInfo');
+});
 
 Auth::routes();
-
+Route::get('/professional', 'ProfessionalInfoController@index');
+Route::POST('/professional', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');

@@ -45,6 +45,9 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    public function UserContract() {
+        return $this->hasOne('App\contract', 'iduser', 'id');
+      }
     public function roles() {
 
         // $userid = Auth::id();
