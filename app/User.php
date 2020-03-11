@@ -77,14 +77,32 @@ class User extends Authenticatable
 
         return $officeDescricao;
      }
-      public function managerDoUser($id) {
-        $manager = DB::table('users')
+      public function managerDoUser($depart, $office) {
+
+
+            // select users.name
+            // from  users, departments, users_deps,contracts
+            // where users.id=users_deps.idUser
+            // and users_deps.idDepartment=departments.id
+            // and contracts.iduser=users.id
+            // and contracts.position="Manager"
+            // and users_deps.idDepartment
+            // in(
+            // select users_deps.idDepartment from users_deps where users_deps.iduser = 2);
+
+            
+            $manager = DB::table('users')
             ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
             ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
-            ->join('contracts', 'users.id', '=', 'contracts.iduser')
-            ->where('users.id','=',$id)
+            ->join('contracts', 'contracts.iduser', '=', 'users.id')
+            ->join('offices_deps', 'offices_deps.idOffice', '=', 'offices.id')
+            ->join('offices', 'offices_deps.idOffice', '=', 'offices.id')
+            ->where('contracts.position','=', 'Manager')
+            ->where('departments.description', '=', $depart)
+            ->where('offices.description', '=', $office)
             ->select('users.name')
-            ->get();
+            ->value('description');
+
 
         return $manager;
      }
