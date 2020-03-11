@@ -31,8 +31,13 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
-Auth::routes();
+Route::get('/professional', function () {
+    return view('testeProfessionalInfo');
+});
 
+Auth::routes();
+Route::get('/professional', 'ProfessionalInfoController@index');
+Route::POST('/professional', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personalInfo', 'UserController@index');
 Route::get('/absences', 'AbsenceController@index');
