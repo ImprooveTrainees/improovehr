@@ -7,15 +7,23 @@
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile"> 
+    <img src="img/man.png" alt="img" id="profile">
+    <div class="element">
+        <div class="shadow p-1 bg-white cardbox4">
+            <i class="fa fa-camera" id="imagefile"></i>
+        </div>
+        <input type="file" name="" id="filesend">
+      </div>
+
+<form class="form-group profileform" action="/editar">
+    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile">
 @if(session()->has('message'))
     <div class="alert alert-success">
         {{ session()->get('message') }}
     </div>
 @endif
     <p>Personal Data</p>
-    <hr>
-<form class="form-group" action="/editar">
+    <hr id="lineform">
     <div class="form-group username">
         <label for="">Name:</label>
         @if($users->name == null)

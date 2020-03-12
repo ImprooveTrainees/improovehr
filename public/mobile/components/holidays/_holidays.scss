@@ -31,7 +31,8 @@
     margin-top: 1%;
     height: 50px;
     display: grid;
-    grid-template-columns: 90px;
+    grid-template-columns: 89px 25px;
+    grid-template-rows: 28px 28px;
 
     p,
     h5 {
@@ -43,11 +44,27 @@
     float: left;
     margin-left: 5%;
     width: 35%;
+
+    h5 {
+        grid-column: 1 / 3;
+    }
+
+    a {
+        text-align: center;
+    }
 }
 
 #endday {
     float: left;
     width: 30%;
+
+    h5 {
+        grid-column: 1 / 3;
+    }
+
+    a {
+        text-align: center;
+    }
 }
 
 .cardbox2 {
@@ -56,7 +73,8 @@
     margin: auto;
     border-radius: 25px;
     margin-top: 3%;
-    a:hover{
+
+    a:hover {
         color: rgb(197, 197, 197);
         cursor: pointer;
     }
@@ -72,7 +90,8 @@
     display: grid;
     grid-template-columns: 45px 150px;
     align-items: baseline;
-    h5{
+
+    h5 {
         color: rgb(172, 172, 172);
     }
 
@@ -90,17 +109,158 @@
     display: inline-block;
 }
 
-.modal-body{
+.modal-body {
     display: grid;
     align-self: center;
     grid-template-columns: 220px;
-    h5{
+
+    h5 {
         margin: auto;
         margin-bottom: 10px;
         margin-top: 15px;
     }
-    input{
+
+    input {
         text-align: center;
+    }
+}
+
+// Absences
+
+#attachment {
+    float: left;
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 80px 80px;
+    grid-template-rows: 20px 30px;
+    width: 22%;
+    text-align: center;
+
+    h5 {
+        grid-column: 1 / 3;
+        text-align: center;
+    }
+
+    p {
+        float: left;
+        margin-right: 23px;
+    }
+
+    a {
+        float: left;
+        margin-left: 13px;
+    }
+}
+#type {
+    float: left;
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 60px 40px;
+    grid-template-rows: 20px 30px;
+    width: 10%;
+    text-align: center;
+
+    h5 {
+        grid-column: 1 / 3;
+        text-align: center;
+    }
+
+    p {
+        float: left;
+        margin-right: 15px;
+    }
+
+    a {
+        float: left;
+        margin-left: 13px;
+    }
+}
+
+
+#startdayab,
+#enddayab {
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 89px 25px;
+    grid-template-rows: 28px 28px;
+    width: 19%;
+
+    p,
+    h5 {
+        margin: auto;
+    }
+}
+
+#startdayab {
+    float: left;
+    margin-left: 5%;
+
+    h5 {
+        grid-column: 1 / 3;
+    }
+
+    a {
+        text-align: center;
+    }
+}
+
+#enddayab {
+    float: left;
+    h5 {
+        grid-column: 1 / 3;
+    }
+
+    a {
+        text-align: center;
+    }
+}
+
+#approvalab {
+    margin-top: 1%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 35px 80px;
+    grid-template-rows: 25px 25px;
+    float: left;
+    width: 17%;
+
+    h5 {
+        margin: auto;
+        margin-left: 20px;
+    }
+
+    p {
+        margin: auto;
+    }
+}
+
+.cardboxjust {
+    height: 70px;
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 3%;
+    width: 160px;
+    height: 30px;
+
+    a:hover {
+        color: rgb(197, 197, 197);
+        cursor: pointer;
+    }
+}
+.cardboxjust1 {
+    height: 70px;
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 3%;
+    width: 100px;
+    height: 30px;
+
+    a:hover {
+        color: rgb(197, 197, 197);
+        cursor: pointer;
     }
 }
 
