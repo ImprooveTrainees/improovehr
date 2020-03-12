@@ -30,10 +30,31 @@ class ProfessionalInfoController extends Controller
                                 ->where('users.id','=',$userLogin)
                                 ->get();
 
+        $userLoginDep= DB::table('users_deps')
+                                    ->where('users_deps.iduser',$userLogin)->value('idDepartment');
+
+        $manager = DB::table('users')
+                                    ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
+                                    ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
+                                    ->join('contracts', 'contracts.iduser', '=', 'users.id')
+                                    ->where('contracts.position','=', 'Manager')
+                                    ->where('users_deps.idDepartment','=', $userLoginDep)
+                                    ->select('users.name as Manager')
+                                    ->get();
+
+                                    // select users.name
+                                    // from  users, departments, users_deps,contracts
+                                    // where users.id=users_deps.idUser
+                                    // and users_deps.idDepartment=departments.id
+                                    // and contracts.iduser=users.id
+                                    // and contracts.position="Manager"
+                                    // and users_deps.idDepartment
+                                    // in(
+                                    // select users_deps.idDepartment from users,users_deps where users_deps.iduser =3);
+
         $usersAttachments = DB::table('user_attachments')->where('idUser',$userLogin)->get();
 
-
-        return view('testeProfessionalInfo')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments);
+        return view('professional_info')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments)->with('manager',$manager);
 
     }
 
