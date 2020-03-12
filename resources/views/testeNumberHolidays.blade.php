@@ -10,17 +10,10 @@
             <div class="content">
                 <div class="title m-b-md">
 
-                <p>{{$years}}</p>
 
-                <p>{{$nrVacationsCY}}</p>
+                <p>AVAILABLE VACATIONS : {{$numberVacationsAvailable}}</p>
 
-                <p>{{$count_days}}</p>
-
-                <p>{{$count_days2}}</p>
-
-
-
-
+                <p>TOTAL : {{$vacations_total}}</p>
 
 
                 </div>

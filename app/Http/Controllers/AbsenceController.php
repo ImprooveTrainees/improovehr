@@ -177,9 +177,17 @@ class AbsenceController extends Controller
         $date1 = date_create($currentDate);
         $date2 = date_create($contractDate);
 
+        $yearCurrent = $date1->format("Y");
+        $yearContract = $date2->format("Y"); // YEAR OF CONTRACT
+
+        $monthContract = $date2->format("m"); //MONTH OF CONTRACT
+        $dayContract = $date2->format("d"); // DAY OF CONTRACT
+
+        $monthCurrent = $date1->format("m"); // CURRENT MONTH
+
         $diff=date_diff($date1,$date2);
         $years = $diff->format("%Y%"); //format years
-        // $months = $diff->format("%m%"); //format months
+        $months = $diff->format("%m%"); //format months
 
         // END DATE CALCULATION
 
@@ -239,32 +247,63 @@ class AbsenceController extends Controller
 
         $count_days2 += 1;
 
-
-        $vacation_days_current_year = 0;
+        $balance = 0;
 
         if($years<1){
 
-            $months = $diff->format("%m%"); //format months
+            $vacations_days_per_year=20;
 
-            $vacation_days_max = 2*$months;
+            $vacation_days_max=20;
 
-            if($vacation_days_max>=20) {
+            $monthsLeft = 12 - $monthContract + 1;
 
-                $vacation_days_max=20;
+                if($dayContract<15) {
+
+                    $vacation_daysLY = 2*$monthsLeft;
+
+
+                } else if($dayContract>=15) {
+
+                    $vacation_daysLY = 2*$monthsLeft - 1;
+
+                }
+
+            if($yearContract!=$yearCurrent) {
+
+                $balance = $vacation_daysLY - $count_days2;
+
+                $vacations_total = ($balance+$vacations_days_per_year);
+
+            } else {
+
+                $vacations_total=$vacation_daysLY;
 
             }
+
+            if($vacations_total>$vacation_days_max) {
+
+                $vacations_total = 20;
+
+            }
+
 
         } else {
 
-            if($count_days2<=22) {
-
-                $balance = 22-$count_days2;
-
-            }
+            $vacations_days_per_year = 22;
 
             $vacation_days_max = 30;
 
-            $vacations_days_per_year = 22;
+            if($count_days2<=$vacations_days_per_year) {
+
+                $balance = $vacations_days_per_year-$count_days2;
+
+            }
+
+            if($monthCurrent>=5) {
+
+                $balance=0;
+
+            }
 
             $vacations_total = $vacations_days_per_year+$balance;
 
@@ -274,28 +313,11 @@ class AbsenceController extends Controller
 
             }
 
-            $numberVacationsAvailable = $vacations_total - $count_days;
-
-
         }
 
+        $numberVacationsAvailable = $vacations_total - $count_days;
 
-        //VER USERCONTROLLER
-
-        //User->ID
-        //Contract->start_date
-        //Current date
-        //Nr of days per year : If (current date-start_date) < 1 year = 2xMonth (20days max)
-        //Nr of days per year : If (current date-start_date) > 1 year = 2xMonth (22days) (30 max)
-        //Vacations list (where absence type =1 and iduser=iduser)
-        //Select all from 2019
-        //Select all from 2020
-        //FROM 2019 : (COUNT DAYS where status = concluded from '19) - Nr of days per year
-        //FROM 2020 (current year): nr of days per year + 2019 (if current date<april) - (COUNT DAYS where status = concluded from '20)
-        // return view('absences',compact('user','iduser'));
-
-        // return view('testeNumberHolidays')->with('contractDate',$contractDate)->with('current_date',$current_date);
-        return view('testeNumberHolidays',compact('user','years','nrVacationsCY','count_days','count_days2'));
+        return view('testeNumberHolidays',compact('user','numberVacationsAvailable','vacations_total'));
 
     }
 
