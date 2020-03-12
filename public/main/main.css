@@ -204,8 +204,7 @@
   }
   .status label,
   .birthday label,
-  .nif label,
-  .city label {
+  .nif label {
     margin-left: 20px;
   }
 }
