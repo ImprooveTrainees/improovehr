@@ -7,7 +7,7 @@
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/man.png" alt="img" id="profile">
+    <img src="img/users/Admin.jpg" alt="img" id="profile">
     <p>Professional Data</p>
     <hr>
 <form class="form-group">
@@ -17,63 +17,65 @@
     <div class="form-group username">
         <label for="">Role:</label>
         @if($row->position == null)
-            <input type="text" class="form-control" id="role" placeholder="Insert Role">
+
+            <p id="p1">Insert Role</p>
         @else
-            <input type="text" class="form-control" id="role" placeholder="{{$row->position}}">
+            <p id="p1">{{$row->position}}</p>
         @endif
     </div>
 
         <div class="form-group birthday">
             <label for="">Admission Date:</label>
+
             @if($row->start_date == null)
-                <input type="text" class="form-control" id="admissiondate" placeholder="No contract uploaded">
+                <p id="p1">No contract uploaded</p>
             @else
-                <input type="text" class="form-control" id="admissiondate" placeholder="{{$row->start_date}}">
+                <p id="p1">{{$row->start_date}}</p>
             @endif
         </div>
 
         <div class="form-group age">
             <label for="">Type of Contract:</label>
             @if($row->contracType == null)
-                <input type="text" class="form-control" id="typecontract" placeholder="No contract uploaded">
+            <p id="p1">No contract uploaded</p>
             @else
-                <input type="text" class="form-control" id="typecontract" placeholder="{{$row->contracType}}">
+            <p id="p1">{{$row->contracType}}</p>
                 @endif
         </div>
 
         <div class="form-group birthday">
             <label for="">End of Contract:</label>
             @if($row->end_date == null)
-                <input type="text" class="form-control" id="endofcontract" placeholder="No contract uploaded">
+            <p id="p1">No contract uploaded</p>
             @else
-                <input type="text" class="form-control" id="endofcontract" placeholder="{{$row->end_date}}">
+            <p id="p1">{{$row->end_date}}</p>
             @endif
         </div>
 
         <div class="form-group age">
             <label for="">Company Mobile:</label>
         @if($row->compPhone == null)
-                <input type="number" class="form-control" id="companymobile" placeholder="Insert Phone Number">
+                <input type="number" class="form-control" id="companymobile2" placeholder="Insert Phone Number">
           @else
-                <input type="number" class="form-control" id="companymobile" value="{{$row->compPhone}}">
+                <input type="number" class="form-control" id="companymobile2" value="{{$row->compPhone}}">
             @endif
         </div>
 
         <div class="form-group birthday">
             <label for="">Company Email:</label>
             @if($row->compMail == null)
-                <input type="email" class="form-control" id="companyemail" placeholder="Insert e-mail">
+                <input type="email" class="form-control" id="companyemail2" placeholder="Insert e-mail">
             @else
-                <input type="email" class="form-control" id="companyemail" value="{{$row->compMail}}">
+                <input type="email" class="form-control" id="companyemail2" value="{{$row->compMail}}">
             @endif
         </div>
 
         <div class="form-group age">
             <label for="">Department:</label>
             @if($row->description == null)
-                <input type="text" class="form-control" id="department" placeholder="No department">
+            <p id="p1">No department</p>
             @else
-                <input type="text" class="form-control" id="department" placeholder="{{$row->description}}">
+            <p id="p1">{{$row->description}}</p>
             @endif
         </div>
          @foreach ($manager as $row) {{-- For Dep. Manager --}}
@@ -81,39 +83,31 @@
         <div class="form-group birthday">
             <label for="">Department Manager:</label>
             @if($row->Manager == null)
-                <input type="text" class="form-control" id="depmanager" placeholder="No Manager">
+            <p id="p1">No manager</p>
             @else
-                <input type="text" class="form-control" id="depmanager" placeholder="{{$row->Manager}}">
+            <p id="p1">{{$row->Manager}}</p>
             @endif
         </div>
         @endforeach  {{--END For Dep. Manager --}}
 
         <div id="subtitle">
-            <p>Bank Data</p>
-            <hr>
-        </div>
-
-        <div class="form-group zipcode">
-            <label for="">IBAN:</label>
-          <input type="text" class="form-control" id="nifnumber" placeholder="personal info">
-        </div>
-
-        <div id="subtitle">
             <p>Documents</p>
-            <hr>
+            <hr><br>
             @foreach ($usersAttachments as $item)
                     {{$item->files}}--||--
             @endforeach
         </div>
-        <div id="attachments">
-            <form  method="POST" >
-                <input type="file" name="user_img" accept="file_extension|pdf/*|image">
-                @csrf
+        <br>
+        <div id="attachments" >
+            <form  method="POST">
+                <div class="custom-file">
+                    <input type="file" name="user_img" class="custom-file-input" id="customFile" accept="file_extension|pdf/*|image">
+                    @csrf
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
                 <br><br>
-                <button type="submit">Upload img</button>
-
+                <button type="submit" id="btnupload" class="form-group btn btn-outline-primary bprofile">Upload file</button>
             </form>
-
         </div>
 
          @endforeach {{--End of controller info --}}

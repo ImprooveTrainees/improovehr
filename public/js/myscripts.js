@@ -1,9 +1,5 @@
-var ahref = document.querySelector('a.nav-main-link.active');
-var allhref = document.querySelectorAll('a.nav-main-link');
-
-$(function() {
-    $( 'li.nav-main-item a' ).on( 'click', function() {
-          $( this ).parent().find( 'a.active' ).removeClass( 'active' );
-          $( this ).addClass( 'active' );
-    });
-});
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
