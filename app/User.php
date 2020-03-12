@@ -101,6 +101,41 @@ class User extends Authenticatable
 
     }
 
+    public function listAbsencesUserCY($id) {
+
+        //CURRENT YEAR
+
+        $listAbsencesUserCY = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->where('users.id','=',$id)
+        ->where('absences.absencetype','=',1)
+        ->where('absences.status','like','Concluded')
+        ->where('absences.end_date','>=','2020-01-01 00:00:00')
+        ->select('absences.*')
+        ->get();
+
+        return $listAbsencesUserCY;
+
+    }
+
+    public function listAbsencesUserLY($id) {
+
+        //LAST YEAR
+
+        $listAbsencesUserLY = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->where('users.id','=',$id)
+        ->where('absences.absencetype','=',1)
+        ->where('absences.status','like','Concluded')
+        ->where('absences.end_date','>=','2019-01-01 00:00:00')
+        ->where('absences.end_date','<=','2019-12-31 23:59:59')
+        ->select('absences.*')
+        ->get();
+
+        return $listAbsencesUserLY;
+
+    }
+
 
 
 }
