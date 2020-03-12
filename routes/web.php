@@ -33,6 +33,8 @@ Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
 
+Route::get('/absencesCount', 'AbsenceController@show');
+
 Route::get('/editar', 'UserController@edit');
 
 Auth::routes();
