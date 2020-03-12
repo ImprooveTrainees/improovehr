@@ -247,7 +247,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/professional">
                                         <span class="nav-main-link-name">Professional Info</span>
                                     </a>
                                 </li>
@@ -372,7 +372,6 @@
                             <i class="fa fa-fw fa-ellipsis-v"></i>
                         </button> --}}
                         <!-- END Toggle Mini Sidebar -->
-
                         <!-- Open Search Section (visible on smaller screens) -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                         <button type="button" class="btn btn-sm btn-dual d-sm-none" data-toggle="layout" data-action="header_search_on">

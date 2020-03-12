@@ -20,18 +20,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
-
-Route::get('/professional', function () {
-    return view('professional_info');
-});
-
 Route::get('/admin', function () {
     return view('admin.dashboard');
-});
-
-Route::get('/professional', function () {
-    return view('testeProfessionalInfo');
 });
 
 Auth::routes();
