@@ -16,14 +16,20 @@
       </div>
 
 <form class="form-group profileform" action="/editar">
+    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile">
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@endif
     <p>Personal Data</p>
     <hr id="lineform">
     <div class="form-group username">
         <label for="">Name:</label>
         @if($users->name == null)
-      <input type="text" class="form-control" placeholder="Insira o nome">
+      <input type="text" name="name" class="form-control" placeholder="Insira o nome">
         @else
-        <input type="text" class="form-control" value={{$users->name}}>
+        <input type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}}>
         @endif
     </div>
 
@@ -67,10 +73,10 @@
 
         <div class="form-group birthday">
             <label for="">Birthday Date:</label>
-             @if($users->phone == null)
-            <input type="date" name="birthday" class="form-control" placeholder="Name">
+             @if($users->birthDate == null)
+            <input type="date" name="birthday" class="form-control" placeholder="Insert Birthday Date">
             @else
-            <input type="number" name="birthday" class="form-control" value={{$users->phone}}>
+            <input type="date" name="birthday" class="form-control" value={{$users->birthDate}}>
             @endif
         </div>
 
@@ -80,7 +86,7 @@
             @if($users->phone == null)
            <input type="number" name="mobile" class="form-control" id="mobilenumber" placeholder="Insert phone number">
             @else
-            <input type="number" name="mobile" class="form-control" value={{$users->phone}}>
+            <input type="number" name="mobile" placeholder="Insert phone number" class="form-control" value={{$users->phone}}>
             @endif
         </div>
 
@@ -89,7 +95,7 @@
             @if($users->email == null)
            <input type="email" name="email" class="form-control" id="emailprofile" placeholder="Insert email">
             @else
-            <input type="email" name="email" class="form-control" value={{$users->email}}>
+            <input type="email" name="email" class="form-control" placeholder="Insert email" value={{$users->email}}>
             @endif
         </div>
 
@@ -98,7 +104,7 @@
              @if($users->taxNumber == null)
            <input type="number" name="nif" class="form-control" id="nifnumber" placeholder="Insert NIF">
             @else
-            <input type="number" name="nif" class="form-control" value={{$users->taxNumber}}>
+            <input type="number" name="nif" class="form-control" placeholder="Insert NIF" value={{$users->taxNumber}}>
             @endif
         </div>
 
@@ -111,9 +117,9 @@
         <div class="form-group address">
             <label for="">Address:</label>
             @if($users->address == null)
-           <input type="text" name="Address" class="form-control" placeholder="Insert Address">
+           <input type="text" name="address" class="form-control" placeholder="Insert Address">
             @else
-            <input type="text" name="Address" class="form-control" value={{$users->address}}>
+            <input type="text" name="address" class="form-control" placeholder="Insert Address" value={{$users->address}}>
             @endif
         </div>
 
@@ -122,7 +128,7 @@
             @if($users->city == null)
            <input type="text" name="city" class="form-control" placeholder="Insert City">
             @else
-            <input type="text" name="city" class="form-control" value={{$users->city}}>
+            <input type="text" name="city" class="form-control" placeholder="Insert City" value={{$users->city}}>
             @endif
         </div>
 
@@ -131,7 +137,7 @@
             @if($users->zip_code == null)
            <input type="text" name="zip" class="form-control" id="nifnumber" placeholder="Insert zip-code">
             @else
-            <input type="text" name="zip" class="form-control" value={{$users->zip_code}}>
+            <input type="text" name="zip" class="form-control" placeholder="Insert zip-code" value={{$users->zip_code}}>
             @endif
         </div>
 
@@ -145,7 +151,7 @@
              @if($users->sosName == null)
            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name">
             @else
-            <input type="text" name="sosName" class="form-control" value={{$users->sosName}}>
+            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name" value={{$users->sosName}}>
             @endif
         </div>
 
@@ -154,7 +160,7 @@
             @if($users->sosContact == null)
             <input type="number" name="sosContact" class="form-control" id="mobilenumber" placeholder="Insert Number">
             @else
-            <input type="text" name="sosContact" class="form-control" value={{$users->sosContact}}>
+            <input type="text" name="sosContact" class="form-control" placeholder="Insert Number" value={{$users->sosContact}}>
             @endif
         </div>
 
@@ -168,29 +174,24 @@
              @if($users->iban == null)
             <input type="text" name="iban" class="form-control" id="iban" placeholder="Insert IBAN">
             @else
-            <input type="text" name="iban" class="form-control" value={{$users->iban}}>
+            <input type="text" name="iban" class="form-control" placeholder="Insert IBAN" value={{$users->iban}}>
             @endif
         </div>
 
         <div id="subtitle">
-            <p>social Network</p>
+            <p>Social Network</p>
             <hr>
-        </div>
-
-        <div class="form-group address">
-            <label for="">Facebook:</label>
-          <input type="text" class="form-control" id="nifnumber" placeholder="Insert Link">
         </div>
 
         <div class="form-group city">
             <label for="">LinkedIn:</label>
-          <input type="text" class="form-control" placeholder="Insert Link">
+            @if($users->linkedIn == null)
+            <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link">
+            @else
+            <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link" value={{$users->linkedIn}}>
+            @endif
         </div>
 
-        <div class="form-group zipcode">
-            <label for="">Instagram:</label>
-          <input type="text" class="form-control" id="nifnumber" placeholder="Insert Link">
-        </div>
   <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
   </form>
     </div>

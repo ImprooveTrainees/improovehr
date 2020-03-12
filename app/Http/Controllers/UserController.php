@@ -51,7 +51,7 @@ class UserController extends Controller
             $msg .= "<tr>";
             $msg .= "<td>".$users[$i]->photo."</td>";
             $msg .= "<td>".$users[$i]->name."</td>";
-            $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id)->first()->description."</td>"; //pôr office
+            $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>"; //pôr office
             $msg .= "<td>".$users[$i]->contractUser->position."</td>";
             $msg .= "<td>".$users[$i]->departments->first()->description."</td>"; //departamento
             $actualYear = date("Y/m/d");
@@ -60,7 +60,12 @@ class UserController extends Controller
             $diff=date_diff($date1,$date2);
             $tempoEmpresa = $diff->format("%Y%")." years";
             $msg .= "<td>".$tempoEmpresa."</td>";
-            $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->id)->first()->name."</td>";
+            if($users[$i]->name == $users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)) {
+                $msg .= "<td> ------- </td>";
+            }
+            else {
+                $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
+            }        
             $msg .= "</tr>";
 
 
@@ -113,6 +118,46 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         //
+
+        $name = $request->input('name');
+        $status = $request->input('status');
+        $academic = $request->input('academic');
+        $birthday = $request->input('birthday');
+        $mobile = $request->input('mobile');
+        $email = $request->input('email');
+        $nif = $request->input('nif');
+        $address = $request->input('address');
+        $city = $request->input('city');
+        $zip = $request->input('zip');
+        $sosName = $request->input('sosName');
+        $sosContact = $request->input('sosContact');
+        $iban = $request->input('iban');
+        $linkedIn = $request->input('linkedIn');
+
+
+        $userLogado = User::find(Auth::User()->id);
+
+        $userLogado->name = $name;
+        $userLogado->status = $status;
+        $userLogado->academicQual = $academic;
+        $userLogado->birthDate = $birthday;
+        $userLogado->phone = $mobile;
+        $userLogado->email = $email;
+        $userLogado->taxNumber = $nif;
+        $userLogado->address = $address;
+        $userLogado->city = $city;
+        $userLogado->zip_code = $zip;
+        $userLogado->sosName = $sosName;
+        $userLogado->sosContact = $sosContact;
+        $userLogado->iban = $iban;
+        $userLogado->linkedIn = $linkedIn;
+
+
+        $userLogado->save();
+
+        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');;
+
+
 
 
     }
