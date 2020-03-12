@@ -3,3 +3,14 @@ $(".custom-file-input").on("change", function() {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
   });
+
+  var icon = document.getElementById("imagefile");
+
+  icon.addEventListener('click', () => {
+    $("input[type='file']").trigger('click');
+  })
+
+  $('input[type="file"]').on('change', function() {
+    var val = $(this).val();
+    $(this).siblings('span').text(val);
+  })
