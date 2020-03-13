@@ -203,6 +203,8 @@ class AbsenceController extends Controller
 
         $dateEndLY = date('Y-12-31', strtotime('- 1 year')); // DATE - END OF LAST YER
 
+        $dateEndCY = date('Y-12-31'); // DATE - END OF CURRENT YEAR
+
         $dateStartCY = date('Y-01-01'); // DATE - START OF CURRENT YEAR
 
         $dateStartLY = date('Y-01-01', strtotime('- 1 year')); // DATE - START OF LAST YEAR
@@ -249,7 +251,7 @@ class AbsenceController extends Controller
             $diff_endstart2 = date_diff($date5,$date6);
             $days2 = $diff_endstart2->format("%d%"); //format days
 
-            $count_days2 += $days2; //Number of vacation days already spent
+            $count_days2 += $days2; //Number of vacation days already spent from last year
 
         }
 
@@ -257,49 +259,26 @@ class AbsenceController extends Controller
 
         $balance = 0;
 
+        $vacations_days_per_year=0;
+        $vacation_days_max=0;
+
         if($years<1){
 
-            $vacations_days_per_year=20;
+            $vacations_total = $months*2; //MONTH DIFFERENCE BETWEEN MONTH CONTRACT AND CURRENT MONTH
 
-            $vacation_days_max=20;
+            if($dayContract>=15) {
 
-            $monthsLeft = 12 - $monthContract + 1;
+                $vacations_total = $vacations_total - 1;
 
-                if($dayContract<15) {
-
-                    $vacation_daysLY = 2*$monthsLeft;
-
-
-                } else if($dayContract>=15) {
-
-                    $vacation_daysLY = 2*$monthsLeft - 1;
-
-                }
-
-            if($yearContract!=$yearCurrent) {
-
-                $balance = $vacation_daysLY - $count_days2;
-
-                $vacations_total = ($balance+$vacations_days_per_year);
-
-            } else {
-
-                $vacations_total=$vacation_daysLY;
 
             }
 
-            if($vacations_total>$vacation_days_max) {
-
-                $vacations_total = 20;
-
-            }
+            $vacations_available = $vacations_total - $count_days - $count_days2;
 
 
         } else {
 
-            $vacations_days_per_year = 22;
-
-            $vacation_days_max = 30;
+            $vacations_days = 22;
 
             if($count_days2<=$vacations_days_per_year) {
 
