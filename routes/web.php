@@ -20,9 +20,13 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+
+
+Route::get('/professional', function () {
+    return view('professional_info');
 });
+
+Route::get('/admin', 'AbsenceController@show');
 
 Auth::routes();
 Route::get('/professional', 'ProfessionalInfoController@index');
@@ -44,3 +48,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/holidays', function () {
     return view('holidays');
 });
+
+// Route::get('/testeNumberHolidays', 'AbsenceController@show');

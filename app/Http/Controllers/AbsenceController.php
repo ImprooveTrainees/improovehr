@@ -163,8 +163,172 @@ class AbsenceController extends Controller
      */
     public function show()
     {
+
+        $user = Auth::user();
+
+        $id_user = Auth::user()->id;
+
+        // DATE CALCULATION
+
+        $contractDate = $user->contractUser->start_date;
+
+        $currentDate = date("Y-m-d");
+
+        $date1 = date_create($currentDate);
+        $date2 = date_create($contractDate);
+
+        $yearCurrent = $date1->format("Y");
+        $yearContract = $date2->format("Y"); // YEAR OF CONTRACT
+
+        $monthContract = $date2->format("m"); //MONTH OF CONTRACT
+        $dayContract = $date2->format("d"); // DAY OF CONTRACT
+
+        $monthCurrent = $date1->format("m"); // CURRENT MONTH
+
+        $diff=date_diff($date1,$date2);
+        $years = $diff->format("%Y%"); //format years
+        $months = $diff->format("%m%"); //format months
+
+        // END DATE CALCULATION
+
+        //$listVacationsUser = $user->userAbsence()->where('absencetype',1);
+
+        $nrVacationsCY = $user->listAbsencesUserCY($id_user);
+
+        $nrVacationsLY = $user->listAbsencesUserLY($id_user);
+
+        $count_days = 0;
+
+        $count_days2 = 0;
+
+        $dateEndLY = date('Y-12-31', strtotime('- 1 year')); // DATE - END OF LAST YER
+
+        $dateStartCY = date('Y-01-01'); // DATE - START OF CURRENT YEAR
+
+        $dateStartLY = date('Y-01-01', strtotime('- 1 year')); // DATE - START OF LAST YEAR
+
+        $dateEnd2Y = date('Y-12-31', strtotime('- 2 year')); // DATE - END OF 2 YEARS AGO
+
+        foreach($nrVacationsCY as $vac) {
+
+            $start = $vac->start_date;
+            $end = $vac->end_date;
+
+            if($start<=$dateEndLY) {
+
+                $start = $start_year;
+
+            }
+
+            $date3 = date_create($start);
+            $date4 = date_create($end);
+
+            $diff_endstart = date_diff($date3,$date4);
+            $days = $diff_endstart->format("%d%"); //format days
+
+            $count_days += $days; //Number of vacation days already spent
+
+        }
+
+        $count_days += 1;
+
+        foreach($nrVacationsLY as $vac) {
+
+            $start2 = $vac->start_date;
+            $end2 = $vac->end_date;
+
+            if($start2<=$dateEnd2Y) {
+
+                $start2 = $dateStartLY;
+
+            }
+
+            $date5 = date_create($start2);
+            $date6 = date_create($end2);
+
+            $diff_endstart2 = date_diff($date5,$date6);
+            $days2 = $diff_endstart2->format("%d%"); //format days
+
+            $count_days2 += $days2; //Number of vacation days already spent
+
+        }
+
+        $count_days2 += 1;
+
+        $balance = 0;
+
+        if($years<1){
+
+            $vacations_days_per_year=20;
+
+            $vacation_days_max=20;
+
+            $monthsLeft = 12 - $monthContract + 1;
+
+                if($dayContract<15) {
+
+                    $vacation_daysLY = 2*$monthsLeft;
+
+
+                } else if($dayContract>=15) {
+
+                    $vacation_daysLY = 2*$monthsLeft - 1;
+
+                }
+
+            if($yearContract!=$yearCurrent) {
+
+                $balance = $vacation_daysLY - $count_days2;
+
+                $vacations_total = ($balance+$vacations_days_per_year);
+
+            } else {
+
+                $vacations_total=$vacation_daysLY;
+
+            }
+
+            if($vacations_total>$vacation_days_max) {
+
+                $vacations_total = 20;
+
+            }
+
+
+        } else {
+
+            $vacations_days_per_year = 22;
+
+            $vacation_days_max = 30;
+
+            if($count_days2<=$vacations_days_per_year) {
+
+                $balance = $vacations_days_per_year-$count_days2;
+
+            }
+
+            if($monthCurrent>=5) {
+
+                $balance=0;
+
+            }
+
+            $vacations_total = $vacations_days_per_year+$balance;
+
+            if($vacations_total>$vacation_days_max) {
+
+                $vacations_total = 30;
+
+            }
+
+        }
+
+        $numberVacationsAvailable = $vacations_total - $count_days;
+
+        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total'));
+        // return view('testeNumberHolidays',compact('numberVacationsAvailable','vacations_total'));
         //
-        $userLogado =  Auth::id();  
+        $userLogado =  Auth::id();
         $ausenciasDoUser = absence::where('iduser','=', $userLogado)
                ->where('absenceType', '!=' , 1)
                ->where('status', '=' , 'Concluded')
@@ -180,10 +344,12 @@ class AbsenceController extends Controller
             $date2=date_create($ending);
             $diff=date_diff($date1,$date2);
             $days = $diff->format("%d%");
-            $diasAusencia += $days; 
-        }    
+            $diasAusencia += $days;
+        }
         $diasAusencia += 1;
-        return view('testeAbsencesCount')->with('absences', $diasAusencia);
+
+        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total','absences'));
+        // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }
 

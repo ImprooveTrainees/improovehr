@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
+use Carbon;
 
 
 class User extends Authenticatable
@@ -122,6 +123,52 @@ class User extends Authenticatable
         return $userAbsence;
 
     }
+
+    public function listAbsencesUserCY($id) {
+
+        //CURRENT YEAR
+        $current_date = date("Y/01/01");
+
+        $listAbsencesUserCY = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->where('users.id','=',$id)
+        ->where('absences.absencetype','=',1)
+        ->where('absences.status','like','Concluded')
+        ->where('absences.end_date','>=',$current_date)
+        ->select('absences.*')
+        ->get();
+
+        // Articles::whereBetween('created_at', [
+        //     Carbon::now()->startOfYear(),
+        //     Carbon::now()->endOfYear(),
+        // ]);
+
+
+
+        return $listAbsencesUserCY;
+
+    }
+
+    public function listAbsencesUserLY($id) {
+
+        //LAST YEAR
+        $dateBegin = date('Y-01-01', strtotime('- 1 year'));
+        $dateEnd = date('Y-12-31', strtotime('- 1 year'));
+
+        $listAbsencesUserLY = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->where('users.id','=',$id)
+        ->where('absences.absencetype','=',1)
+        ->where('absences.status','like','Concluded')
+        ->where('absences.end_date','>=',$dateBegin)
+        ->where('absences.end_date','<=',$dateEnd)
+        ->select('absences.*')
+        ->get();
+
+        return $listAbsencesUserLY;
+
+    }
+
 
 
 }
