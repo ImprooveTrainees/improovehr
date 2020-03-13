@@ -146,7 +146,7 @@
             <hr>
         </div>
 
-        <div class="form-group username">
+        <div class="form-group sosusername">
             <label for="">Name:</label>
              @if($users->sosName == null)
            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name">
@@ -155,7 +155,7 @@
             @endif
         </div>
 
-        <div class="form-group mobile">
+        <div class="form-group soscontact">
             <label for="">SOS Contact:</label>
             @if($users->sosContact == null)
             <input type="number" name="sosContact" class="form-control" id="mobilenumber" placeholder="Insert Number">
@@ -183,7 +183,7 @@
             <hr>
         </div>
 
-        <div class="form-group city">
+        <div class="form-group linkedin">
             <label for="">LinkedIn:</label>
             @if($users->linkedIn == null)
             <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link">
