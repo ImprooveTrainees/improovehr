@@ -121,10 +121,10 @@
 
   #wrap {
     width: 100%;
-    margin: 0 auto;
+    margin: auto;
   }
 
-  #external-events {
+  /* #external-events {
     float: left;
     width: 200px;
     padding: 35px 10px;
@@ -133,7 +133,7 @@
     text-align: center;
     margin-left: 5%;
     margin-top: 6%;
-  }
+  } */
 
   #external-events h4 {
     font-size: 16px;
@@ -160,35 +160,48 @@
   #calendar {
     float: right;
     width: 65%;
+    border-radius: 8px;
+    margin-top: -3%;
   }
 
-  #boxcalendar {
-    margin: auto;
-    height: 100%;
-    width: 95%;
+  #box {
+    margin: 30px;
+    margin-left: 65px;
+    width: 25%;
+    height: 25%;
     border-radius: 8px;
+    text-align: center;
+  }
+
+  #box1 {
+    margin-left: 65px;
+    width: 25%;
+    height: 25%;
+    border-radius: 8px;
+    margin-top: 50px;
+    text-align: center;
   }
 
 </style>
 </head>
 <body>
-<div class="shadow p-1 bg-white" id="boxcalendar">
+<div class="shadow p-1 bg-white" id="calendar">
   <div id='wrap'>
 
-    <div id='external-events'>
+    <!-- <div id='external-events'>
 
     <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
-      <h4>Draggable Events</h4>
+      <h4>Draggable Events</h4> -->
 
       <div id='external-events-list'>
-        <div class='fc-event'>Faltas</div>
-        <div class='fc-event'>Férias</div>
+        <!-- <div class='fc-event'>Faltas</div>
+        <div class='fc-event'>Férias</div> -->
       </div>
 
-      <p>
+      <!-- <p>
         <input type='checkbox' id='drop-remove' />
         <label for='drop-remove'>remove after drop</label>
-      </p>
+      </p> -->
 
     </div>
 
@@ -197,7 +210,34 @@
     <div style='clear:both'></div>
 
   </div>
+
+
+  <div class="shadow p-1 bg-white" id="box">
+  <div class="container">
+  <div class="row">
+    <div class="col">
+      Holidays
+    </div>
+  </div>
 </div>
+</div>
+
+<div class="shadow p-1 bg-white" id="box1">
+<div class="row">
+    <div class="col">
+      Absences
+    </div>
+  </div>
+</div>
+
+<div class="shadow p-1 bg-white" id="box1">
+<div class="row">
+    <div class="col">
+      Time Accomplished
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 

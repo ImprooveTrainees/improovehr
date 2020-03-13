@@ -28,10 +28,6 @@ Route::get('/professional', function () {
 
 Route::get('/admin', 'AbsenceController@show');
 
-Route::get('/professional', function () {
-    return view('testeProfessionalInfo');
-});
-
 Auth::routes();
 Route::get('/professional', 'ProfessionalInfoController@index');
 Route::POST('/professional', 'ProfessionalInfoController@store');
@@ -40,6 +36,8 @@ Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
+
+Route::get('/absencesCount', 'AbsenceController@show');
 
 Route::get('/editar', 'UserController@edit');
 

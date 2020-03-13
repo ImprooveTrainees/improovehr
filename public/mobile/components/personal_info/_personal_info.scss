@@ -7,7 +7,7 @@
     font-size: 11pt;
 }
 
-.bprofile{
+.bprofile {
     width: 25%;
     margin-left: auto;
     margin-right: auto;
@@ -34,6 +34,7 @@
     width: 15%;
     height: auto;
     margin-bottom: 3%;
+    position: absolute;
 }
 
 .box1 {
@@ -61,16 +62,16 @@
 }
 
 .birthday input,
-    .academic select,
-    .status select,
-    .username input,
-    .age input,
-    .mobile input,
-    .emailprofile input,
-    .nif input,
-    .address input,
-    .city input,
-    .zipcode input {
+.academic select,
+.status select,
+.username input,
+.age input,
+.mobile input,
+.emailprofile input,
+.nif input,
+.address input,
+.city input,
+.zipcode input {
     margin-left: 40px;
 }
 
@@ -78,6 +79,53 @@
     label {
         margin-left: 0;
     }
+}
+
+.element {
+    display: inline-flex;
+    align-items: center;
+
+    #imagefile {
+        font-size: 25px;
+    }
+
+    .cardbox4 {
+        position: relative;
+    }
+
+    i.fa-camera {
+        cursor: pointer;
+        font-size: 30px;
+        margin: auto;
+    }
+
+    i:hover {
+        opacity: 0.6;
+    }
+
+    input {
+        display: none;
+    }
+}
+
+.profileform {
+    margin-top: 18%;
+
+    #lineform {
+        display: flex;
+        margin-left: 0;
+    }
+}
+.cardbox4{
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left: 2%;
+    display: grid;
+    grid-template-columns: 35px;
+    align-items: baseline;
 }
 
 @import '../../../screens/components/personal_info/_personal_info';
