@@ -198,7 +198,7 @@
 }
 
 .profileform {
-  margin-top: 200px;
+  margin-top: 18%;
 }
 
 .profileform #lineform {
@@ -278,6 +278,13 @@
   .cardbox1 {
     margin-top: 3%;
   }
+}
+
+#profile2 {
+  border-radius: 50%;
+  width: 15%;
+  height: auto;
+  margin-bottom: 3%;
 }
 
 #table_hol {
