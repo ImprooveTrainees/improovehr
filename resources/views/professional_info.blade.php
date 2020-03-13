@@ -14,7 +14,7 @@
 
      @foreach ($profInfo as $row) {{-- Data from controller querys --}}
 
-    <div class="form-group username">
+    <div class="form-group role">
         <label for="">Role:</label>
         @if($row->position == null)
 
@@ -24,7 +24,7 @@
         @endif
     </div>
 
-        <div class="form-group birthday">
+        <div class="form-group admissiondate">
             <label for="">Admission Date:</label>
 
             @if($row->start_date == null)
@@ -34,7 +34,7 @@
             @endif
         </div>
 
-        <div class="form-group age">
+        <div class="form-group typeofcontract">
             <label for="">Type of Contract:</label>
             @if($row->contracType == null)
             <p id="p1">No contract uploaded</p>
@@ -43,7 +43,7 @@
                 @endif
         </div>
 
-        <div class="form-group birthday">
+        <div class="form-group endofcontract">
             <label for="">End of Contract:</label>
             @if($row->end_date == null)
             <p id="p1">No contract uploaded</p>
@@ -52,7 +52,7 @@
             @endif
         </div>
 
-        <div class="form-group age">
+        <div class="form-group companymobile">
             <label for="">Company Mobile:</label>
         @if($row->compPhone == null)
                 <input type="number" class="form-control" id="companymobile2" placeholder="Insert Phone Number">
@@ -61,7 +61,7 @@
             @endif
         </div>
 
-        <div class="form-group birthday">
+        <div class="form-group companyemail">
             <label for="">Company Email:</label>
             @if($row->compMail == null)
                 <input type="email" class="form-control" id="companyemail2" placeholder="Insert e-mail">
@@ -70,7 +70,7 @@
             @endif
         </div>
 
-        <div class="form-group age">
+        <div class="form-group department">
             <label for="">Department:</label>
             @if($row->description == null)
             <p id="p1">No department</p>
@@ -80,7 +80,7 @@
         </div>
          @foreach ($manager as $row) {{-- For Dep. Manager --}}
 
-        <div class="form-group birthday">
+        <div class="form-group departmentmanager">
             <label for="">Department Manager:</label>
             @if($row->Manager == null)
             <p id="p1">No manager</p>

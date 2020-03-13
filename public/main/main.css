@@ -66,20 +66,6 @@
   width: 25%;
 }
 
-#companymobile2 {
-  margin-left: 65px;
-  width: 90%;
-  font-size: 15px;
-  margin-bottom: auto;
-}
-
-#companyemail2 {
-  margin-left: 65px;
-  width: 90%;
-  font-size: 15px;
-  margin-bottom: auto;
-}
-
 .bprofile {
   width: 25%;
   margin-left: auto;
@@ -102,7 +88,10 @@
 .nif,
 .address,
 .city,
-.zipcode {
+.zipcode,
+.soscontact,
+.linkedin,
+.sosusername {
   display: -ms-grid;
   display: grid;
   -webkit-box-align: center;
@@ -158,7 +147,10 @@
 .nif input,
 .address input,
 .city input,
-.zipcode input {
+.zipcode input,
+.soscontact input,
+.linkedin input,
+.sosusername input {
   margin-left: 40px;
 }
 
@@ -229,12 +221,15 @@
   .academic,
   .age,
   .emailprofile,
-  .address {
+  .address,
+  .sosusername {
     float: left;
   }
   .status label,
   .birthday label,
-  .nif label {
+  .nif label,
+  .city label,
+  .soscontact label {
     margin-left: 20px;
   }
 }
@@ -250,7 +245,10 @@
   .nif,
   .address,
   .city,
-  .zipcode {
+  .zipcode,
+  .soscontact,
+  .sosusername,
+  .linkedin {
     -ms-grid-columns: 86px 190px 40px;
         grid-template-columns: 86px 190px 40px;
     -ms-grid-rows: auto;
@@ -269,7 +267,10 @@
   .nif,
   .address,
   .city,
-  .zipcode {
+  .zipcode,
+  .soscontact,
+  .sosusername,
+  .linkedin {
     -ms-grid-columns: 86px 140px 40px;
         grid-template-columns: 86px 140px 40px;
     -ms-grid-rows: auto;
@@ -285,6 +286,84 @@
   width: 15%;
   height: auto;
   margin-bottom: 3%;
+}
+
+.role,
+.admissiondate,
+.typeofcontract,
+.endofcontract,
+.companymobile,
+.companyemail,
+.department,
+.departmentmanager {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 86px 220px 40px;
+      grid-template-columns: 86px 220px 40px;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  font-size: 11pt;
+}
+
+.role p,
+.admissiondate p,
+.typeofcontract p,
+.endofcontract p,
+.companymobile input,
+.companyemail input,
+.department p,
+.departmentmanager p {
+  margin-left: 40px;
+}
+
+@media screen and (min-width: 768px) {
+  .role,
+  .typeofcontract,
+  .companymobile,
+  .department {
+    float: left;
+  }
+  .admissiondate label,
+  .endofcontract label,
+  .companyemail label,
+  .departmentmanager label {
+    margin-left: 20px;
+  }
+}
+
+@media (min-width: 425px) and (max-width: 1024px) {
+  .role,
+  .typeofcontract,
+  .companymobile,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .companyemail,
+  .departmentmanager {
+    -ms-grid-columns: 86px 190px 40px;
+        grid-template-columns: 86px 190px 40px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .role,
+  .typeofcontract,
+  .companymobile,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .companyemail,
+  .departmentmanager {
+    -ms-grid-columns: 86px 140px 40px;
+        grid-template-columns: 86px 140px 40px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
 }
 
 #table_hol {
