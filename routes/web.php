@@ -36,8 +36,10 @@ Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
 Route::get('/absences', 'AbsenceController@index');
 Route::post('/absences', 'AbsenceController@store');
-
 Route::get('/absencesCount', 'AbsenceController@show');
+
+Route::get('/newEmployee', 'UserController@newEmployeeView');
+Route::post('/newEmployeeRegister', 'UserController@newEmployeeView');
 
 Route::get('/editar', 'UserController@edit');
 

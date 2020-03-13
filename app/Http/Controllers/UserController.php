@@ -76,6 +76,20 @@ class UserController extends Controller
         return view('testeEmployees')->with('msg', $msg);
     }
 
+    public function newEmployeeView()
+    {
+        //
+        return view('testeRegistoEmployee');
+    }
+
+    public function newEmployeeRegister(Request $request)
+    {
+        //
+        
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
