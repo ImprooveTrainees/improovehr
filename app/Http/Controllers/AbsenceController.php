@@ -201,14 +201,22 @@ class AbsenceController extends Controller
 
         $count_days2 = 0;
 
+        $dateEndLY = date('Y-12-31', strtotime('- 1 year')); // DATE - END OF LAST YER
+
+        $dateStartCY = date('Y-01-01'); // DATE - START OF CURRENT YEAR
+
+        $dateStartLY = date('Y-01-01', strtotime('- 1 year')); // DATE - START OF LAST YEAR
+
+        $dateEnd2Y = date('Y-12-31', strtotime('- 2 year')); // DATE - END OF 2 YEARS AGO
+
         foreach($nrVacationsCY as $vac) {
 
             $start = $vac->start_date;
             $end = $vac->end_date;
 
-            if($start<='2019-12-31 23:59:59') {
+            if($start<=$dateEndLY) {
 
-                $start = '2020-01-02';
+                $start = $start_year;
 
             }
 
@@ -229,9 +237,9 @@ class AbsenceController extends Controller
             $start2 = $vac->start_date;
             $end2 = $vac->end_date;
 
-            if($start2<='2018-12-31 23:59:59') {
+            if($start2<=$dateEnd2Y) {
 
-                $start2 = '2019-01-02';
+                $start2 = $dateStartLY;
 
             }
 
@@ -317,7 +325,8 @@ class AbsenceController extends Controller
 
         $numberVacationsAvailable = $vacations_total - $count_days;
 
-        return view('testeNumberHolidays',compact('user','numberVacationsAvailable','vacations_total'));
+        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total'));
+        // return view('testeNumberHolidays',compact('numberVacationsAvailable','vacations_total'));
 
     }
 

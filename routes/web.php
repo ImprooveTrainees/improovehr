@@ -26,9 +26,7 @@ Route::get('/professional', function () {
     return view('professional_info');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
+Route::get('/admin', 'AbsenceController@show');
 
 Route::get('/professional', function () {
     return view('testeProfessionalInfo');
@@ -53,4 +51,4 @@ Route::get('/holidays', function () {
     return view('holidays');
 });
 
-Route::get('/testeNumberHolidays', 'AbsenceController@show');
+// Route::get('/testeNumberHolidays', 'AbsenceController@show');

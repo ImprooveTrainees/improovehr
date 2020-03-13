@@ -130,15 +130,16 @@ class User extends Authenticatable
     public function listAbsencesUserLY($id) {
 
         //LAST YEAR
-        //$current_date = date("Y/01/01");
+        $dateBegin = date('Y-01-01', strtotime('- 1 year'));
+        $dateEnd = date('Y-12-31', strtotime('- 1 year'));
 
         $listAbsencesUserLY = DB::table('users')
         ->join('absences', 'users.id', '=', 'absences.iduser')
         ->where('users.id','=',$id)
         ->where('absences.absencetype','=',1)
         ->where('absences.status','like','Concluded')
-        ->where('absences.end_date','>=','2019-01-01 00:00:00')
-        ->where('absences.end_date','<=','2019-12-31 23:59:59')
+        ->where('absences.end_date','>=',$dateBegin)
+        ->where('absences.end_date','<=',$dateEnd)
         ->select('absences.*')
         ->get();
 
