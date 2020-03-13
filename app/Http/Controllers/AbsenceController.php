@@ -348,7 +348,7 @@ class AbsenceController extends Controller
         }
         $diasAusencia += 1;
 
-        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total','absences'));
+        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total','diasAusencia'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }
