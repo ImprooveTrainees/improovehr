@@ -325,7 +325,7 @@ class AbsenceController extends Controller
 
         $numberVacationsAvailable = $vacations_total - $count_days;
 
-        return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total'));
+        // return view('admin.dashboard',compact('numberVacationsAvailable','vacations_total'));
         // return view('testeNumberHolidays',compact('numberVacationsAvailable','vacations_total'));
         //
         $userLogado =  Auth::id();
