@@ -94,7 +94,7 @@
             <p>Documents</p>
             <hr><br>
             @foreach ($usersAttachments as $item)
-                    {{$item->files}}--||--
+                    | {{$item->files}}<br>
             @endforeach
         </div>
         <br>
