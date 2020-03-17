@@ -50,3 +50,7 @@ Route::get('/holidays', function () {
 });
 
 // Route::get('/testeNumberHolidays', 'AbsenceController@show');
+
+Route::get('/employees', function () {
+    return view('employees');
+});

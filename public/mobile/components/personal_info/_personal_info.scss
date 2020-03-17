@@ -25,7 +25,10 @@
 .nif,
 .address,
 .city,
-.zipcode {
+.zipcode,
+.soscontact,
+.linkedin,
+.sosusername {
     @include gridBox();
 }
 
@@ -71,7 +74,10 @@
 .nif input,
 .address input,
 .city input,
-.zipcode input {
+.zipcode input,
+.soscontact input,
+.linkedin input,
+.sosusername input {
     margin-left: 40px;
 }
 

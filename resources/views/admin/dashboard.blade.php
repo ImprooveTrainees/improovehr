@@ -215,7 +215,7 @@
   <div class="shadow p-1 bg-white" id="box">
   <div class="container">
   <div class="row">
-    <div class="col">
+  <div class="col">
       Holidays
     <p>AVAILABLE : {{$vacationDaysAvailable}}</p>
       <p>TOTAL : {{$vacations_total}}</p>

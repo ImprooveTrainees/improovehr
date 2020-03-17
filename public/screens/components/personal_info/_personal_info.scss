@@ -6,13 +6,16 @@
     .academic,
     .age,
     .emailprofile,
-    .address {
+    .address,
+    .sosusername {
         float: left;
     }
 
     .status label,
     .birthday label,
-    .nif label {
+    .nif label,
+    .city label,
+    .soscontact label {
         margin-left: 20px;
     }
 
@@ -29,7 +32,10 @@
     .nif,
     .address,
     .city,
-    .zipcode {
+    .zipcode,
+    .soscontact,
+    .sosusername,
+    .linkedin {
         grid-template-columns: 86px 190px 40px;
         grid-template-rows: auto;
     }
@@ -46,7 +52,10 @@
     .nif,
     .address,
     .city,
-    .zipcode {
+    .zipcode,
+    .soscontact,
+    .sosusername,
+    .linkedin {
         grid-template-columns: 86px 140px 40px;
         grid-template-rows: auto;
     }
