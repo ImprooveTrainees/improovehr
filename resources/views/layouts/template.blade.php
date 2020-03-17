@@ -264,7 +264,7 @@
                             </ul>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="javascript:void(0)">
+                            <a class="nav-main-link" href="/employees">
                                 <i class="fas fa-users"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Employees</span>
                             </a>
