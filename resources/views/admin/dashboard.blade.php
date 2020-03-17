@@ -217,7 +217,7 @@
   <div class="row">
   <div class="col">
       Holidays
-    <p>AVAILABLE : {{$numberVacationsAvailable}}</p>
+    <p>AVAILABLE : {{$vacationDaysAvailable}}</p>
       <p>TOTAL : {{$vacations_total}}</p>
     </div>
   </div>
@@ -229,7 +229,7 @@
     <div class="col">
       Absences
 
-      <p>{{$diasAusencia}}</p>
+        <p>{{$diasAusencia}}</p>
 
     </div>
   </div>

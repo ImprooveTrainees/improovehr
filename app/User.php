@@ -92,7 +92,7 @@ class User extends Authenticatable
             // in(
             // select users_deps.idDepartment from users_deps where users_deps.iduser = 2);
 
-            
+
             $manager = DB::table('users')
             ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
             ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
@@ -106,7 +106,7 @@ class User extends Authenticatable
             ->select('users.name')
             ->groupBy('offices.description')
             ->value('name');
-            
+
 
 
         return $manager;
@@ -137,13 +137,6 @@ class User extends Authenticatable
         ->where('absences.end_date','>=',$current_date)
         ->select('absences.*')
         ->get();
-
-        // Articles::whereBetween('created_at', [
-        //     Carbon::now()->startOfYear(),
-        //     Carbon::now()->endOfYear(),
-        // ]);
-
-
 
         return $listAbsencesUserCY;
 
