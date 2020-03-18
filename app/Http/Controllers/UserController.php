@@ -53,7 +53,12 @@ class UserController extends Controller
             $msg .= "<tr>";
             $msg .= "<td>".$users[$i]->photo."</td>";
             $msg .= "<td>".$users[$i]->name."</td>";
-            $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>"; //pôr office
+            if($users[$i]->officeDescricao($users[$i]->id,$users[$i]->country) == null) {
+                $msg .= "<td>Por definir</td>";
+            }
+            else {
+                $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>";
+            }//pôr office
             $msg .= "<td>".$users[$i]->contractUser->position."</td>";
             $depart = true;
             if($users[$i]->departments->first() == null) {
