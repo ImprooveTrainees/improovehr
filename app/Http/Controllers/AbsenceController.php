@@ -23,13 +23,13 @@ class AbsenceController extends Controller
 
         $id_typeuser = $user->roles->id;
 
-        $listAbsencesPending = $user->userAbsence()->where('status','Pending');
+        // $listAbsencesPending = $user->userAbsence()->where('status','Pending');
 
-        $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
+        // $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
 
-        //$listAbsencesPending = absence::all()->where('status','Pending');
+        $listVacationsTotal = $user->listVacations(); // LIST VACATIONS ALL USERS
 
-        //$listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+        $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
 
         $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
@@ -41,7 +41,7 @@ class AbsenceController extends Controller
 
             if($abs->absencetype==1) {
 
-            //LIST - VACATIONS
+            //LIST - VACATIONS FROM AUTHENTICATED USER
 
             $start = $abs->start_date;
 
@@ -57,7 +57,7 @@ class AbsenceController extends Controller
 
             } else {
 
-                //LIST - ABSENCES
+                //LIST - ABSENCES FROM AUTHENTICATED USER
 
                 $start = $abs->start_date;
 
@@ -83,7 +83,7 @@ class AbsenceController extends Controller
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal','id_typeuser'));
+        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal'));
     }
 
 
@@ -136,12 +136,12 @@ class AbsenceController extends Controller
         } else if($op==2) {
 
             $absence->iduser=$userid;
-            $absence->absencetype=request('type');
-            $absence->attachment=request('attachment');
+            $absence->absencetype="";
+            $absence->attachment="";
             $absence->status="Pending";
             $absence->start_date = request('start_date');
             $absence->end_date = request('end_date');
-            $absence->motive = request('motive');
+            $absence->motive = "";
 
 
             $absence->save();
@@ -150,7 +150,8 @@ class AbsenceController extends Controller
 
         }
 
-        return redirect('/absences')->with('msgAbs',$msg);
+        return redirect('/holidays');
+        //->with('msgAbs',$msg);
 
 
     }

@@ -1,39 +1,53 @@
 @extends('layouts.template')
 
 @section('title')
-    Improove HR - Absences
+    Improove HR - Holidays/Absences
 @endsection
 
 @section('content')
-        <div class="flex-center position-ref full-height">
 
-            <div class="content">
-                <div class="title m-b-md">
+<div id="table_hol">
 
-                <button class="tablink" onclick="openPage('Vacations', this, 'grey')">Vacations</button>
-                <button class="tablink" onclick="openPage('Absences', this, 'grey')" id="defaultOpen">Absences</button>
 
-                <!-- <?php
-                    echo $listAbsencesTotal;
-                ?> -->
+<div class="shadow p-1 bg-white cardbox1">
+    <div class="container">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Holidays</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu1">Absences</a>
+          </li>
+        </ul>
 
-                <div id="Vacations" class="tabcontent">
-                    <table>
-                    <tr>
-                        <th>Start Date &nbsp&nbsp|&nbsp&nbsp</th>
-                        <th>End Date &nbsp&nbsp|&nbsp&nbsp</th>
-                        <th>Approval</th>
-                    </tr>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div id="home" class="container tab-pane active"><br>
 
-                @for($i=0;$i<count($array_vacations);$i+=3)
-                    <tr>
-                    <td> {{$array_vacations[$i]}} </td>
-                    <td> {{$array_vacations[$i+1]}} </td>
-                    <td> {{$array_vacations[$i+2]}} </td>
-                    </tr>
-                @endfor
 
-                    </table>
+        @for($i=0;$i<count($array_vacations);$i+=3)
+            <div class="shadow p-1 bg-white cardbox2">
+                <div id="startday">
+                    <h5>Start Day</h5>
+                    <p>{{$array_vacations[$i]}}</p>
+                    <a data-toggle="modal" data-target="#editstartday">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </div>
+                <div id="endday">
+                    <h5>End Day</h5>
+                    <p>{{$array_vacations[$i+1]}}</p>
+                    <a data-toggle="modal" data-target="#editendday">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                </div>
+                <div id="approval">
+                    <h5>Approval</h5>
+                    <p><p class="dot"></p>{{$array_vacations[$i+2]}}</p>
+                </div>
+            </div>
+        @endfor
 
                     <!-- Button trigger modal vacation -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalVacation">
@@ -318,9 +332,12 @@
                     </div>
 
                     <!-- End Modal Disapproval -->
+        </div>
+        </div>
+        </div>
+    </div>
+</div>
 
-
-    </body>
     <!-- JAVASCRIPT FOR HIDE/SHOW VACATION/ABSENCES TAB -->
     <script>
             function openPage(pageName,elmnt,color) {
