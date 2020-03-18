@@ -7,7 +7,7 @@
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/users/Admin.jpg" alt="img" id="profile">
+    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile">
     <div class="element">
         <div class="shadow p-1 bg-white cardbox4">
             <i class="fa fa-camera" id="imagefile"></i>

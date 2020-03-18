@@ -6,6 +6,8 @@ use App\User;
 use App\offices;
 use App\departments;
 use App\offices_deps;
+use App\contract;
+use Hash;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -53,14 +55,24 @@ class UserController extends Controller
             $msg .= "<td>".$users[$i]->name."</td>";
             $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>"; //pôr office
             $msg .= "<td>".$users[$i]->contractUser->position."</td>";
-            $msg .= "<td>".$users[$i]->departments->first()->description."</td>"; //departamento
+            $depart = true;
+            if($users[$i]->departments->first() == null) {
+                $msg .= "<td>Por definir</td>";
+                $depart = false;
+            }
+            else {
+                $msg.= "<td>".$users[$i]->departments->first()->description."</td>";
+            } //departamento
             $actualYear = date("Y/m/d");
             $date1=date_create($users[$i]->contractUser->start_date);
             $date2=date_create($actualYear);
             $diff=date_diff($date1,$date2);
             $tempoEmpresa = $diff->format("%Y%")." years";
             $msg .= "<td>".$tempoEmpresa."</td>";
-            if($users[$i]->name == $users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)) {
+            if(!$depart) {
+                $msg.= "<td>Por definir</td>";
+            }
+            else if($users[$i]->name == $users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)) {
                 $msg .= "<td> ------- </td>";
             }
             else {
@@ -75,6 +87,45 @@ class UserController extends Controller
 
         return view('testeEmployees')->with('msg', $msg);
     }
+
+    public function newEmployeeView()
+    {
+        //
+        return view('testeRegistoEmployee');
+    }
+
+    public function newEmployeeRegister(Request $request)
+    {
+        //
+        $employee = new User();
+        $contractNewEmployee = new contract(); 
+        $accountCreator = Auth::User();
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $passwordAutomatica = '12345678';
+        $role = $request->input('role');
+        $country = $accountCreator->country;
+        $dateNow = date("Y/m/d");
+        
+        $employee->name = $name;
+        $employee->email = $email;
+        $employee->password = Hash::make($passwordAutomatica);
+        $employee->country = $country;
+        $employee->save();
+
+        $contractNewEmployee->iduser = $employee->id;
+        $contractNewEmployee->position = $role;
+        $contractNewEmployee->start_date = $dateNow;
+        $contractNewEmployee->save();
+
+        return redirect()->action('UserController@employees');
+
+
+
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
