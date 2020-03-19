@@ -375,7 +375,7 @@
     <!-- END JAVASCRIPT POP UP MESSAGE -->
 
     <!-- JAVASCRIPT UPDATE RECORD -->
-    <script>
+    <!-- <script>
     function reply_click(clicked_id)
         {
             document.getElementById("updateForm").value = clicked_id;
@@ -388,7 +388,7 @@
             document.getElementById("updateForm2").value = clicked_id;
             //document.getElementById("texto").innerHTML = clicked_id;
         }
-    </script>
+    </script> -->
 
 
       <!-- END JAVASCRIPT UPDATE RECORD -->

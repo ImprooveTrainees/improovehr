@@ -39,15 +39,15 @@
                 <div id="startday">
                     <h5>Start Day</h5>
                     <p>{{$array_vacations[$i+1]}}</p>
-                    <a data-toggle="modal" data-target="#editstartday">
+                    <a data-toggle="modal" data-target="#editStartDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="endday">
                     <h5>End Day</h5>
                     <p>{{$array_vacations[$i+2]}}</p>
-                    <a data-toggle="modal" data-target="#editendday">
-                        <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
+                    <a data-toggle="modal" data-target="#editEndDay">
+                        <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click2(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="approval">
@@ -157,15 +157,15 @@
           <div id="startdayab">
               <h5>Start Day</h5>
               <p>{{$array_absences[$i+1]}}</p>
-              <a data-toggle="modal" data-target="#editstartday">
-                  <i class="fas fa-pen"></i>
+              <a data-toggle="modal" data-target="#editStartDatetime">
+                  <i type="button" id="{{$array_absences[$i]}}" onClick="reply_click3(this.id)" class="fas fa-pen"></i>
               </a>
           </div>
           <div id="enddayab">
               <h5>End Day</h5>
               <p>{{$array_absences[$i+2]}}</p>
-              <a data-toggle="modal" data-target="#editendday">
-                  <i class="fas fa-pen"></i>
+              <a data-toggle="modal" data-target="#editEndDatetime">
+                  <i type="button" id="{{$array_absences[$i]}}" onClick="reply_click4(this.id)" class="fas fa-pen"></i>
               </a>
           </div>
           <div id="approvalab">
@@ -369,47 +369,12 @@
 
                     <!-- End Modal Absences -->
 
-
-   <!-- Modal End Day-->
-<div class="modal fade" id="editendday" tabindex="-1" role="dialog" aria-labelledby="editenddayLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editenddayLabel">End Day</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="/holidays" method="POST" class="action">
-            <div class="modal-body">
-
-            @csrf
-
-            <h5>New Day</h5>
-            <input type="date" name="upd_end_date" id="upd_end_date">
-
-            <input type="hidden" value=4 name="op">
-
-            <input id="updateDate" type="hidden" value="" name="upd">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-
-            </form>
-      </div>
-    </div>
-  </div>
-
-
    <!-- Modal Start Day-->
-   <div class="modal fade" id="editstartday" tabindex="-1" role="dialog" aria-labelledby="editenddayLabel" aria-hidden="true">
+   <div class="modal fade" id="editStartDay" tabindex="-1" role="dialog" aria-labelledby="editStartDayLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editstartdayLabel">Start Day</h5>
+          <h5 class="modal-title" id="editStartDayLabel">Start Day</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -424,7 +389,7 @@
 
             <input type="hidden" value=3 name="op">
 
-            <input id="updateDate" type="hidden" value="" name="upd">
+            <input id="updateDate" type="hidden" name="upd">
 
             </div>
             <div class="modal-footer">
@@ -436,6 +401,108 @@
       </div>
     </div>
   </div>
+
+
+   <!-- Modal End Day -->
+<div class="modal fade" id="editEndDay" tabindex="-1" role="dialog" aria-labelledby="editEndDayLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editEndDayLabel">End Day</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/holidays" method="POST" class="action">
+            <div class="modal-body">
+
+            @csrf
+
+            <h5>New Day</h5>
+            <input type="date" name="upd_end_date" id="upd_end_date">
+
+            <input type="hidden" value=4 name="op">
+
+            <input id="updateDate2" type="hidden" name="upd">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+            </form>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal Start Date and Time-->
+   <div class="modal fade" id="editStartDatetime" tabindex="-1" role="dialog" aria-labelledby="editStartDatetimeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editStartDatetimeLabel">Start Date and Time</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/holidays" method="POST" class="action">
+            <div class="modal-body">
+
+            @csrf
+
+            <h5>New Day</h5>
+            <input type="datetime-local" name="upd_start_datetime" id="upd_start_datetime">
+
+            <input type="hidden" value=5 name="op">
+
+            <input id="updateDate3" type="hidden" name="upd">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+            </form>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal End Date and Time-->
+   <div class="modal fade" id="editEndDatetime" tabindex="-1" role="dialog" aria-labelledby="editEndDatetimeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editEndDatetimeLabel">End Date and Time</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/holidays" method="POST" class="action">
+            <div class="modal-body">
+
+            @csrf
+
+            <h5>New Day</h5>
+            <input type="datetime-local" name="upd_end_datetime" id="upd_end_datetime">
+
+            <input type="hidden" value=6 name="op">
+
+            <input id="updateDate4" type="hidden" name="upd">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+            </form>
+      </div>
+    </div>
+  </div>
+
+
 
    <!-- Modal Justification -->
 <div class="modal fade" id="justificationModal" tabindex="-1" role="dialog" aria-labelledby="justificationModalLabel" aria-hidden="true">
@@ -496,6 +563,33 @@
     function reply_click(clicked_id)
         {
             document.getElementById("updateDate").value = clicked_id;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
+
+    </script>
+
+<script>
+    function reply_click2(clicked_id2)
+        {
+            document.getElementById("updateDate2").value = clicked_id2;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
+
+    </script>
+
+<script>
+    function reply_click3(clicked_id3)
+        {
+            document.getElementById("updateDate3").value = clicked_id3;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
+
+    </script>
+
+<script>
+    function reply_click4(clicked_id4)
+        {
+            document.getElementById("updateDate4").value = clicked_id4;
             //document.getElementById("texto").innerHTML = clicked_id;
         }
 

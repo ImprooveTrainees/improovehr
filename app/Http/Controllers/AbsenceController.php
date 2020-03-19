@@ -166,7 +166,23 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['end_date' => $end_date]);
 
-        }
+        } else if($op==5) {
+
+            $start_datetime = request('upd_start_datetime');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['start_date' => $start_datetime]);
+
+        } else if($op==6) {
+
+            $end_datetime = request('upd_end_datetime');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['end_date' => $end_datetime]);
+
+            }
 
         return redirect('/holidays');
         //->with('msgAbs',$msg);
