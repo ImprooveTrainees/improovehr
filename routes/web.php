@@ -30,7 +30,7 @@ Route::get('/admin', 'AbsenceController@show');
 
 Auth::routes();
 Route::get('/professional', 'ProfessionalInfoController@index');
-Route::POST('/professional', 'ProfessionalInfoController@store');
+Route::POST('/storeimg', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
@@ -40,6 +40,7 @@ Route::post('/absences', 'AbsenceController@store');
 Route::get('/absencesCount', 'AbsenceController@show');
 
 Route::get('/editar', 'UserController@edit');
+Route::get('/profEdit', 'ProfessionalInfoController@edit');
 
 Auth::routes();
 
