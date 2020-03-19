@@ -30,24 +30,27 @@ Route::get('/admin', 'AbsenceController@show');
 
 Auth::routes();
 Route::get('/professional', 'ProfessionalInfoController@index');
-Route::POST('/professional', 'ProfessionalInfoController@store');
+Route::POST('/storeimg', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personal', 'UserController@index');
 Route::get('/employees', 'UserController@employees');
-Route::get('/absences', 'AbsenceController@index');
-Route::post('/absences', 'AbsenceController@store');
-
+Route::get('/holidays', 'AbsenceController@index');
+Route::post('/holidays', 'AbsenceController@store');
 Route::get('/absencesCount', 'AbsenceController@show');
 
+Route::get('/newEmployee', 'UserController@newEmployeeView');
+Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
+
 Route::get('/editar', 'UserController@edit');
+Route::get('/profEdit', 'ProfessionalInfoController@edit');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/holidays', function () {
-    return view('holidays');
-});
+// Route::get('/holidays', function () {
+//     return view('holidays');
+// });
 
 // Route::get('/testeNumberHolidays', 'AbsenceController@show');
 

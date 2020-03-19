@@ -7,7 +7,7 @@
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/users/Admin.jpg" alt="img" id="profile">
+    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile">
     <div class="element">
         <div class="shadow p-1 bg-white cardbox4">
             <i class="fa fa-camera" id="imagefile"></i>
@@ -146,7 +146,7 @@
             <hr>
         </div>
 
-        <div class="form-group username">
+        <div class="form-group sosusername">
             <label for="">Name:</label>
              @if($users->sosName == null)
            <input type="text" name="sosName" class="form-control" placeholder="Insert SOS contact name">
@@ -155,7 +155,7 @@
             @endif
         </div>
 
-        <div class="form-group mobile">
+        <div class="form-group soscontact">
             <label for="">SOS Contact:</label>
             @if($users->sosContact == null)
             <input type="number" name="sosContact" class="form-control" id="mobilenumber" placeholder="Insert Number">
@@ -183,7 +183,7 @@
             <hr>
         </div>
 
-        <div class="form-group city">
+        <div class="form-group linkedin">
             <label for="">LinkedIn:</label>
             @if($users->linkedIn == null)
             <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link">

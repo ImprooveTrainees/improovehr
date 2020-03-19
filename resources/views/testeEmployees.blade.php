@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-
+<a href="/newEmployee"><button>Register New Employee</button></a>
 
     <table>
         <tr>
@@ -28,7 +28,7 @@
             <th>Name</th>
             <th>Company</th>
             <th>Role</th>
-            <th>Department<th>
+            <th>Department</th>
             <th>Time</th>
             <th>Supervisor</th>
         </tr>

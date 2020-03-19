@@ -32,12 +32,18 @@ class ProfessionalInfoController extends Controller
 
         $userLoginDep= DB::table('users_deps')
                                     ->where('users_deps.iduser',$userLogin)->value('idDepartment');
+        $userCountry = DB::table('users')
+                                    ->where('users.id',$userLogin)->value('country');
 
         $manager = DB::table('users')
                                     ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
                                     ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
                                     ->join('contracts', 'contracts.iduser', '=', 'users.id')
+                                    ->join('offices_deps','offices_deps.idDepartment','=','departments.id')
+                                    ->join('offices','offices.id','=','offices_deps.idOffice')
                                     ->where('contracts.position','=', 'Manager')
+                                    ->where('offices.country','=',$userCountry)
+                                    ->where('users.country','=',$userCountry)
                                     ->where('users_deps.idDepartment','=', $userLoginDep)
                                     ->select('users.name as Manager')
                                     ->get();
@@ -54,7 +60,7 @@ class ProfessionalInfoController extends Controller
 
         $usersAttachments = DB::table('user_attachments')->where('idUser',$userLogin)->get();
 
-        return view('professional_info')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments)->with('manager',$manager);
+        return view('professional_info')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments)->with('manager',$manager)->with('userCountry',$userCountry);
 
     }
 
@@ -86,7 +92,7 @@ class ProfessionalInfoController extends Controller
 
         $attachments->save();
 
-        // return redirect('testeProfessionalInfo')->with('attachments',$attachments);
+        return redirect()->action('ProfessionalInfoController@index')->with('file', 'Document added successfully');
 
     }
 
@@ -107,9 +113,21 @@ class ProfessionalInfoController extends Controller
      * @param  \App\ProfessionalInfo  $professionalInfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProfessionalInfo $professionalInfo)
+    public function edit(Request $request)
     {
-        //
+
+        $compPhone = $request->input('compPhone');
+        $compMail = $request->input('compMail');
+
+        $userLogin = User::find(Auth::User()->id);
+
+        $userLogin->compPhone = $compPhone;
+        $userLogin->compMail = $compMail;
+
+        $userLogin->save();
+
+        return redirect()->action('ProfessionalInfoController@index')->with('pop', 'Info updated successfully');
+
     }
 
     /**
