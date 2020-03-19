@@ -131,7 +131,7 @@
                     <input type="email" name="email" class="form-control" placeholder="Insert Email">
                 </div>
 
-                <div class="form-group role">
+                <div class="form-group roleregister">
                     <label for="">Role:</label>
                     <select class="form-control" name="role" id="exampleRole">
                           <option>Manager</option>
