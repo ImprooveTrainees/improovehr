@@ -31,7 +31,7 @@ class AbsenceController extends Controller
 
         $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
 
-        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
+        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
         $array_vacations = array();
 
@@ -43,6 +43,8 @@ class AbsenceController extends Controller
 
             //LIST - VACATIONS FROM AUTHENTICATED USER
 
+            $id = $abs->id;
+
             $start = $abs->start_date;
 
             $end = $abs->end_date;
@@ -53,11 +55,13 @@ class AbsenceController extends Controller
             $start = substr($start, 0,-9);
             $end = substr($end, 0,-9);
 
-            array_push($array_vacations, $start, $end, $stat);
+            array_push($array_vacations, $id, $start, $end, $stat);
 
             } else {
 
                 //LIST - ABSENCES FROM AUTHENTICATED USER
+
+                $id = $abs->id;
 
                 $start = $abs->start_date;
 
@@ -69,7 +73,7 @@ class AbsenceController extends Controller
 
                 $attachment = $abs->attachment;
 
-                array_push($array_absences,$start,$end,$stat,$attachment,$motive);
+                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive);
 
             }
 
@@ -117,6 +121,8 @@ class AbsenceController extends Controller
 
         $op = request('op');
 
+        $updValue = request('upd');
+
         if($op==1) {
 
             $vacation->iduser=$userid;
@@ -129,9 +135,6 @@ class AbsenceController extends Controller
 
 
             $vacation->save();
-
-            $msg='Vacation submitted. Waiting for approval.';
-
 
         } else if($op==2) {
 
@@ -146,7 +149,22 @@ class AbsenceController extends Controller
 
             $absence->save();
 
-            $msg='Absence submitted. Waiting for approval.';
+        } else if($op==3) {
+
+            $start_date = request('upd_start_date');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['start_date' => $start_date]);
+
+
+        } else if($op==4) {
+
+            $end_date = request('upd_end_date');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['end_date' => $end_date]);
 
         }
 
@@ -385,30 +403,7 @@ class AbsenceController extends Controller
      */
     public function update()
     {
-        $value = request('upd');
-
-        $op = request('op');
-
-        if($op==3) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Approved"]);
-
-            $msg = "Absence approved with success.";
-
-
-        } else if($op==4) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Disapproved"]);
-
-            $msg = "Absence disapproved with success.";
-
-        }
-
-        return redirect('/absences')->with('msgAbs',$msg);
+        //
 
     }
 

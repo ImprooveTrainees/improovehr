@@ -25,31 +25,7 @@
         <div class="tab-content">
           <div id="home" class="container tab-pane active"><br>
 
-
-        @for($i=0;$i<count($array_vacations);$i+=3)
-            <div class="shadow p-1 bg-white cardbox2">
-                <div id="startday">
-                    <h5>Start Day</h5>
-                    <p>{{$array_vacations[$i]}}</p>
-                    <a data-toggle="modal" data-target="#editstartday">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                </div>
-                <div id="endday">
-                    <h5>End Day</h5>
-                    <p>{{$array_vacations[$i+1]}}</p>
-                    <a data-toggle="modal" data-target="#editendday">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                </div>
-                <div id="approval">
-                    <h5>Approval</h5>
-                    <p><p class="dot"></p>{{$array_vacations[$i+2]}}</p>
-                </div>
-            </div>
-        @endfor
-
-            <div class="shadow p-1 bg-white cardbox2">
+          <div class="shadow p-1 bg-white cardbox2">
                 <a data-toggle="modal" data-target="#modalVacation">
                 <div class="shadow p-1 bg-white cardbox3">
                     <i class="fas fa-plus"></i>
@@ -57,6 +33,30 @@
                 </div>
             </a>
             </div>
+
+        @for($i=0;$i<count($array_vacations);$i+=4)
+            <div class="shadow p-1 bg-white cardbox2">
+                <div id="startday">
+                    <h5>Start Day</h5>
+                    <p>{{$array_vacations[$i+1]}}</p>
+                    <a data-toggle="modal" data-target="#editstartday">
+                        <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
+                    </a>
+                </div>
+                <div id="endday">
+                    <h5>End Day</h5>
+                    <p>{{$array_vacations[$i+2]}}</p>
+                    <a data-toggle="modal" data-target="#editendday">
+                        <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
+                    </a>
+                </div>
+                <div id="approval">
+                    <h5>Approval</h5>
+                    <p><p class="dot"></p>{{$array_vacations[$i+3]}}</p>
+                </div>
+            </div>
+        @endfor
+
         <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%">
 
             <!-- Dynamic Table with Export Buttons -->
@@ -141,26 +141,36 @@
 
 <div id="menu1" class="container tab-pane fade"><br>
  <!-- Tab panes -->
-        @for($i=0;$i<count($array_absences);$i+=5)
+
+ <div class="shadow p-1 bg-white cardbox2">
+          <a data-toggle="modal" data-target="#modalAbsence">
+          <div class="shadow p-1 bg-white cardbox3">
+              <i class="fas fa-plus"></i>
+              <h5>Add New Absence</h5>
+          </div>
+      </a>
+</div>
+
+@for($i=0;$i<count($array_absences);$i+=6)
 
       <div class="shadow p-1 bg-white cardbox2">
           <div id="startdayab">
               <h5>Start Day</h5>
-              <p>{{$array_absences[$i]}}</p>
+              <p>{{$array_absences[$i+1]}}</p>
               <a data-toggle="modal" data-target="#editstartday">
                   <i class="fas fa-pen"></i>
               </a>
           </div>
           <div id="enddayab">
               <h5>End Day</h5>
-              <p>{{$array_absences[$i+1]}}</p>
+              <p>{{$array_absences[$i+2]}}</p>
               <a data-toggle="modal" data-target="#editendday">
                   <i class="fas fa-pen"></i>
               </a>
           </div>
           <div id="approvalab">
               <h5>Approval</h5>
-              <p><p class="dot"></p>{{$array_absences[$i+2]}}</p>
+              <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
           </div>
           <div id="attachment">
             <h5>Attachment</h5>
@@ -184,16 +194,9 @@
 
       </div>
 
-      @endfor
+    @endfor
 
-      <div class="shadow p-1 bg-white cardbox2">
-          <a data-toggle="modal" data-target="#modalAbsence">
-          <div class="shadow p-1 bg-white cardbox3">
-              <i class="fas fa-plus"></i>
-              <h5>Add New Absence</h5>
-          </div>
-      </a>
-      </div>
+
   <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%">
 
       <!-- Dynamic Table with Export Buttons -->
@@ -377,14 +380,25 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <form action="/holidays" method="POST" class="action">
+            <div class="modal-body">
+
+            @csrf
+
             <h5>New Day</h5>
-            <input type="date">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
-        </div>
+            <input type="date" name="upd_end_date" id="upd_end_date">
+
+            <input type="hidden" value=4 name="op">
+
+            <input id="updateDate" type="hidden" value="" name="upd">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+            </form>
       </div>
     </div>
   </div>
@@ -400,14 +414,25 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <form action="/holidays" method="POST" class="action">
+            <div class="modal-body">
+
+            @csrf
+
             <h5>New Day</h5>
-            <input type="date">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
-        </div>
+            <input type="date" name="upd_start_date" id="upd_start_date">
+
+            <input type="hidden" value=3 name="op">
+
+            <input id="updateDate" type="hidden" value="" name="upd">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+            </form>
       </div>
     </div>
   </div>
@@ -465,5 +490,17 @@
       </div>
     </div>
   </div>
+
+<!-- JAVASCRIPT UPDATE RECORD -->
+      <script>
+    function reply_click(clicked_id)
+        {
+            document.getElementById("updateDate").value = clicked_id;
+            //document.getElementById("texto").innerHTML = clicked_id;
+        }
+
+    </script>
+
+<!-- END JAVASCRIPT UPDATE RECORD -->
 
 @endsection
