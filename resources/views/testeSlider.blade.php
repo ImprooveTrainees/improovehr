@@ -6,6 +6,10 @@
 
 <body>
 
+<?php 
+echo $msg;
+
+?>
 
 
 

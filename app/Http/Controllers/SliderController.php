@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use DateTime;
+use App\sliderView;
 
 class SliderController extends Controller
 {
@@ -16,21 +17,65 @@ class SliderController extends Controller
     public function index()
     {
 
-        $query = "select 'Name','Type', 'Absence Motive', 'Date', 'DateEnd Absence'
-        union
-        (select users.name,'Contract Begin',null, contracts.start_date,null
-        from users, contracts
-        where users.id = contracts.iduser)
-        union
-        (select users.name,'Birthday', null, birthDate,null
-        from users)
-        union
-        (select users.name, 'Absence', absences.motive, absences.start_date, absences.end_date
-        from users, absences, absence_types
-        where users.id = absences.iduser
-        and absences.absencetype = absence_types.id
-        and absences.status = 'Approved')
-        order by date desc;";
+        // $cDays = DB::table('users')
+        //     ->join('contracts', 'contracts.iduser', '=', 'users.id')
+        //     ->select(DB::raw('users.name', 'Contract Begin', 'null', 'contracts.start_date', 'null'));
+
+        // $bDays = DB::table('users')
+        //  ->select(DB::raw('users.name', 'Birthday', 'null', 'birthDate', 'null'));
+
+        //  $absDays = DB::table('users')
+        //  ->join('absences', 'users.id', '=', 'absences.iduser')
+        //  ->join('absence_types', 'absences.absencetype', '=', 'absence_types.id')
+        //  ->where('absences.status','=','Approved')
+        //  ->select(DB::raw('users.name', 'Absence', 'absences.motive', 'absences.start_date', 'absences.end_date'));
+
+        // $query2 = DB::table('users')
+        // ->select(DB::raw('Name', 'Type', 'Absence Motive', 'Date', 'DateEnd Absence'))
+        // ->union($cDays)
+        // ->union($bDays)
+        // ->union($absDays)
+        // ->get();
+
+    
+        $eventos = DB::table('sliderView')
+        ->select('*')
+        ->get();
+        
+        $actualDate = date("Y/m/d");
+        $msg = "";
+        for($i = 1; $i < count($eventos); $i++) {
+            if($eventos[$i]->Type == "Birthday") {
+                if($eventos[$i]->Date == $actualDate) {
+                    $msg .= "Happy birthday ".$eventos[$i]->Name."!"."<br>";
+                    $msg .= "<br>";
+                }
+                else {
+                    $msg .= $eventos[$i]->Name."'s birthday!"."<br>";
+                    $msg .= "Date: ".$eventos[$i]->Date."<br>";
+                    $msg .= "<br>";
+                }                
+            }
+            else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Motive"} == "") {
+                $msg .= $eventos[$i]->Name . "<br>" . "Vacations: ".$eventos[$i]->Date;
+                $msg .= " - ". $eventos[$i]->{"DateEnd Absence"}."<br>";
+                $msg .= "<br>";
+            }
+            else {
+                $msg .= "Name: ".$eventos[$i]->Name."<br>";
+                $msg .= "Type: ".$eventos[$i]->Type."<br>";
+                if($eventos[$i]->{"Absence Motive"} == null){
+                    $msg .= "";
+                }
+                else {
+                    $msg .= $eventos[$i]->{"Absence Motive"}."<br>";
+                }
+                $msg .= "Date: ".$eventos[$i]->Date."<br>";
+                $msg .= "End Date: ".$eventos[$i]->{"DateEnd Absence"}."<br>";
+                $msg .= "<br>";
+            }
+            
+        }
 
         //
         // $bdays = DB::table('users')->orderBy('birthDate', 'desc')->get();
@@ -77,7 +122,7 @@ class SliderController extends Controller
 
 
 
-        return view('testeSlider')->with('bdaysDates',$bdaysDates)->with('contractDates',$contractDates)->with('absenceDates',$absenceDates);
+        return view('testeSlider')->with('msg', $msg);
     }
 
     /**

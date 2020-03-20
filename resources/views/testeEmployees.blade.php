@@ -30,7 +30,7 @@
             <th>Role</th>
             <th>Department</th>
             <th>Time</th>
-            <th>Supervisor</th>
+            <th>Staff Manager</th>
         </tr>
 
 
