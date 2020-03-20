@@ -299,9 +299,6 @@ class AbsenceController extends Controller
         $vacationDaysCY = 0;
         $vacationDaysLY = 0;
 
-        $vacations_days_per_year=0;
-        $vacation_days_max=0;
-
         if($years<1){
 
             $vacationDaysLY = ((12 - $monthContract) + 1) * 2;    //MONTH DIFFERENCE BETWEEN BEGINNING CONTRACT AND END OF YEAR
