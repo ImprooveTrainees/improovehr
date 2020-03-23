@@ -14,10 +14,12 @@
           <a class="nav-link" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
         </li>
       </ul>
+
+    {{-- Principal DIV --}}
       <div class="tab-content" id="pills-tabContent">
 
+<!-- DIV Employees List -->
         <div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
-
 <!-- Dynamic Table Full -->
 <div class="block">
     <div class="block-content block-content-full">
@@ -28,7 +30,7 @@
                     <th class="text-center" style="width: 80px;">ID</th>
                     <th>Name</th>
                     <th class="d-none d-sm-table-cell" style="width: 30%;">Email</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Access</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Role</th>
                     <th style="width: 15%;">Registered</th>
                 </tr>
             </thead>
@@ -42,7 +44,7 @@
                         client1<em class="text-muted">@example.com</em>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <span class="badge badge-info">Business</span>
+                        <span class="badge badge-info">Manager</span>
                     </td>
                     <td>
                         <em class="text-muted font-size-sm">2 days ago</em>
@@ -57,7 +59,7 @@
                         client2<em class="text-muted">@example.com</em>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <span class="badge badge-warning">Trial</span>
+                        <span class="badge badge-warning">Human Resources</span>
                     </td>
                     <td>
                         <em class="text-muted font-size-sm">7 days ago</em>
@@ -72,7 +74,7 @@
                         client3<em class="text-muted">@example.com</em>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <span class="badge badge-success">VIP</span>
+                        <span class="badge badge-success">Developer</span>
                     </td>
                     <td>
                         <em class="text-muted font-size-sm">2 days ago</em>
@@ -87,7 +89,7 @@
                         client4<em class="text-muted">@example.com</em>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <span class="badge badge-primary">Personal</span>
+                        <span class="badge badge-primary">Marketer</span>
                     </td>
                     <td>
                         <em class="text-muted font-size-sm">4 days ago</em>
@@ -102,7 +104,7 @@
                         client5<em class="text-muted">@example.com</em>
                     </td>
                     <td class="d-none d-sm-table-cell">
-                        <span class="badge badge-warning">Trial</span>
+                        <span class="badge badge-warning">Human Resources</span>
                     </td>
                     <td>
                         <em class="text-muted font-size-sm">8 days ago</em>
@@ -113,11 +115,39 @@
     </div>
 </div>
 <!-- END Dynamic Table Full -->
-
     </div>
 
+<!-- DIV Register New Employee -->
         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+            <form class="form-group" action="">
 
+                <div class="form-group newname">
+                    <label for="">Name:</label>
+                    <input type="text" name="name" class="form-control" placeholder="Insert Name">
+                </div>
+
+                <div class="form-group email">
+                    <label for="">Email:</label>
+                    <input type="email" name="email" class="form-control" placeholder="Insert Email">
+                </div>
+
+                <div class="form-group roleregister">
+                    <label for="">Role:</label>
+                    <select class="form-control" name="role" id="exampleRole">
+                          <option>Manager</option>
+                              <option selected="selected">Developer</option>
+                             <option>Human Resources</option>
+                             <option id="otherrole" value="other">Other</option>
+                      </select>
+                </div>
+
+                <div class="form-group" id="rolenew">
+                    <label>Other Role:</label>
+                    <input type="text" name="email" class="form-control" placeholder="Insert New Role">
+                </div>
+
+                <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+            </form>
         </div>
       </div>
 </div>

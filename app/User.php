@@ -124,6 +124,32 @@ class User extends Authenticatable
 
     }
 
+    public function listVacations() {
+
+        $listVacations = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->join('contracts', 'contracts.iduser', '=', 'users.id')
+        ->where('absences.absencetype','=',1)
+        ->select('absences.*','users.name as user_name','contracts.position as position')
+        ->get();
+
+        return $listVacations;
+
+    }
+
+    public function listAbsences() {
+
+        $listAbsences = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
+        ->join('absence_types', 'absence_types.id', '=', 'absences.absencetype')
+        ->where('absences.absencetype','>',1)
+        ->select('absences.*','users.name as user_name','absence_types.description as description')
+        ->get();
+
+        return $listAbsences;
+
+    }
+
     public function listAbsencesUserCY($id) {
 
         //CURRENT YEAR

@@ -1,0 +1,36 @@
+@mixin divs {
+    display: grid;
+    grid-template-columns: 70px 200px;
+    margin: auto;
+    align-items: baseline;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+
+.email,
+.roleregister,
+.newname,
+#rolenew {
+    @include divs();
+}
+
+#rolenew{
+    display: none;
+}
+.registeremployee{
+    margin: auto;
+    margin-top: 30px;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+}
+
+#pills-tab {
+    margin-left: 17px;
+}
+
+
+
+
+@import '../../../screens/components/employees/_employees';

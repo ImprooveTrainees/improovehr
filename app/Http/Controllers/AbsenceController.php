@@ -23,15 +23,15 @@ class AbsenceController extends Controller
 
         $id_typeuser = $user->roles->id;
 
-        $listAbsencesPending = $user->userAbsence()->where('status','Pending');
+        // $listAbsencesPending = $user->userAbsence()->where('status','Pending');
 
-        $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
+        // $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
 
-        //$listAbsencesPending = absence::all()->where('status','Pending');
+        $listVacationsTotal = $user->listVacations(); // LIST VACATIONS ALL USERS
 
-        //$listAbsencesTotal = DB::table('absences')->where('status','=','Concluded')->orWhere('status','=','Disapproved')->orWhere('status','=','Approved')->get();
+        $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
 
-        $absence = absence::select('absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
+        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
 
         $array_vacations = array();
 
@@ -41,7 +41,9 @@ class AbsenceController extends Controller
 
             if($abs->absencetype==1) {
 
-            //LIST - VACATIONS
+            //LIST - VACATIONS FROM AUTHENTICATED USER
+
+            $id = $abs->id;
 
             $start = $abs->start_date;
 
@@ -53,11 +55,13 @@ class AbsenceController extends Controller
             $start = substr($start, 0,-9);
             $end = substr($end, 0,-9);
 
-            array_push($array_vacations, $start, $end, $stat);
+            array_push($array_vacations, $id, $start, $end, $stat);
 
             } else {
 
-                //LIST - ABSENCES
+                //LIST - ABSENCES FROM AUTHENTICATED USER
+
+                $id = $abs->id;
 
                 $start = $abs->start_date;
 
@@ -69,7 +73,7 @@ class AbsenceController extends Controller
 
                 $attachment = $abs->attachment;
 
-                array_push($array_absences,$start,$end,$stat,$attachment,$motive);
+                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive);
 
             }
 
@@ -83,7 +87,7 @@ class AbsenceController extends Controller
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
 
-        return view('absences',compact('user','array_vacations','array_absences','listAbsencesPending','listAbsencesTotal','id_typeuser'));
+        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal'));
     }
 
 
@@ -117,6 +121,8 @@ class AbsenceController extends Controller
 
         $op = request('op');
 
+        $updValue = request('upd');
+
         if($op==1) {
 
             $vacation->iduser=$userid;
@@ -130,27 +136,68 @@ class AbsenceController extends Controller
 
             $vacation->save();
 
-            $msg='Vacation submitted. Waiting for approval.';
-
-
         } else if($op==2) {
 
             $absence->iduser=$userid;
-            $absence->absencetype=request('type');
-            $absence->attachment=request('attachment');
+            $absence->absencetype="";
+            $absence->attachment="";
             $absence->status="Pending";
             $absence->start_date = request('start_date');
             $absence->end_date = request('end_date');
-            $absence->motive = request('motive');
+            $absence->motive = "";
 
 
             $absence->save();
 
-            $msg='Absence submitted. Waiting for approval.';
+        } else if($op==3) {
+
+            $start_date = request('upd_start_date');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['start_date' => $start_date]);
+
+
+        } else if($op==4) {
+
+            $end_date = request('upd_end_date');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['end_date' => $end_date]);
+
+        } else if($op==5) {
+
+            $start_datetime = request('upd_start_datetime');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['start_date' => $start_datetime]);
+
+        } else if($op==6) {
+
+            $end_datetime = request('upd_end_datetime');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['end_date' => $end_datetime]);
+
+        } else if($op==7) {
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Approved']);
+
+        } else if($op==8) {
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Disapproved']);
 
         }
 
-        return redirect('/absences')->with('msgAbs',$msg);
+        return redirect('/holidays');
+        //->with('msgAbs',$msg);
 
 
     }
@@ -264,9 +311,6 @@ class AbsenceController extends Controller
         $vacationDaysCY = 0;
         $vacationDaysLY = 0;
 
-        $vacations_days_per_year=0;
-        $vacation_days_max=0;
-
         if($years<1){
 
             $vacationDaysLY = ((12 - $monthContract) + 1) * 2;    //MONTH DIFFERENCE BETWEEN BEGINNING CONTRACT AND END OF YEAR
@@ -341,7 +385,7 @@ class AbsenceController extends Controller
         //
         $userLogado =  Auth::id();
         $ausenciasDoUser = absence::where('iduser','=', $userLogado)
-               ->where('absenceType', '!=' , 1)
+               ->where('absencetype', '!=' , 1)
                ->where('status', '=' , 'Concluded')
                ->select('*')
                ->get();
@@ -384,30 +428,7 @@ class AbsenceController extends Controller
      */
     public function update()
     {
-        $value = request('upd');
-
-        $op = request('op');
-
-        if($op==3) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Approved"]);
-
-            $msg = "Absence approved with success.";
-
-
-        } else if($op==4) {
-
-            DB::table('absences')
-            ->where('id', $value)
-            ->update(['status' => "Disapproved"]);
-
-            $msg = "Absence disapproved with success.";
-
-        }
-
-        return redirect('/absences')->with('msgAbs',$msg);
+        //
 
     }
 
