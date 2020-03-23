@@ -4,6 +4,14 @@
     Improove HR - Holidays/Absences
 @endsection
 
+@section('sidebarholidays')
+active
+@endsection
+
+@section('opensidebar')
+open
+@endsection
+
 @section('content')
 
 <div id="table_hol">

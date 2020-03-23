@@ -230,24 +230,24 @@
                     </div>
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link active" href="/admin">
+                            <a class="nav-main-link @yield('sidebarhome')" href="/admin">
                                 <i class="fas fa-home"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Home</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
+                        <li class="nav-main-item @yield('opensidebar')">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <i class="fas fa-user"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Personal Page</span>
                             </a>
                             <ul class="nav-main-submenu">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/personal">
+                                    <a class="nav-main-link @yield('sidebarpersonal')" href="/personal">
                                         <span class="nav-main-link-name">Personal Info</span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/professional">
+                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/professional">
                                         <span class="nav-main-link-name">Professional Info</span>
                                     </a>
                                 </li>
@@ -257,14 +257,14 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/holidays">
+                                    <a class="nav-main-link @yield('sidebarholidays')" href="/holidays">
                                         <span class="nav-main-link-name">Holidays/Absences</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="/employees">
+                            <a class="nav-main-link @yield('sidebaremployees')" href="/employees">
                                 <i class="fas fa-users"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Employees</span>
                             </a>
