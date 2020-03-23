@@ -45,33 +45,67 @@ class SliderController extends Controller
         $actualDate = date("Y/m/d");
         $msg = "";
         for($i = 1; $i < count($eventos); $i++) {
-            if($eventos[$i]->Type == "Birthday") {
-                if($eventos[$i]->Date == $actualDate) {
-                    $msg .= "Happy birthday ".$eventos[$i]->Name."!"."<br>";
-                    $msg .= "<br>";
-                }
-                else {
-                    $msg .= $eventos[$i]->Name."'s birthday!"."<br>";
-                    $msg .= "Date: ".$eventos[$i]->Date."<br>";
-                    $msg .= "<br>";
-                }                
+            $today = date("Y/m/d");
+            $today = date('Y-m-d', strtotime($today));
+            $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
+            if($eventDate < $today) { //filtro para mostrar apenas todos os eventos futuros da data actual
+                continue;
             }
-            else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Motive"} == "") {
-                $msg .= $eventos[$i]->Name . "<br>" . "Vacations: ".$eventos[$i]->Date;
-                $msg .= " - ". $eventos[$i]->{"DateEnd Absence"}."<br>";
-                $msg .= "<br>";
+            if($eventos[$i]->{"DateEnd Absence"} != null) {
+                $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));
             }
             else {
+                $absenceDateEnd = "";
+            }
+            if($eventos[$i]->Type == "Birthday") {
+                if($eventDate == $actualDate) {
+                    $msg .= $eventos[$i]->Photo."<br>";
+                    $msg .= "Happy birthday ".$eventos[$i]->Name."!"."<br>";
+                }
+                else {
+                    $msg .= $eventos[$i]->Photo."<br>";
+                    $msg .= $eventos[$i]->Name."'s birthday!"."<br>";
+                    $msg .= "Date: ".$eventos[$i]->Date;
+                    
+                }
+                $msg .= "<br>";
+                $msg .= "<br>";               
+            }
+            else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Motive"} == "") {
+                $msg .= $eventos[$i]->Photo."<br>";
+                $msg .= $eventos[$i]->Name . "<br>" . "Vacations: ".$eventDate;
+                $msg .= " - ". $absenceDateEnd;
+                $msg .= "<br>";
+                $msg .= "<br>";
+            }
+            else if($eventos[$i]->Type == "Contract Begin") {
+                if($eventDate == $actualDate) {
+                    $msg .= $eventos[$i]->Photo."<br>";
+                    $msg .=  "Today is ".$eventos[$i]->Name. "'s company birthday!";
+                }
+                else {
+                    $msg .= $eventos[$i]->Photo."<br>";
+                    $msg .= $eventos[$i]->Name."'s company birthday!";
+                    $msg .= "<br>";
+                    $msg .= "Date: ".$eventDate;
+                }
+                $msg .= "<br>";
+                $msg .= "<br>";
+
+            }
+            else {
+                $msg .= $eventos[$i]->Photo."<br>";
                 $msg .= "Name: ".$eventos[$i]->Name."<br>";
-                $msg .= "Type: ".$eventos[$i]->Type."<br>";
+                // $msg .= "Type: ".$eventos[$i]->Type."<br>";
                 if($eventos[$i]->{"Absence Motive"} == null){
                     $msg .= "";
                 }
                 else {
                     $msg .= $eventos[$i]->{"Absence Motive"}."<br>";
                 }
-                $msg .= "Date: ".$eventos[$i]->Date."<br>";
-                $msg .= "End Date: ".$eventos[$i]->{"DateEnd Absence"}."<br>";
+                $msg .= "Date: ".$eventDate."<br>";
+                $msg .= "End Date: ".$absenceDateEnd."<br>";
+                $msg .= "<br>";
                 $msg .= "<br>";
             }
             
