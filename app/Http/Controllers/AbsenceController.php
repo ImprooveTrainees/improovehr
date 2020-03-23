@@ -182,7 +182,19 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['end_date' => $end_datetime]);
 
-            }
+        } else if($op==7) {
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Approved']);
+
+        } else if($op==8) {
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Disapproved']);
+
+        }
 
         return redirect('/holidays');
         //->with('msgAbs',$msg);
@@ -373,7 +385,7 @@ class AbsenceController extends Controller
         //
         $userLogado =  Auth::id();
         $ausenciasDoUser = absence::where('iduser','=', $userLogado)
-               ->where('absenceType', '!=' , 1)
+               ->where('absencetype', '!=' , 1)
                ->where('status', '=' , 'Concluded')
                ->select('*')
                ->get();

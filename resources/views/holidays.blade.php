@@ -73,7 +73,7 @@
                             <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
                             <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
                             <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
-                            <th style="width: 15%;">Role</th>
+                            <th style="width: 15%;">Status</th>
                             <th style="width: 15%;">Actions</th>
                         </tr>
                     </thead>
@@ -99,7 +99,7 @@
                                 {{$list->end_date}}
                             </td>
                             <td class="font-size-sm">
-                                {{$list->position}}
+                                {{$list->status}}
                             </td>
                             <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
                             grid-auto-columns: max-content;">
@@ -114,11 +114,11 @@
                             </div>
                                 <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
                                     <i class="far fa-edit"></i></a>
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                        <i class="fas fa-check"></i>
+                                    <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                                        <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
                                     </a>
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                    <i class="fas fa-times"></i>
+                                    <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                                    <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
                                     </a>
                                 </span>
                             </td>
@@ -257,11 +257,11 @@
                       </div>
                           <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
                               <i class="far fa-edit"></i></a>
-                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                  <i class="fas fa-check"></i>
+                              <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                                  <i type="button" id="{{$list2->id}}" onClick="reply_click7(this.id)" class="fas fa-check"></i>
                               </a>
-                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                              <i class="fas fa-times"></i>
+                              <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                              <i type="button" id="{{$list2->id}}" onClick="reply_click8(this.id)" class="fas fa-times"></i>
                               </a>
                           </span>
                       </td>
@@ -504,6 +504,80 @@
 
 
 
+<!-- Modal Approval -->
+<div class="modal fade" id="modalApproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to approve this absence?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form action="/holidays" method="POST" class="action">
+    <div class="modal-body">
+
+    @csrf
+
+    <input type="hidden" value=7 name="op">
+
+    <input id="updateStatus1" type="hidden" value="" name="upd">
+
+    <!-- <input type="submit" value="ADD VACATION"> -->
+
+    <!-- <p id="texto"></p> -->
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Yes</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+<!-- End Modal Approval -->
+
+
+<!-- Modal Disapproval -->
+<div class="modal fade" id="modalDisapproval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to disapprove this absence?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form action="/holidays" method="POST" class="action">
+    <div class="modal-body">
+
+    @csrf
+
+    <input type="hidden" value=8 name="op">
+
+    <input id="updateStatus2" type="hidden" value="" name="upd">
+
+    <!-- <input type="submit" value="ADD VACATION"> -->
+
+    <!-- <p id="texto"></p> -->
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Yes</button>
+    </div>
+
+    </form>
+    </div>
+</div>
+</div>
+
+<!-- End Modal Disapproval -->
+
+
    <!-- Modal Justification -->
 <div class="modal fade" id="justificationModal" tabindex="-1" role="dialog" aria-labelledby="justificationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -563,7 +637,7 @@
     function reply_click(clicked_id)
         {
             document.getElementById("updateDate").value = clicked_id;
-            //document.getElementById("texto").innerHTML = clicked_id;
+
         }
 
     </script>
@@ -572,7 +646,7 @@
     function reply_click2(clicked_id2)
         {
             document.getElementById("updateDate2").value = clicked_id2;
-            //document.getElementById("texto").innerHTML = clicked_id;
+
         }
 
     </script>
@@ -581,7 +655,7 @@
     function reply_click3(clicked_id3)
         {
             document.getElementById("updateDate3").value = clicked_id3;
-            //document.getElementById("texto").innerHTML = clicked_id;
+
         }
 
     </script>
@@ -590,7 +664,43 @@
     function reply_click4(clicked_id4)
         {
             document.getElementById("updateDate4").value = clicked_id4;
-            //document.getElementById("texto").innerHTML = clicked_id;
+
+        }
+
+    </script>
+
+<script>
+    function reply_click5(clicked_id5)
+        {
+            document.getElementById("updateStatus1").value = clicked_id5;
+
+        }
+
+    </script>
+
+<script>
+    function reply_click6(clicked_id6)
+        {
+            document.getElementById("updateStatus2").value = clicked_id6;
+
+        }
+
+    </script>
+
+    <script>
+    function reply_click7(clicked_id7)
+        {
+            document.getElementById("updateStatus1").value = clicked_id7;
+
+        }
+
+    </script>
+
+<script>
+    function reply_click8(clicked_id8)
+        {
+            document.getElementById("updateStatus2").value = clicked_id8;
+
         }
 
     </script>
