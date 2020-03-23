@@ -4,6 +4,14 @@
     Improove HR - Professional Info
 @endsection
 
+@section('sidebarprofessional')
+active
+@endsection
+
+@section('opensidebar')
+open
+@endsection
+
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
