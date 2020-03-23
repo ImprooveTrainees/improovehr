@@ -33,10 +33,11 @@ Route::get('/professional', 'ProfessionalInfoController@index');
 Route::POST('/storeimg', 'ProfessionalInfoController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/personal', 'UserController@index');
-Route::get('/employees', 'UserController@employees');
+Route::get('/employeesTeste', 'UserController@employees');
 Route::get('/holidays', 'AbsenceController@index');
 Route::post('/holidays', 'AbsenceController@store');
 Route::get('/absencesCount', 'AbsenceController@show');
+Route::get('/testeSlider', 'SliderController@index');
 
 Route::get('/newEmployee', 'UserController@newEmployeeView');
 Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
