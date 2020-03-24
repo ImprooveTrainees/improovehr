@@ -183,7 +183,7 @@ open
           <div id="attachment">
             <h5>Attachment</h5>
             <div class="shadow p-1 bg-white cardboxjust">
-                <a data-toggle="modal" data-target="#justificationModal">
+                <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
                     <p>Justification</p>
                     <i class="fas fa-plus"></i>
             </a>
@@ -192,7 +192,7 @@ open
         <div id="type">
             <h5>Type</h5>
             <div class="shadow p-1 bg-white cardboxjust1">
-                <a data-toggle="modal" data-target="#typeModal">
+                <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click10(this.id)" data-toggle="modal" data-target="#typeModal">
                     <p>Type</p>
                     <i class="fas fa-plus"></i>
             </a>
@@ -596,19 +596,30 @@ open
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form action="/holidays" method="POST" class="action">
         <div class="modal-body">
+
+        @csrf
+
             <div class="input-group">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile01"
+
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" name="inputGroupFile01"
                     aria-describedby="inputGroupFileAddon01">
                   <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
+
+                <input type="hidden" value=9 name="op">
+
+                <input id="updateAttachment" type="hidden" value="" name="upd">
+
               </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -624,18 +635,29 @@ open
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form action="/holidays" method="POST" class="action">
         <div class="modal-body">
-            <select class="browser-default custom-select" style="width: 250px">
-                <option selected value="1">Excused Absence</option>
-                <option value="2">Unexcused Absence</option>
-                <option value="3">Maternity Leave</option>
-                <option value="3">Medical Leave</option>
+
+        @csrf
+
+            <select class="browser-default custom-select" style="width: 250px" name="typeUpd" id="typeUpd">
+                <option selected value="2">Excused Absence</option>
+                <option value="3">Unexcused Absence</option>
+                <option value="4">Maternity Leave</option>
+                <option value="5">Medical Leave</option>
               </select>
+
+              <input type="hidden" value=10 name="op">
+
+                <input id="updateType" type="hidden" value="" name="upd">
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -708,6 +730,24 @@ open
     function reply_click8(clicked_id8)
         {
             document.getElementById("updateStatus2").value = clicked_id8;
+
+        }
+
+    </script>
+
+<script>
+    function reply_click9(clicked_id9)
+        {
+            document.getElementById("updateAttachment").value = clicked_id9;
+
+        }
+
+    </script>
+
+<script>
+function reply_click10(clicked_id10)
+        {
+            document.getElementById("updateType").value = clicked_id10;
 
         }
 
