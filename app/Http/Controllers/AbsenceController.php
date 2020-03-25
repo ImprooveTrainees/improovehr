@@ -31,7 +31,7 @@ class AbsenceController extends Controller
 
         $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
 
-        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
+        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->orderBy('start_date','desc')->get();
 
         $array_vacations = array();
 
@@ -73,7 +73,9 @@ class AbsenceController extends Controller
 
                 $attachment = $abs->attachment;
 
-                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive);
+                $absence_type = $abs->absencetype;
+
+                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive,$absence_type);
 
             }
 
@@ -117,8 +119,6 @@ class AbsenceController extends Controller
 
         $absence = new absence();
 
-        $msg = '';
-
         $op = request('op');
 
         $updValue = request('upd');
@@ -139,7 +139,7 @@ class AbsenceController extends Controller
         } else if($op==2) {
 
             $absence->iduser=$userid;
-            $absence->absencetype="";
+            $absence->absencetype=6;
             $absence->attachment="";
             $absence->status="Pending";
             $absence->start_date = request('start_date');
@@ -222,9 +222,15 @@ class AbsenceController extends Controller
 
             $typeAbs = request('typeUpd');
 
+            $motive = request('motive');
+
             DB::table('absences')
             ->where('id', $updValue)
             ->update(['absencetype' => $typeAbs]);
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['motive' => $motive]);
 
         }
 
