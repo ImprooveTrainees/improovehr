@@ -159,7 +159,7 @@ open
       </a>
 </div>
 
-@for($i=0;$i<count($array_absences);$i+=6)
+@for($i=0;$i<count($array_absences);$i+=7)
 
       <div class="shadow p-1 bg-white cardbox2">
           <div id="startdayab">
@@ -176,28 +176,75 @@ open
                   <i type="button" id="{{$array_absences[$i]}}" onClick="reply_click4(this.id)" class="fas fa-pen"></i>
               </a>
           </div>
+
           <div id="approvalab">
               <h5>Approval</h5>
               <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
           </div>
+
           <div id="attachment">
             <h5>Attachment</h5>
+
+        @if($array_absences[$i+4]!="")
+
+            <p>{{$array_absences[$i+4]}}</p>
+            <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
+                  <i class="fas fa-pen"></i>
+              </a>
+
+        @else
+
             <div class="shadow p-1 bg-white cardboxjust">
-                <a data-toggle="modal" data-target="#justificationModal">
+                <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
                     <p>Justification</p>
                     <i class="fas fa-plus"></i>
             </a>
             </div>
+
+        @endif
+
         </div>
+
         <div id="type">
-            <h5>Type</h5>
+            <h5>Motive</h5>
+
+        @if($array_absences[$i+6]==6)
+
             <div class="shadow p-1 bg-white cardboxjust1">
-                <a data-toggle="modal" data-target="#typeModal">
-                    <p>Type</p>
+                <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click10(this.id)" data-toggle="modal" data-target="#typeModal">
+                    <p>Add</p>
                     <i class="fas fa-plus"></i>
             </a>
             </div>
+
+        @else
+
+            @if($array_absences[$i+6]==2)
+
+                <p>Excused Absence</p>
+
+            @elseif($array_absences[$i+6]==3)
+
+                <p>Unexcused Absence</p>
+
+            @elseif($array_absences[$i+6]==4)
+
+                <p>Maternity Leave</p>
+
+            @elseif($array_absences[$i+6]==5)
+
+                <p>Medical Leave</p>
+
+            @endif
+
+            <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click10(this.id)" data-toggle="modal" data-target="#typeModal">
+                  <i class="fas fa-pen"></i>
+              </a>
+
+        @endif
+
         </div>
+
 
 
       </div>
@@ -222,17 +269,21 @@ open
                       <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
                       <th style="width: 15%;">Attachment</th>
                       <th style="width: 15%;">Type</th>
+                      <th style="width: 15%;">Status</th>
                       <th style="width: 15%;">Actions</th>
+
                   </tr>
               </thead>
               <tbody>
-
-              @foreach($listAbsencesTotal as $list2)
 
               @php
                         $j = 1;
 
               @endphp
+
+              @foreach($listAbsencesTotal as $list2)
+
+
                   <tr>
                       <td class="font-w600 font-size-sm">
                           {{$j}}
@@ -252,6 +303,10 @@ open
                     <td class="font-w600 font-size-sm">
                         {{$list2->description}}
                     </td>
+                    <td class="font-w600 font-size-sm">
+                        {{$list2->status}}
+                    </td>
+
                       <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
                       grid-auto-columns: max-content;">
                           <span style="overflow: visible; position: relative;">
@@ -596,19 +651,30 @@ open
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form action="/holidays" method="POST" class="action">
         <div class="modal-body">
+
+        @csrf
+
             <div class="input-group">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile01"
+
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" name="inputGroupFile01"
                     aria-describedby="inputGroupFileAddon01">
                   <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
+
+                <input type="hidden" value=9 name="op">
+
+                <input id="updateAttachment" type="hidden" value="" name="upd">
+
               </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -624,18 +690,33 @@ open
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form action="/holidays" method="POST" class="action">
         <div class="modal-body">
-            <select class="browser-default custom-select" style="width: 250px">
-                <option selected value="1">Excused Absence</option>
-                <option value="2">Unexcused Absence</option>
-                <option value="3">Maternity Leave</option>
-                <option value="3">Medical Leave</option>
+
+        @csrf
+
+            <select class="browser-default custom-select" style="width: 250px" name="typeUpd" id="typeUpd">
+                <option selected value="2">Excused Absence</option>
+                <option value="3">Unexcused Absence</option>
+                <option value="4">Maternity Leave</option>
+                <option value="5">Medical Leave</option>
               </select>
+
+              <h5 class="modal-title" id="typeModalLabel">Motive</h5>
+
+              <input id="motive" name="motive" type="text">
+
+              <input type="hidden" value=10 name="op">
+
+                <input id="updateType" type="hidden" value="" name="upd">
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -708,6 +789,24 @@ open
     function reply_click8(clicked_id8)
         {
             document.getElementById("updateStatus2").value = clicked_id8;
+
+        }
+
+    </script>
+
+<script>
+    function reply_click9(clicked_id9)
+        {
+            document.getElementById("updateAttachment").value = clicked_id9;
+
+        }
+
+    </script>
+
+<script>
+function reply_click10(clicked_id10)
+        {
+            document.getElementById("updateType").value = clicked_id10;
 
         }
 
