@@ -109,6 +109,9 @@ open
                             <td class="font-size-sm">
                                 {{$list->status}}
                             </td>
+
+                            @if($list->status=='Concluded')
+
                             <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
                             grid-auto-columns: max-content;">
                                 <span style="overflow: visible; position: relative;">
@@ -120,16 +123,40 @@ open
                                     <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
                                 </div>
                             </div>
-                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
-                                    <i class="far fa-edit"></i></a>
-                                    <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                        <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
-                                    </a>
-                                    <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                    <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
-                                    </a>
+                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                                        <i class="far fa-edit"></i></a>
+
                                 </span>
                             </td>
+
+
+
+                            @else
+                                <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+                                grid-auto-columns: max-content;">
+                                    <span style="overflow: visible; position: relative;">
+                                    <div class="dropdown" style="float: left;">
+                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                                            <i class="fas fa-cog"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
+                                    </div>
+                                </div>
+                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                                        <i class="far fa-edit"></i></a>
+                                        <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                                            <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
+                                        </a>
+                                        <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                                        <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </td>
+
+
+                            @endif
+
                         </tr>
 
                         @php
@@ -307,7 +334,28 @@ open
                         {{$list2->status}}
                     </td>
 
-                      <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+                    @if($list2->status=='Concluded')
+
+                    <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+                      grid-auto-columns: max-content;">
+                          <span style="overflow: visible; position: relative;">
+                          <div class="dropdown" style="float: left;">
+                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                                  <i class="fas fa-cog"></i></a>
+                          <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                              <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                              <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
+                          </div>
+                      </div>
+                          <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                              <i class="far fa-edit"></i></a>
+
+                          </span>
+                      </td>
+
+                    @else
+
+                    <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
                       grid-auto-columns: max-content;">
                           <span style="overflow: visible; position: relative;">
                           <div class="dropdown" style="float: left;">
@@ -328,6 +376,9 @@ open
                               </a>
                           </span>
                       </td>
+
+                    @endif
+
                   </tr>
 
                 @php
