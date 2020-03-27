@@ -5,240 +5,80 @@
 @endsection
 @section('content')
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<!-- <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Simple table teste</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <tbody class="table">
-                        <thead class="text-primary">
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                            </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <!-- Page Content -->
 <div class="content">
 
-        <!DOCTYPE html>
-<html>
-<head>
-<meta charset='utf-8' />
-<link href='{{asset('assets/fullcalendar/packages/core/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar/packages/daygrid/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar//packages/timegrid/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar//packages/list/main.css')}}' rel='stylesheet' />
-<script src='{{asset('assets/fullcalendar//packages/core/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/interaction/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/daygrid/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/timegrid/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/list/main.js')}}'></script>
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var Calendar = FullCalendar.Calendar;
-    var Draggable = FullCalendarInteraction.Draggable
-
-    /* initialize the external events
-    -----------------------------------------------------------------*/
-
-    var containerEl = document.getElementById('external-events-list');
-    new Draggable(containerEl, {
-      itemSelector: '.fc-event',
-      eventData: function(eventEl) {
-        return {
-          title: eventEl.innerText.trim()
-        }
-      }
-    });
-
-    //// the individual way to do it
-    // var containerEl = document.getElementById('external-events-list');
-    // var eventEls = Array.prototype.slice.call(
-    //   containerEl.querySelectorAll('.fc-event')
-    // );
-    // eventEls.forEach(function(eventEl) {
-    //   new Draggable(eventEl, {
-    //     eventData: {
-    //       title: eventEl.innerText.trim(),
-    //     }
-    //   });
-    // });
-
-    /* initialize the calendar
-    -----------------------------------------------------------------*/
-
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-      },
-      navLinks:true,
-      eventLimit:true,
-      selectable:true,
-      editable: true,
-      droppable: true, // this allows things to be dropped onto the calendar
-      drop: function(arg) {
-        // is the "remove after drop" checkbox checked?
-        if (document.getElementById('drop-remove').checked) {
-          // if so, remove the element from the "Draggable Events" list
-          arg.draggedEl.parentNode.removeChild(arg.draggedEl);
-        }
-      }
-    });
-    calendar.render();
-
-  });
-
-</script>
-<style>
-
-  body {
-    margin-top: 40px;
-    font-size: 15px;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  }
-
-  #wrap {
-    width: 100%;
-    margin: auto;
-  }
-
-  /* #external-events {
-    float: left;
-    width: 200px;
-    padding: 35px 10px;
-    border: 1px solid #ccc;
-    background: #eee;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 6%;
-  } */
-
-  #external-events h4 {
-    font-size: 16px;
-    margin-top: 0;
-    padding-top: 1em;
-  }
-
-  #external-events .fc-event {
-    margin: 10px 0;
-    cursor: pointer;
-  }
-
-  #external-events p {
-    margin: 1.5em 0;
-    font-size: 11px;
-    color: #666;
-  }
-
-  #external-events p input {
-    margin: 0;
-    vertical-align: middle;
-  }
-
-  #calendar {
-    float: right;
-    width: 55%;
-    border-radius: 8px;
-    margin-top: 0%;
-  }
-
-  #box1 {
-    margin: 30px;
-    margin-left: 180px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 340px;
-    position: absolute;
-  }
-
-  #box2 {
-    margin-left: 4px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
-  }
-
-  #box3 {
-    margin-left: 385px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
-  }
-
-  #multi-item-example {
-    margin-top: 630px;
-    width: 36%;
-    margin-left: -248px;
-    position: absolute;
-  }
-
-  #allboxes {
-    margin-top: -363px;
-  }
-
-</style>
-</head>
-<body>
-<div class="shadow p-1 bg-white" id="calendar">
-  <div id='wrap'>
-
-    <!-- <div id='external-events'>
-
-    <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
-      <h4>Draggable Events</h4> -->
-
-      <div id='external-events-list'>
-        <!-- <div class='fc-event'>Faltas</div>
-        <div class='fc-event'>Férias</div> -->
-      </div>
-
-      <!-- <p>
-        <input type='checkbox' id='drop-remove' />
-        <label for='drop-remove'>remove after drop</label>
-      </p> -->
-
-    </div>
-
-    <div id='calendar'></div>
-
-    <div style='clear:both'></div>
-
-  </div>
 
   <div id="allboxes">
+<!-- Calendar Begin -->
+    <h3>Improove Calendar</h3>
+    
+    <div id='calendar'></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+            defaultView: 'dayGridMonth',
+            height: 580,
+            header: {
+            left: 'dayGridMonth,timeGridWeek,timeGridDay',
+            center: 'title',
+            right: 'prevYear,prev,next,nextYear'
+            },
+            selectable: false,
+            // select: function(info) {
+            // alert('De ' + info.startStr + ' a ' + info.endStr);
+            // var dataClicada =  info.date.getFullYear().toString() + (info.date.getMonth()+1).toString() + info.date.getDate().toString(); //aqui vai buscar a data clicada 
+            // },
+          events : [
+                    @foreach($events as $event)
+                    {   
+                        @if($event->Type == "Birthday")
+                        title : '{{ $event->Name }}'+ "'"+'s birthday!',
+                        backgroundColor: 'yellow',
+                        borderColor: 'black',
+                        @endif 
+                        
+                        @if($event->Type == "Contract Begin")
+                        title : '{{ $event->Name }}'+ "'"+'s company' + "'" +  's birthday!',
+                        backgroundColor: 'green',
+                        borderColor: 'black',
+                        textColor: 'white',
+                        @endif
+
+                        @if($event->Type == "Absence")
+                        title : '{{ $event->Name }}' + " | " + '{{ $event->{"Absence Motive"} }}',
+                        @endif
+
+                        @if($event->Type == "Absence" && $event->{"Absence Type"} == 1)
+                        title : '{{ $event->Name }}' + " | " + 'Vacations',
+                        backgroundColor: '#57db39',
+                        borderColor: 'black',
+                        textColor: 'black',
+                        @endif
+
+                        start : '{{ $event->Date }}',
+                        end : '{{ $event->{"DateEnd Absence"} }}',
+                        
+                    },
+                    @endforeach
+                ],
+
+        });
+
+        calendar.render();
+      });
+       
+    </script>  
+
+<!-- Calendar end -->
+
+
   <div class="shadow p-1 bg-white" id="box1">
   <div class="container">
   <div class="row">
@@ -288,61 +128,39 @@
     <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
     <li data-target="#multi-item-example" data-slide-to="1"></li>
     <li data-target="#multi-item-example" data-slide-to="2"></li>
-  </ol>
+  </ol> 
   <!--/.Indicators-->
 
   <!--Slides-->
   <div class="carousel-inner" role="listbox">
 
     <!--First slide-->
-    <div class="carousel-item active">
+    {{-- <div class="carousel-item active">  --}}
 
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
-              alt="Card image cap">
-            <div class="card-body">
+      {{-- <div class="row"> <!-- Inicio bloco com 3 sliders --> --}}
+
+        {{-- <div class="col-md-4">
+          <div class="card mb-2"> --}}
+            {{-- <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
+              alt="Card image cap"> --}}
+            {{-- <div class="card-body">
               <h4 class="card-title">Card title</h4>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                 card's content.</p>
               <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
+            </div> --}}
+          {{-- </div>
+        </div> --}}
 
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
+       <?php echo $msg?>
 
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {{-- </div> --}}
 
-    </div>
-    <!--/.First slide-->
+    {{-- </div> --}}
+    <!--/.First slide | Fim 1 bloco-->
 
     <!--Second slide-->
-    <div class="carousel-item">
+    {{-- <div class="carousel-item">
 
       <div class="row">
         <div class="col-md-4">
@@ -385,11 +203,11 @@
         </div>
       </div>
 
-    </div>
+    </div> --}}
     <!--/.Second slide-->
 
     <!--Third slide-->
-    <div class="carousel-item">
+    {{-- <div class="carousel-item">
 
       <div class="row">
         <div class="col-md-4">
@@ -432,7 +250,7 @@
         </div>
       </div>
 
-    </div>
+    </div> --}}
     <!--/.Third slide-->
 
   </div>
@@ -444,10 +262,10 @@
 
 </div>
 
-</body>
-</html>
+
 
 </div>
+
 <!-- END Page Content -->
 
 @endsection

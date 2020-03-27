@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\sliderView;
+use Redirect,Response;
 
 class AbsenceController extends Controller
 {
@@ -403,7 +405,139 @@ class AbsenceController extends Controller
         }
         $diasAusencia += 1;
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia'));
+
+
+        //Calendar       
+        $events = sliderView::all();  
+        //
+
+
+
+        //Slider
+        $eventos = DB::table('sliderView')
+        ->select('*')
+        ->get();
+
+
+
+
+        
+
+$actualDate = date("Y/m/d");
+$msg = "";
+
+
+for($l = 0; $l < 3; $l++) {
+    if($l == 0) {
+        $msg .= "<div class='carousel-item active'>";
+    }
+    else {
+        $msg .= "<div class='carousel-item'>";
+    }
+    $msg .= "<div class='row'>";
+
+
+        for($i = 1; $i < count($eventos); $i++) {
+            $today = date("Y/m/d");
+            $today = date('Y-m-d', strtotime($today));
+            $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
+            //filtro para mostrar apenas todos os eventos futuros da data actual
+            // if($eventDate < $today) { 
+            //     continue;
+            // }
+       
+
+            $msg .= "<div class='col-md-4'>";
+                $msg .= "<div class='card mb-2'>";
+
+            if($eventos[$i]->{"DateEnd Absence"} != null) {
+                $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));
+            }
+            else {
+                $absenceDateEnd = "";
+            }
+            if($eventos[$i]->Type == "Birthday") {
+                if($eventDate == $actualDate) {
+                    $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                   $msg .= "<div class='card-body'>";
+                   $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>Happy birthday ".$eventos[$i]->Name."! </p>";
+                    // <a class="btn btn-primary">Button</a>
+                  $msg.= "</div>";
+                }
+                else {
+                    $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!"; 
+                    $msg .= "Date: ". $eventos[$i]->Date;
+                    
+                    $msg .= "</p>";
+                    // <a class="btn btn-primary">Button</a>
+                    $msg.= "</div>";
+                    
+                }
+          
+            }
+            // else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Motive"} == "") {
+            //     $msg .= $eventos[$i]->Photo."<br>";
+            //     $msg .= $eventos[$i]->Name . "<br>" . "Vacations: ".$eventDate;
+            //     $msg .= " - ". $absenceDateEnd;
+            //     $msg .= "<br>";
+            //     $msg .= "<br>";
+            // }
+            // else if($eventos[$i]->Type == "Contract Begin") {
+            //     if($eventDate == $actualDate) {
+            //         $msg .= $eventos[$i]->Photo."<br>";
+            //         $msg .=  "Today is ".$eventos[$i]->Name. "'s company birthday!";
+            //     }
+            //     else {
+            //         $msg .= $eventos[$i]->Photo."<br>";
+            //         $msg .= $eventos[$i]->Name."'s company birthday!";
+            //         $msg .= "<br>";
+            //         $msg .= "Date: ".$eventDate;
+            //     }
+            //     $msg .= "<br>";
+            //     $msg .= "<br>";
+
+            // }
+            // else {
+            //     $msg .= $eventos[$i]->Photo."<br>";
+            //     $msg .= "Name: ".$eventos[$i]->Name."<br>";
+            //     // $msg .= "Type: ".$eventos[$i]->Type."<br>";
+            //     if($eventos[$i]->{"Absence Motive"} == null){
+            //         $msg .= "";
+            //     }
+            //     else {
+            //         $msg .= $eventos[$i]->{"Absence Motive"}."<br>";
+            //     }
+            //     $msg .= "Date: ".$eventDate."<br>";
+            //     $msg .= "End Date: ".$absenceDateEnd."<br>";
+            //     $msg .= "<br>";
+            //     $msg .= "<br>";
+            // }
+             $msg .= "</div>";
+        $msg .= "</div>";
+        
+
+
+    }
+    
+
+     $msg .= "</div>";
+
+    $msg .= "</div>";
+
+ }
+
+        
+
+       
+        // Slider End
+
+
+
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }
