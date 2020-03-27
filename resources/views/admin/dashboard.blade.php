@@ -172,37 +172,6 @@ active
     margin-top: -20px;
   }
 
-  #box1 {
-    margin: 30px;
-    margin-left: 180px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 340px;
-    position: absolute;
-  }
-
-  #box2 {
-    margin-left: 4px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
-  }
-
-  #box3 {
-    margin-left: 385px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
-  }
-
   #multi-item-example {
     margin-top: 630px;
     width: 36%;
@@ -210,33 +179,74 @@ active
     position: absolute;
   }
 
-  #allboxes {
-    margin-top: -363px;
-    margin-left: 1px
-  }
-
-  .dot {
+  .dot1 {
   height: 75px;
   width: 75px;
-  background-color: white;
   border-radius: 50%;
   display: inline-block;
-  border: 3px solid lightgreen;
-  margin-left: -120px;
-  margin-top: 24px;
+  border: 1px solid #00ff3a61;
+  margin-left: -140px;
+  margin-top: 15px;
+  background-color: #90ee90;
 }
 
-#p2 {
-  margin-left: 50%;
-}
-
-#p1 {
-  margin-top: -104px;
+.dot2 {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #dc3545;
+  margin-left: -140px;
+  margin-top: 15px;
+  background-color: #d26a5c;;
 }
 
 #label3 {
-  margin-top: 33%;
+  margin-top: 12%;
+  color: white;
+  font-size: 35px;
+  font-family: monospace;
 }
+
+#ptotalabsences {
+  margin-top: -104px;
+  color: white;
+  font-size: 35px;
+  font-family: monospace;
+  margin-left: -137px;
+}
+
+#timeaccomplished {
+  font-variant-caps: all-small-caps;
+  font-size: large;
+}
+
+/* Style all font awesome icons */
+#social {
+    padding: 10px;
+    width: 35px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+  }
+  
+  /* Add a hover effect if you want */
+  .fa:hover {
+    opacity: 0.7;
+  }
+  
+  /* Set a specific color for each brand */
+  
+  /* Facebook */
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+
+  .fa-linkedin {
+    background: #007bb5;
+    color: white;
+  }
 
 </style>
 </head>
@@ -272,11 +282,12 @@ active
   <div class="container">
   <div class="row">
   <div class="col">
-  <span class="dot">
+  <span class="dot1">
   <label id="label3">{{$vacationDaysAvailable}}</label>
   </span>
-  <div><p id="p1">Holidays</p></div>
-  <div><p id="p2">TOTAL : {{$vacations_total}}</p></div>
+  <p id="pholidays">Days Available</p>
+  <p id="ptotal">A total of {{$vacations_total}} days</p>
+  <p id="year1">Year of<p id="currentyear1"></p></p>
     </div>
   </div>
 </div>
@@ -285,10 +296,10 @@ active
 <div class="shadow p-1 bg-white" id="box2">
 <div class="row">
     <div class="col">
-      Absences
-
-        <p>{{$diasAusencia}}</p>
-
+    <p class="dot2"></p>
+    <p id="ptotalabsences">{{$diasAusencia}}</p>
+    <p id="pabsences">Absence Days</p>
+    <p id="year2">Year of<p id="currentyear2"></p></p>
     </div>
   </div>
 </div>
@@ -296,7 +307,7 @@ active
 <div class="shadow p-1 bg-white" id="box3">
 <div class="row">
     <div class="col">
-      Time Accomplished
+    <p id="timeaccomplished">Time Accomplished</p>
     </div>
   </div>
 </div>
@@ -336,8 +347,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -350,8 +361,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Vacations</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -364,8 +375,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Absence</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -386,8 +397,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Vacations</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -400,8 +411,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -413,9 +424,9 @@ active
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Name</h5>
-              <p class="card-text">Working from home</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -436,8 +447,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -450,8 +461,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Absence</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -463,9 +474,9 @@ active
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Name</h5>
-              <p class="card-text">Working from home</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -483,6 +494,16 @@ active
 
 
 </div>
+
+<script>
+var d = new Date();
+document.getElementById("currentyear1").innerHTML = d.getFullYear();
+</script>
+
+<script>
+var d = new Date();
+document.getElementById("currentyear2").innerHTML = d.getFullYear();
+</script>
 
 </body>
 </html>
