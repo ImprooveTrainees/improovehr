@@ -421,23 +421,24 @@ class AbsenceController extends Controller
 
 
 
-        
 
 $actualDate = date("Y/m/d");
 $msg = "";
+$lastIteration = 0;
+$blocksNum = (count($eventos) / 3);
+$contagem = 0;
 
-
-for($l = 0; $l < 3; $l++) {
+for($l = 0; $l < $blocksNum; $l++) {
     if($l == 0) {
         $msg .= "<div class='carousel-item active'>";
     }
-    else {
-        $msg .= "<div class='carousel-item'>";
-    }
+     else {
+         $msg .= "<div class='carousel-item'>";
+     }
     $msg .= "<div class='row'>";
 
 
-        for($i = 1; $i < count($eventos); $i++) {
+        for($i = $lastIteration; $i < count($eventos); $i++) {
             $today = date("Y/m/d");
             $today = date('Y-m-d', strtotime($today));
             $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
@@ -445,7 +446,10 @@ for($l = 0; $l < 3; $l++) {
             // if($eventDate < $today) { 
             //     continue;
             // }
-       
+            if($i == count($eventos)-1) {
+                continue;
+            }
+    
 
             $msg .= "<div class='col-md-4'>";
                 $msg .= "<div class='card mb-2'>";
@@ -459,8 +463,8 @@ for($l = 0; $l < 3; $l++) {
             if($eventos[$i]->Type == "Birthday") {
                 if($eventDate == $actualDate) {
                     $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
-                   $msg .= "<div class='card-body'>";
-                   $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>Happy birthday ".$eventos[$i]->Name."! </p>";
                     // <a class="btn btn-primary">Button</a>
                   $msg.= "</div>";
@@ -469,9 +473,9 @@ for($l = 0; $l < 3; $l++) {
                     $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
-                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!"; 
-                    $msg .= "Date: ". $eventos[$i]->Date;
-                    
+                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
+                    $msg .= "<br>"; 
+                    $msg .= "Date: ". $eventos[$i]->Date;              
                     $msg .= "</p>";
                     // <a class="btn btn-primary">Button</a>
                     $msg.= "</div>";
@@ -479,47 +483,86 @@ for($l = 0; $l < 3; $l++) {
                 }
           
             }
-            // else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Motive"} == "") {
-            //     $msg .= $eventos[$i]->Photo."<br>";
-            //     $msg .= $eventos[$i]->Name . "<br>" . "Vacations: ".$eventDate;
-            //     $msg .= " - ". $absenceDateEnd;
-            //     $msg .= "<br>";
-            //     $msg .= "<br>";
-            // }
-            // else if($eventos[$i]->Type == "Contract Begin") {
-            //     if($eventDate == $actualDate) {
-            //         $msg .= $eventos[$i]->Photo."<br>";
-            //         $msg .=  "Today is ".$eventos[$i]->Name. "'s company birthday!";
-            //     }
-            //     else {
-            //         $msg .= $eventos[$i]->Photo."<br>";
-            //         $msg .= $eventos[$i]->Name."'s company birthday!";
-            //         $msg .= "<br>";
-            //         $msg .= "Date: ".$eventDate;
-            //     }
-            //     $msg .= "<br>";
-            //     $msg .= "<br>";
+            
+            else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Type"} == 1) {
+                $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                $msg .= "<div class='card-body'>";
+                $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;           
+                $msg .= "</p>";
+                $msg.= "</div>";
+            }
+            else if($eventos[$i]->Type == "Contract Begin") {
+                if($eventDate == $actualDate) {
+                    $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
+                    $msg .= "<br>";
+                    $msg .= "Date: ".$eventDate;           
+                    $msg .= "</p>";
+                    $msg.= "</div>";
+                }
+                else {
+                    $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
+                    $msg .= "<br>";
+                    $msg .= "Date: ".$eventDate;           
+                    $msg .= "</p>";
+                    $msg.= "</div>";
+                }
 
-            // }
-            // else {
-            //     $msg .= $eventos[$i]->Photo."<br>";
-            //     $msg .= "Name: ".$eventos[$i]->Name."<br>";
-            //     // $msg .= "Type: ".$eventos[$i]->Type."<br>";
-            //     if($eventos[$i]->{"Absence Motive"} == null){
-            //         $msg .= "";
-            //     }
-            //     else {
-            //         $msg .= $eventos[$i]->{"Absence Motive"}."<br>";
-            //     }
-            //     $msg .= "Date: ".$eventDate."<br>";
-            //     $msg .= "End Date: ".$absenceDateEnd."<br>";
-            //     $msg .= "<br>";
-            //     $msg .= "<br>";
-            // }
+            }
+
+            else {
+                $msg .= "<img class='card-img-top' src=".$eventos[$i]->Photo."alt='Card image cap'>";
+                $msg .= "<div class='card-body'>";
+                $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                // $msg .= "Type: ".$eventos[$i]->Type."<br>";
+                if($eventos[$i]->{"Absence Motive"} == null){
+                    $msg .= "<p class='card-text'>";
+                }
+                else {
+                    $msg .= "<p class='card-text'>".$eventos[$i]->{"Absence Motive"}."<br>";        
+                   
+                }
+                $msg .= "Date: ".$eventDate."<br>";
+                $msg .= "End Date: ".$absenceDateEnd."<br>";
+                $msg .= "</p>";
+                $msg.= "</div>";
+
+            }
+
+            
              $msg .= "</div>";
         $msg .= "</div>";
+
         
 
+        // if($i % 3 == 0) {
+        //     $lastIteration = $i+1;
+        //     break 1;         
+        // }
+
+
+        // if($i % 3 == 0) {
+        //     $lastIteration = $i;
+        //     break;
+        // }
+        $contagem++;
+        if($contagem == 3) {
+            $lastIteration = $i+1;
+            $contagem = 0;
+            break 1;
+        }
+
+        // if($i == 3) {
+        //  $msg .= "</div>";
+        //  $msg .= "</div>";
+        // break 2;
+        //  }
 
     }
     
@@ -527,6 +570,7 @@ for($l = 0; $l < 3; $l++) {
      $msg .= "</div>";
 
     $msg .= "</div>";
+
 
  }
 
