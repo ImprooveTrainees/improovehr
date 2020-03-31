@@ -58,3 +58,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employees', function () {
     return view('employees');
 });
+
+Route::get('/settingspage', function () {
+    return view('settingspage');
+});
