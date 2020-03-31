@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\sliderView;
+use Redirect,Response;
 
 class FullCalendarController extends Controller
 {
     public function index()
     {
-        return view ('fullcalendar.master');
+      
+        $events = sliderView::all();
+        return view('testeCalendar', compact('events'));
+        
     }
+    
+   
+   
+
 }
