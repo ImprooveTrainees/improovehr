@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\sliderView;
+use Redirect,Response;
 
 class AbsenceController extends Controller
 {
@@ -31,7 +33,7 @@ class AbsenceController extends Controller
 
         $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
 
-        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->get();
+        $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->orderBy('start_date','desc')->get();
 
         $array_vacations = array();
 
@@ -73,7 +75,9 @@ class AbsenceController extends Controller
 
                 $attachment = $abs->attachment;
 
-                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive);
+                $absence_type = $abs->absencetype;
+
+                array_push($array_absences,$id,$start,$end,$stat,$attachment,$motive,$absence_type);
 
             }
 
@@ -117,8 +121,6 @@ class AbsenceController extends Controller
 
         $absence = new absence();
 
-        $msg = '';
-
         $op = request('op');
 
         $updValue = request('upd');
@@ -139,7 +141,7 @@ class AbsenceController extends Controller
         } else if($op==2) {
 
             $absence->iduser=$userid;
-            $absence->absencetype="";
+            $absence->absencetype=6;
             $absence->attachment="";
             $absence->status="Pending";
             $absence->start_date = request('start_date');
@@ -157,6 +159,10 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['start_date' => $start_date]);
 
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Pending']);
+
 
         } else if($op==4) {
 
@@ -166,6 +172,10 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['end_date' => $end_date]);
 
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Pending']);
+
         } else if($op==5) {
 
             $start_datetime = request('upd_start_datetime');
@@ -174,6 +184,10 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['start_date' => $start_datetime]);
 
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Pending']);
+
         } else if($op==6) {
 
             $end_datetime = request('upd_end_datetime');
@@ -181,6 +195,10 @@ class AbsenceController extends Controller
             DB::table('absences')
             ->where('id', $updValue)
             ->update(['end_date' => $end_datetime]);
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['status' => 'Pending']);
 
         } else if($op==7) {
 
@@ -193,6 +211,28 @@ class AbsenceController extends Controller
             DB::table('absences')
             ->where('id', $updValue)
             ->update(['status' => 'Disapproved']);
+
+        } else if($op==9) {
+
+            $attachment = request('inputGroupFile01');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['attachment' => $attachment]);
+
+        } else if($op==10) {
+
+            $typeAbs = request('typeUpd');
+
+            $motive = request('motive');
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['absencetype' => $typeAbs]);
+
+            DB::table('absences')
+            ->where('id', $updValue)
+            ->update(['motive' => $motive]);
 
         }
 
@@ -403,7 +443,183 @@ class AbsenceController extends Controller
         }
         $diasAusencia += 1;
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia'));
+
+
+        //Calendar
+        $events = sliderView::all();
+        //
+
+
+
+        //Slider
+        $eventos = DB::table('sliderView')
+        ->select('*')
+        ->get();
+
+
+
+
+
+$actualDate = date("Y/m/d");
+$msg = "";
+$lastIteration = 0;
+$blocksNum = (count($eventos) / 3);
+$contagem = 0;
+
+for($l = 0; $l < $blocksNum; $l++) {
+    if($l == 0) {
+        $msg .= "<div class='carousel-item active'>";
+    }
+     else {
+         $msg .= "<div class='carousel-item'>";
+     }
+    $msg .= "<div class='row'>";
+
+
+        for($i = $lastIteration; $i < count($eventos); $i++) {
+            $today = date("Y/m/d");
+            $today = date('Y-m-d', strtotime($today));
+            $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
+            //filtro para mostrar apenas todos os eventos futuros da data actual
+            // if($eventDate < $today) {
+            //     continue;
+            // }
+            if($i == count($eventos)-1) {
+                continue;
+            }
+
+
+            $msg .= "<div class='col-md-4'>";
+                $msg .= "<div class='card mb-2'>";
+
+            if($eventos[$i]->{"DateEnd Absence"} != null) {
+                $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));
+            }
+            else {
+                $absenceDateEnd = "";
+            }
+            if($eventos[$i]->Type == "Birthday") {
+                if($eventDate == $actualDate) {
+                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>Happy birthday ".$eventos[$i]->Name."! </p>";
+                    // <a class="btn btn-primary">Button</a>
+                  $msg.= "</div>";
+                }
+                else {
+                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
+                    $msg .= "<br>";
+                    $msg .= "Date: ". $eventos[$i]->Date;
+                    $msg .= "</p>";
+                    // <a class="btn btn-primary">Button</a>
+                    $msg.= "</div>";
+
+                }
+
+            }
+
+            else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Type"} == 1) {
+                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<div class='card-body'>";
+                $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;
+                $msg .= "</p>";
+                $msg.= "</div>";
+            }
+            else if($eventos[$i]->Type == "Contract Begin") {
+                if($eventDate == $actualDate) {
+                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
+                    $msg .= "<br>";
+                    $msg .= "Date: ".$eventDate;
+                    $msg .= "</p>";
+                    $msg.= "</div>";
+                }
+                else {
+                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<div class='card-body'>";
+                    $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                    $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
+                    $msg .= "<br>";
+                    $msg .= "Date: ".$eventDate;
+                    $msg .= "</p>";
+                    $msg.= "</div>";
+                }
+
+            }
+
+            else {
+                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<div class='card-body'>";
+                $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
+                // $msg .= "Type: ".$eventos[$i]->Type."<br>";
+                if($eventos[$i]->{"Absence Motive"} == null){
+                    $msg .= "<p class='card-text'>";
+                }
+                else {
+                    $msg .= "<p class='card-text'>".$eventos[$i]->{"Absence Motive"}."<br>";
+
+                }
+                $msg .= "Date: ".$eventDate."<br>";
+                $msg .= "End Date: ".$absenceDateEnd."<br>";
+                $msg .= "</p>";
+                $msg.= "</div>";
+
+            }
+
+
+             $msg .= "</div>";
+        $msg .= "</div>";
+
+
+
+        // if($i % 3 == 0) {
+        //     $lastIteration = $i+1;
+        //     break 1;
+        // }
+
+
+        // if($i % 3 == 0) {
+        //     $lastIteration = $i;
+        //     break;
+        // }
+        $contagem++;
+        if($contagem == 3) {
+            $lastIteration = $i+1;
+            $contagem = 0;
+            break 1;
+        }
+
+        // if($i == 3) {
+        //  $msg .= "</div>";
+        //  $msg .= "</div>";
+        // break 2;
+        //  }
+
+    }
+
+
+     $msg .= "</div>";
+
+    $msg .= "</div>";
+
+
+ }
+
+
+
+
+        // Slider End
+
+
+
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }

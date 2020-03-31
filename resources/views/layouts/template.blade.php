@@ -27,7 +27,24 @@
 
         <link rel="stylesheet" href="assets/js/plugins/datatables/dataTables.bootstrap4.css">
         <link rel="stylesheet" href="assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+         <!-- Calendar -->
+        <link href='assets/fullcalendar/core/main.css' rel='stylesheet' />
+        <link href='assets/fullcalendar/daygrid/main.css' rel='stylesheet' />
+        <link href='assets/fullcalendar/timegrid/main.css' rel='stylesheet' />
+        <link href='assets/fullcalendar/list/main.css' rel='stylesheet' />
 
+        <script src='assets/fullcalendar/core/main.js'></script>
+        <script src='assets/fullcalendar/daygrid/main.js'></script>
+        <script src='assets/fullcalendar/timegrid/main.js'></script>
+        <script src='assets/fullcalendar/interaction/main.js'></script>
+        <script src='assets/fullcalendar/list/main.js'></script>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+        </script>
 
     </head>
     <body>

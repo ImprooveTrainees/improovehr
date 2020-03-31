@@ -9,119 +9,87 @@ active
 @endsection
 
 @section('content')
+<style>
+  .sliderResize {
+      height: 220px;
+  }
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Simple table teste</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <tbody class="table">
-                        <thead class="text-primary">
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                            <th>something</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                                <td>12</td>
-                            </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
+</style>
 
 <!-- Page Content -->
 <div class="content">
 
-        <!DOCTYPE html>
-<html>
-<head>
-<meta charset='utf-8' />
-<link href='{{asset('assets/fullcalendar/packages/core/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar/packages/daygrid/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar//packages/timegrid/main.css')}}' rel='stylesheet' />
-<link href='{{asset('assets/fullcalendar//packages/list/main.css')}}' rel='stylesheet' />
-<script src='{{asset('assets/fullcalendar//packages/core/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/interaction/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/daygrid/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/timegrid/main.js')}}'></script>
-<script src='{{asset('assets/fullcalendar//packages/list/main.js')}}'></script>
-<script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var Calendar = FullCalendar.Calendar;
-    var Draggable = FullCalendarInteraction.Draggable
+  <div id="allboxes">
+<!-- Calendar Begin -->
+    <h3>Improove Calendar</h3>
 
-    /* initialize the external events
-    -----------------------------------------------------------------*/
+    <div class="shadow p-1 bg-white" id='calendar'></div>
 
-    var containerEl = document.getElementById('external-events-list');
-    new Draggable(containerEl, {
-      itemSelector: '.fc-event',
-      eventData: function(eventEl) {
-        return {
-          title: eventEl.innerText.trim()
-        }
-      }
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
 
-    //// the individual way to do it
-    // var containerEl = document.getElementById('external-events-list');
-    // var eventEls = Array.prototype.slice.call(
-    //   containerEl.querySelectorAll('.fc-event')
-    // );
-    // eventEls.forEach(function(eventEl) {
-    //   new Draggable(eventEl, {
-    //     eventData: {
-    //       title: eventEl.innerText.trim(),
-    //     }
-    //   });
-    // });
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+            defaultView: 'dayGridMonth',
+            height: 580,
+            header: {
+            left: 'dayGridMonth,timeGridWeek,timeGridDay',
+            center: 'title',
+            right: 'prevYear,prev,next,nextYear'
+            },
+            selectable: false,
+            // select: function(info) {
+            // alert('De ' + info.startStr + ' a ' + info.endStr);
+            // var dataClicada =  info.date.getFullYear().toString() + (info.date.getMonth()+1).toString() + info.date.getDate().toString(); //aqui vai buscar a data clicada
+            // },
+          events : [
+                    @foreach($events as $event)
+                    {
+                        @if($event->Type == "Birthday")
+                        title : '{{ $event->Name }}'+ "'"+'s birthday!',
+                        backgroundColor: 'yellow',
+                        borderColor: 'black',
+                        @endif
 
-    /* initialize the calendar
-    -----------------------------------------------------------------*/
+                        @if($event->Type == "Contract Begin")
+                        title : '{{ $event->Name }}'+ "'"+'s company' + "'" +  's birthday!',
+                        backgroundColor: 'green',
+                        borderColor: 'black',
+                        textColor: 'white',
+                        @endif
 
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new Calendar(calendarEl, {
-      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-      },
-      navLinks:true,
-      eventLimit:true,
-      selectable:true,
-      editable: true,
-      droppable: true, // this allows things to be dropped onto the calendar
-      drop: function(arg) {
-        // is the "remove after drop" checkbox checked?
-        if (document.getElementById('drop-remove').checked) {
-          // if so, remove the element from the "Draggable Events" list
-          arg.draggedEl.parentNode.removeChild(arg.draggedEl);
-        }
-      }
-    });
-    calendar.render();
+                        @if($event->Type == "Absence")
+                        title : '{{ $event->Name }}' + " | " + '{{ $event->{"Absence Motive"} }}',
+                        @endif
 
-  });
+                        @if($event->Type == "Absence" && $event->{"Absence Type"} == 1)
+                        title : '{{ $event->Name }}' + " | " + 'Vacations',
+                        backgroundColor: '#57db39',
+                        borderColor: 'black',
+                        textColor: 'black',
+                        @endif
 
-</script>
+                        start : '{{ $event->Date }}',
+                        end : '{{ $event->{"DateEnd Absence"} }}',
+
+                    },
+                    @endforeach
+                ],
+
+        });
+
+        calendar.render();
+      });
+
+    </script>
+
+<!-- Calendar end -->
+
 <style>
 
-  body {
+body {
     margin-top: 40px;
     font-size: 15px;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -131,17 +99,6 @@ active
     width: 100%;
     margin: auto;
   }
-
-  /* #external-events {
-    float: left;
-    width: 200px;
-    padding: 35px 10px;
-    border: 1px solid #ccc;
-    background: #eee;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 6%;
-  } */
 
   #external-events h4 {
     font-size: 16px;
@@ -169,38 +126,7 @@ active
     float: right;
     width: 55%;
     border-radius: 8px;
-    margin-top: -20px;
-  }
-
-  #box1 {
-    margin: 30px;
-    margin-left: 180px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 340px;
-    position: absolute;
-  }
-
-  #box2 {
-    margin-left: 4px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
-  }
-
-  #box3 {
-    margin-left: 385px;
-    width: 16%;
-    height: 14%;
-    border-radius: 8px;
-    margin-top: 512px;
-    text-align: center;
-    position: absolute;
+    margin-top: 300px;
   }
 
   #multi-item-example {
@@ -210,73 +136,102 @@ active
     position: absolute;
   }
 
-  #allboxes {
-    margin-top: -363px;
-    margin-left: 1px
-  }
+  #allboxes2 {
+    text-align: center;
+    height: 179px;
+    border-radius: 8px;
+}
 
-  .dot {
+  .dot1 {
   height: 75px;
   width: 75px;
-  background-color: white;
   border-radius: 50%;
   display: inline-block;
-  border: 3px solid lightgreen;
-  margin-left: -120px;
-  margin-top: 24px;
+  border: 1px solid #00ff3a61;
+  margin-left: -140px;
+  margin-top: 15px;
+  background-color: #90ee90;
 }
 
-#p2 {
-  margin-left: 50%;
-}
-
-#p1 {
-  margin-top: -104px;
+.dot2 {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #dc3545;
+  margin-left: -140px;
+  margin-top: 15px;
+  background-color: #d26a5c;;
 }
 
 #label3 {
-  margin-top: 33%;
+  margin-top: 12%;
+  color: white;
+  font-size: 35px;
+  font-family: monospace;
 }
 
+#ptotalabsences {
+  margin-top: -104px;
+  color: white;
+  font-size: 35px;
+  font-family: monospace;
+  margin-left: -137px;
+}
+
+#timeaccomplished {
+  font-variant-caps: all-small-caps;
+  font-size: large;
+}
+
+/* Style all font awesome icons */
+#social {
+    padding: 10px;
+    width: 35px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+  }
+
+  /* Add a hover effect if you want */
+  .fa:hover {
+    opacity: 0.7;
+  }
+
+  /* Set a specific color for each brand */
+
+  /* Facebook */
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+
+  .fa-linkedin {
+    background: #007bb5;
+    color: white;
+  }
+
+    .sliderResize {
+    height: 220px;
+    }
+
+    .card-body {
+        max-height: 130px;
+    }
+
 </style>
-</head>
-<body>
-<div class="shadow p-1 bg-white" id="calendar">
-  <div id='wrap'>
 
-    <!-- <div id='external-events'>
 
-    <div class="shadow p-3 mb-5 bg-white rounded">Regular shadow</div>
-      <h4>Draggable Events</h4> -->
-
-      <div id='external-events-list'>
-        <!-- <div class='fc-event'>Faltas</div>
-        <div class='fc-event'>Férias</div> -->
-      </div>
-
-      <!-- <p>
-        <input type='checkbox' id='drop-remove' />
-        <label for='drop-remove'>remove after drop</label>
-      </p> -->
-
-    </div>
-
-    <div id='calendar'></div>
-
-    <div style='clear:both'></div>
-
-  </div>
-
-  <div id="allboxes">
   <div class="shadow p-1 bg-white" id="box1">
   <div class="container">
   <div class="row">
   <div class="col">
-  <span class="dot">
+  <span class="dot1">
   <label id="label3">{{$vacationDaysAvailable}}</label>
   </span>
-  <div><p id="p1">Holidays</p></div>
-  <div><p id="p2">TOTAL : {{$vacations_total}}</p></div>
+  <p id="pholidays">Days Available</p>
+  <p id="ptotal">A total of {{$vacations_total}} days</p>
+  <p id="year1">Year of<p id="currentyear1"></p></p>
     </div>
   </div>
 </div>
@@ -285,10 +240,10 @@ active
 <div class="shadow p-1 bg-white" id="box2">
 <div class="row">
     <div class="col">
-      Absences
-
-        <p>{{$diasAusencia}}</p>
-
+    <p class="dot2"></p>
+    <p id="ptotalabsences">{{$diasAusencia}}</p>
+    <p id="pabsences">Absence Days</p>
+    <p id="year2">Year of<p id="currentyear2"></p></p>
     </div>
   </div>
 </div>
@@ -296,7 +251,7 @@ active
 <div class="shadow p-1 bg-white" id="box3">
 <div class="row">
     <div class="col">
-      Time Accomplished
+    <p id="timeaccomplished">Time Accomplished</p>
     </div>
   </div>
 </div>
@@ -323,21 +278,62 @@ active
   <!--/.Indicators-->
 
   <!--Slides-->
-  <div class="carousel-inner" id="allboxes2" role="listbox">
+  <div class="shadow p-1 bg-white" class="carousel-inner" id="allboxes2" role="listbox">
 
     <!--First slide-->
-    <div class="carousel-item active">
+    {{-- <div class="carousel-item active">  --}}
+
+      {{-- <div class="row"> <!-- Inicio bloco com 3 sliders --> --}}
+
+        {{-- <div class="col-md-4">
+          <div class="card mb-2"> --}}
+            {{-- <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
+              alt="Card image cap"> --}}
+            {{-- <div class="card-body">
+              <h4 class="card-title">Card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                card's content.</p>
+              <a class="btn btn-primary">Button</a>
+            </div> --}}
+          {{-- </div>
+        </div> --}}
+
+       <?php echo $msg?>
+
+
+
+      {{-- </div> --}}
+
+    {{-- </div> --}}
+    <!--/.First slide | Fim 1 bloco-->
+
+    <!--Second slide-->
+    {{-- <div class="carousel-item">
 
       <div class="row">
         <div class="col-md-4">
+          <div class="card mb-2">
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
+              alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Vacations</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
             <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -346,87 +342,23 @@ active
         <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
             <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Name</h5>
-              <p class="card-text">Vacations</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
-              <!-- <a class="btn btn-primary">Button</a> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Absence</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
       </div>
 
-    </div>
-    <!--/.First slide-->
-
-    <!--Second slide-->
-    <div class="carousel-item">
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Name</h5>
-              <p class="card-text">Vacations</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
-              <!-- <a class="btn btn-primary">Button</a> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Name</h5>
-              <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
-              <!-- <a class="btn btn-primary">Button</a> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Name</h5>
-              <p class="card-text">Working from home</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
-              <!-- <a class="btn btn-primary">Button</a> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </div> --}}
     <!--/.Second slide-->
 
     <!--Third slide-->
-    <div class="carousel-item">
+    {{-- <div class="carousel-item">
 
       <div class="row">
         <div class="col-md-4">
@@ -436,8 +368,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Happy Birthday!</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -450,8 +382,8 @@ active
             <div class="card-body">
               <h5 class="card-title">Name</h5>
               <p class="card-text">Absence</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
@@ -463,16 +395,16 @@ active
               alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Name</h5>
-              <p class="card-text">Working from home</p>
-              <a href="http://www.facebook.com" class="fa fa-facebook"></a>
-              <a href="http://www.linkedin.com" class="fa fa-linkedin"></a>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
               <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
       </div>
 
-    </div>
+    </div> --}}
     <!--/.Third slide-->
 
   </div>
@@ -484,10 +416,9 @@ active
 
 </div>
 
-</body>
-</html>
 
 </div>
+
 <!-- END Page Content -->
 
 @endsection
@@ -495,3 +426,4 @@ active
 @section('scripts')
 
 @endsection
+
