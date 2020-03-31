@@ -4,6 +4,14 @@
     Improove HR - Professional Info
 @endsection
 
+@section('sidebarprofessional')
+active
+@endsection
+
+@section('opensidebar')
+open
+@endsection
+
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
@@ -14,7 +22,7 @@
             </div>
         @endif
     <p>Professional Data</p>
-    <hr>
+    <hr><br>
 
 @foreach ($profInfo as $row) {{-- Data from controller querys --}}
     <div class="form-group role">
@@ -79,9 +87,9 @@
             <div class="form-group companyemail">
                 <label for="">Company Email:</label>
                 @if($row->compMail == null)
-                    <input type="email" class="form-control" name="compMail" id="companyemail2" placeholder="Insert e-mail">
+                    <input type="email" class="form-control" name="compMail" id="companyemail2" placeholder="Insert Email">
                 @else
-                    <input type="email" class="form-control" name="compMail" value="{{$row->compMail}}">
+                    <input type="email" class="form-control" name="compMail" id="companyemail2" value="{{$row->compMail}}">
                 @endif
             </div>
             <div class="form-group companymobile">
@@ -94,7 +102,7 @@
             </div>
                 @endforeach  {{--END For Para Form --}}
                 <br><br>
-            <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
+            <button type="submit" class="form-group btn btn-outline-primary bprofile2">Save</button>
         </form>
         {{--------------------------- FIM Form PARA ALTERAR Phone and Email  -------------------------------------------}}
         <div id="subtitle">

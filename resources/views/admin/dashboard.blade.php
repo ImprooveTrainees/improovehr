@@ -3,8 +3,12 @@
 @section('title')
     Improove HR Tool
 @endsection
-@section('content')
 
+@section('sidebarhome')
+active
+@endsection
+
+@section('content')
 
 
 <!-- Page Content -->
@@ -83,9 +87,12 @@
   <div class="container">
   <div class="row">
   <div class="col">
-      Holidays
-    <p>AVAILABLE : {{$vacationDaysAvailable}}</p>
-      <p>TOTAL : {{$vacations_total}}</p>
+  <span class="dot1">
+  <label id="label3">{{$vacationDaysAvailable}}</label>
+  </span>
+  <p id="pholidays">Days Available</p>
+  <p id="ptotal">A total of {{$vacations_total}} days</p>
+  <p id="year1">Year of<p id="currentyear1"></p></p>
     </div>
   </div>
 </div>
@@ -94,10 +101,10 @@
 <div class="shadow p-1 bg-white" id="box2">
 <div class="row">
     <div class="col">
-      Absences
-
-        <p>{{$diasAusencia}}</p>
-
+    <p class="dot2"></p>
+    <p id="ptotalabsences">{{$diasAusencia}}</p>
+    <p id="pabsences">Absence Days</p>
+    <p id="year2">Year of<p id="currentyear2"></p></p>
     </div>
   </div>
 </div>
@@ -105,7 +112,7 @@
 <div class="shadow p-1 bg-white" id="box3">
 <div class="row">
     <div class="col">
-      Time Accomplished
+    <p id="timeaccomplished">Time Accomplished</p>
     </div>
   </div>
 </div>
@@ -132,7 +139,7 @@
   <!--/.Indicators-->
 
   <!--Slides-->
-  <div class="carousel-inner" role="listbox">
+  <div class="carousel-inner" id="allboxes2" role="listbox">
 
     <!--First slide-->
     {{-- <div class="carousel-item active">  --}}
@@ -167,39 +174,42 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Vacations</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
 
         <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Happy Birthday!</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
 
         <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
@@ -214,39 +224,42 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(53).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Happy Birthday!</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
 
         <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(45).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
 
         <div class="col-md-4 clearfix d-none d-md-block">
           <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg"
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
               alt="Card image cap">
             <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
+              <h5 class="card-title">Name</h5>
+              <p class="card-text">Absence</p>
+              <a href="http://www.facebook.com" class="fa fa-facebook" id="social"></a>
+              <a href="http://www.linkedin.com" class="fa fa-linkedin" id="social"></a>
+              <!-- <a class="btn btn-primary">Button</a> -->
             </div>
           </div>
         </div>
@@ -263,7 +276,6 @@
 
 
 </div>
-
 
 
 </div>
