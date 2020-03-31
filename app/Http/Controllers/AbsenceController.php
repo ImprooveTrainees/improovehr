@@ -445,8 +445,8 @@ class AbsenceController extends Controller
 
 
 
-        //Calendar       
-        $events = sliderView::all();  
+        //Calendar
+        $events = sliderView::all();
         //
 
 
@@ -481,13 +481,13 @@ for($l = 0; $l < $blocksNum; $l++) {
             $today = date('Y-m-d', strtotime($today));
             $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
             //filtro para mostrar apenas todos os eventos futuros da data actual
-            // if($eventDate < $today) { 
+            // if($eventDate < $today) {
             //     continue;
             // }
             if($i == count($eventos)-1) {
                 continue;
             }
-    
+
 
             $msg .= "<div class='col-md-4'>";
                 $msg .= "<div class='card mb-2'>";
@@ -512,21 +512,21 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
-                    $msg .= "<br>"; 
-                    $msg .= "Date: ". $eventos[$i]->Date;              
+                    $msg .= "<br>";
+                    $msg .= "Date: ". $eventos[$i]->Date;
                     $msg .= "</p>";
                     // <a class="btn btn-primary">Button</a>
                     $msg.= "</div>";
-                    
+
                 }
-          
+
             }
-            
+
             else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Type"} == 1) {
                 $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
-                $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;           
+                $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;
                 $msg .= "</p>";
                 $msg.= "</div>";
             }
@@ -537,7 +537,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
                     $msg .= "<br>";
-                    $msg .= "Date: ".$eventDate;           
+                    $msg .= "Date: ".$eventDate;
                     $msg .= "</p>";
                     $msg.= "</div>";
                 }
@@ -547,7 +547,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
                     $msg .= "<br>";
-                    $msg .= "Date: ".$eventDate;           
+                    $msg .= "Date: ".$eventDate;
                     $msg .= "</p>";
                     $msg.= "</div>";
                 }
@@ -563,8 +563,8 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<p class='card-text'>";
                 }
                 else {
-                    $msg .= "<p class='card-text'>".$eventos[$i]->{"Absence Motive"}."<br>";        
-                   
+                    $msg .= "<p class='card-text'>".$eventos[$i]->{"Absence Motive"}."<br>";
+
                 }
                 $msg .= "Date: ".$eventDate."<br>";
                 $msg .= "End Date: ".$absenceDateEnd."<br>";
@@ -573,15 +573,15 @@ for($l = 0; $l < $blocksNum; $l++) {
 
             }
 
-            
+
              $msg .= "</div>";
         $msg .= "</div>";
 
-        
+
 
         // if($i % 3 == 0) {
         //     $lastIteration = $i+1;
-        //     break 1;         
+        //     break 1;
         // }
 
 
@@ -603,7 +603,7 @@ for($l = 0; $l < $blocksNum; $l++) {
         //  }
 
     }
-    
+
 
      $msg .= "</div>";
 
@@ -612,9 +612,9 @@ for($l = 0; $l < $blocksNum; $l++) {
 
  }
 
-        
 
-       
+
+
         // Slider End
 
 
