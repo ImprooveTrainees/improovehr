@@ -10,7 +10,9 @@ use App\contract;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
-
+use Validator,Redirect,Response,File;
+use DB;
+use Image;
 
 class UserController extends Controller
 {
@@ -148,10 +150,39 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeProfileImg(Request $request)
     {
         //
+        $idNome = Auth::User()->name;
+
+        request()->validate([
+            'fileUpload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+       ]);
+       if ($files = $request->file('fileUpload')) {
+        
+           $image = $request->file('fileUpload');
+           $resize_image = Image::make($image->getRealPath());
+
+          
+
+           $destinationPath = 'img/users'; // upload path
+           $profileImage = strtolower($idNome). "." . $files->getClientOriginalExtension();
+
+        //    $resize_image->resize(150, 100, function($constraint){
+        //     $constraint->aspectRatio();
+        //    })->save($destinationPath ."/".$profileImage); muda a resolução da imagem após upload
+
+            $files->move($destinationPath, $profileImage);
+           
+        }
+        $query = DB::table('users')
+        ->where('id', Auth::User()->id)
+        ->update(['photo' => 'img/users/'.$profileImage]);
+        
+        return Redirect::to("personal")
+        ->withMessage('Profile image has been successfully changed.');
     }
+    
 
     /**
      * Display the specified resource.

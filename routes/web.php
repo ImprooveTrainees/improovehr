@@ -42,6 +42,8 @@ Route::get('/testeSlider', 'SliderController@index');
 Route::get('/newEmployee', 'UserController@newEmployeeView');
 Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
 
+Route::post('/saveProfileImage', 'UserController@storeProfileImg');
+
 Route::get('/editar', 'UserController@edit');
 Route::get('/profEdit', 'ProfessionalInfoController@edit');
 
