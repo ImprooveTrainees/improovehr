@@ -9,10 +9,6 @@
 
 .bprofile {
     width: 25%;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    justify-content: center;
 }
 
 .birthday,
@@ -93,6 +89,7 @@
 
     #imagefile {
         font-size: 25px;
+        padding: 0;
     }
 
     .cardbox4 {

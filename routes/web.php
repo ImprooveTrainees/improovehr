@@ -61,5 +61,8 @@ Route::get('/employees', function () {
     return view('employees');
 });
 
+Route::get('/settingspage', function () {
+    return view('settingspage');
+});
 
 Route::get('/testeCalendar', 'FullCalendarController@index');

@@ -14,7 +14,9 @@
         "../mobile/components/holidays/_holidays.scss",
         "../screens/components/holidays/_holidays.scss",
         "../mobile/components/employees/_employees.scss",
-        "../screens/components/employees/_employees.scss"
+        "../screens/components/employees/_employees.scss",
+        "../mobile/components/settings/_settings.scss",
+        "../screens/components/settings/_settings.scss"
     ],
     "names": [],
     "file": "main.css"
