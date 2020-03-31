@@ -9,7 +9,12 @@ active
 @endsection
 
 @section('content')
+<style>
+  .sliderResize {
+      height: 220px;
+  }
 
+</style>
 
 <!-- Page Content -->
 <div class="content">
@@ -287,3 +292,4 @@ active
 @section('scripts')
 
 @endsection
+

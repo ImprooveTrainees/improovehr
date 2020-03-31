@@ -16,13 +16,22 @@ open
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/users/{{$users->name}}.jpg" alt="img" id="profile">
-    <div class="element">
-        <div class="shadow p-1 bg-white cardbox4">
+      @if($users->photo == null)
+        <h5>Insert a profile image</h5>
+        @else
+        <img src="{{$users->photo}}" alt="img" id="profile">
+      @endif
+    
+    <form id="file-upload-form" class="element" action="/saveProfileImage" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+      @csrf   
+      <div class="shadow p-1 bg-white cardbox4">
             <i class="fa fa-camera" id="imagefile"></i>
+              <input id="file-upload" type="file" name="fileUpload" accept="image/*" onchange="insertImage()">
+              <img id="file-image" src="#" alt="" class="hidden">
         </div>
-        <input type="file" name="" id="filesend">
-      </div>
+      </form>
+
+
 
 <form class="form-group profileform" action="/editar">
 
@@ -207,3 +216,27 @@ open
 </div>
 
 @endsection
+
+<script>
+    //   function readURL(input, id) {
+    //     id = id || '#file-image';
+    //     if (input.files &amp;&amp; input.files[0]) {
+    //         var reader = new FileReader();
+
+    //         reader.onload = function (e) {
+    //             $(id).attr('src', e.target.result);
+    //         };
+
+    //         reader.readAsDataURL(input.files[0]);
+            
+    //     }
+
+       
+    //  }
+
+    function insertImage() {
+      document.getElementById('file-upload-form').submit();
+    }
+
+
+</script>

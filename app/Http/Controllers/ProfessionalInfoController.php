@@ -60,7 +60,9 @@ class ProfessionalInfoController extends Controller
 
         $usersAttachments = DB::table('user_attachments')->where('idUser',$userLogin)->get();
 
-        return view('professional_info')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments)->with('manager',$manager)->with('userCountry',$userCountry);
+        $userPhoto = Auth::User()->photo;
+
+        return view('professional_info')->with('users',$users)->with('profInfo',$profInfo)->with('usersAttachments',$usersAttachments)->with('manager',$manager)->with('userCountry',$userCountry)->with('userPhoto',$userPhoto);
 
     }
 

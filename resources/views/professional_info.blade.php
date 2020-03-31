@@ -15,7 +15,7 @@ open
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
-    <img src="img/users/Admin.jpg" alt="img" id="profile2">
+    <img src="{{$userPhoto}}" alt="img" id="profile2">
         @if(session()->has('pop'))
             <div class="alert alert-success">
                 {{ session()->get('pop') }}
