@@ -65,5 +65,7 @@ Auth::routes();
 // Route::get('/testeNumberHolidays', 'AbsenceController@show');
 
 
-
+Route::get('/settingspage', function () {
+    return view('settingspage');
+});
 

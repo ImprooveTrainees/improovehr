@@ -299,7 +299,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="javascript:void(0)">
+                            <a class="nav-main-link @yield('sidebarsettings')" href="/settingspage">
                                 <i class="fas fa-cog"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Settings</span>
                             </a>
