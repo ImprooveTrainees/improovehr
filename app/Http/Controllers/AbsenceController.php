@@ -517,6 +517,8 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
                     $msg .= "<br>";
                     $msg .= "Date: ". $eventos[$i]->Date;
+                    $msg .= "<br>";
+                    $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                     $msg .= "</p>";
                     // <a class="btn btn-primary">Button</a>
                     $msg.= "</div>";
@@ -530,6 +532,8 @@ for($l = 0; $l < $blocksNum; $l++) {
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                 $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;
+                $msg .= "<br>";
+                $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                 $msg .= "</p>";
                 $msg.= "</div>";
             }
@@ -551,6 +555,8 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
                     $msg .= "<br>";
                     $msg .= "Date: ".$eventDate;
+                    $msg .= "<br>";
+                    $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                     $msg .= "</p>";
                     $msg.= "</div>";
                 }
@@ -571,6 +577,8 @@ for($l = 0; $l < $blocksNum; $l++) {
                 }
                 $msg .= "Date: ".$eventDate."<br>";
                 $msg .= "End Date: ".$absenceDateEnd."<br>";
+                $msg .= "<br>";
+                $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                 $msg .= "</p>";
                 $msg.= "</div>";
 
