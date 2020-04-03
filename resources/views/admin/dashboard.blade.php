@@ -9,12 +9,6 @@ active
 @endsection
 
 @section('content')
-<style>
-  .sliderResize {
-      height: 220px;
-  }
-
-</style>
 
 <!-- Page Content -->
 <div class="content">
@@ -33,7 +27,7 @@ active
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
             defaultView: 'dayGridMonth',
-            height: 580,
+            height: 850,
             header: {
             left: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'title',
@@ -49,26 +43,30 @@ active
                     {
                         @if($event->Type == "Birthday")
                         title : '{{ $event->Name }}'+ "'"+'s birthday!',
-                        backgroundColor: 'yellow',
-                        borderColor: 'black',
+                        backgroundColor: 'orange',
+                        borderColor: 'orange',
+                        textColor: 'white',
                         @endif
 
                         @if($event->Type == "Contract Begin")
                         title : '{{ $event->Name }}'+ "'"+'s company' + "'" +  's birthday!',
-                        backgroundColor: 'green',
-                        borderColor: 'black',
+                        backgroundColor: 'dodgerblue',
+                        borderColor: 'dodgerblue',
                         textColor: 'white',
                         @endif
 
                         @if($event->Type == "Absence")
                         title : '{{ $event->Name }}' + " | " + '{{ $event->{"Absence Motive"} }}',
+                        backgroundColor: 'red',
+                        borderColor: 'red',
+                        textColor: 'white',
                         @endif
 
                         @if($event->Type == "Absence" && $event->{"Absence Type"} == 1)
                         title : '{{ $event->Name }}' + " | " + 'Vacations',
-                        backgroundColor: '#57db39',
-                        borderColor: 'black',
-                        textColor: 'black',
+                        backgroundColor: 'limegreen',
+                        borderColor: 'limegreen',
+                        textColor: 'white',
                         @endif
 
                         start : '{{ $event->Date }}',
@@ -86,140 +84,6 @@ active
     </script>
 
 <!-- Calendar end -->
-
-<style>
-
-body {
-    margin-top: 40px;
-    font-size: 15px;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  }
-
-  #wrap {
-    width: 100%;
-    margin: auto;
-  }
-
-  #external-events h4 {
-    font-size: 16px;
-    margin-top: 0;
-    padding-top: 1em;
-  }
-
-  #external-events .fc-event {
-    margin: 10px 0;
-    cursor: pointer;
-  }
-
-  #external-events p {
-    margin: 1.5em 0;
-    font-size: 11px;
-    color: #666;
-  }
-
-  #external-events p input {
-    margin: 0;
-    vertical-align: middle;
-  }
-
-  #calendar {
-    float: right;
-    width: 55%;
-    border-radius: 8px;
-    margin-top: 300px;
-  }
-
-  #multi-item-example {
-    margin-top: 630px;
-    width: 36%;
-    margin-left: -248px;
-    position: absolute;
-  }
-
-  #allboxes2 {
-    text-align: center;
-    height: 179px;
-    border-radius: 8px;
-}
-
-  .dot1 {
-  height: 75px;
-  width: 75px;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid #00ff3a61;
-  margin-left: -140px;
-  margin-top: 15px;
-  background-color: #90ee90;
-}
-
-.dot2 {
-  height: 75px;
-  width: 75px;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid #dc3545;
-  margin-left: -140px;
-  margin-top: 15px;
-  background-color: #d26a5c;;
-}
-
-#label3 {
-  margin-top: 12%;
-  color: white;
-  font-size: 35px;
-  font-family: monospace;
-}
-
-#ptotalabsences {
-  margin-top: -104px;
-  color: white;
-  font-size: 35px;
-  font-family: monospace;
-  margin-left: -137px;
-}
-
-#timeaccomplished {
-  font-variant-caps: all-small-caps;
-  font-size: large;
-}
-
-/* Style all font awesome icons */
-#social {
-    padding: 10px;
-    width: 35px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 50%;
-  }
-
-  /* Add a hover effect if you want */
-  .fa:hover {
-    opacity: 0.7;
-  }
-
-  /* Set a specific color for each brand */
-
-  /* Facebook */
-  .fa-facebook {
-    background: #3B5998;
-    color: white;
-  }
-
-  .fa-linkedin {
-    background: #007bb5;
-    color: white;
-  }
-
-    .sliderResize {
-    height: 220px;
-    }
-
-    .card-body {
-        max-height: 130px;
-    }
-
-</style>
 
 
   <div class="shadow p-1 bg-white" id="box1">
@@ -260,7 +124,7 @@ body {
 <div class="container my-4" id="carouselbox">
 
 <!--Carousel Wrapper-->
-<div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+<div id="multi-item-example" class="carousel carousel-multi-item" data-ride="carousel">
 
   <!--Controls-->
   <div class="controls-top">
@@ -268,14 +132,6 @@ body {
     <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
   </div>
   <!--/.Controls-->
-
-  <!--Indicators-->
-  <ol class="carousel-indicators">
-    <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-    <li data-target="#multi-item-example" data-slide-to="1"></li>
-    <li data-target="#multi-item-example" data-slide-to="2"></li>
-  </ol>
-  <!--/.Indicators-->
 
   <!--Slides-->
   <div class="shadow p-1 bg-white" class="carousel-inner" id="allboxes2" role="listbox">
@@ -419,6 +275,16 @@ body {
 
 </div>
 
+<script>
+var d = new Date();
+document.getElementById("currentyear1").innerHTML = d.getFullYear();
+</script>
+
+<script>
+var d = new Date();
+document.getElementById("currentyear2").innerHTML = d.getFullYear();
+</script>
+
 <!-- END Page Content -->
 
 @endsection
@@ -426,4 +292,3 @@ body {
 @section('scripts')
 
 @endsection
-
