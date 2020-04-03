@@ -15,19 +15,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/offices', 'OfficesDepsController@index');
 
-
+//Login
 Route::get('/', function () {
     return view('auth.login');
 });
 
 
 
+
+//Dashboard
+Route::get('/admin', 'AbsenceController@show');
+
+//Users
 Route::get('/professional', function () {
     return view('professional_info');
 });
-
-Route::get('/admin', 'AbsenceController@show');
-
 Auth::routes();
 Route::get('/professional', 'ProfessionalInfoController@index');
 Route::POST('/storeimg', 'ProfessionalInfoController@store');
@@ -38,18 +40,23 @@ Route::get('/holidays', 'AbsenceController@index');
 Route::post('/holidays', 'AbsenceController@store');
 Route::get('/absencesCount', 'AbsenceController@show');
 Route::get('/testeSlider', 'SliderController@index');
-
 Route::get('/newEmployee', 'UserController@newEmployeeView');
 Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
-
 Route::post('/saveProfileImage', 'UserController@storeProfileImg');
-
 Route::get('/editar', 'UserController@edit');
 Route::get('/profEdit', 'ProfessionalInfoController@edit');
+Route::get('/testeCalendar', 'FullCalendarController@index');
+Route::get('/employees', function () {
+    return view('employees');
+});
+
+//Harvest
+Route::get('/harvest', 'HarvestController@index');
+
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/holidays', function () {
 //     return view('holidays');
@@ -57,12 +64,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/testeNumberHolidays', 'AbsenceController@show');
 
-Route::get('/employees', function () {
-    return view('employees');
-});
 
 Route::get('/settingspage', function () {
     return view('settingspage');
 });
 
-Route::get('/testeCalendar', 'FullCalendarController@index');
