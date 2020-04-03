@@ -445,14 +445,17 @@ class AbsenceController extends Controller
 
 
 
-        //Calendar
+        //Calendar begin
         $events = sliderView::all();
-        //
+        //calendar end
 
 
 
-        //Slider
-        $eventos = DB::table('sliderView')
+        //Slider begin
+
+
+
+$eventos = DB::table('sliderView')
         ->select('*')
         ->get();
 
@@ -612,14 +615,79 @@ for($l = 0; $l < $blocksNum; $l++) {
 
  }
 
+// Slider End
+
+
+//Flextime begin
+$ch2 = curl_init();
+
+        curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries?user_id=3206639&');
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+        $headers2 = array();
+        $headers2[] = 'Harvest-Account-Id: 1270741';
+        $headers2[] = 'Authorization: Bearer 2275709.pt.c6eIYJ4rw1djonReSiOhr9RfEdZCvvtVb_oBG0UaDhbaOx54c9dpzDrO9QgpG-SNuPutMguXIVx-b8UVE-tI9Q';
+        $headers2[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers2);
+
+        $result2 = curl_exec($ch2);
+        if (curl_errno($ch2)) {
+            echo 'Error:' . curl_error($ch2);
+        }
+        curl_close($ch2);
+
+        $result2 = json_decode($result2);
+
+
+        //end Time entries Harvest
+
+        $totalHours = 0;
+        $monday = date( 'Y-m-d', strtotime( 'monday this week'));
+        $tuesday = date( 'Y-m-d', strtotime( 'tuesday this week'));
+        $wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
+        $thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
+        $friday = date( 'Y-m-d', strtotime( 'friday this week'));
+
+        for($i = 0; $i  < count($result2->time_entries); $i++) {
+            if($result2->time_entries[$i]->spent_date == $monday) {
+                $totalHours += $result2->time_entries[$i]->hours;
+            
+            }
+            if($result2->time_entries[$i]->spent_date == $tuesday) {
+                
+                $totalHours += $result2->time_entries[$i]->hours;
+            
+            }
+            if($result2->time_entries[$i]->spent_date == $wednesday) {
+                
+                $totalHours += $result2->time_entries[$i]->hours;
+            
+            }
+            if($result2->time_entries[$i]->spent_date == $thursday) {
+                $totalHours += $result2->time_entries[$i]->hours;
+            
+            }
+            if($result2->time_entries[$i]->spent_date == $friday) {
+                $totalHours += $result2->time_entries[$i]->hours;
+            
+            }
+            
+            
+            }
+            
+
+
+//FlexTime End
 
 
 
-        // Slider End
 
 
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
+
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg', 'totalHours'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }

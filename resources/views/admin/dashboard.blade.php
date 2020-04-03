@@ -251,7 +251,7 @@ body {
 <div class="shadow p-1 bg-white" id="box3">
 <div class="row">
     <div class="col">
-    <p id="timeaccomplished">Time Accomplished</p>
+    <p id="timeaccomplished"> {{$totalHours}} of 40 hours</p>
     </div>
   </div>
 </div>
