@@ -27,19 +27,30 @@ active
 <!-- Dynamic Table Full -->
 <div class="block">
     <div class="block-content block-content-full">
+
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+
         <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
         <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
             <thead>
                 <tr>
-                    <th class="text-center" style="width: 80px;">ID</th>
+                    <th class="text-center" style="width: 80px;">Photo</th>
                     <th>Name</th>
-                    <th class="d-none d-sm-table-cell" style="width: 30%;">Email</th>
+                    <th class="d-none d-sm-table-cell" style="width: 30%;">Company</th>
                     <th class="d-none d-sm-table-cell" style="width: 15%;">Role</th>
-                    <th style="width: 15%;">Registered</th>
+                    <th style="width: 15%;">Department</th>
+                    <th style="width: 15%;">Time</th>
+                    <th style="width: 15%;">Staff Manager</th>
+                    <th style="width: 15%;"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <?php echo $msg ?>
+                {{-- <tr>
                     <td class="text-center font-size-sm">1</td>
                     <td class="font-w600 font-size-sm">
                         <a href="be_pages_generic_blank.html">Albert Ray</a>
@@ -113,7 +124,7 @@ active
                     <td>
                         <em class="text-muted font-size-sm">8 days ago</em>
                     </td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
     </div>
@@ -123,23 +134,26 @@ active
 
 <!-- DIV Register New Employee -->
         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-            <form class="form-group" action="">
+            <form method="POST" class="form-group" action="/newEmployeeRegister">
+                @csrf
 
                 <div class="form-group newname">
-                    <label for="">Name:</label>
-                    <input type="text" name="name" class="form-control" placeholder="Insert Name">
+                    <label for="form-group newname">Name:</label>
+                    <input type="text" name="name" class="form-control" placeholder="Insert Name" required>
                 </div>
 
                 <div class="form-group email">
-                    <label for="">Email:</label>
-                    <input type="email" name="email" class="form-control" placeholder="Insert Email">
+                    <label for="form-group email">Email:</label>
+                    <input type="email" name="email" class="form-control" placeholder="Insert Email" required>
                 </div>
 
                 <div class="form-group roleregister">
-                    <label for="">Role:</label>
-                    <select class="form-control" name="role" id="exampleRole">
-                          <option>Manager</option>
-                              <option selected="selected">Developer</option>
+                    <label for="form-group roleregister">Role:</label>
+                    <select class="form-control" name="role" id="exampleRole" required>
+                             <option>Manager</option>
+                             <option value="Project Manager">Project Manager</option>
+                             <option selected="selected" value="Front End Developer">Front-End Developer</option>
+                             <option value="Back End Developer">Back-End Developer</option> 
                              <option>Human Resources</option>
                              <option id="otherrole" value="other">Other</option>
                       </select>
@@ -147,13 +161,32 @@ active
 
                 <div class="form-group" id="rolenew">
                     <label>Other Role:</label>
-                    <input type="text" name="email" class="form-control" placeholder="Insert New Role">
+                    <input type="text" name="otherRole" class="form-control" placeholder="Insert New Role">
                 </div>
 
+                
+                <div class="form-group departmentEmployeesAlign">
+                    <label for="form-group departmentEmployeesAlign">Department:</label>
+                    <select class="form-control" name="Department" required>
+                            @foreach($departmentList as $department)
+                             <option value={{$department->id}}>{{$department->description}}</option>
+                             @endforeach
+                      </select>
+                </div>
+                
+                <div class="form-group roleregister">
                 <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+                </div>
             </form>
         </div>
       </div>
 </div>
+
+<style>
+.sliderResize {
+    height: 50px;
+    width: 60px;
+}
+</style>
 
 @endsection
