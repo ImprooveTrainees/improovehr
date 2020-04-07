@@ -45,7 +45,6 @@ active
                     <th style="width: 15%;">Department</th>
                     <th style="width: 15%;">Time</th>
                     <th style="width: 15%;">Staff Manager</th>
-                    <th style="width: 15%;"></th>
                 </tr>
             </thead>
             <tbody>
