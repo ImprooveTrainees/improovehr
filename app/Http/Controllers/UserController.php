@@ -7,6 +7,7 @@ use App\offices;
 use App\departments;
 use App\offices_deps;
 use App\contract;
+use App\users_deps;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -53,7 +54,12 @@ class UserController extends Controller
         // $age = $diff->format("%Y%"); //formato anos
         for($i = 0; $i < count($users); $i++) {
             $msg .= "<tr>";
-            $msg .= "<td>".$users[$i]->photo."</td>";
+            if($users[$i]->photo == null) {
+                $msg .= "<td>No profile image</td>";
+            }
+            else {
+                $msg .= "<td>"."<img class='sliderResize' src=".$users[$i]->photo."></td>";
+            }
             $msg .= "<td>".$users[$i]->name."</td>";
             if($users[$i]->officeDescricao($users[$i]->id,$users[$i]->country) == null) {
                 $msg .= "<td>Por definir</td>";
@@ -90,9 +96,10 @@ class UserController extends Controller
 
         }
 
+        $departmentList = departments::All();
 
 
-        return view('testeEmployees')->with('msg', $msg);
+        return view('employees')->with('msg', $msg)->with('departmentList', $departmentList);
     }
 
     public function newEmployeeView()
@@ -105,15 +112,23 @@ class UserController extends Controller
     {
         //
         $employee = new User();
-        $contractNewEmployee = new contract(); 
+        $contractNewEmployee = new contract();
+        $userDepartment = new users_deps();
+         
         $accountCreator = Auth::User();
 
         $name = $request->input('name');
         $email = $request->input('email');
         $passwordAutomatica = '12345678';
-        $role = $request->input('role');
+        if($request->input('otherRole') != null) {
+            $role = $request->input('otherRole');
+        }
+        else {
+            $role = $request->input('role');
+        }      
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
+        $department = $request->input('Department');
         
         $employee->name = $name;
         $employee->email = $email;
@@ -126,7 +141,11 @@ class UserController extends Controller
         $contractNewEmployee->start_date = $dateNow;
         $contractNewEmployee->save();
 
-        return redirect()->action('UserController@employees');
+        $userDepartment->idDepartment = $department;
+        $userDepartment->idUser = $employee->id;
+        $userDepartment->save();
+
+        return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');;
 
 
 

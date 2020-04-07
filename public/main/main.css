@@ -972,6 +972,21 @@ body {
           justify-content: center;
 }
 
+.departmentEmployeesAlign {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70px 00px;
+      grid-template-columns: 100px 200px;
+  margin: auto;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  margin-top: 30px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 #rolenew {
   display: none;
 }

@@ -46,9 +46,7 @@ Route::post('/saveProfileImage', 'UserController@storeProfileImg');
 Route::get('/editar', 'UserController@edit');
 Route::get('/profEdit', 'ProfessionalInfoController@edit');
 Route::get('/testeCalendar', 'FullCalendarController@index');
-Route::get('/employees', function () {
-    return view('employees');
-});
+Route::get('/employees', 'UserController@employees');
 
 //Harvest
 Route::get('/harvest', 'HarvestController@index');

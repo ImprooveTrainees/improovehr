@@ -271,7 +271,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="javascript:void(0)">
+                                    <a class="nav-main-link" href="/harvest">
                                         <span class="nav-main-link-name">Flex-Time</span>
                                     </a>
                                 </li>
