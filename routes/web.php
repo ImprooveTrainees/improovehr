@@ -25,7 +25,7 @@ Route::get('/', function () {
 
 //Dashboard
 Route::get('/admin', 'AbsenceController@show');
-
+//
 //Users
 Route::get('/professional', function () {
     return view('professional_info');
@@ -47,10 +47,17 @@ Route::get('/editar', 'UserController@edit');
 Route::get('/profEdit', 'ProfessionalInfoController@edit');
 Route::get('/testeCalendar', 'FullCalendarController@index');
 Route::get('/employees', 'UserController@employees');
+//
 
 //Harvest
 Route::get('/harvest', 'HarvestController@index');
+//
 
+//Evaluations
+Route::get('/evals', 'EvaluationsController@index');
+Route::get('/createEval', 'EvaluationsController@create');
+
+//
 
 
 Auth::routes();
