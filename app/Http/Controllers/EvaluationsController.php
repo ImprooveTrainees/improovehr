@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\surveyType;
+use App\Survey;
+use App\Areas;
+
 class EvaluationsController extends Controller
 {
     /**
@@ -14,7 +18,13 @@ class EvaluationsController extends Controller
     public function index()
     {
         //
-        return view('testeCreateEvals');
+        $surveyTypes = surveyType::All();
+        $areas = Areas::All();
+        $surveys = Survey::All();
+
+
+        return view('testeCreateEvals')->with('surveyTypes', $surveyTypes)->with('areas', $areas)
+        ->with('surveys', $surveys);
     }
 
     /**
@@ -25,10 +35,36 @@ class EvaluationsController extends Controller
     public function createSurvey(Request $request)
     {
         //
-       
+        $survey = new Survey;
+
+        $surveyName = $request->input('surveyName');
+        $answLimit = $request->input('answerLimit');
+        $surveyType = $request->input('surveyType');
+
+        $survey->name = $surveyName;
+        $survey->answerLimit = $answLimit;
+        $survey->idSurveyType = $surveyType;
+
+        $survey->save();
+
 
         return redirect()->action('EvaluationsController@index');
     }
+
+    public function createArea(Request $request)
+    {
+        //
+        $areas = new Areas;
+
+        $areaName = $request->input('newArea');
+
+        $areas->description = $areaName;
+        $areas->save();
+
+
+        return redirect()->action('EvaluationsController@index');
+    }
+
 
     public function createQuestion(Request $request)
     {
@@ -36,6 +72,24 @@ class EvaluationsController extends Controller
        
 
         return redirect()->action('EvaluationsController@index');
+    }
+
+    
+    public function showAreasSurvey(Request $request)
+    {
+        //
+        $idSurveySelected = $request->input('idSurvey');
+        $areasInSurvey = Survey::find($idSurveySelected)->areas()->get();
+        $surveyName = Survey::find($idSurveySelected)->name;
+        $areasInSurveyMsg = "Areas in <strong>".$surveyName.":</strong> <br>";
+        foreach($areasInSurvey as $areas) {
+            $areasInSurveyMsg .= $areas->description."<br>";
+
+        }
+
+        
+        return redirect()->action('EvaluationsController@index')
+        ->with('areasPerSurvey', $areasInSurveyMsg);
     }
 
     /**

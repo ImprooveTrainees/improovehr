@@ -55,7 +55,10 @@ Route::get('/harvest', 'HarvestController@index');
 
 //Evaluations
 Route::get('/evals', 'EvaluationsController@index');
-Route::get('/createEval', 'EvaluationsController@create');
+Route::get('/createSurvey', 'EvaluationsController@createSurvey');
+Route::get('/createArea', 'EvaluationsController@createArea');
+Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
+
 
 //
 

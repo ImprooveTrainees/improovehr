@@ -27,19 +27,70 @@
 </head>
 <body>
 
-    <h2>New Survey</h2>
+    <h3>New Survey</h3>
     <br>
 
-<form action="">
+<form action="/createSurvey">
     @csrf
-    Name: <input type="text" name="surveyName"> <br>
-    Answer Limit: <input type="number" name="evalLimit"><br>
-    Survey Type: <input type="number" name="surveyType"><br>
+    Name: <input type="text" name="surveyName">
+    <br>
+    Answer Limit: <input type="number" name="answerLimit">
+    <br>
+    Survey Type:
+    
+    <select name="surveyType">
+        @foreach($surveyTypes as $type)
+            <option value={{$type->id}}>{{$type->description}}</option>
+        @endforeach
+    </select>
+    <br>
     <button type="submit">Create Survey</button>
 </form>
+
+---------------------------------
+
+
+
+<br>
+<h3>Areas:</h3>
+<form action="/createArea">
+    @csrf
+    New: <input type="text" name="newArea">
+    <br>
+    <button type="submit">Create Area</button>
+</form>
+<br>
+<strong>All areas:</strong>
+<br>
+@foreach($areas as $area)
+    {{$area->description}} <br>
+@endforeach
+<br>
+
+<form action="/areasPerSurveys">
+Areas per survey:
+<select name="idSurvey">
+@foreach($surveys as $survey)
+    <option value={{$survey->id}}>{{$survey->name}}</option>
+@endforeach
+</select>
+<button type="submit">Show</button>
+</form>
+
+@if(session('areasPerSurvey'))
+    <p>
+        <?php echo session('areasPerSurvey')  ?>
+    </p>
+@endif
+---------------------------------
+<h3>Subcategories:</h3>
+
+
+---------------------------------
+<br>
 <form action="">
     @csrf
-    Question: <br><br>
+    Question: <br>
     Type: <br>
     <label>Numeric</label>
     <input onchange="hideParam()" type="radio" name="questionType" value="Numeric">
