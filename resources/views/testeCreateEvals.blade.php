@@ -46,7 +46,11 @@
     <br>
     <button type="submit">Create Survey</button>
 </form>
-
+@if(session('survey'))
+    <p>
+        <?php echo session('survey')  ?>
+    </p>
+@endif
 ---------------------------------
 
 
@@ -56,15 +60,51 @@
 <form action="/createArea">
     @csrf
     New: <input type="text" name="newArea">
-    <br>
     <button type="submit">Create Area</button>
 </form>
+
+<form action="/addAreaToSurvey"> 
 <br>
-<strong>All areas:</strong>
+<strong>Add Area to Survey:</strong>
 <br>
-@foreach($areas as $area)
-    {{$area->description}} <br>
-@endforeach
+<select name="areaSelect">
+<?php   
+    $allAreas = [];        
+ ?>
+    @foreach($areas as $area) 
+    <!-- Tendo em conta que vão ser sempre criadas novas áreas para 
+        depois serem atribuidas ao Survey, e a novas subCats, esta lista só irá mostrar nomes
+        das áreas, nunca repetindo o mesmo nome. Ao adicionar uma área a um survey, o que na verdade
+        faz é criar uma nova área com o nome da área seleccionada/já existente.
+      -->
+        @if(!in_array($area->description, $allAreas))
+            {{array_push($allAreas, $area->description)}}
+            <option value={{$area->id}}>{{$area->description}}</option>
+        @endif      
+    @endforeach
+</select>
+<br>
+<strong>to</strong>
+<br>
+<select name="idSurvey">
+    @foreach($surveys as $survey)
+        <option value={{$survey->id}}>{{$survey->name}}</option>
+    @endforeach
+</select>
+<button name="submitArea" type="submit">Add</button>
+
+
+
+</form>
+
+
+@if(session('areaInSurvey'))
+    <p>
+        <?php echo session('areaInSurvey')  ?>
+    </p>
+@endif
+
+<br>
 <br>
 
 <form action="/areasPerSurveys">
@@ -77,11 +117,14 @@ Areas per survey:
 <button type="submit">Show</button>
 </form>
 
-@if(session('areasPerSurvey'))
+<form action="/deleteAreasSurvey">
+    @if(session('areasPerSurvey'))
     <p>
         <?php echo session('areasPerSurvey')  ?>
     </p>
 @endif
+</form>
+
 ---------------------------------
 <h3>Subcategories:</h3>
 

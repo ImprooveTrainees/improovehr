@@ -58,6 +58,8 @@ Route::get('/evals', 'EvaluationsController@index');
 Route::get('/createSurvey', 'EvaluationsController@createSurvey');
 Route::get('/createArea', 'EvaluationsController@createArea');
 Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
+Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey');
+Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
 
 
 //
