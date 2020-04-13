@@ -60,7 +60,9 @@ Route::get('/createArea', 'EvaluationsController@createArea');
 Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
 Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey');
 Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
-
+Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat');
+Route::get('/newSubCat', 'EvaluationsController@newSubCat');
+Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea');
 
 //
 

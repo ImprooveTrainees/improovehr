@@ -8,6 +8,7 @@ use App\surveyType;
 use App\Survey;
 use App\Areas;
 use App\AreasQuestConnect;
+use App\subCategories;
 
 class EvaluationsController extends Controller
 {
@@ -67,6 +68,33 @@ class EvaluationsController extends Controller
 
 
         return redirect()->action('EvaluationsController@index');
+    }
+
+    public function newSubCat(Request $request)
+    {
+        //
+        $subcat = new subCategories;
+        $subCatName = $request->input('subCatNewName');
+        $allSubCats = subCategories::All();
+        $existe = false;
+        foreach($allSubCats as $subCat) {
+            if($subCatName == $subCat->description) {
+                $existe = true;
+                break;
+            }
+        }
+
+        if($existe) {
+            $subCatNewMsg = "Subcategory already exists!";
+        }
+        else {
+            $subcat->description = $subCatName;
+            $subcat->save();
+            $subCatNewMsg = "Subcategory successfully created!";
+        }
+       
+
+        return redirect()->action('EvaluationsController@index')->with('subCatNewMsg', $subCatNewMsg);
     }
 
     public function addAreaToSurvey(Request $request)
@@ -138,7 +166,7 @@ class EvaluationsController extends Controller
         $surveyName = Survey::find($idSurveySelected)->name;
         $areasInSurveyMsg = "Areas in <strong>".$surveyName.":</strong> <br>";
         foreach($areasInSurvey as $areas) {
-            $areasInSurveyMsg .= $areas->description."<button name='submitAreasPerSurveys' type='Submit' value=$idSurveySelected"."and"."$areas->id".">Delete Area</button>"."<br>";
+            $areasInSurveyMsg .= $areas->description." "."<button name='submitAreasPerSurveys' type='Submit' value=$idSurveySelected"."and"."$areas->id".">Delete Area</button>"."<br>";
             //cada botao vai ter o id da area e do survey, que será passado para a função de delete.
 
         }
@@ -164,6 +192,88 @@ class EvaluationsController extends Controller
 
         return redirect()->action('EvaluationsController@index')
             ->with('areaInSurvey', $areaInSurveyMsg);
+
+    }
+
+    public function surveysSubcat(Request $request)
+    {
+        //
+        $idSurveySelected = $request->input('idSurvey');
+        $msg = "";
+
+        if($idSurveySelected == 00) {
+            $msg = "Choose a valid survey!";
+        }
+        else {
+        $areaPerSurvey = Survey::find($idSurveySelected)->areas()->get();
+        $subCats = subCategories::All();
+
+        $msg .= "<strong>".Survey::find($idSurveySelected)->name."</strong>"."<br>";
+        $msg .= "--------<br>";
+        $msg .= "<strong>Add Subcategory to Area:</strong><br>";
+        $msg .= "<form action='/addSubcatArea'>";
+        $msg .= "<select name='selectedSubCat'>";
+        $allSubCats = [];
+                foreach($subCats as $subCat) {
+                    if(!in_array($subCat->description, $allSubCats)) {
+                        array_push($allSubCats, $subCat->description);
+                        $msg .= "<option value=$subCat->id>".$subCat->description."</option>";
+                    }
+                   
+                }
+        $msg .= "</select>";
+        $msg .= "<br>";
+        $msg .= "<strong>to</strong><br>";
+        $msg .= "<select name='selectedArea'>";
+                    foreach($areaPerSurvey as $aps) {
+        $msg .=           "<option value=$aps->id>".$aps->description."</option>";
+                    }                
+        $msg .= "</select>";
+        $msg .= "<button>Add</button>";
+        $msg .= "</form>";
+        }
+
+        return redirect()->action('EvaluationsController@index')
+            ->with('areasPerSurveySubcat', $msg);
+
+    }
+
+    public function addSubcatArea(Request $request)
+    {
+        //
+        //em vez de associar o id da subcat existente, é criado um novo com a ilusão que 
+        //seleccionamos o existente, como foi feito nas areas.
+
+        $newSubCat = new subCategories;
+        $selectedSubCatDescription = subCategories::find($request->input('selectedSubCat'))->description;
+        $selectedArea = $request->input('selectedArea');
+        $allSubCatsFromArea = Areas::find($selectedArea)->subCategories()->get();
+        $existe = false;
+        $msg = "";
+        foreach($allSubCatsFromArea as $subCArea) {
+            if($selectedSubCatDescription == $subCArea->description) {
+                $existe = true;
+                break;
+            }
+        }
+        if($existe) {
+            $msg = "Subcategorie already exists in this area!";
+        }
+        else {
+            $newSubCat->idArea = $selectedArea;
+            $newSubCat->description = $selectedSubCatDescription;
+
+            $newSubCat->save();
+
+            $msg = "Subcategorie sucessfully added to area!";
+        }
+
+        
+
+        return redirect()->action('EvaluationsController@index')
+            ->with('subCatAdd', $msg);
+
+
 
     }
     /**

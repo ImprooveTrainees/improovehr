@@ -128,7 +128,37 @@ Areas per survey:
 ---------------------------------
 <h3>Subcategories:</h3>
 
+<form action="/newSubCat">
+New:<input name="subCatNewName">
+<button type="submit">Create Subcategory</button>
+</form>
 
+@if(session('subCatNewMsg'))
+    <p>
+        <?php echo session('subCatNewMsg')  ?>
+    </p>
+@endif
+<br>
+Choose a survey:
+<form id="surveySubCat" action="/surveysSubcat">
+    <select onchange="execFormSubcat()" name="idSurvey">
+        <option value="00">---</option>
+    @foreach($surveys as $survey)
+        <option value={{$survey->id}}>{{$survey->name}}</option>
+    @endforeach
+</select>
+</form>
+<br>
+@if(session('areasPerSurveySubcat'))
+        <?php echo session('areasPerSurveySubcat')  ?>
+@endif
+
+@if(session('subCatAdd'))
+        <?php echo session('subCatAdd')  ?>
+@endif
+
+
+<br>
 ---------------------------------
 <br>
 <form action="">
@@ -173,6 +203,10 @@ function hideParam() {
         document.getElementById("weight").style.display = "block";
     }
 
+}
+
+function execFormSubcat() {
+    document.getElementById("surveySubCat").submit();
 }
 
 
