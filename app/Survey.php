@@ -15,4 +15,9 @@ class Survey extends Model
         return $this->belongsToMany('App\Areas', 'areas_quest_connects', 'idSurvey', 'idArea');
     }
 
+    public function surveyType()
+    {
+        return $this->belongsTo('App\surveyType', 'idSurveyType');
+    }
+
 }

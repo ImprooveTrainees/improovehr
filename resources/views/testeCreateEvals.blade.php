@@ -55,22 +55,22 @@
 
 
 
-<br>
-<h3>Areas:</h3>
-<form action="/createArea">
+{{-- <br>
+<h3>Areas:</h3> --}}
+{{-- <form action="/createArea">
     @csrf
     New: <input type="text" name="newArea">
     <button type="submit">Create Area</button>
-</form>
+</form> --}}
 
-<form action="/addAreaToSurvey"> 
+{{-- <form action="/addAreaToSurvey"> 
 <br>
 <strong>Add Area to Survey:</strong>
 <br>
 <select name="areaSelect">
 <?php   
-    $allAreas = [];        
- ?>
+    // $allAreas = [];        
+?>
     @foreach($areas as $area) 
     <!-- Tendo em conta que vão ser sempre criadas novas áreas para 
         depois serem atribuidas ao Survey, e a novas subCats, esta lista só irá mostrar nomes
@@ -95,19 +95,19 @@
 
 
 
-</form>
+</form> --}}
 
 
-@if(session('areaInSurvey'))
+{{-- @if(session('areaInSurvey'))
     <p>
-        <?php echo session('areaInSurvey')  ?>
+        <?php //echo session('areaInSurvey')  ?>
     </p>
 @endif
 
 <br>
-<br>
+<br> --}}
 
-<form action="/areasPerSurveys">
+{{-- <form action="/areasPerSurveys">
 Areas per survey:
 <select name="idSurvey">
 @foreach($surveys as $survey)
@@ -120,22 +120,22 @@ Areas per survey:
 <form action="/deleteAreasSurvey">
     @if(session('areasPerSurvey'))
     <p>
-        <?php echo session('areasPerSurvey')  ?>
+         <?php //echo session('areasPerSurvey')  ?> 
     </p>
 @endif
-</form>
+</form> --}}
 
 ---------------------------------
-<h3>Subcategories:</h3>
+{{-- <h3>Subcategories:</h3> --}}
 
-<form action="/newSubCat">
+{{-- <form action="/newSubCat">
 New:<input name="subCatNewName">
 <button type="submit">Create Subcategory</button>
-</form>
+</form> --}}
 
-@if(session('subCatNewMsg'))
+{{-- @if(session('subCatNewMsg'))
     <p>
-        <?php echo session('subCatNewMsg')  ?>
+        <?php //echo session('subCatNewMsg')  ?>
     </p>
 @endif
 <br>
@@ -150,20 +150,20 @@ Choose a survey:
 </form>
 <br>
 @if(session('areasPerSurveySubcat'))
-        <?php echo session('areasPerSurveySubcat')  ?>
+        <?php //echo session('areasPerSurveySubcat')  ?>
 @endif
 
 @if(session('subCatAdd'))
-        <?php echo session('subCatAdd')  ?>
+        <?php //echo session('subCatAdd')  ?>
 @endif
 
 
-<br>
+<br> --}}
 ---------------------------------
 <br>
-<form action="">
+<h3>Questions</h3>
+<form action="/newQuestion">
     @csrf
-    Question: <br>
     Type: <br>
     <label>Numeric</label>
     <input onchange="hideParam()" type="radio" name="questionType" value="Numeric">
@@ -173,7 +173,7 @@ Choose a survey:
 
     Write a question to add: <input type="text" name="question"> <br>
     <span id="weight" >Weight: <input type="number" name="weight"></span><br>
-    Area: <input type="text" onchange="funcao()" id="area" name="area"><br>
+    Area: <input type="text" id="area" name="area"><br>
     Subcategory: <input type="text" name="subcat"> <br>
 
    <div id="params"> 
@@ -183,11 +183,40 @@ Choose a survey:
     <label>Potential</label>
     <input type="radio" name="PP" value="Potential">
    </div>
-
-
-    <br>
-    <button type="submit">Create Survey</button>
+    
 </form>
+<br>
+<br>
+---------------------------------
+<div>
+    <h3>Show Survey:</h3>
+<form action="/showSurvey">
+    <select name="surveyShowID">
+        <option value=00>---</option>
+        @foreach($surveys as $survey)
+            <option value={{$survey->id}}>{{$survey->name}}</option>
+        @endforeach
+    </select>
+    <button>Show</button>  
+</form>
+<br>
+@if(session('showSurvey'))
+        <?php echo session('showSurvey')  ?>
+@endif
+
+
+</div>
+
+@if(session('msgError'))
+    <p>
+        <?php echo session('msgError')  ?>
+    </p>
+@endif
+
+
+
+
+
 
 
 <script>
@@ -203,6 +232,28 @@ function hideParam() {
         document.getElementById("weight").style.display = "block";
     }
 
+}
+
+function hideArea() {
+    if(document.getElementById("hideArea").style.display == "block") {
+        document.getElementById("hideArea").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("hideArea").style.display = "block";
+        
+    }
+}
+
+function hideSubcat() {
+    if(document.getElementById("hideSubcat").style.display == "block") {
+        document.getElementById("hideSubcat").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("hideSubcat").style.display = "block";
+        
+    }
 }
 
 function execFormSubcat() {
