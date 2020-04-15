@@ -160,7 +160,7 @@ Choose a survey:
 
 <br> --}}
 ---------------------------------
-<br>
+{{-- <br>
 <h3>Questions</h3>
 <form action="/newQuestion">
     @csrf
@@ -184,9 +184,9 @@ Choose a survey:
     <input type="radio" name="PP" value="Potential">
    </div>
     
-</form>
-<br>
-<br>
+</form> --}}
+{{-- <br>
+<br> --}}
 ---------------------------------
 <div>
     <h3>Show Survey:</h3>
@@ -224,12 +224,17 @@ Choose a survey:
     
 function hideParam() {
     if(document.getElementById("openQuestion").checked == true) {
-        document.getElementById("params").style.display = "none";
         document.getElementById("weight").style.display = "none";
+        document.getElementById("numericQuestionSelect").style.display = "none";
+        document.getElementById("openQuestionSelect").style.display = "block";
+        document.getElementById("questionTypeForm").value = 2;
+
     }
     else {
-        document.getElementById("params").style.display = "block";
         document.getElementById("weight").style.display = "block";
+        document.getElementById("openQuestionSelect").style.display = "none";
+        document.getElementById("numericQuestionSelect").style.display = "block";
+        document.getElementById("questionTypeForm").value = 1;
     }
 
 }
@@ -256,9 +261,18 @@ function hideSubcat() {
     }
 }
 
-function execFormSubcat() {
-    document.getElementById("surveySubCat").submit();
+function hideQuestions() {
+    if(document.getElementById("hideQuestions").style.display == "block") {
+        document.getElementById("hideQuestions").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("hideQuestions").style.display = "block";
+        
+    }
 }
+
+
 
 
 

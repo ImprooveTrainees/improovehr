@@ -9,6 +9,9 @@ use App\Survey;
 use App\Areas;
 use App\AreasQuestConnect;
 use App\subCategories;
+use App\PP;
+use App\typeQuestion;
+use App\Questions;
 
 class EvaluationsController extends Controller
 {
@@ -149,9 +152,44 @@ class EvaluationsController extends Controller
     public function createQuestion(Request $request)
     {
         //
+        $newQuestion = new Questions;
+        if($request->input('questionTypeForm') == 1) {
+            $question = $request->input('question');
+            $questionType = $request->input('questionType');
+            $weight = $request->input('weight');
+            $PP = $request->input('PP');
+            $idSubCat = $request->input('choosenSubCatId');
+
+            $newQuestion->description = $question;
+            $newQuestion->weight = $weight;
+            $newQuestion->idPP = $PP;
+            $newQuestion->idSubcat = $idSubCat;
+            $newQuestion->idTypeQuestion = $questionType;
+
+            $newQuestion->save();
+
+            $msg = "Question successfully added to subcategory!";
+        }
+        else if($request->input('questionTypeForm') == 2) {
+            $question = $request->input('questionOpen');
+            $questionType = $request->input('questionType');
+            $idAreaOpen = $request->input('choosenAreaId');
+
+            $newQuestion->description = $question;
+            $newQuestion->idAreaOpenQuest = $idAreaOpen;
+            $newQuestion->idTypeQuestion = $questionType;
+
+            $newQuestion->save();
+
+            $msg = "Open question successfully added to area!";
+        }
+        
+    
+
        
 
-        return redirect()->action('EvaluationsController@index');
+        return redirect()->action('EvaluationsController@index')
+         ->with('msgError', $msg);
     }
 
     
@@ -278,6 +316,19 @@ class EvaluationsController extends Controller
 
 
     }
+
+     public function removeSubcatArea(Request $request)
+    {
+        //
+        $areaAndSubcatId = explode("and", $request->input('choosenAreaSubCatId'));
+
+        subCategories::find($areaAndSubcatId[1])->delete();
+        $msg = "Subcategorie removed with success from this area!";
+
+        return redirect()->action('EvaluationsController@index')
+            ->with('msgError', $msg);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -310,26 +361,30 @@ class EvaluationsController extends Controller
             $allAreasDB = Areas::All();
             $surveys = Survey::All();
             $subCats = subCategories::All();
+            $PPs = PP::All();
+            $questionTypes = typeQuestion::All();
             $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();          
             $showSurveyGeneral .= "<h4>".$surveyName."</h4>";
             $showSurveyGeneral .= "<h4>".$surveyType."</h4>";
 
             //Button Area
             ///////////////
-                $showSurveyGeneral .= "<button onclick='hideArea()'>Add/Remove Areas</button>";
+                $showSurveyGeneral .= "<button type='button' onclick='hideArea()'>Add/Remove Areas</button>";
+                $showSurveyGeneral .= "<button type='button' onclick='hideSubcat()'>Add/Remove Subcategories</button>";
+                $showSurveyGeneral .= "<button type='button' onclick='hideQuestions()'>Add/Remove Questions</button>";
 
                 $showSurveyGeneral .= "<div style='display: none;' id='hideArea'>";
 
                 $showSurveyGeneral .= '<form action="/createArea">';
                 // $showSurveyGeneral .=   '@csrf';
-                csrf_field();
+                $showSurveyGeneral .= csrf_field();
                 $showSurveyGeneral .=  'New: <input type="text" name="newArea">';
                 $showSurveyGeneral .= '<button type="submit">Create Area</button>';
 
                 $showSurveyGeneral .=  '</form>';
 
                 $showSurveyGeneral .= '<form action="/addAreaToSurvey">'; 
-                csrf_field();
+                $showSurveyGeneral .= csrf_field();
                 $showSurveyGeneral .= 'Add: <select name="areaSelect">';
     
                 $allAreas = [];        
@@ -352,9 +407,9 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= '<button name="submitArea" type="submit">Add</button>';
 
                 $showSurveyGeneral .= '</form>';
-
+                
                 $showSurveyGeneral .= '<form action="/deleteAreasSurvey">';
-                csrf_field();
+                $showSurveyGeneral .= csrf_field();
                 $showSurveyGeneral .=  "Remove: <select name='areaSurveyRemId'>";
                     foreach($surveyAreas as $sAreas) {
                         $showSurveyGeneral .= '<option value='.$sAreas->id.'and'.$selectedSurveyId.'>'.$sAreas->description.'</option>';   
@@ -371,16 +426,18 @@ class EvaluationsController extends Controller
             //Button Subcategory
             ///////////////
                 
-            $showSurveyGeneral .= "<button onclick='hideSubcat()'>Add/Remove Subcategories</button>";
+            
             $showSurveyGeneral .= "<div style='display: none;' id='hideSubcat'>";
 
             $showSurveyGeneral .= '<form action="/newSubCat">';
+            $showSurveyGeneral .= csrf_field();
             $showSurveyGeneral .= 'New:<input name="subCatNewName">';
             $showSurveyGeneral .= '<button type="submit">Create Subcategory</button>';
             $showSurveyGeneral .= '</form>';
             
 
         $showSurveyGeneral .= "<form action='/addSubcatArea'>";
+        $showSurveyGeneral .= csrf_field();
         $showSurveyGeneral .= "Add: <select name='selectedSubCat'>";
         $allSubCats = [];
                 foreach($subCats as $subCat) {
@@ -399,13 +456,92 @@ class EvaluationsController extends Controller
              $showSurveyGeneral .= "</select>";
              $showSurveyGeneral .= "<button>Add</button>";
              $showSurveyGeneral .= "</form>";
-        
+             
+             $showSurveyGeneral .= "<form action='/remSubcatArea'>";
+             $showSurveyGeneral .= csrf_field();
+             $showSurveyGeneral .= "Remove: <select name='choosenAreaSubCatId'>";
+                foreach($surveyAreas as $area) {
+                    $subCatsArea = Areas::find($area->id)->subCategories()->get();
+                    foreach($subCatsArea as $subCat) {
+                        $showSurveyGeneral .=  "<option value=".$area->id."and".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
+                    }
+                    
+                }
+             $showSurveyGeneral .= "</select>";
+             $showSurveyGeneral .= "<button type='submit'>Remove</button>";
+             $showSurveyGeneral .= "</form>";
 
                     
             $showSurveyGeneral .= "</div>";
 
 
             //End Button Subcategory
+            ///////////////
+
+
+            //Button Questions
+            ///////////////
+
+            $showSurveyGeneral .= "<div style='display: none;' id='hideQuestions'>";
+                $showSurveyGeneral .= '<form action="/newQuestion">';
+                $showSurveyGeneral .= '<input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">';
+                $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= 'Type: ';
+                foreach($questionTypes as $type) {
+                    $showSurveyGeneral .= '<label>'.$type->description.'&nbsp</label>';
+                    if($type->description == "Open") {
+                        $showSurveyGeneral .= '<input onchange="hideParam()" id="openQuestion" type="radio" name="questionType" value='.$type->id.'>';
+                    }
+                    else {
+                        $showSurveyGeneral .= '<input onchange="hideParam()" type="radio" name="questionType" value='.$type->id.'>';
+                    }
+                    
+                }
+                $showSurveyGeneral .= "<br>";
+                
+                
+                $showSurveyGeneral .= '<div style="display: none;" id="numericQuestionSelect" value="">';
+                $showSurveyGeneral .= 'Write a question to add: <input type="text" name="question"> <br>';
+                $showSurveyGeneral .= '<span id="weight">Weight: <input type="number" name="weight"></span><br>';
+
+                $showSurveyGeneral .= '<div id="params">';
+                $showSurveyGeneral .='Parameters: <br>';
+                foreach($PPs as $pp) {
+                    $showSurveyGeneral .= '<label>'.$pp->description.'</label>&nbsp';
+                    $showSurveyGeneral .= '<input type="radio" name="PP" value='.$pp->id.'>';
+                }
+                $showSurveyGeneral .= '</div>';
+                $showSurveyGeneral .= "Add: <select name='choosenSubCatId'>";
+                foreach($surveyAreas as $area) {
+                    $subCatsArea = Areas::find($area->id)->subCategories()->get();
+                    foreach($subCatsArea as $subCat) {
+                        $showSurveyGeneral .=  "<option value=".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
+                    }
+                    
+                }
+                $showSurveyGeneral .= "</select>";
+                $showSurveyGeneral .= "<button type='submit'>Add</button>"; 
+                $showSurveyGeneral .= "</div>";
+
+                $showSurveyGeneral .= '<div style="display: none;" id="openQuestionSelect">';
+                $showSurveyGeneral .= 'Write a question to add: <input type="text" name="questionOpen"> <br>';
+
+                $showSurveyGeneral .= "Add: <select name='choosenAreaId'>";
+                foreach($surveyAreas as $area) {
+                        $showSurveyGeneral .=  "<option value=".$area->id.">".$area->description."</option>";                    
+                }
+                $showSurveyGeneral .= "</select>";
+                $showSurveyGeneral .= "<button type='submit'>Add</button>"; 
+                $showSurveyGeneral .= "</div>";
+                
+                
+                    
+                  
+                $showSurveyGeneral .= '</form>';
+
+            $showSurveyGeneral .= "</div>";
+
+            //End Button Questions
             ///////////////
 
             //Survey Structure
