@@ -12,6 +12,7 @@ use App\subCategories;
 use App\PP;
 use App\typeQuestion;
 use App\Questions;
+use App\questSurvey;
 
 class EvaluationsController extends Controller
 {
@@ -153,6 +154,9 @@ class EvaluationsController extends Controller
     {
         //
         $newQuestion = new Questions;
+        $newQuestSurvey = new questSurvey;
+        $surveyID = $request->input('surveyID');
+        //o JS altera o value do input dependendo da op seleccionada
         if($request->input('questionTypeForm') == 1) {
             $question = $request->input('question');
             $questionType = $request->input('questionType');
@@ -167,6 +171,12 @@ class EvaluationsController extends Controller
             $newQuestion->idTypeQuestion = $questionType;
 
             $newQuestion->save();
+            
+            $newQuestSurvey->idSurvey = $surveyID;
+            $newQuestSurvey->idQuestion = $newQuestion->id;
+            $newQuestSurvey->save();
+
+          
 
             $msg = "Question successfully added to subcategory!";
         }
@@ -181,12 +191,28 @@ class EvaluationsController extends Controller
 
             $newQuestion->save();
 
+            $newQuestSurvey->idSurvey = $surveyID;
+            $newQuestSurvey->idQuestion = $newQuestion->id;
+            $newQuestSurvey->save();
+
+
             $msg = "Open question successfully added to area!";
         }
         
     
 
        
+
+        return redirect()->action('EvaluationsController@index')
+         ->with('msgError', $msg);
+    }
+
+    public function removeQuestion(Request $request) {
+        //
+        $questionId = $request->input('questionIdRemove');
+        Questions::find($questionId)->questSurveys()->first()->delete();
+        Questions::find($questionId)->delete();
+        $msg = "Question removed successsfully!";
 
         return redirect()->action('EvaluationsController@index')
          ->with('msgError', $msg);
@@ -363,7 +389,9 @@ class EvaluationsController extends Controller
             $subCats = subCategories::All();
             $PPs = PP::All();
             $questionTypes = typeQuestion::All();
-            $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();          
+            $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
+            $countQuestions = 1;
+
             $showSurveyGeneral .= "<h4>".$surveyName."</h4>";
             $showSurveyGeneral .= "<h4>".$surveyType."</h4>";
 
@@ -410,12 +438,19 @@ class EvaluationsController extends Controller
                 
                 $showSurveyGeneral .= '<form action="/deleteAreasSurvey">';
                 $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .=  "Remove: <select name='areaSurveyRemId'>";
+                if($surveyAreas->count() == 0) {
+                    $showSurveyGeneral .= '';   
+                }
+                else {
+                    $showSurveyGeneral .=  "Remove: <select name='areaSurveyRemId'>";
                     foreach($surveyAreas as $sAreas) {
                         $showSurveyGeneral .= '<option value='.$sAreas->id.'and'.$selectedSurveyId.'>'.$sAreas->description.'</option>';   
                     }
+                
+            
                 $showSurveyGeneral .=  "</select>";
                 $showSurveyGeneral .= '<button type="submit">Remove Area</button>';
+                }
                 $showSurveyGeneral .=  '</form>';
 
                 $showSurveyGeneral .= "</div>";
@@ -483,8 +518,11 @@ class EvaluationsController extends Controller
             ///////////////
 
             $showSurveyGeneral .= "<div style='display: none;' id='hideQuestions'>";
+                
                 $showSurveyGeneral .= '<form action="/newQuestion">';
                 $showSurveyGeneral .= '<input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">';
+                $showSurveyGeneral .= '<input type="hidden" name="surveyID" value='.$selectedSurveyId.'>';
+                
                 $showSurveyGeneral .= csrf_field();
                 $showSurveyGeneral .= 'Type: ';
                 foreach($questionTypes as $type) {
@@ -497,12 +535,15 @@ class EvaluationsController extends Controller
                     }
                     
                 }
+                $showSurveyGeneral .= '<br>'; 
+                
+
                 $showSurveyGeneral .= "<br>";
                 
                 
                 $showSurveyGeneral .= '<div style="display: none;" id="numericQuestionSelect" value="">';
                 $showSurveyGeneral .= 'Write a question to add: <input type="text" name="question"> <br>';
-                $showSurveyGeneral .= '<span id="weight">Weight: <input type="number" name="weight"></span><br>';
+                $showSurveyGeneral .= '<span id="weight">Weight: <input type="number" step="0.01" min="0" name="weight"></span><br>';
 
                 $showSurveyGeneral .= '<div id="params">';
                 $showSurveyGeneral .='Parameters: <br>';
@@ -539,6 +580,30 @@ class EvaluationsController extends Controller
                   
                 $showSurveyGeneral .= '</form>';
 
+                $showSurveyGeneral .= 'Remove:'; 
+                $showSurveyGeneral .= '<form action="/remQuestion">';
+                $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<select name="questionIdRemove">';    
+                //Mostra todas as subcats das areas de um questionario, assim como as questões de
+                //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a 
+                //questão certa
+                    foreach($surveyAreas as $area) {
+                        $subCats = Areas::find($area->id)->subCategories()->get();
+                        foreach($subCats as $subcat) {
+                            $subCatsQuestions = subCategories::find($subcat->id)->questions()->orderBy('created_at', 'asc')->get();
+                            foreach($subCatsQuestions as $question) {
+                                $showSurveyGeneral .= '<option value='.$question->id.'>'.$subcat->description.' | '.'Question: '.$countQuestions.'</option>';
+                                $countQuestions++;
+                            }
+                            $countQuestions = 1;
+                            
+                        }
+                    }
+                    // 
+                $showSurveyGeneral .= '</select>';
+                $showSurveyGeneral .= '<button type="submit">Remove</button>';
+                $showSurveyGeneral .= '</form>'; 
+
             $showSurveyGeneral .= "</div>";
 
             //End Button Questions
@@ -546,6 +611,7 @@ class EvaluationsController extends Controller
 
             //Survey Structure
             if($surveyAreas->count() == 0) {
+                $showSurveyGeneral .= "<br>";
                 $showSurveyGeneral .= "There are no areas in this survey yet!";
             }
             else {
@@ -558,10 +624,45 @@ class EvaluationsController extends Controller
                     }
                     else {
                         foreach($subCats as $subcatArea) {
-                            $showSurveyGeneral .= "&nbsp;&nbsp;<strong>".$subcatArea->description."</strong><br>";
+                            $showSurveyGeneral .= "&nbsp;&nbsp;<strong>".$subcatArea->description."</strong>";
+                            $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
+                            
+                            if($subCatsQuestions->count() == 0) {
+                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!";
+                            }
+                            else {
+                                $showSurveyGeneral .= "<ol>";
+                                foreach($subCatsQuestions as $question) {
+                                    if($question->idTypeQuestion == 2) {
+                                        $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
+                                    } //mostra apenas as questões numéricas, e não as abertas, pois estas não
+                                      //têm subcategoria
+                                    
+                                }
+                                $showSurveyGeneral .= "</ol>";
+                            }
+                           
                         }
                     }
                 }
+                $showSurveyGeneral .= "</ul>";
+                $showSurveyGeneral .= "<strong>Open ended questions:</strong><br>";
+                $showSurveyGeneral .= "<ul>";
+                foreach($surveyAreas as $sAreasOpen) {
+                        $showSurveyGeneral .= "<li><strong>".$sAreasOpen->description."</strong></li>";
+                        $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
+                        if($openQuestions->count() == 0) {
+                            $showSurveyGeneral .= "There are no open questions for this area!";
+                        }
+                        else {
+                            $showSurveyGeneral .= "<ol>";
+                            foreach($openQuestions as $openQuestion) {
+                                $showSurveyGeneral .= "<li>".$openQuestion->description."</li>";
+                            }
+                            $showSurveyGeneral .= "</ol>";
+                        }
+                        
+                } //aqui procura só as questoes abertas, que não têm subcategoria
                 $showSurveyGeneral .= "</ul>";
             }
             //End Survey Structure

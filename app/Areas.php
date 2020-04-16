@@ -15,5 +15,10 @@ class Areas extends Model
         return $this->hasMany('App\subCategories', 'idArea', 'id');
     }
 
+    public function openQuestions()
+    {
+        return $this->hasMany('App\Questions', 'idAreaOpenQuest', 'id');
+    }
+
 
 }
