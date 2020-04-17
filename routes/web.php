@@ -55,8 +55,18 @@ Route::get('/harvest', 'HarvestController@index');
 
 //Evaluations
 Route::get('/evals', 'EvaluationsController@index');
-Route::get('/createEval', 'EvaluationsController@create');
-
+Route::get('/createSurvey', 'EvaluationsController@createSurvey');
+Route::get('/createArea', 'EvaluationsController@createArea');
+Route::get('/newSubCat', 'EvaluationsController@newSubCat');
+Route::get('/newQuestion', 'EvaluationsController@createQuestion');
+Route::get('/remQuestion', 'EvaluationsController@removeQuestion');
+Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
+Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey');
+Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
+Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat');
+Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea');
+Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea');
+Route::get('/showSurvey', 'EvaluationsController@show');
 //
 
 

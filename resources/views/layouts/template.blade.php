@@ -289,7 +289,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="javascript:void(0)">
+                            <a class="nav-main-link" href="/evals">
                                 <i class="material-icons">assessment</i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Evaluations</span>
                             </a>

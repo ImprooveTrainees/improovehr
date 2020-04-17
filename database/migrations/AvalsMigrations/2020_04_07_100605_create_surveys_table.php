@@ -16,7 +16,7 @@ class CreateSurveysTable extends Migration
         Schema::create('surveys', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->date('Date');
+            $table->date('Date')->nullable();
             $table->integer('idSurveyType');
             $table->integer('answerLimit');
             $table->foreign('idSurveyType')->references('id')->on('survey_types');
