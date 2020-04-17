@@ -27,7 +27,9 @@ class EvaluationsController extends Controller
         $surveyTypes = surveyType::All();
         $areas = Areas::All();
         $surveys = Survey::All();
-
+        
+        
+    
 
         return view('testeCreateEvals')->with('surveyTypes', $surveyTypes)->with('areas', $areas)
         ->with('surveys', $surveys);
@@ -55,6 +57,8 @@ class EvaluationsController extends Controller
 
         $msg = "Survey created successfully";
 
+
+
         return redirect()->action('EvaluationsController@index')->with('msgError', $msg);
     }
     
@@ -70,8 +74,17 @@ class EvaluationsController extends Controller
         $areas->description = $areaName;
         $areas->save();
 
+        $areaSuccess = "Area created successfully!";
 
-        return redirect()->action('EvaluationsController@index');
+         $areaSuccess .= "<script>";
+         $areaSuccess .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+         $areaSuccess .= "</script>";
+         $areaSuccess .= "<script>";
+         $areaSuccess .= 'document.getElementById("showSurvey").submit();';
+         $areaSuccess .= "</script>";
+
+
+        return redirect()->action('EvaluationsController@index')->with('msgError', $areaSuccess);
     }
 
     public function newSubCat(Request $request)
@@ -96,7 +109,14 @@ class EvaluationsController extends Controller
             $subcat->save();
             $subCatNewMsg = "Subcategory successfully created!";
         }
-       
+
+         //faz com que após a página carregar ele mostre o questionário previamente seleccionado
+         $subCatNewMsg .= "<script>";
+         $subCatNewMsg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+         $subCatNewMsg .= "</script>";
+         $subCatNewMsg .= "<script>";
+         $subCatNewMsg .= 'document.getElementById("showSurvey").submit();';
+         $subCatNewMsg .= "</script>";
 
         return redirect()->action('EvaluationsController@index')->with('msgError', $subCatNewMsg);
     }
@@ -135,8 +155,13 @@ class EvaluationsController extends Controller
                     $areaInSurveyMsg = "Area added to survey successfully";
                 }
                 
-
-            
+                //faz com que após a página carregar ele mostre o questionário previamente seleccionado
+                 $areaInSurveyMsg .= "<script>";
+                 $areaInSurveyMsg .= 'document.getElementById("surveyShowID").value='.$surveySelected;
+                 $areaInSurveyMsg .= "</script>";
+                 $areaInSurveyMsg .= "<script>";
+                 $areaInSurveyMsg .= 'document.getElementById("showSurvey").submit();';
+                 $areaInSurveyMsg .= "</script>";
 
                 return redirect()->action('EvaluationsController@index')
                 ->with('msgError', $areaInSurveyMsg);
@@ -155,7 +180,7 @@ class EvaluationsController extends Controller
         //
         $newQuestion = new Questions;
         $newQuestSurvey = new questSurvey;
-        $surveyID = $request->input('surveyID');
+        $surveyID = $request->input('idSurveyAutoShow');
         //o JS altera o value do input dependendo da op seleccionada
         if($request->input('questionTypeForm') == 1) {
             $question = $request->input('question');
@@ -199,6 +224,12 @@ class EvaluationsController extends Controller
             $msg = "Open question successfully added to area!";
         }
         
+                 $msg .= "<script>";
+                 $msg .= 'document.getElementById("surveyShowID").value='.$surveyID;
+                 $msg .= "</script>";
+                 $msg .= "<script>";
+                 $msg .= 'document.getElementById("showSurvey").submit();';
+                 $msg .= "</script>";
     
 
        
@@ -214,34 +245,41 @@ class EvaluationsController extends Controller
         Questions::find($questionId)->delete();
         $msg = "Question removed successsfully!";
 
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+        $msg .= "</script>";
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("showSurvey").submit();';
+        $msg .= "</script>";
+
         return redirect()->action('EvaluationsController@index')
          ->with('msgError', $msg);
     }
 
     
-    public function showAreasSurvey(Request $request)
-    {
-        //
+    // public function showAreasSurvey(Request $request)
+    // {
+    //     //
       
 
         
-        $idSurveySelected = $request->input('idSurvey');
-        $areasInSurvey = Survey::find($idSurveySelected)->areas()->get();
-        $surveyName = Survey::find($idSurveySelected)->name;
-        $areasInSurveyMsg = "Areas in <strong>".$surveyName.":</strong> <br>";
-        foreach($areasInSurvey as $areas) {
-            $areasInSurveyMsg .= $areas->description." "."<button name='submitAreasPerSurveys' type='Submit' value=$idSurveySelected"."and"."$areas->id".">Delete Area</button>"."<br>";
-            //cada botao vai ter o id da area e do survey, que será passado para a função de delete.
+    //     $idSurveySelected = $request->input('idSurvey');
+    //     $areasInSurvey = Survey::find($idSurveySelected)->areas()->get();
+    //     $surveyName = Survey::find($idSurveySelected)->name;
+    //     $areasInSurveyMsg = "Areas in <strong>".$surveyName.":</strong> <br>";
+    //     foreach($areasInSurvey as $areas) {
+    //         $areasInSurveyMsg .= $areas->description." "."<button name='submitAreasPerSurveys' type='Submit' value=$idSurveySelected"."and"."$areas->id".">Delete Area</button>"."<br>";
+    //         //cada botao vai ter o id da area e do survey, que será passado para a função de delete.
 
-        }
-        return redirect()->action('EvaluationsController@index')
-        ->with('areasPerSurvey', $areasInSurveyMsg);
+    //     }
+    //     return redirect()->action('EvaluationsController@index')
+    //     ->with('areasPerSurvey', $areasInSurveyMsg);
 
 
         
         
         
-    }
+    // }
 
     public function deleteAreasSurvey(Request $request)
     {
@@ -255,6 +293,12 @@ class EvaluationsController extends Controller
         subCategories::where('idArea', $idAreaAndSurvey[0])->delete();
 
         $areaInSurveyMsg = "This area and her subcategories were deleted successfully from survey!";
+        $areaInSurveyMsg .= "<script>";
+        $areaInSurveyMsg .= 'document.getElementById("surveyShowID").value='.$idAreaAndSurvey[1];
+        $areaInSurveyMsg .= "</script>";
+        $areaInSurveyMsg .= "<script>";
+        $areaInSurveyMsg .= 'document.getElementById("showSurvey").submit();';
+        $areaInSurveyMsg .= "</script>";
 
         return redirect()->action('EvaluationsController@index')
             ->with('msgError', $areaInSurveyMsg);
@@ -334,6 +378,13 @@ class EvaluationsController extends Controller
             $msg = "Subcategorie sucessfully added to area!";
         }
 
+
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+        $msg .= "</script>";
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("showSurvey").submit();';
+        $msg .= "</script>";
         
 
         return redirect()->action('EvaluationsController@index')
@@ -350,6 +401,14 @@ class EvaluationsController extends Controller
 
         subCategories::find($areaAndSubcatId[1])->delete();
         $msg = "Subcategorie removed with success from this area!";
+        
+
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+        $msg .= "</script>";
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("showSurvey").submit();';
+        $msg .= "</script>";
 
         return redirect()->action('EvaluationsController@index')
             ->with('msgError', $msg);
@@ -375,8 +434,15 @@ class EvaluationsController extends Controller
     public function show(Request $request)
     {
         //
+    
+
         $showSurveyGeneral = "";
         $selectedSurveyId = $request->input('surveyShowID');
+
+        $showSurveyGeneral .= "<script>";
+        $showSurveyGeneral .= 'document.getElementById("surveyShowID").value='.$selectedSurveyId;
+        $showSurveyGeneral .= "</script>";
+
         if($selectedSurveyId == 00) {
             $showSurveyGeneral .= "Select a survey from the dropdown list!";
         }
@@ -406,6 +472,7 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= '<form action="/createArea">';
                 // $showSurveyGeneral .=   '@csrf';
                 $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
                 $showSurveyGeneral .=  'New: <input type="text" name="newArea">';
                 $showSurveyGeneral .= '<button type="submit">Create Area</button>';
 
@@ -413,6 +480,7 @@ class EvaluationsController extends Controller
 
                 $showSurveyGeneral .= '<form action="/addAreaToSurvey">'; 
                 $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
                 $showSurveyGeneral .= 'Add: <select name="areaSelect">';
     
                 $allAreas = [];        
@@ -438,6 +506,7 @@ class EvaluationsController extends Controller
                 
                 $showSurveyGeneral .= '<form action="/deleteAreasSurvey">';
                 $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
                 if($surveyAreas->count() == 0) {
                     $showSurveyGeneral .= '';   
                 }
@@ -466,6 +535,7 @@ class EvaluationsController extends Controller
 
             $showSurveyGeneral .= '<form action="/newSubCat">';
             $showSurveyGeneral .= csrf_field();
+            $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
             $showSurveyGeneral .= 'New:<input name="subCatNewName">';
             $showSurveyGeneral .= '<button type="submit">Create Subcategory</button>';
             $showSurveyGeneral .= '</form>';
@@ -473,6 +543,7 @@ class EvaluationsController extends Controller
 
         $showSurveyGeneral .= "<form action='/addSubcatArea'>";
         $showSurveyGeneral .= csrf_field();
+        $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
         $showSurveyGeneral .= "Add: <select name='selectedSubCat'>";
         $allSubCats = [];
                 foreach($subCats as $subCat) {
@@ -494,6 +565,7 @@ class EvaluationsController extends Controller
              
              $showSurveyGeneral .= "<form action='/remSubcatArea'>";
              $showSurveyGeneral .= csrf_field();
+             $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
              $showSurveyGeneral .= "Remove: <select name='choosenAreaSubCatId'>";
                 foreach($surveyAreas as $area) {
                     $subCatsArea = Areas::find($area->id)->subCategories()->get();
@@ -521,7 +593,7 @@ class EvaluationsController extends Controller
                 
                 $showSurveyGeneral .= '<form action="/newQuestion">';
                 $showSurveyGeneral .= '<input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">';
-                $showSurveyGeneral .= '<input type="hidden" name="surveyID" value='.$selectedSurveyId.'>';
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
                 
                 $showSurveyGeneral .= csrf_field();
                 $showSurveyGeneral .= 'Type: ';
@@ -583,12 +655,14 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= 'Remove:'; 
                 $showSurveyGeneral .= '<form action="/remQuestion">';
                 $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
                 $showSurveyGeneral .= '<select name="questionIdRemove">';    
                 //Mostra todas as subcats das areas de um questionario, assim como as questões de
                 //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a 
                 //questão certa
                     foreach($surveyAreas as $area) {
                         $subCats = Areas::find($area->id)->subCategories()->get();
+                        $openQuestions = Areas::find($area->id)->openQuestions()->orderBy('created_at','asc')->get();
                         foreach($subCats as $subcat) {
                             $subCatsQuestions = subCategories::find($subcat->id)->questions()->orderBy('created_at', 'asc')->get();
                             foreach($subCatsQuestions as $question) {
@@ -598,6 +672,11 @@ class EvaluationsController extends Controller
                             $countQuestions = 1;
                             
                         }
+                        foreach($openQuestions as $openQuestion){
+                            $showSurveyGeneral .= '<option value='.$openQuestion->id.'>'.$area->description.' | '.'Open Question: '.$countQuestions.'</option>';
+                            $countQuestions++;
+                        }
+                        $countQuestions = 1;
                     }
                     // 
                 $showSurveyGeneral .= '</select>';
