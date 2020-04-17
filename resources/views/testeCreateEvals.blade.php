@@ -190,8 +190,8 @@ Choose a survey:
 ---------------------------------
 <div>
     <h3>Show Survey:</h3>
-<form action="/showSurvey">
-    <select name="surveyShowID">
+<form id="showSurvey" action="/showSurvey">
+    <select id="surveyShowID" name="surveyShowID">
         <option value=00>---</option>
         @foreach($surveys as $survey)
             <option value={{$survey->id}}>{{$survey->name}}</option>
@@ -271,6 +271,7 @@ function hideQuestions() {
         
     }
 }
+
 
 
 
