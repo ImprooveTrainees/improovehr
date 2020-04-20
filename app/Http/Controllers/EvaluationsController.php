@@ -13,6 +13,8 @@ use App\PP;
 use App\typeQuestion;
 use App\Questions;
 use App\questSurvey;
+use App\User;
+use App\surveyUsers;
 
 class EvaluationsController extends Controller
 {
@@ -414,6 +416,73 @@ class EvaluationsController extends Controller
             ->with('msgError', $msg);
 
     }
+
+    public function assignUser(Request $request)
+    {
+        //
+        
+        $usersSelected = $request->input('users');
+        if($usersSelected == 0) {
+            $msg = "Select users to add!";
+        }
+        else {
+
+        
+        $dateLimit = $request->input('limitDate');
+        $survey = $request->input('idSurveyAutoShow');
+        $msg = "Users assigned successfully!";
+
+        foreach($usersSelected as $user) {
+            $newSurveyUsers = new surveyUsers;
+            $newSurveyUsers->idUser = $user;
+            $newSurveyUsers->idSurvey = $survey;
+            $newSurveyUsers->submitted = false;
+            $newSurveyUsers->dateLimit = $dateLimit;
+            $evalChoice = $request->input('evalChoice'.$user); //como há vários selects num ciclo for, damos o nome de cada select com o seu userId, e aqui pedimos o valor do select de cada user
+            $newSurveyUsers->evaluated = $evalChoice;
+            $newSurveyUsers->save();
+        }
+    }
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+        $msg .= "</script>";
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("showSurvey").submit();';
+        $msg .= "</script>";
+
+        return redirect()->action('EvaluationsController@index')
+            ->with('msgError', $msg);
+
+
+
+    }
+
+    public function remUser(Request $request)
+    {
+        //
+        $usersSelected = $request->input('usersRem');
+        $survey = $request->input('idSurveyAutoShow');
+
+        if($usersSelected == 0) {
+            $msg = "Select users to remove!";
+        }
+        else {   
+            $msg = "Users removed successfully!";
+        foreach($usersSelected as $usersRem) {
+            surveyUsers::where('idUser', $usersRem)->where('idSurvey', $survey)->delete();
+        }
+    }
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
+        $msg .= "</script>";
+        $msg .= "<script>";
+        $msg .= 'document.getElementById("showSurvey").submit();';
+        $msg .= "</script>";
+
+        return redirect()->action('EvaluationsController@index')
+            ->with('msgError', $msg);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -454,6 +523,7 @@ class EvaluationsController extends Controller
             $surveys = Survey::All();
             $subCats = subCategories::All();
             $PPs = PP::All();
+            $users = User::All();
             $questionTypes = typeQuestion::All();
             $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
             $countQuestions = 1;
@@ -466,6 +536,7 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= "<button type='button' onclick='hideArea()'>Add/Remove Areas</button>";
                 $showSurveyGeneral .= "<button type='button' onclick='hideSubcat()'>Add/Remove Subcategories</button>";
                 $showSurveyGeneral .= "<button type='button' onclick='hideQuestions()'>Add/Remove Questions</button>";
+                $showSurveyGeneral .= "<button type='button' onclick='hideUserSurvey()'>Assign/Remove Users</button>";
 
                 $showSurveyGeneral .= "<div style='display: none;' id='hideArea'>";
 
@@ -688,6 +759,68 @@ class EvaluationsController extends Controller
             //End Button Questions
             ///////////////
 
+            //Users
+            ///////////////
+
+
+            $showSurveyGeneral .= "<div style='display: none;' id='hideUserSurvey'>";
+
+                $showSurveyGeneral .= "<form action='/assignUser'>";
+
+                $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
+                $showSurveyGeneral .= "Assign Users to Survey:<br>";
+                foreach($users as $user) {
+                    $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="users[]" value='.$user->id.'>';
+                    $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>';
+                    $showSurveyGeneral .= '<select name="evalChoice'.$user->id.'">';
+                    $showSurveyGeneral .= '<option value="1">...will be evaluated.</option>';
+                    $showSurveyGeneral .= '<option value="0">...will evalue</option>';
+                    $showSurveyGeneral .= '</select>'; 
+                    $showSurveyGeneral .= "<select>";
+                    foreach($users as $toBeEval) {
+                        $showSurveyGeneral .= '<option value='.$toBeEval->id.'>'.$toBeEval->name.'</option>';
+                    }
+                    $showSurveyGeneral .= "</select>";
+                    $showSurveyGeneral .= "<br>";
+                }
+  
+                $showSurveyGeneral .= "<br>";
+                $showSurveyGeneral .= '<label for="limitDate">Limit Date:</label>';
+                $showSurveyGeneral .= '<input type="date" id="limitDate" name="limitDate">';
+                $showSurveyGeneral .= "<br>";
+                $showSurveyGeneral .= "<button type='submit'>Assign Users</button>";
+                $showSurveyGeneral .= "</form>";
+                $showSurveyGeneral .= "<br>";
+
+                $showSurveyGeneral .= "<form action='/remUser'>";
+                $showSurveyGeneral .= csrf_field();
+                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
+                $showSurveyGeneral .= "Remove:<br>";
+                $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
+                $count2 = 0;
+                foreach($usersAssigned as $user) {
+                    $count2++;
+                    if($count2 == 2){
+                       $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="usersRem[]" value='.$user->id.'>';
+                       $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label><br>';
+                       $count2 = 0;
+                    }
+                    else {
+                       $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="usersRem[]" value='.$user->id.'>';
+                       $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>&nbsp;&nbsp;';
+                    }
+                   }
+
+                   $showSurveyGeneral .= "<button type='submit'>Remove Users</button>";
+                   $showSurveyGeneral .= "</form>";
+                    
+
+            $showSurveyGeneral .= "</div>";
+
+            //End Users 
+            ///////////////
+                    
             //Survey Structure
             if($surveyAreas->count() == 0) {
                 $showSurveyGeneral .= "<br>";
@@ -744,9 +877,25 @@ class EvaluationsController extends Controller
                 } //aqui procura só as questoes abertas, que não têm subcategoria
                 $showSurveyGeneral .= "</ul>";
             }
+            //Users assigned
+            $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
+            $showSurveyGeneral .= "<div>";
+                $showSurveyGeneral .= "<strong>Users assigned:</strong> <br>";
+                foreach($usersAssigned as $user) {
+                    $showSurveyGeneral .= $user->name."<br>";
+                }
+                
+
+
+
+            $showSurveyGeneral .= "</div>";
+
+
+
             //End Survey Structure
 
         }
+
         
 
         return redirect()->action('EvaluationsController@index')->with('showSurvey', $showSurveyGeneral);

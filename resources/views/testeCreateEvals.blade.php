@@ -272,6 +272,16 @@ function hideQuestions() {
     }
 }
 
+function hideUserSurvey() {
+    if(document.getElementById("hideUserSurvey").style.display == "block") {
+        document.getElementById("hideUserSurvey").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("hideUserSurvey").style.display = "block";
+        
+    }
+}
 
 
 

@@ -20,4 +20,9 @@ class Survey extends Model
         return $this->belongsTo('App\surveyType', 'idSurveyType');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'survey_users', 'idSurvey', 'idUser');
+    }
+
 }
