@@ -67,6 +67,11 @@ class User extends Authenticatable
       public function departments() {
          return $this->belongsToMany('App\departments','users_deps', 'idUser', 'idDepartment');
       }
+      public function surveys()
+      {
+        return $this->belongsToMany('App\Survey', 'survey_users', 'idUser', 'idSurvey');
+      }
+
       public function officeDescricao($id, $country) {
         $officeDescricao = DB::table('users')
             ->join('users_deps', 'users.id', '=', 'users_deps.idUser')

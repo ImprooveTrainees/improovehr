@@ -431,8 +431,15 @@ class EvaluationsController extends Controller
         $dateLimit = $request->input('limitDate');
         $survey = $request->input('idSurveyAutoShow');
         $msg = "Users assigned successfully!";
+        $allSurveyUsers = surveyUsers::All();
 
         foreach($usersSelected as $user) {
+            foreach($allSurveyUsers as $all) {
+                if($all->idUser == $user && $all->idSurvey == $survey){ //verifica se já existe o user no survey
+                    $msg = "That user is already assigned to this survey!";
+                    break 2;
+                }
+            }
             $newSurveyUsers = new surveyUsers;
             $newSurveyUsers->idUser = $user;
             $newSurveyUsers->idSurvey = $survey;
@@ -816,7 +823,7 @@ class EvaluationsController extends Controller
                        $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>&nbsp;&nbsp;';
                     }
                    }
-
+                   $showSurveyGeneral .= "<br>";
                    $showSurveyGeneral .= "<button type='submit'>Remove Users</button>";
                    $showSurveyGeneral .= "</form>";
                     
@@ -886,7 +893,12 @@ class EvaluationsController extends Controller
             $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
 
             $showSurveyGeneral .= "<div>";
-                $showSurveyGeneral .= "<strong>Users assigned:</strong> <br>";
+                $showSurveyGeneral .= "<strong>Users assigned:</strong>";
+                if($usersEvaluated->count() == 0) {
+                    $showSurveyGeneral .= " There are no users assigned to this survey!";
+                }
+                else {
+                $showSurveyGeneral .= "<br>";
                 foreach($usersEvaluated as $user) {
                     if($user->evaluated == 1) {
                         $showSurveyGeneral .= User::find($user->idUser)->name." will autoevaluate himself.<br>";
@@ -895,10 +907,9 @@ class EvaluationsController extends Controller
                         $showSurveyGeneral .= User::find($user->idUser)->name." will evalue ".User::find($user->willEvaluate)->name.".<br>";
                     }
                     
-                }
-                
+                }    
 
-
+            }
 
             $showSurveyGeneral .= "</div>";
 
