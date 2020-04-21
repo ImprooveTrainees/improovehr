@@ -439,6 +439,10 @@ class EvaluationsController extends Controller
             $newSurveyUsers->submitted = false;
             $newSurveyUsers->dateLimit = $dateLimit;
             $evalChoice = $request->input('evalChoice'.$user); //como há vários selects num ciclo for, damos o nome de cada select com o seu userId, e aqui pedimos o valor do select de cada user
+            if($request->input('evaluatorChoice'.$user) != null) {
+                $evaluatorChoice = $request->input('evaluatorChoice'.$user);
+                $newSurveyUsers->willEvaluate = $evaluatorChoice;
+            }
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
         }
@@ -773,11 +777,12 @@ class EvaluationsController extends Controller
                 foreach($users as $user) {
                     $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="users[]" value='.$user->id.'>';
                     $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>';
-                    $showSurveyGeneral .= '<select name="evalChoice'.$user->id.'">';
+                    $showSurveyGeneral .= '<select onchange="showEvaluatedChoice('.$user->id.')" id="evaluatedChoiceJS'.$user->id.'" name="evalChoice'.$user->id.'">';
+                    //passamos o user id como argumento no select, para o JS nos mostrar o select correcto
                     $showSurveyGeneral .= '<option value="1">...will be evaluated.</option>';
                     $showSurveyGeneral .= '<option value="0">...will evalue</option>';
                     $showSurveyGeneral .= '</select>'; 
-                    $showSurveyGeneral .= "<select>";
+                    $showSurveyGeneral .= "<select style='display: none;' id='showEvaluatedSelection".$user->id."' name='evaluatorChoice".$user->id."'>";
                     foreach($users as $toBeEval) {
                         $showSurveyGeneral .= '<option value='.$toBeEval->id.'>'.$toBeEval->name.'</option>';
                     }
@@ -878,11 +883,18 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= "</ul>";
             }
             //Users assigned
-            $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
+            $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
+
             $showSurveyGeneral .= "<div>";
                 $showSurveyGeneral .= "<strong>Users assigned:</strong> <br>";
-                foreach($usersAssigned as $user) {
-                    $showSurveyGeneral .= $user->name."<br>";
+                foreach($usersEvaluated as $user) {
+                    if($user->evaluated == 1) {
+                        $showSurveyGeneral .= User::find($user->idUser)->name." will autoevaluate himself.<br>";
+                    }
+                    else {
+                        $showSurveyGeneral .= User::find($user->idUser)->name." will evalue ".User::find($user->willEvaluate)->name.".<br>";
+                    }
+                    
                 }
                 
 

@@ -283,6 +283,16 @@ function hideUserSurvey() {
     }
 }
 
+function showEvaluatedChoice(id) { //recebe o id do user, para mostrar o select do respectivo user
+    if(document.getElementById('showEvaluatedSelection'+id).style.display == "none") {
+        document.getElementById('showEvaluatedSelection'+id).style.display = "inline";
+    }
+    else {
+        document.getElementById('showEvaluatedSelection'+id).style.display = "none";
+    }
+    
+}
+
 
 
 

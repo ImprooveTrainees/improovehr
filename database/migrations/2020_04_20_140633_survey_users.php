@@ -19,9 +19,9 @@ class SurveyUsers extends Migration
             $table->integer('idSurvey');
             $table->boolean('submitted');
             $table->boolean('evaluated');
-            $table->integer('evaluator');
+            $table->integer('willEvaluate');
             $table->date('dateLimit');
-            $table->foreign('evaluator')->references('id')->on('users');
+            $table->foreign('willEvaluate')->references('id')->on('users');
             $table->foreign('idUser')->references('id')->on('users');
             $table->foreign('idSurvey')->references('id')->on('surveys');
             $table->timestamps();
