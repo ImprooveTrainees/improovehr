@@ -66,6 +66,8 @@ Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
 Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat');
 Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea');
 Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea');
+Route::get('/assignUser', 'EvaluationsController@assignUser');
+Route::get('/remUser', 'EvaluationsController@remUser');
 Route::get('/showSurvey', 'EvaluationsController@show');
 //
 

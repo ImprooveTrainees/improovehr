@@ -272,6 +272,26 @@ function hideQuestions() {
     }
 }
 
+function hideUserSurvey() {
+    if(document.getElementById("hideUserSurvey").style.display == "block") {
+        document.getElementById("hideUserSurvey").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("hideUserSurvey").style.display = "block";
+        
+    }
+}
+
+function showEvaluatedChoice(id) { //recebe o id do user, para mostrar o select do respectivo user
+    if(document.getElementById('showEvaluatedSelection'+id).style.display == "none") {
+        document.getElementById('showEvaluatedSelection'+id).style.display = "inline";
+    }
+    else {
+        document.getElementById('showEvaluatedSelection'+id).style.display = "none";
+    }
+    
+}
 
 
 
