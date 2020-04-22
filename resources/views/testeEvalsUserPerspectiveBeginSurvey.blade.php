@@ -32,17 +32,7 @@
 </head>
 <body>
 
-<table style="border-collapse:separate;border-spacing:15px;">
-    <tr>
-        <th><h2>Own Evaluations</h2></th>
-        <th><h2>Type</h2></th>
-        <th><h2>Time Left</h2></th>
-        <th><h2></h2></th>
-    </tr>
-    <?php echo $surveyUserMsg ?>
-</table>
 
-
-
+   <?php echo $showSurveyGeneral ?>
 </body>
 </html>

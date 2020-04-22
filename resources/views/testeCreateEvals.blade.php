@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- @extends('layouts.template') --}}
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -26,6 +28,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+{{-- @section('content') --}}
 
     <h3>New Survey</h3>
     <br>
@@ -214,7 +217,7 @@ Choose a survey:
 @endif
 
 
-
+{{-- @endsection --}}
 
 
 

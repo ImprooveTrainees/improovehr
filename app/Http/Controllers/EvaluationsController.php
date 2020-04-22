@@ -852,13 +852,19 @@ class EvaluationsController extends Controller
                             $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
                             
                             if($subCatsQuestions->count() == 0) {
-                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!";
+                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>";
                             }
                             else {
                                 $showSurveyGeneral .= "<ol>";
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
-                                        $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
+                                        if($question->idPP == 2) { //verifica se é potencial para alterar a cor
+                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>".$question->description."</li>";
+                                        }
+                                        else {
+                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
+                                        }
+                                        
                                     } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                       //têm subcategoria
                                     
@@ -901,10 +907,10 @@ class EvaluationsController extends Controller
                 $showSurveyGeneral .= "<br>";
                 foreach($usersEvaluated as $user) {
                     if($user->evaluated == 1) {
-                        $showSurveyGeneral .= User::find($user->idUser)->name." will autoevaluate himself.<br>";
+                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will autoevaluate himself.<br>";
                     }
                     else {
-                        $showSurveyGeneral .= User::find($user->idUser)->name." will evalue ".User::find($user->willEvaluate)->name.".<br>";
+                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will evalue <strong>".User::find($user->willEvaluate)->name."</strong><br>";
                     }
                     
                 }    
