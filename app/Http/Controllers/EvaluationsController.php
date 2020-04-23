@@ -523,10 +523,6 @@ class EvaluationsController extends Controller
         $showSurveyGeneral .= 'document.getElementById("surveyShowID").value='.$selectedSurveyId;
         $showSurveyGeneral .= "</script>";
 
-        if($selectedSurveyId == 00) {
-            $showSurveyGeneral .= "Select a survey from the dropdown list!";
-        }
-        else {
 
             $surveyName = Survey::find($selectedSurveyId)->name;
             $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
@@ -923,7 +919,7 @@ class EvaluationsController extends Controller
 
             //End Survey Structure
 
-        }
+        
 
         
 

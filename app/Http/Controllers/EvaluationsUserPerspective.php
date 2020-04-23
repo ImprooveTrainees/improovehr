@@ -192,6 +192,13 @@ class EvaluationsUserPerspective extends Controller
         return view('testeEvalsUserPerspectiveBeginSurvey')->with('showSurveyGeneral', $showSurveyGeneral);
     }
 
+    public function avgPPArea(Request $request)
+    {
+        //
+
+        
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
