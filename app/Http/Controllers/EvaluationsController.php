@@ -27,14 +27,13 @@ class EvaluationsController extends Controller
     {
         //
         $surveyTypes = surveyType::All();
-        $areas = Areas::All();
         $surveys = Survey::All();
-        
+        $clickedShow = false; //será posto true na funcao "show"
         
     
 
-        return view('testeCreateEvals')->with('surveyTypes', $surveyTypes)->with('areas', $areas)
-        ->with('surveys', $surveys);
+        return view('testeCreateEvals')->with('surveyTypes', $surveyTypes)
+        ->with('surveys', $surveys)->with('clickedShow', $clickedShow);
     }
 
     /**
@@ -514,8 +513,8 @@ class EvaluationsController extends Controller
     public function show(Request $request)
     {
         //
-    
-
+        
+        $clickedShow = true;
         $showSurveyGeneral = "";
         $selectedSurveyId = $request->input('surveyShowID');
 
@@ -524,83 +523,35 @@ class EvaluationsController extends Controller
         $showSurveyGeneral .= "</script>";
 
 
-            $surveyName = Survey::find($selectedSurveyId)->name;
-            $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
-            $allAreasDB = Areas::All();
-            $surveys = Survey::All();
-            $subCats = subCategories::All();
-            $PPs = PP::All();
-            $users = User::All();
-            $questionTypes = typeQuestion::All();
-            $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
-            $countQuestions = 1;
+        $surveyName = Survey::find($selectedSurveyId)->name;
+        $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
+        $allAreasDB = Areas::All();
+        $subCats = subCategories::All();
+        $PPs = PP::All();
+        $users = User::All();
+        $questionTypes = typeQuestion::All();
+        $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
+        $countQuestions = 1;
 
-            $showSurveyGeneral .= "<h4>".$surveyName."</h4>";
-            $showSurveyGeneral .= "<h4>".$surveyType."</h4>";
+        //index
+        $surveyTypes = surveyType::All();
+        $surveys = Survey::All();
+        //
 
-            //Button Area
-            ///////////////
-                $showSurveyGeneral .= "<button type='button' onclick='hideArea()'>Add/Remove Areas</button>";
-                $showSurveyGeneral .= "<button type='button' onclick='hideSubcat()'>Add/Remove Subcategories</button>";
-                $showSurveyGeneral .= "<button type='button' onclick='hideQuestions()'>Add/Remove Questions</button>";
-                $showSurveyGeneral .= "<button type='button' onclick='hideUserSurvey()'>Assign/Remove Users</button>";
-
-                $showSurveyGeneral .= "<div style='display: none;' id='hideArea'>";
-
-                $showSurveyGeneral .= '<form action="/createArea">';
-                // $showSurveyGeneral .=   '@csrf';
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                $showSurveyGeneral .=  'New: <input type="text" name="newArea">';
-                $showSurveyGeneral .= '<button type="submit">Create Area</button>';
-
-                $showSurveyGeneral .=  '</form>';
-
-                $showSurveyGeneral .= '<form action="/addAreaToSurvey">'; 
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                $showSurveyGeneral .= 'Add: <select name="areaSelect">';
-    
-                $allAreas = [];        
-
-                foreach($allAreasDB as $area) {
-                    if(!in_array($area->description, $allAreas)) {
-                        array_push($allAreas, $area->description);
-                        $showSurveyGeneral .= '<option value='.$area->id.'>'.$area->description.'</option>';
-                    }
-                    
-                } 
-                    
+        //Button Area
+        ///////////////
+        $allAreas = [];
+        $allAreasId = [];
             
-    
-                $showSurveyGeneral .= '</select>';
 
-                $showSurveyGeneral .= '<select style="display: none;" name="idSurvey">';
-                $showSurveyGeneral .= '<option value='.$selectedSurveyId.'></option>';               
-                $showSurveyGeneral .= '</select>';
-                $showSurveyGeneral .= '<button name="submitArea" type="submit">Add</button>';
-
-                $showSurveyGeneral .= '</form>';
-                
-                $showSurveyGeneral .= '<form action="/deleteAreasSurvey">';
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                if($surveyAreas->count() == 0) {
-                    $showSurveyGeneral .= '';   
+            foreach($allAreasDB as $area) {
+            if(!in_array($area->description, $allAreas)) {
+                array_push($allAreas, $area->description);
+                array_push($allAreasId, $area->id);
                 }
-                else {
-                    $showSurveyGeneral .=  "Remove: <select name='areaSurveyRemId'>";
-                    foreach($surveyAreas as $sAreas) {
-                        $showSurveyGeneral .= '<option value='.$sAreas->id.'and'.$selectedSurveyId.'>'.$sAreas->description.'</option>';   
-                    }
-                
             
-                $showSurveyGeneral .=  "</select>";
-                $showSurveyGeneral .= '<button type="submit">Remove Area</button>';
-                }
-                $showSurveyGeneral .=  '</form>';
-
-                $showSurveyGeneral .= "</div>";
+            }
+                
              //End Button Area
             ///////////////
 
@@ -919,11 +870,8 @@ class EvaluationsController extends Controller
 
             //End Survey Structure
 
-        
 
-        
-
-        return redirect()->action('EvaluationsController@index')->with('showSurvey', $showSurveyGeneral);
+        return view('testeCreateEvals')->with(compact('showSurveyGeneral', 'surveyTypes', 'surveys','surveyName','surveyType', 'selectedSurveyId', 'allAreas', 'allAreasDB','surveyAreas','allAreasId'))->with('clickedShow', $clickedShow);
 
     }
 
