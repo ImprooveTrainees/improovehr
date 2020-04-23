@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- @extends('layouts.template') --}}
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -26,6 +28,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+{{-- @section('content') --}}
 
     <h3>New Survey</h3>
     <br>
@@ -192,14 +195,16 @@ Choose a survey:
     <h3>Show Survey:</h3>
 <form id="showSurvey" action="/showSurvey">
     <select id="surveyShowID" name="surveyShowID">
-        <option value=00>---</option>
         @foreach($surveys as $survey)
-            <option value={{$survey->id}}>{{$survey->name}}</option>
+            <option selected value={{$survey->id}}>{{$survey->name}}</option>
         @endforeach
     </select>
     <button>Show</button>  
 </form>
 <br>
+
+
+
 @if(session('showSurvey'))
         <?php echo session('showSurvey')  ?>
 @endif
@@ -214,7 +219,7 @@ Choose a survey:
 @endif
 
 
-
+{{-- @endsection --}}
 
 
 

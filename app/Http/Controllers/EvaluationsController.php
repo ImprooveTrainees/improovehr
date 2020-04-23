@@ -431,8 +431,15 @@ class EvaluationsController extends Controller
         $dateLimit = $request->input('limitDate');
         $survey = $request->input('idSurveyAutoShow');
         $msg = "Users assigned successfully!";
+        $allSurveyUsers = surveyUsers::All();
 
         foreach($usersSelected as $user) {
+            foreach($allSurveyUsers as $all) {
+                if($all->idUser == $user && $all->idSurvey == $survey){ //verifica se já existe o user no survey
+                    $msg = "That user is already assigned to this survey!";
+                    break 2;
+                }
+            }
             $newSurveyUsers = new surveyUsers;
             $newSurveyUsers->idUser = $user;
             $newSurveyUsers->idSurvey = $survey;
@@ -516,10 +523,6 @@ class EvaluationsController extends Controller
         $showSurveyGeneral .= 'document.getElementById("surveyShowID").value='.$selectedSurveyId;
         $showSurveyGeneral .= "</script>";
 
-        if($selectedSurveyId == 00) {
-            $showSurveyGeneral .= "Select a survey from the dropdown list!";
-        }
-        else {
 
             $surveyName = Survey::find($selectedSurveyId)->name;
             $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
@@ -816,7 +819,7 @@ class EvaluationsController extends Controller
                        $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>&nbsp;&nbsp;';
                     }
                    }
-
+                   $showSurveyGeneral .= "<br>";
                    $showSurveyGeneral .= "<button type='submit'>Remove Users</button>";
                    $showSurveyGeneral .= "</form>";
                     
@@ -845,13 +848,19 @@ class EvaluationsController extends Controller
                             $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
                             
                             if($subCatsQuestions->count() == 0) {
-                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!";
+                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>";
                             }
                             else {
                                 $showSurveyGeneral .= "<ol>";
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
-                                        $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
+                                        if($question->idPP == 2) { //verifica se é potencial para alterar a cor
+                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>".$question->description."</li>";
+                                        }
+                                        else {
+                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
+                                        }
+                                        
                                     } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                       //têm subcategoria
                                     
@@ -886,19 +895,23 @@ class EvaluationsController extends Controller
             $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
 
             $showSurveyGeneral .= "<div>";
-                $showSurveyGeneral .= "<strong>Users assigned:</strong> <br>";
+                $showSurveyGeneral .= "<strong>Users assigned:</strong>";
+                if($usersEvaluated->count() == 0) {
+                    $showSurveyGeneral .= " There are no users assigned to this survey!";
+                }
+                else {
+                $showSurveyGeneral .= "<br>";
                 foreach($usersEvaluated as $user) {
                     if($user->evaluated == 1) {
-                        $showSurveyGeneral .= User::find($user->idUser)->name." will autoevaluate himself.<br>";
+                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will autoevaluate himself.<br>";
                     }
                     else {
-                        $showSurveyGeneral .= User::find($user->idUser)->name." will evalue ".User::find($user->willEvaluate)->name.".<br>";
+                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will evalue <strong>".User::find($user->willEvaluate)->name."</strong><br>";
                     }
                     
-                }
-                
+                }    
 
-
+            }
 
             $showSurveyGeneral .= "</div>";
 
@@ -906,7 +919,7 @@ class EvaluationsController extends Controller
 
             //End Survey Structure
 
-        }
+        
 
         
 
