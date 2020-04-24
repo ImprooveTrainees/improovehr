@@ -522,7 +522,6 @@ class EvaluationsController extends Controller
         $showSurveyGeneral .= 'document.getElementById("surveyShowID").value='.$selectedSurveyId;
         $showSurveyGeneral .= "</script>";
 
-
         $surveyName = Survey::find($selectedSurveyId)->name;
         $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
         $allAreasDB = Areas::All();
@@ -555,233 +554,84 @@ class EvaluationsController extends Controller
              //End Button Area
             ///////////////
 
-
             //Button Subcategory
             ///////////////
-                
-            
-            $showSurveyGeneral .= "<div style='display: none;' id='hideSubcat'>";
-
-            $showSurveyGeneral .= '<form action="/newSubCat">';
-            $showSurveyGeneral .= csrf_field();
-            $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-            $showSurveyGeneral .= 'New:<input name="subCatNewName">';
-            $showSurveyGeneral .= '<button type="submit">Create Subcategory</button>';
-            $showSurveyGeneral .= '</form>';
-            
-
-        $showSurveyGeneral .= "<form action='/addSubcatArea'>";
-        $showSurveyGeneral .= csrf_field();
-        $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-        $showSurveyGeneral .= "Add: <select name='selectedSubCat'>";
-        $allSubCats = [];
-                foreach($subCats as $subCat) {
-                    if(!in_array($subCat->description, $allSubCats)) {
-                        array_push($allSubCats, $subCat->description);
-                        $showSurveyGeneral .= "<option value=$subCat->id>".$subCat->description."</option>";
-                    }
-                   
-                }
-             $showSurveyGeneral .= "</select>";
-             $showSurveyGeneral .= "<strong>to</strong>";
-             $showSurveyGeneral .= "<select name='selectedArea'>";
-                    foreach($surveyAreas as $aps) {
-                        $showSurveyGeneral .=  "<option value=$aps->id>".$aps->description."</option>";
-                    }                
-             $showSurveyGeneral .= "</select>";
-             $showSurveyGeneral .= "<button>Add</button>";
-             $showSurveyGeneral .= "</form>";
-             
-             $showSurveyGeneral .= "<form action='/remSubcatArea'>";
-             $showSurveyGeneral .= csrf_field();
-             $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-             $showSurveyGeneral .= "Remove: <select name='choosenAreaSubCatId'>";
-                foreach($surveyAreas as $area) {
-                    $subCatsArea = Areas::find($area->id)->subCategories()->get();
-                    foreach($subCatsArea as $subCat) {
-                        $showSurveyGeneral .=  "<option value=".$area->id."and".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
-                    }
+  
+            $allSubCats = [];
+            $allSubCatsId = [];
+            foreach($subCats as $subCat) {
+                if(!in_array($subCat->description, $allSubCats)) {
+                    array_push($allSubCats, $subCat->description);
+                    array_push($allSubCatsId, $subCat->id);
                     
                 }
-             $showSurveyGeneral .= "</select>";
-             $showSurveyGeneral .= "<button type='submit'>Remove</button>";
-             $showSurveyGeneral .= "</form>";
+               
+            }  //para não repetir as subcats
 
-                    
-            $showSurveyGeneral .= "</div>";
-
+            $subCatsLoop = "";
+            foreach($surveyAreas as $area) {
+            $subCatsArea = Areas::find($area->id)->subCategories()->get();
+            foreach($subCatsArea as $subCat) {
+                $subCatsLoop .= "<option value=".$area->id."and".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
+                }
+            
+            }
 
             //End Button Subcategory
             ///////////////
 
-
             //Button Questions
             ///////////////
 
-            $showSurveyGeneral .= "<div style='display: none;' id='hideQuestions'>";
+            $subCatsLoopQuestions = "";
+            foreach($surveyAreas as $area) {
+                $subCatsArea = Areas::find($area->id)->subCategories()->get();
+                foreach($subCatsArea as $subCat) {
+                    $subCatsLoopQuestions .=  "<option value=".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
+                }
                 
-                $showSurveyGeneral .= '<form action="/newQuestion">';
-                $showSurveyGeneral .= '<input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">';
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= 'Type: ';
-                foreach($questionTypes as $type) {
-                    $showSurveyGeneral .= '<label>'.$type->description.'&nbsp</label>';
-                    if($type->description == "Open") {
-                        $showSurveyGeneral .= '<input onchange="hideParam()" id="openQuestion" type="radio" name="questionType" value='.$type->id.'>';
+            }
+            //Mostra todas as subcats das areas de um questionario, assim como as questões de
+            //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a 
+            //questão certa 
+            $openQuestionsLoop = "";
+            $NumericQuestionsLoop = "";
+
+            foreach($surveyAreas as $area) {
+                $subCats = Areas::find($area->id)->subCategories()->get();
+                $openQuestions = Areas::find($area->id)->openQuestions()->orderBy('created_at','asc')->get();
+                foreach($subCats as $subcat) {
+                    $subCatsQuestions = subCategories::find($subcat->id)->questions()->orderBy('created_at', 'asc')->get();
+                    foreach($subCatsQuestions as $question) {
+                        $NumericQuestionsLoop .= '<option value='.$question->id.'>'.$subcat->description.' | '.'Question: '.$countQuestions.'</option>';
+                        $countQuestions++;
                     }
-                    else {
-                        $showSurveyGeneral .= '<input onchange="hideParam()" type="radio" name="questionType" value='.$type->id.'>';
-                    }
+                    $countQuestions = 1;
                     
                 }
-                $showSurveyGeneral .= '<br>'; 
-                
-
-                $showSurveyGeneral .= "<br>";
-                
-                
-                $showSurveyGeneral .= '<div style="display: none;" id="numericQuestionSelect" value="">';
-                $showSurveyGeneral .= 'Write a question to add: <input type="text" name="question"> <br>';
-                $showSurveyGeneral .= '<span id="weight">Weight: <input type="number" step="0.01" min="0" name="weight"></span><br>';
-
-                $showSurveyGeneral .= '<div id="params">';
-                $showSurveyGeneral .='Parameters: <br>';
-                foreach($PPs as $pp) {
-                    $showSurveyGeneral .= '<label>'.$pp->description.'</label>&nbsp';
-                    $showSurveyGeneral .= '<input type="radio" name="PP" value='.$pp->id.'>';
+                foreach($openQuestions as $openQuestion){
+                    $openQuestionsLoop .= '<option value='.$openQuestion->id.'>'.$area->description.' | '.'Open Question: '.$countQuestions.'</option>';
+                    $countQuestions++;
                 }
-                $showSurveyGeneral .= '</div>';
-                $showSurveyGeneral .= "Add: <select name='choosenSubCatId'>";
-                foreach($surveyAreas as $area) {
-                    $subCatsArea = Areas::find($area->id)->subCategories()->get();
-                    foreach($subCatsArea as $subCat) {
-                        $showSurveyGeneral .=  "<option value=".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
-                    }
-                    
-                }
-                $showSurveyGeneral .= "</select>";
-                $showSurveyGeneral .= "<button type='submit'>Add</button>"; 
-                $showSurveyGeneral .= "</div>";
+                $countQuestions = 1;
+            }
 
-                $showSurveyGeneral .= '<div style="display: none;" id="openQuestionSelect">';
-                $showSurveyGeneral .= 'Write a question to add: <input type="text" name="questionOpen"> <br>';
-
-                $showSurveyGeneral .= "Add: <select name='choosenAreaId'>";
-                foreach($surveyAreas as $area) {
-                        $showSurveyGeneral .=  "<option value=".$area->id.">".$area->description."</option>";                    
-                }
-                $showSurveyGeneral .= "</select>";
-                $showSurveyGeneral .= "<button type='submit'>Add</button>"; 
-                $showSurveyGeneral .= "</div>";
-                
-                
-                    
-                  
-                $showSurveyGeneral .= '</form>';
-
-                $showSurveyGeneral .= 'Remove:'; 
-                $showSurveyGeneral .= '<form action="/remQuestion">';
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                $showSurveyGeneral .= '<select name="questionIdRemove">';    
-                //Mostra todas as subcats das areas de um questionario, assim como as questões de
-                //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a 
-                //questão certa
-                    foreach($surveyAreas as $area) {
-                        $subCats = Areas::find($area->id)->subCategories()->get();
-                        $openQuestions = Areas::find($area->id)->openQuestions()->orderBy('created_at','asc')->get();
-                        foreach($subCats as $subcat) {
-                            $subCatsQuestions = subCategories::find($subcat->id)->questions()->orderBy('created_at', 'asc')->get();
-                            foreach($subCatsQuestions as $question) {
-                                $showSurveyGeneral .= '<option value='.$question->id.'>'.$subcat->description.' | '.'Question: '.$countQuestions.'</option>';
-                                $countQuestions++;
-                            }
-                            $countQuestions = 1;
-                            
-                        }
-                        foreach($openQuestions as $openQuestion){
-                            $showSurveyGeneral .= '<option value='.$openQuestion->id.'>'.$area->description.' | '.'Open Question: '.$countQuestions.'</option>';
-                            $countQuestions++;
-                        }
-                        $countQuestions = 1;
-                    }
-                    // 
-                $showSurveyGeneral .= '</select>';
-                $showSurveyGeneral .= '<button type="submit">Remove</button>';
-                $showSurveyGeneral .= '</form>'; 
-
-            $showSurveyGeneral .= "</div>";
-
+            
             //End Button Questions
             ///////////////
 
             //Users
             ///////////////
-
-
-            $showSurveyGeneral .= "<div style='display: none;' id='hideUserSurvey'>";
-
-                $showSurveyGeneral .= "<form action='/assignUser'>";
-
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                $showSurveyGeneral .= "Assign Users to Survey:<br>";
-                foreach($users as $user) {
-                    $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="users[]" value='.$user->id.'>';
-                    $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>';
-                    $showSurveyGeneral .= '<select onchange="showEvaluatedChoice('.$user->id.')" id="evaluatedChoiceJS'.$user->id.'" name="evalChoice'.$user->id.'">';
-                    //passamos o user id como argumento no select, para o JS nos mostrar o select correcto
-                    $showSurveyGeneral .= '<option value="1">...will be evaluated.</option>';
-                    $showSurveyGeneral .= '<option value="0">...will evalue</option>';
-                    $showSurveyGeneral .= '</select>'; 
-                    $showSurveyGeneral .= "<select style='display: none;' id='showEvaluatedSelection".$user->id."' name='evaluatorChoice".$user->id."'>";
-                    foreach($users as $toBeEval) {
-                        $showSurveyGeneral .= '<option value='.$toBeEval->id.'>'.$toBeEval->name.'</option>';
-                    }
-                    $showSurveyGeneral .= "</select>";
-                    $showSurveyGeneral .= "<br>";
-                }
-  
-                $showSurveyGeneral .= "<br>";
-                $showSurveyGeneral .= '<label for="limitDate">Limit Date:</label>';
-                $showSurveyGeneral .= '<input type="date" id="limitDate" name="limitDate">';
-                $showSurveyGeneral .= "<br>";
-                $showSurveyGeneral .= "<button type='submit'>Assign Users</button>";
-                $showSurveyGeneral .= "</form>";
-                $showSurveyGeneral .= "<br>";
-
-                $showSurveyGeneral .= "<form action='/remUser'>";
-                $showSurveyGeneral .= csrf_field();
-                $showSurveyGeneral .= '<input type="hidden" name="idSurveyAutoShow" value='.$selectedSurveyId.'>';
-                $showSurveyGeneral .= "Remove:<br>";
-                $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
-                $count2 = 0;
-                foreach($usersAssigned as $user) {
-                    $count2++;
-                    if($count2 == 2){
-                       $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="usersRem[]" value='.$user->id.'>';
-                       $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label><br>';
-                       $count2 = 0;
-                    }
-                    else {
-                       $showSurveyGeneral .= '<input type="checkbox" id='.$user->name.' name="usersRem[]" value='.$user->id.'>';
-                       $showSurveyGeneral .= '<label for='.$user->name.'>'.$user->name.'</label>&nbsp;&nbsp;';
-                    }
-                   }
-                   $showSurveyGeneral .= "<br>";
-                   $showSurveyGeneral .= "<button type='submit'>Remove Users</button>";
-                   $showSurveyGeneral .= "</form>";
-                    
-
-            $showSurveyGeneral .= "</div>";
+            $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
 
             //End Users 
             ///////////////
                     
             //Survey Structure
+         
+
             if($surveyAreas->count() == 0) {
+  
                 $showSurveyGeneral .= "<br>";
                 $showSurveyGeneral .= "There are no areas in this survey yet!";
             }
@@ -844,7 +694,6 @@ class EvaluationsController extends Controller
             }
             //Users assigned
             $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
-
             $showSurveyGeneral .= "<div>";
                 $showSurveyGeneral .= "<strong>Users assigned:</strong>";
                 if($usersEvaluated->count() == 0) {
@@ -852,9 +701,9 @@ class EvaluationsController extends Controller
                 }
                 else {
                 $showSurveyGeneral .= "<br>";
-                foreach($usersEvaluated as $user) {
+                foreach($usersEvaluated as $user) {            
                     if($user->evaluated == 1) {
-                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will autoevaluate himself.<br>";
+                        $showSurveyGeneral .=  "<strong>".User::find($user->idUser)->name."</strong> will autoevaluate himself.<br>";
                     }
                     else {
                         $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will evalue <strong>".User::find($user->willEvaluate)->name."</strong><br>";
@@ -866,12 +715,16 @@ class EvaluationsController extends Controller
 
             $showSurveyGeneral .= "</div>";
 
-
-
             //End Survey Structure
 
 
-        return view('testeCreateEvals')->with(compact('showSurveyGeneral', 'surveyTypes', 'surveys','surveyName','surveyType', 'selectedSurveyId', 'allAreas', 'allAreasDB','surveyAreas','allAreasId'))->with('clickedShow', $clickedShow);
+        return view('testeCreateEvals')->with(compact('showSurveyGeneral', 'surveyTypes', 'surveys',
+        'surveyName','surveyType', 
+        'selectedSurveyId', 'allAreas', 'allAreasDB','surveyAreas','allAreasId', 'allSubCats', 
+        'allSubCatsId', 'subCatsLoop', 'questionTypes', 'PPs', 'subCatsLoopQuestions',
+        'NumericQuestionsLoop','openQuestionsLoop', 'usersAssigned', 'users',
+        'usersEvaluated',
+        ))->with('clickedShow', $clickedShow);
 
     }
 

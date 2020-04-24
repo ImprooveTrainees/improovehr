@@ -130,7 +130,178 @@
 
 <!-- //Begin Button Subcategory   -->
 
+    <div style='display: none;' id='hideSubcat'>
+
+    <form action="/newSubCat">
+        @csrf
+     <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    New:<input name="subCatNewName">
+    <button type="submit">Create Subcategory</button>
+    </form>
+    
+
+<form action='/addSubcatArea'>
+@csrf
+<input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+Add: <select name='selectedSubCat'>
+        @for($i = 0; $i < count($allSubCats); $i++)
+        <option value={{$allSubCatsId[$i]}}>{{$allSubCats[$i]}}</option>   
+        @endfor
+      </select>
+
+     <strong>to</strong>
+     <select name='selectedArea'>
+            @foreach($surveyAreas as $aps) 
+                <option value={{$aps->id}}>{{$aps->description}}</option>
+            @endforeach   
+     </select>
+     <button>Add</button>
+     </form>
+     
+     <form action='/remSubcatArea'>
+     @csrf
+     <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+     Remove: <select name='choosenAreaSubCatId'>
+        <?php echo $subCatsLoop ?>
+     </select>
+     <button type='submit'>Remove</button>
+    </form>
+
+            
+    </div>
+
+
 <!-- //End Button Subcategory   -->
+
+<!-- //Begin Button Questions -->
+
+<div style='display: none;' id='hideQuestions'>
+                
+    <form action="/newQuestion">
+    <input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    @csrf
+    
+    Type: 
+    @foreach($questionTypes as $type) 
+        <label>{{$type->description}}&nbsp;</label>
+        @if($type->description == "Open") 
+            <input onchange="hideParam()" id="openQuestion" type="radio" name="questionType" value={{$type->id}}>
+        
+        @else 
+            <input onchange="hideParam()" type="radio" name="questionType" value={{$type->id}}>
+        
+        @endif
+        
+    @endforeach
+    <br>
+    <br>  
+    
+    <div style="display: none;" id="numericQuestionSelect" value="">
+    Write a question to add: <input type="text" name="question"> <br>
+    <span id="weight">Weight: <input type="number" step="0.01" min="0" name="weight"></span><br>
+
+    <div id="params">
+    Parameters: <br>
+    @foreach($PPs as $pp) 
+        <label>{{$pp->description}}</label>&nbsp;
+        <input type="radio" name="PP" value={{$pp->id}}>
+    @endforeach
+    </div>
+    Add: <select name='choosenSubCatId'>
+        {{!!  $subCatsLoopQuestions !!}}
+     </select>
+    <button type='submit'>Add</button>
+    </div>
+
+    <div style="display: none;" id="openQuestionSelect">
+    Write a question to add: <input type="text" name="questionOpen"> <br>
+
+    Add: <select name='choosenAreaId'>
+    @foreach($surveyAreas as $area) 
+            <option value={{$area->id}}>{{$area->description}}</option>                   
+    @endforeach
+    </select>
+    <button type='submit'>Add</button>
+    </div>
+    
+</form>
+
+    Remove:
+    <form action="/remQuestion">
+    @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    <select name="questionIdRemove">
+        {{!! $NumericQuestionsLoop !!}}
+        {{!!  $openQuestionsLoop !!}}
+    </select>
+    <button type="submit">Remove</button>
+    </form>
+
+</div>
+
+
+
+
+<!-- End Button Questions -->
+
+
+<!-- Begin Button Users -->
+
+<div style='display: none;' id='hideUserSurvey'>
+
+    <form action='/assignUser'>
+    @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    Assign Users to Survey:<br>
+    @foreach($users as $user) 
+        <input type="checkbox" id={{$user->name}} name="users[]" value={{$user->id}}>
+        <label for={{$user->name}}>{{$user->name}}</label>
+        <select onchange="showEvaluatedChoice({{$user->id}})" id="evaluatedChoiceJS{{$user->id}}" name="evalChoice{{$user->id}}">
+            <!-- passamos o user id como argumento no select, para o JS nos mostrar o select correcto -->
+            <option value="1">...will be evaluated.</option>
+            <option value="0">...will evalue</option>
+        </select>
+        <select style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
+        @foreach($users as $toBeEval) 
+            <option value={{$toBeEval->id}}>{{$toBeEval->name}}</option>
+        @endforeach
+        </select>
+        <br>
+    @endforeach
+
+    <br>
+    <label for="limitDate">Limit Date:</label>
+    <input type="date" id="limitDate" name="limitDate">
+    <br>
+    <button type='submit'>Assign Users</button>
+    </form>
+
+    <br>
+
+    <form action='/remUser'>
+     @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    Remove:<br>
+    @foreach($usersAssigned as $user) 
+        <input type="checkbox" id={{$user->name}} name="usersRem[]" value={{$user->id}}>
+        <label for={{$user->name}}>{{$user->name}}</label><br>
+     @endforeach
+       <br>
+       <button type='submit'>Remove Users</button>
+      </form>
+        
+
+</div>
+
+<!-- End Button Users -->
+
+<!-- Begin Survey Structure  -->
+
+<?php echo $showSurveyGeneral ?>
+
+
+<!-- End Survey Structure -->
 
 
 @endif
