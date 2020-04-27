@@ -598,9 +598,9 @@ class EvaluationsController extends Controller
             $NumericQuestionsLoop = "";
 
             foreach($surveyAreas as $area) {
-                $subCats = Areas::find($area->id)->subCategories()->get();
+                $subCatsFromArea = Areas::find($area->id)->subCategories()->get();
                 $openQuestions = Areas::find($area->id)->openQuestions()->orderBy('created_at','asc')->get();
-                foreach($subCats as $subcat) {
+                foreach($subCatsFromArea as $subcat) {
                     $subCatsQuestions = subCategories::find($subcat->id)->questions()->orderBy('created_at', 'asc')->get();
                     foreach($subCatsQuestions as $question) {
                         $NumericQuestionsLoop .= '<option value='.$question->id.'>'.$subcat->description.' | '.'Question: '.$countQuestions.'</option>';
@@ -628,16 +628,21 @@ class EvaluationsController extends Controller
             ///////////////
                     
             //Survey Structure
-         
+            $areasExist = false;
+            $areasHTML = [];
+            $subCatsHTML = [];
+            $questionsNumericHTML = [];
+            $openQuestionsHTML = [];
+            $usersExist = false;
 
             if($surveyAreas->count() == 0) {
-  
                 $showSurveyGeneral .= "<br>";
                 $showSurveyGeneral .= "There are no areas in this survey yet!";
             }
             else {
                 $showSurveyGeneral .= "<ul>";
                 for($i = 0; $i < $surveyAreas->count(); $i++){
+                    array_push($areasHTML,$surveyAreas[$i]);
                     $showSurveyGeneral .= "<li><strong>".$surveyAreas[$i]->description."</strong></li>";
                     $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
                     if($subCats->count() == 0) {
@@ -646,8 +651,8 @@ class EvaluationsController extends Controller
                     else {
                         foreach($subCats as $subcatArea) {
                             $showSurveyGeneral .= "&nbsp;&nbsp;<strong>".$subcatArea->description."</strong>";
+                            array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);
                             $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
-                            
                             if($subCatsQuestions->count() == 0) {
                                 $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>";
                             }
@@ -655,6 +660,7 @@ class EvaluationsController extends Controller
                                 $showSurveyGeneral .= "<ol>";
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
+                                        array_push($questionsNumericHTML,$question);
                                         if($question->idPP == 2) { //verifica se é potencial para alterar a cor
                                             $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>".$question->description."</li>";
                                         }
@@ -684,6 +690,7 @@ class EvaluationsController extends Controller
                         else {
                             $showSurveyGeneral .= "<ol>";
                             foreach($openQuestions as $openQuestion) {
+                                array_push($openQuestionsHTML,$openQuestion);
                                 $showSurveyGeneral .= "<li>".$openQuestion->description."</li>";
                             }
                             $showSurveyGeneral .= "</ol>";
@@ -724,6 +731,10 @@ class EvaluationsController extends Controller
         'allSubCatsId', 'subCatsLoop', 'questionTypes', 'PPs', 'subCatsLoopQuestions',
         'NumericQuestionsLoop','openQuestionsLoop', 'usersAssigned', 'users',
         'usersEvaluated',
+        'areasHTML',
+        'subCatsHTML',
+        'openQuestionsHTML',
+        'questionsNumericHTML',
         ))->with('clickedShow', $clickedShow);
 
     }

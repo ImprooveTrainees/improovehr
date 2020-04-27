@@ -298,7 +298,70 @@ Add: <select name='selectedSubCat'>
 
 <!-- Begin Survey Structure  -->
 
-<?php echo $showSurveyGeneral ?>
+@if(count($areasHTML) == 0)
+    <br>
+    There are no areas in this survey yet!
+@else 
+    <ul>
+    @for($i = 0; $i < count($areasHTML); $i++)
+        <li><strong>{{$areasHTML[$i]->description}}</strong></li>
+        @if(count($subCatsHTML) == 0)
+            There are no subcategories in this area yet!
+        @else 
+            @for($b = 0; $b < count($subCatsHTML); $b+=2)
+                @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
+                    &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
+                    @if(count($questionsNumericHTML) == 0)
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>
+                    @else 
+                        <ol>
+                            @for($c = 0; $c < count($questionsNumericHTML); $c++)
+                                @if($questionsNumericHTML[$c]->idSubcat == $subCatsHTML[$b+1]->id)
+                                    <li>{{$questionsNumericHTML[$c]->description}}</li>
+                                @endif                   
+                            @endfor
+                        </ol>
+
+                    @endif
+                @endif
+            @endfor
+
+        @endif
+    @endfor
+    </ul>
+
+
+@endif
+
+<strong>Open ended questions:</strong><br>
+<ul>
+@foreach($surveyAreas as $sAreasOpen)
+    <li><strong>{{$sAreasOpen->description}}</strong></li>
+    @if(count($openQuestionsHTML) == 0)
+        There are no open questions for this area!
+    @else 
+        <ol>
+        @for($d = 0; $d < count($openQuestionsHTML); $d++)
+            @if($openQuestionsHTML[$d]->idAreaOpenQuest == $sAreasOpen->id)
+                <li>{{$openQuestionsHTML[$d]->description}}</li>
+            @endif                   
+        @endfor
+        </ol>
+    @endif
+@endforeach
+
+
+</ul>
+
+<div>
+    <strong>Users assigned:</strong><br>
+
+
+</div>
+<br>
+
+
+
 
 
 <!-- End Survey Structure -->
