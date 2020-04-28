@@ -56,141 +56,6 @@
 @endif
 ---------------------------------
 
-
-
-{{-- <br>
-<h3>Areas:</h3> --}}
-{{-- <form action="/createArea">
-    @csrf
-    New: <input type="text" name="newArea">
-    <button type="submit">Create Area</button>
-</form> --}}
-
-{{-- <form action="/addAreaToSurvey"> 
-<br>
-<strong>Add Area to Survey:</strong>
-<br>
-<select name="areaSelect">
-<?php   
-    // $allAreas = [];        
-?>
-    @foreach($areas as $area) 
-    <!-- Tendo em conta que vão ser sempre criadas novas áreas para 
-        depois serem atribuidas ao Survey, e a novas subCats, esta lista só irá mostrar nomes
-        das áreas, nunca repetindo o mesmo nome. Ao adicionar uma área a um survey, o que na verdade
-        faz é criar uma nova área com o nome da área seleccionada/já existente.
-      -->
-        @if(!in_array($area->description, $allAreas))
-            {{array_push($allAreas, $area->description)}}
-            <option value={{$area->id}}>{{$area->description}}</option>
-        @endif      
-    @endforeach
-</select>
-<br>
-<strong>to</strong>
-<br>
-<select name="idSurvey">
-    @foreach($surveys as $survey)
-        <option value={{$survey->id}}>{{$survey->name}}</option>
-    @endforeach
-</select>
-<button name="submitArea" type="submit">Add</button>
-
-
-
-</form> --}}
-
-
-{{-- @if(session('areaInSurvey'))
-    <p>
-        <?php //echo session('areaInSurvey')  ?>
-    </p>
-@endif
-
-<br>
-<br> --}}
-
-{{-- <form action="/areasPerSurveys">
-Areas per survey:
-<select name="idSurvey">
-@foreach($surveys as $survey)
-    <option value={{$survey->id}}>{{$survey->name}}</option>
-@endforeach
-</select>
-<button type="submit">Show</button>
-</form>
-
-<form action="/deleteAreasSurvey">
-    @if(session('areasPerSurvey'))
-    <p>
-         <?php //echo session('areasPerSurvey')  ?> 
-    </p>
-@endif
-</form> --}}
-
----------------------------------
-{{-- <h3>Subcategories:</h3> --}}
-
-{{-- <form action="/newSubCat">
-New:<input name="subCatNewName">
-<button type="submit">Create Subcategory</button>
-</form> --}}
-
-{{-- @if(session('subCatNewMsg'))
-    <p>
-        <?php //echo session('subCatNewMsg')  ?>
-    </p>
-@endif
-<br>
-Choose a survey:
-<form id="surveySubCat" action="/surveysSubcat">
-    <select onchange="execFormSubcat()" name="idSurvey">
-        <option value="00">---</option>
-    @foreach($surveys as $survey)
-        <option value={{$survey->id}}>{{$survey->name}}</option>
-    @endforeach
-</select>
-</form>
-<br>
-@if(session('areasPerSurveySubcat'))
-        <?php //echo session('areasPerSurveySubcat')  ?>
-@endif
-
-@if(session('subCatAdd'))
-        <?php //echo session('subCatAdd')  ?>
-@endif
-
-
-<br> --}}
----------------------------------
-{{-- <br>
-<h3>Questions</h3>
-<form action="/newQuestion">
-    @csrf
-    Type: <br>
-    <label>Numeric</label>
-    <input onchange="hideParam()" type="radio" name="questionType" value="Numeric">
-    <label>Open</label>
-    <input onchange="hideParam()" id="openQuestion" type="radio" name="questionType" value="Open"><br>
-
-
-    Write a question to add: <input type="text" name="question"> <br>
-    <span id="weight" >Weight: <input type="number" name="weight"></span><br>
-    Area: <input type="text" id="area" name="area"><br>
-    Subcategory: <input type="text" name="subcat"> <br>
-
-   <div id="params"> 
-       Parameters: <br>
-    <label>Performance</label>
-    <input type="radio" name="PP" value="Performance">
-    <label>Potential</label>
-    <input type="radio" name="PP" value="Potential">
-   </div>
-    
-</form> --}}
-{{-- <br>
-<br> --}}
----------------------------------
 <div>
     <h3>Show Survey:</h3>
 <form id="showSurvey" action="/showSurvey">
@@ -204,10 +69,326 @@ Choose a survey:
 <br>
 
 
+@if($clickedShow == true)
+<h4>{{$surveyName}}</h4>
+<h4>{{$surveyType}}</h4>
+    <button type='button' onclick='hideArea()'>Add/Remove Areas</button>
+    <button type='button' onclick='hideSubcat()'>Add/Remove Subcategories</button>
+    <button type='button' onclick='hideQuestions()'>Add/Remove Questions</button>
+    <button type='button' onclick='hideUserSurvey()'>Assign/Remove Users</button>
 
-@if(session('showSurvey'))
-        <?php echo session('showSurvey')  ?>
+    <!-- //Button Area   -->
+    <div style='display: none;' id='hideArea'>
+
+        <form action="/createArea">
+        @csrf
+        <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+        New: <input type="text" name="newArea">
+        <button type="submit">Create Area</button>
+
+        </form>
+
+        <form action="/addAreaToSurvey">
+        @csrf
+        <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+        Add: <select name="areaSelect">  
+        
+            @for($i = 0; $i < count($allAreas); $i++)
+                <option value={{$allAreasId[$i]}}>{{$allAreas[$i]}}</option>   
+            @endfor
+
+        </select>
+
+        <select style="display: none;" name="idSurvey"> <!-- Escondido, só para enviar idsurvey-->
+           <option value={{$selectedSurveyId}}></option>';               
+        </select>
+
+        <button name="submitArea" type="submit">Add</button>
+
+         </form>
+        
+        <form action="/deleteAreasSurvey">
+            @csrf
+        <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+        @if($surveyAreas->count() == 0) 
+            There are no areas no remove!
+        
+        @else 
+            Remove: <select name='areaSurveyRemId'>
+            @foreach($surveyAreas as $sAreas) 
+                <option value={{$sAreas->id}}and{{$selectedSurveyId}}>{{$sAreas->description}}</option>
+            @endforeach
+        
+    
+        </select>
+        <button type="submit">Remove Area</button>
+        @endif
+        </form>
+
+        </div>
+        <!-- //End Button Area   -->
+
+<!-- //Begin Button Subcategory   -->
+
+    <div style='display: none;' id='hideSubcat'>
+
+    <form action="/newSubCat">
+        @csrf
+     <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    New:<input name="subCatNewName">
+    <button type="submit">Create Subcategory</button>
+    </form>
+    
+
+<form action='/addSubcatArea'>
+@csrf
+<input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+Add: <select name='selectedSubCat'>
+        @for($i = 0; $i < count($allSubCats); $i++)
+        <option value={{$allSubCatsId[$i]}}>{{$allSubCats[$i]}}</option>   
+        @endfor
+      </select>
+
+     <strong>to</strong>
+     <select name='selectedArea'>
+            @foreach($surveyAreas as $aps) 
+                <option value={{$aps->id}}>{{$aps->description}}</option>
+            @endforeach   
+     </select>
+     <button>Add</button>
+     </form>
+     
+     <form action='/remSubcatArea'>
+     @csrf
+     <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+     Remove: <select name='choosenAreaSubCatId'>
+        <?php echo $subCatsLoop ?>
+     </select>
+     <button type='submit'>Remove</button>
+    </form>
+
+            
+    </div>
+
+
+<!-- //End Button Subcategory   -->
+
+<!-- //Begin Button Questions -->
+
+<div style='display: none;' id='hideQuestions'>
+                
+    <form action="/newQuestion">
+    <input type="hidden" id="questionTypeForm" name="questionTypeForm" value="">
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    @csrf
+    
+    Type: 
+    @foreach($questionTypes as $type) 
+        <label>{{$type->description}}&nbsp;</label>
+        @if($type->description == "Open") 
+            <input onchange="hideParam()" id="openQuestion" type="radio" name="questionType" value={{$type->id}}>
+        
+        @else 
+            <input onchange="hideParam()" type="radio" name="questionType" value={{$type->id}}>
+        
+        @endif
+        
+    @endforeach
+    <br>
+    <br>  
+    
+    <div style="display: none;" id="numericQuestionSelect" value="">
+    Write a question to add: <input type="text" name="question"> <br>
+    <span id="weight">Weight: <input type="number" step="0.01" min="0" name="weight"></span><br>
+
+    <div id="params">
+    Parameters: <br>
+    @foreach($PPs as $pp) 
+        <label>{{$pp->description}}</label>&nbsp;
+        <input type="radio" name="PP" value={{$pp->id}}>
+    @endforeach
+    </div>
+    Add: <select name='choosenSubCatId'>
+        {{!!  $subCatsLoopQuestions !!}}
+     </select>
+    <button type='submit'>Add</button>
+    </div>
+
+    <div style="display: none;" id="openQuestionSelect">
+    Write a question to add: <input type="text" name="questionOpen"> <br>
+
+    Add: <select name='choosenAreaId'>
+    @foreach($surveyAreas as $area) 
+            <option value={{$area->id}}>{{$area->description}}</option>                   
+    @endforeach
+    </select>
+    <button type='submit'>Add</button>
+    </div>
+    
+</form>
+
+    Remove:
+    <form action="/remQuestion">
+    @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    <select name="questionIdRemove">
+        {{!! $NumericQuestionsLoop !!}}
+        {{!!  $openQuestionsLoop !!}}
+    </select>
+    <button type="submit">Remove</button>
+    </form>
+
+</div>
+
+
+
+
+<!-- End Button Questions -->
+
+
+<!-- Begin Button Users -->
+
+<div style='display: none;' id='hideUserSurvey'>
+
+    <form action='/assignUser'>
+    @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    Assign Users to Survey:<br>
+    @foreach($users as $user) 
+        <input type="checkbox" id={{$user->name}} name="users[]" value={{$user->id}}>
+        <label for={{$user->name}}>{{$user->name}}</label>
+        <select onchange="showEvaluatedChoice({{$user->id}})" id="evaluatedChoiceJS{{$user->id}}" name="evalChoice{{$user->id}}">
+            <!-- passamos o user id como argumento no select, para o JS nos mostrar o select correcto -->
+            <option value="1">...will be evaluated.</option>
+            <option value="0">...will evalue</option>
+        </select>
+        <select style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
+        @foreach($users as $toBeEval) 
+            <option value={{$toBeEval->id}}>{{$toBeEval->name}}</option>
+        @endforeach
+        </select>
+        <br>
+    @endforeach
+
+    <br>
+    <label for="limitDate">Limit Date:</label>
+    <input type="date" id="limitDate" name="limitDate">
+    <br>
+    <button type='submit'>Assign Users</button>
+    </form>
+
+    <br>
+
+    <form action='/remUser'>
+     @csrf
+    <input type="hidden" name="idSurveyAutoShow" value={{$selectedSurveyId}}>
+    Remove:<br>
+    @foreach($usersAssigned as $user) 
+        <input type="checkbox" id={{$user->name}} name="usersRem[]" value={{$user->id}}>
+        <label for={{$user->name}}>{{$user->name}}</label><br>
+     @endforeach
+       <br>
+       <button type='submit'>Remove Users</button>
+      </form>
+        
+
+</div>
+
+<!-- End Button Users -->
+
+<!-- Begin Survey Structure  -->
+
+@if(count($areasHTML) == 0)
+    <br>
+    There are no areas in this survey yet!
+@else 
+<ul>
+    @for($i = 0; $i < count($areasHTML); $i++)
+        <li><strong>{{$areasHTML[$i]->description}}</strong></li>
+            @for($b = 0; $b < count($subCatsHTML); $b+=2)
+                @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
+                    @if($subCatsHTML[$b+1] == '0')
+                        This area has no subcategories!
+                    @else
+                        &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
+                        <ol>
+                     
+                            @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
+                                @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
+                                    @if($questionsNumericHTML[$c+1] == '0')
+                                        This subcategory has no questions!
+                                    @else
+
+                                        @if($questionsNumericHTML[$c+1]->idPP == 2)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @else
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @endif
+                                    @endif
+                                    
+                                @endif                   
+                            @endfor
+                        </ol>
+                    @endif     
+                @endif
+            @endfor
+    @endfor
+</ul>
+
+
 @endif
+
+<strong>Open ended questions:</strong><br>
+<ul>
+@foreach($surveyAreas as $sAreasOpen)
+    <li><strong>{{$sAreasOpen->description}}</strong></li>
+        <ol>
+        @for($d = 0; $d < count($openQuestionsHTML); $d+=2)
+            @if($openQuestionsHTML[$d]->id == $sAreasOpen->id)
+                @if($openQuestionsHTML[$d+1] == '0')
+                    This area has no open questions!
+                @else
+                <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                @endif
+            @endif                   
+        @endfor
+        </ol>
+    
+@endforeach
+
+
+</ul>
+
+<div>
+    <strong>Users assigned:</strong><br>
+    @if(count($usersEvaluatedHTML) == 0 && count($$usersWillEvalueHTML) == 0)
+        <br>There are no users assigned to this survey!
+    @else 
+        @foreach($usersEvaluatedHTML as $user)
+            <strong>{{$user}}</strong> will autoevaluate himself.<br>
+        @endforeach
+        @foreach($usersWillEvalueHTML as $user => $otherUser)
+            <strong>{{$user}}</strong> will evaluate <strong>{{$otherUser}}</strong><br>
+        @endforeach
+    @endif
+   
+
+</div>
+<br>
+
+
+
+
+
+<!-- End Survey Structure -->
+
+
+@endif
+
+
+
+
+
 
 
 </div>
