@@ -633,94 +633,50 @@ class EvaluationsController extends Controller
             $subCatsHTML = [];
             $questionsNumericHTML = [];
             $openQuestionsHTML = [];
-            $usersExist = false;
+            $usersEvaluatedHTML = [];
+            $usersWillEvalueHTML = [];
 
-            if($surveyAreas->count() == 0) {
-                $showSurveyGeneral .= "<br>";
-                $showSurveyGeneral .= "There are no areas in this survey yet!";
-            }
-            else {
-                $showSurveyGeneral .= "<ul>";
                 for($i = 0; $i < $surveyAreas->count(); $i++){
                     array_push($areasHTML,$surveyAreas[$i]);
-                    $showSurveyGeneral .= "<li><strong>".$surveyAreas[$i]->description."</strong></li>";
                     $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
                     if($subCats->count() == 0) {
-                        $showSurveyGeneral .= "There are no subcategories in this area yet!";
+                        array_push($subCatsHTML,$surveyAreas[$i],'0');
                     }
                     else {
                         foreach($subCats as $subcatArea) {
-                            $showSurveyGeneral .= "&nbsp;&nbsp;<strong>".$subcatArea->description."</strong>";
-                            array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);
-                            $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
-                            if($subCatsQuestions->count() == 0) {
-                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>";
-                            }
-                            else {
-                                $showSurveyGeneral .= "<ol>";
+                                array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);
+                            
+                                $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
-                                        array_push($questionsNumericHTML,$question);
-                                        if($question->idPP == 2) { //verifica se é potencial para alterar a cor
-                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>".$question->description."</li>";
-                                        }
-                                        else {
-                                            $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."</li>";
-                                        }
-                                        
+                                        array_push($questionsNumericHTML,$question);                                 
                                     } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                       //têm subcategoria
                                     
                                 }
-                                $showSurveyGeneral .= "</ol>";
-                            }
-                           
                         }
-                    }
+                    }       
                 }
-                $showSurveyGeneral .= "</ul>";
-                $showSurveyGeneral .= "<strong>Open ended questions:</strong><br>";
-                $showSurveyGeneral .= "<ul>";
                 foreach($surveyAreas as $sAreasOpen) {
-                        $showSurveyGeneral .= "<li><strong>".$sAreasOpen->description."</strong></li>";
                         $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
-                        if($openQuestions->count() == 0) {
-                            $showSurveyGeneral .= "There are no open questions for this area!";
-                        }
-                        else {
-                            $showSurveyGeneral .= "<ol>";
                             foreach($openQuestions as $openQuestion) {
                                 array_push($openQuestionsHTML,$openQuestion);
-                                $showSurveyGeneral .= "<li>".$openQuestion->description."</li>";
                             }
-                            $showSurveyGeneral .= "</ol>";
-                        }
                         
                 } //aqui procura só as questoes abertas, que não têm subcategoria
-                $showSurveyGeneral .= "</ul>";
-            }
+            
             //Users assigned
-            $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
-            $showSurveyGeneral .= "<div>";
-                $showSurveyGeneral .= "<strong>Users assigned:</strong>";
-                if($usersEvaluated->count() == 0) {
-                    $showSurveyGeneral .= " There are no users assigned to this survey!";
-                }
-                else {
-                $showSurveyGeneral .= "<br>";
+                $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
                 foreach($usersEvaluated as $user) {            
                     if($user->evaluated == 1) {
-                        $showSurveyGeneral .=  "<strong>".User::find($user->idUser)->name."</strong> will autoevaluate himself.<br>";
+                        array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
                     }
                     else {
-                        $showSurveyGeneral .= "<strong>".User::find($user->idUser)->name."</strong> will evalue <strong>".User::find($user->willEvaluate)->name."</strong><br>";
+                        $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name;
                     }
                     
                 }    
 
-            }
-
-            $showSurveyGeneral .= "</div>";
 
             //End Survey Structure
 
@@ -735,6 +691,8 @@ class EvaluationsController extends Controller
         'subCatsHTML',
         'openQuestionsHTML',
         'questionsNumericHTML',
+        'usersEvaluatedHTML',
+        'usersWillEvalueHTML',
         ))->with('clickedShow', $clickedShow);
 
     }

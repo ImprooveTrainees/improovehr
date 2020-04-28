@@ -305,28 +305,28 @@ Add: <select name='selectedSubCat'>
     <ul>
     @for($i = 0; $i < count($areasHTML); $i++)
         <li><strong>{{$areasHTML[$i]->description}}</strong></li>
-        @if(count($subCatsHTML) == 0)
-            There are no subcategories in this area yet!
-        @else 
             @for($b = 0; $b < count($subCatsHTML); $b+=2)
                 @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
-                    &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
-                    @if(count($questionsNumericHTML) == 0)
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!<br>
-                    @else 
+                    @if($subCatsHTML[$b+1] == '0')
+                        This area has no subcategories!
+                    @else
+                        &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
                         <ol>
+                     
                             @for($c = 0; $c < count($questionsNumericHTML); $c++)
                                 @if($questionsNumericHTML[$c]->idSubcat == $subCatsHTML[$b+1]->id)
-                                    <li>{{$questionsNumericHTML[$c]->description}}</li>
+                                    @if($questionsNumericHTML[$c]->idPP == 2)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c]->description}}</li>
+                                    @else
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c]->description}}</li>
+                                    @endif
+                                    
                                 @endif                   
                             @endfor
                         </ol>
-
-                    @endif
+                    @endif     
                 @endif
             @endfor
-
-        @endif
     @endfor
     </ul>
 
@@ -337,9 +337,6 @@ Add: <select name='selectedSubCat'>
 <ul>
 @foreach($surveyAreas as $sAreasOpen)
     <li><strong>{{$sAreasOpen->description}}</strong></li>
-    @if(count($openQuestionsHTML) == 0)
-        There are no open questions for this area!
-    @else 
         <ol>
         @for($d = 0; $d < count($openQuestionsHTML); $d++)
             @if($openQuestionsHTML[$d]->idAreaOpenQuest == $sAreasOpen->id)
@@ -347,7 +344,7 @@ Add: <select name='selectedSubCat'>
             @endif                   
         @endfor
         </ol>
-    @endif
+    
 @endforeach
 
 
@@ -355,7 +352,17 @@ Add: <select name='selectedSubCat'>
 
 <div>
     <strong>Users assigned:</strong><br>
-
+    @if(count($usersEvaluatedHTML) == 0 && count($$usersWillEvalueHTML) == 0)
+        <br>There are no users assigned to this survey!
+    @else 
+        @foreach($usersEvaluatedHTML as $user)
+            <strong>{{$user}}</strong> will autoevaluate himself.<br>
+        @endforeach
+        @foreach($usersWillEvalueHTML as $user => $otherUser)
+            <strong>{{$user}}</strong> will evaluate <strong>{{$otherUser}}</strong><br>
+        @endforeach
+    @endif
+   
 
 </div>
 <br>
