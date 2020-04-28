@@ -516,11 +516,9 @@ class EvaluationsController extends Controller
         
         $clickedShow = true;
         $showSurveyGeneral = "";
+        
         $selectedSurveyId = $request->input('surveyShowID');
 
-        $showSurveyGeneral .= "<script>";
-        $showSurveyGeneral .= 'document.getElementById("surveyShowID").value='.$selectedSurveyId;
-        $showSurveyGeneral .= "</script>";
 
         $surveyName = Survey::find($selectedSurveyId)->name;
         $surveyType = Survey::find($selectedSurveyId)->surveyType->description;

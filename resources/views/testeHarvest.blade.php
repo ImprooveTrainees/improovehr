@@ -5,51 +5,8 @@
 </head>
 
 <body>
+{{$month}}
 
-<?php 
-echo $month;
-
-$mondayTotal = 0;
-$tuesdayTotal = 0;  
-$wednesdayTotal = 0; 
-$thursdayTotal = 0; 
-$fridayTotal = 0; 
-
-$totalHours = 0;
-
-
-for($i = 0; $i  < count($harvestTimeInfo->time_entries); $i++) {
-if($harvestTimeInfo->time_entries[$i]->spent_date == $monday) {
-    $mondayTotal += $harvestTimeInfo->time_entries[$i]->hours;
-    $totalHours += $harvestTimeInfo->time_entries[$i]->hours;
-
-}
-if($harvestTimeInfo->time_entries[$i]->spent_date == $tuesday) {
-    $tuesdayTotal += $harvestTimeInfo->time_entries[$i]->hours;
-    $totalHours += $harvestTimeInfo->time_entries[$i]->hours;
-
-}
-if($harvestTimeInfo->time_entries[$i]->spent_date == $wednesday) {
-    $wednesdayTotal += $harvestTimeInfo->time_entries[$i]->hours;
-    $totalHours += $harvestTimeInfo->time_entries[$i]->hours;
-
-}
-if($harvestTimeInfo->time_entries[$i]->spent_date == $thursday) {
-    $thursdayTotal += $harvestTimeInfo->time_entries[$i]->hours;
-    $totalHours += $harvestTimeInfo->time_entries[$i]->hours;
-
-}
-if($harvestTimeInfo->time_entries[$i]->spent_date == $friday) {
-    $fridayTotal += $harvestTimeInfo->time_entries[$i]->hours;
-    $totalHours += $harvestTimeInfo->time_entries[$i]->hours;
-
-}
-
-
-}
-
-
-?>
 
 <br>
 <br>
@@ -65,60 +22,124 @@ if($harvestTimeInfo->time_entries[$i]->spent_date == $friday) {
  <br>
  <br>
 
- This Week
- <br>
-<?php 
-echo $week;
-?>
-<br>
-{{$totalHours}} of 40 hours
-<br>
-<br>
+<button onclick="last2weeks()">Last 15 days</button>
+<button onclick="currentWeek()">This Week</button>
 
-<table>
-<tr>
 
-<th>{{date( 'D', strtotime( 'monday this week'))}}
+ <div style='display: none;' id="currentWeek">
+
+    This Week
     <br>
-    {{date( 'd F', strtotime( 'monday this week'))}}
-</th>
-<th>{{date( 'D', strtotime( 'tuesday this week'))}}
+    {{$currentWeek}}
     <br>
-    {{date( 'd F', strtotime( 'tuesday this week'))}}
-</th>
-<th>{{date( 'D', strtotime( 'wednesday this week'))}}
+    {{$totalHours}} of 40 hours | You must report more {{40 - $totalHours}} hours this week.
     <br>
-    {{date( 'd F', strtotime( 'wednesday this week'))}}
-</th>
-<th>{{date( 'D', strtotime( 'thursday this week'))}}
     <br>
-    {{date( 'd F', strtotime( 'thursday this week'))}}
-</th>
-<th>{{date( 'D', strtotime( 'friday this week'))}}
-    <br>
-    {{date( 'd F', strtotime( 'friday this week'))}}
-</th>
 
-</tr>
+    <table>
+    <tr>
+
+    <th>{{date( 'D', strtotime( 'monday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'monday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'tuesday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'tuesday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'wednesday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'wednesday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'thursday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'thursday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'friday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'friday this week'))}}
+    </th>
+
+    </tr>
 
 
 
-<tr>
-<td>{{$mondayTotal}} hours</td>
-<td>{{$tuesdayTotal}} hours</td>
-<td>{{$wednesdayTotal}} hours</td>
-<td>{{$thursdayTotal}} hours</td>
-<td>{{$fridayTotal}} hours</td>
-</tr>
+    <tr>
+    <td>{{$mondayTotal}} hours</td>
+    <td>{{$tuesdayTotal}} hours</td>
+    <td>{{$wednesdayTotal}} hours</td>
+    <td>{{$thursdayTotal}} hours</td>
+    <td>{{$fridayTotal}} hours</td>
+    </tr>
 
 
 
+    </table>
+
+</div>
+
+
+<div style='display: none;' id="last2weeks">
+    <table>
+        <tr>
+    
+        <th>{{date( 'D', strtotime( 'monday -2 week'))}}
+            <br>
+            {{date( 'd F', strtotime( 'monday -2 week'))}}
+        </th>
+        <th>{{date( 'D', strtotime( 'tuesday -2 week'))}}
+            <br>
+            {{date( 'd F', strtotime( 'tuesday -2 week'))}}
+        </th>
+        <th>{{date( 'D', strtotime( 'wednesday -2 week'))}}
+            <br>
+            {{date( 'd F', strtotime( 'wednesday -2 week'))}}
+        </th>
+        <th>{{date( 'D', strtotime( 'thursday -2 week'))}}
+            <br>
+            {{date( 'd F', strtotime( 'thursday -2 week'))}}
+        </th>
+        <th>{{date( 'D', strtotime( 'friday -2 week'))}}
+            <br>
+            {{date( 'd F', strtotime( 'friday -2 week'))}}
+        </th>
+    
+        </tr>
+        {{-- <tr>
+        <td>{{$mondayTotal}} hours</td>
+        <td>{{$tuesdayTotal}} hours</td>
+        <td>{{$wednesdayTotal}} hours</td>
+        <td>{{$thursdayTotal}} hours</td>
+        <td>{{$fridayTotal}} hours</td>
+        </tr> --}}
+    
+    </table>
+
+
+</div>
 
 
 
-</table>
+<script>
+function currentWeek() {
+    if(document.getElementById("currentWeek").style.display == "none") {
+        document.getElementById("currentWeek").style.display = "block";
+    }
+    else {
+        document.getElementById("currentWeek").style.display = "none";
+    }
+}
 
+function last2weeks() {
+    if(document.getElementById("last2weeks").style.display == "none") {
+        document.getElementById("last2weeks").style.display = "block";
+    }
+    else {
+        document.getElementById("last2weeks").style.display = "none";
+    }
+}
 
+</script>
 
 
 </body>

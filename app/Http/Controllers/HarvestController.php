@@ -64,22 +64,71 @@ class HarvestController extends Controller
 
         $result2 = json_decode($result2);
 
+$mondayTotal = 0;
+$tuesdayTotal = 0;  
+$wednesdayTotal = 0; 
+$thursdayTotal = 0; 
+$fridayTotal = 0; 
+$totalHours = 0;
 
-        //end Time entries Harvest
+//end Time entries Harvest
 
+$month = date('F');
+$currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y'); 
+$monday = date( 'Y-m-d', strtotime( 'monday this week'));
+$tuesday = date( 'Y-m-d', strtotime( 'tuesday this week'));
+$wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
+$thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
+$friday = date( 'Y-m-d', strtotime( 'friday this week'));
 
+        
+for($i = 0; $i  < count($result2->time_entries); $i++) {
+        if($result2->time_entries[$i]->spent_date == $monday) {
+            $mondayTotal += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        
+        }
+        if($result2->time_entries[$i]->spent_date == $tuesday) {
+            $tuesdayTotal += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        
+        }
+        if($result2->time_entries[$i]->spent_date == $wednesday) {
+            $wednesdayTotal += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        
+        }
+        if($result2->time_entries[$i]->spent_date == $thursday) {
+            $thursdayTotal += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        
+        }
+        if($result2->time_entries[$i]->spent_date == $friday) {
+            $fridayTotal += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        
+        }
+    
+    
+    }
 
+        return view('testeHarvest')
+        ->with('harvestProfile', $result)
+        ->with('harvestTimeInfo', $result2)
+        ->with('month', $month)
+        ->with('currentWeek', $currentWeek)
+        ->with('monday', $monday)
+        ->with('tuesday', $tuesday)
+        ->with('wednesday', $wednesday)
+        ->with('thursday', $thursday)
+        ->with('friday', $friday)
+        ->with('mondayTotal',$mondayTotal)
+        ->with('tuesdayTotal',$tuesdayTotal)
+        ->with('wednesdayTotal',$wednesdayTotal)
+        ->with('thursdayTotal',$thursdayTotal)
+        ->with('fridayTotal',$fridayTotal)
+        ->with('totalHours',$totalHours);
 
-        $month = date('F');
-        $week = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y'); 
-        $monday = date( 'Y-m-d', strtotime( 'monday this week'));
-        $tuesday = date( 'Y-m-d', strtotime( 'tuesday this week'));
-        $wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
-        $thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
-        $friday = date( 'Y-m-d', strtotime( 'friday this week'));
-
-        return view('testeHarvest')->with('harvestProfile', $result)->with('harvestTimeInfo', $result2)->with('month', $month)->with('week', $week)->with('monday', $monday)->with('tuesday', $tuesday)->with('wednesday', $wednesday)->with('thursday', $thursday)->with('friday', $friday);
-       
     }
 
     /**

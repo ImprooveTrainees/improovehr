@@ -12,6 +12,7 @@ use App\subCategories;
 use App\Questions;
 use App\PP;
 use App\typeQuestion;
+use App\surveyType;
 use Auth;
 use DB;
 
@@ -94,94 +95,97 @@ class EvaluationsUserPerspective extends Controller
     public function showSurvey($id)
     {
         //
-        $showSurveyGeneral = "";
         $selectedSurveyId = $id;
 
-            $surveyName = Survey::find($selectedSurveyId)->name;
-            $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
-            $surveyTypeId = Survey::find($selectedSurveyId)->surveyType->id;
 
-            $authUser = Auth::User()->id; //User logged in
-            $usersSurvey = surveyUsers::where('idSurvey', $selectedSurveyId)->get(); //all users from survey
+        $surveyName = Survey::find($selectedSurveyId)->name;
+        $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
+        $allAreasDB = Areas::All();
+        $subCats = subCategories::All();
+        $PPs = PP::All();
+        $users = User::All();
+        $questionTypes = typeQuestion::All();
+        $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
+        $countQuestions = 1;
+        $surveyTypes = surveyType::All();
+        $surveys = Survey::All();
 
-            $allAreasDB = Areas::All();
-            $surveys = Survey::All();
-            $subCats = subCategories::All();
-            $PPs = PP::All();
-            $users = User::All();
-            $questionTypes = typeQuestion::All();
-            $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
-            $countQuestions = 1;
+        $areasExist = false;
+        $areasHTML = [];
+        $subCatsHTML = [];
+        $questionsNumericHTML = [];
+        $openQuestionsHTML = [];
+        $usersEvaluatedHTML = [];
+        $usersWillEvalueHTML = [];
 
-            $showSurveyGeneral .= "<h4>".$surveyName."</h4>";
-            $showSurveyGeneral .= "<h4>".$surveyType."</h4>";
-            if($surveyTypeId == 1) {
-                $showSurveyGeneral .= "<h5>This is your periodic evaluation. Above you will find three main areas that will be evaluated regarding your performance in the last semester. Please answer with honesty and clarity.</h5>";
-            }
-            $showSurveyGeneral .= "<br>";
-            $showSurveyGeneral .= "<h6 style='color:#990000;'>Please rate the following sentences on a scale of 1 to ".Survey::find($selectedSurveyId)->answerLimit.", where 1 represents 'Poor' and ".Survey::find($selectedSurveyId)->answerLimit." represents 'Excellent'.</h6>";
-            $showSurveyGeneral .= "<br>";
-            //Survey Structure
-            if($surveyAreas->count() == 0) {
-                $showSurveyGeneral .= "<br>";
-                $showSurveyGeneral .= "There are no areas in this survey yet!";
-            }
-            else {
-                $showSurveyGeneral .= "<ul>";
-                for($i = 0; $i < $surveyAreas->count(); $i++){
-                    $showSurveyGeneral .= "<li><strong>".$surveyAreas[$i]->description."</strong></li>";
-                    $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
-                    if($subCats->count() == 0) {
-                        $showSurveyGeneral .= "There are no subcategories in this area yet!";
-                    }
-                    else {
-                        foreach($subCats as $subcatArea) {
-                            $showSurveyGeneral .= "&nbsp;&nbsp;<strong>".$subcatArea->description."</strong>";
+            for($i = 0; $i < $surveyAreas->count(); $i++){
+                array_push($areasHTML,$surveyAreas[$i]);
+                $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
+                if($subCats->count() == 0) {
+                    array_push($subCatsHTML,$surveyAreas[$i],'0');
+                }
+                else {
+                    foreach($subCats as $subcatArea) {
+                            array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);       
                             $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
-                            
                             if($subCatsQuestions->count() == 0) {
-                                $showSurveyGeneral .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;There are no questions in this subcategory!";
+                                array_push($questionsNumericHTML,$subcatArea,'0');
                             }
                             else {
-                                $showSurveyGeneral .= "<ol>";
-                                foreach($subCatsQuestions as $question) {
-                                    if($question->idTypeQuestion == 2) {
-                                        $showSurveyGeneral .= "&nbsp;&nbsp;&nbsp;&nbsp;<li>".$question->description."&nbsp;&nbsp;<input placeholder='1-".Survey::find($selectedSurveyId)->answerLimit."' required type='number' name='quantity' min='1' max='".Survey::find($selectedSurveyId)->answerLimit."'></li>";
-                                    } //mostra apenas as questões numéricas, e não as abertas, pois estas não
-                                      //têm subcategoria
-                                    
-                                }
-                                $showSurveyGeneral .= "</ol>";
+                            foreach($subCatsQuestions as $question) {
+                                if($question->idTypeQuestion == 2) {
+                                    array_push($questionsNumericHTML,$subcatArea, $question);                                 
+                                } //mostra apenas as questões numéricas, e não as abertas, pois estas não
+                                  //têm subcategoria
+                                
                             }
-                           
                         }
                     }
-                }
-                $showSurveyGeneral .= "</ul>";
-                $showSurveyGeneral .= "<strong>Open ended questions:</strong><br>";
-                $showSurveyGeneral .= "<ul>";
-                foreach($surveyAreas as $sAreasOpen) {
-                        $showSurveyGeneral .= "<li><strong>".$sAreasOpen->description."</strong></li>";
-                        $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
-                        if($openQuestions->count() == 0) {
-                            $showSurveyGeneral .= "There are no open questions for this area!";
-                        }
-                        else {
-                            $showSurveyGeneral .= "<ol>";
-                            foreach($openQuestions as $openQuestion) {
-                                $showSurveyGeneral .= "<li>".$openQuestion->description."</li>";
-                                $showSurveyGeneral .=  '<textarea placeholder="Insert an answer" id="w3mission" rows="4" cols="50">';
-                                $showSurveyGeneral .=  '</textarea>';
-                            }
-                            $showSurveyGeneral .= "</ol>";
-                        }
-                        
-                } //aqui procura só as questoes abertas, que não têm subcategoria
-                $showSurveyGeneral .= "</ul>";
+                }       
             }
-           
-            
+            foreach($surveyAreas as $sAreasOpen) {
+                    $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
+                    if($openQuestions->count() == 0) {
+                        array_push($openQuestionsHTML,$sAreasOpen,'0');
+                    }
+                    else {
+                        foreach($openQuestions as $openQuestion) {
+                            array_push($openQuestionsHTML,$sAreasOpen,$openQuestion);
+                        }
+                    }
+                        
+                    
+            } //aqui procura só as questoes abertas, que não têm subcategoria
+        
+        //Users assigned
+            $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
+            foreach($usersEvaluated as $user) {            
+                if($user->evaluated == 1) {
+                    array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
+                }
+                else {
+                    $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name;
+                }
+                
+            }    
 
+
+        //End Survey Structure
+
+
+    return view('testeEvalsUserPerspectiveBeginSurvey')->with(compact('surveyTypes', 'surveys',
+    'surveyName','surveyType', 
+    'selectedSurveyId', 'allAreasDB','surveyAreas', 
+    'questionTypes', 'PPs',
+    'users',
+    'usersEvaluated',
+    'areasHTML',
+    'subCatsHTML',
+    'openQuestionsHTML',
+    'questionsNumericHTML',
+    'usersEvaluatedHTML',
+    'usersWillEvalueHTML',
+    ));
 
 
             //End Survey Structure
