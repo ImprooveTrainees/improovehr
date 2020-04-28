@@ -302,7 +302,7 @@ Add: <select name='selectedSubCat'>
     <br>
     There are no areas in this survey yet!
 @else 
-    <ul>
+<ul>
     @for($i = 0; $i < count($areasHTML); $i++)
         <li><strong>{{$areasHTML[$i]->description}}</strong></li>
             @for($b = 0; $b < count($subCatsHTML); $b+=2)
@@ -313,12 +313,17 @@ Add: <select name='selectedSubCat'>
                         &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
                         <ol>
                      
-                            @for($c = 0; $c < count($questionsNumericHTML); $c++)
-                                @if($questionsNumericHTML[$c]->idSubcat == $subCatsHTML[$b+1]->id)
-                                    @if($questionsNumericHTML[$c]->idPP == 2)
-                                        &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c]->description}}</li>
+                            @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
+                                @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
+                                    @if($questionsNumericHTML[$c+1] == '0')
+                                        This subcategory has no questions!
                                     @else
-                                        &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c]->description}}</li>
+
+                                        @if($questionsNumericHTML[$c+1]->idPP == 2)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @else
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @endif
                                     @endif
                                     
                                 @endif                   
@@ -328,7 +333,7 @@ Add: <select name='selectedSubCat'>
                 @endif
             @endfor
     @endfor
-    </ul>
+</ul>
 
 
 @endif
@@ -338,9 +343,13 @@ Add: <select name='selectedSubCat'>
 @foreach($surveyAreas as $sAreasOpen)
     <li><strong>{{$sAreasOpen->description}}</strong></li>
         <ol>
-        @for($d = 0; $d < count($openQuestionsHTML); $d++)
-            @if($openQuestionsHTML[$d]->idAreaOpenQuest == $sAreasOpen->id)
-                <li>{{$openQuestionsHTML[$d]->description}}</li>
+        @for($d = 0; $d < count($openQuestionsHTML); $d+=2)
+            @if($openQuestionsHTML[$d]->id == $sAreasOpen->id)
+                @if($openQuestionsHTML[$d+1] == '0')
+                    This area has no open questions!
+                @else
+                <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                @endif
             @endif                   
         @endfor
         </ol>

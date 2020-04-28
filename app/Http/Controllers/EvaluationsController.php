@@ -644,24 +644,34 @@ class EvaluationsController extends Controller
                     }
                     else {
                         foreach($subCats as $subcatArea) {
-                                array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);
-                            
+                                array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);       
                                 $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
+                                if($subCatsQuestions->count() == 0) {
+                                    array_push($questionsNumericHTML,$subcatArea,'0');
+                                }
+                                else {
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
-                                        array_push($questionsNumericHTML,$question);                                 
+                                        array_push($questionsNumericHTML,$subcatArea, $question);                                 
                                     } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                       //têm subcategoria
                                     
                                 }
+                            }
                         }
                     }       
                 }
                 foreach($surveyAreas as $sAreasOpen) {
                         $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
+                        if($openQuestions->count() == 0) {
+                            array_push($openQuestionsHTML,$sAreasOpen,'0');
+                        }
+                        else {
                             foreach($openQuestions as $openQuestion) {
-                                array_push($openQuestionsHTML,$openQuestion);
+                                array_push($openQuestionsHTML,$sAreasOpen,$openQuestion);
                             }
+                        }
+                            
                         
                 } //aqui procura só as questoes abertas, que não têm subcategoria
             
