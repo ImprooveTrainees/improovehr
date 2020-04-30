@@ -68,11 +68,11 @@
 
 
     <tr>
-    <td>{{$mondayTotal}} hours</td>
-    <td>{{$tuesdayTotal}} hours</td>
-    <td>{{$wednesdayTotal}} hours</td>
-    <td>{{$thursdayTotal}} hours</td>
-    <td>{{$fridayTotal}} hours</td>
+    <td>{{$totalsCurrentWeek[0]}} hours</td>
+    <td>{{$totalsCurrentWeek[1]}} hours</td>
+    <td>{{$totalsCurrentWeek[2]}} hours</td>
+    <td>{{$totalsCurrentWeek[3]}} hours</td>
+    <td>{{$totalsCurrentWeek[4]}} hours</td>
     </tr>
 
 
@@ -113,11 +113,11 @@
     
         </tr>
         <tr>
-        <td>{{$mondayLastWTotal}} hours</td>
-        <td>{{$tuesdayLastWTotal}} hours</td>
-        <td>{{$wednesdayLastWTotal}} hours</td>
-        <td>{{$thursdayLastWTotal}} hours</td>
-        <td>{{$fridayLastWTotal}} hours</td>
+        <td>{{$lastWeekTotals[0]}} hours</td>
+        <td>{{$lastWeekTotals[1]}} hours</td>
+        <td>{{$lastWeekTotals[2]}} hours</td>
+        <td>{{$lastWeekTotals[3]}} hours</td>
+        <td>{{$lastWeekTotals[4]}} hours</td>
         </tr> 
     
     </table>
@@ -153,11 +153,11 @@
     
         </tr>
         <tr>
-        <td>{{$mondayLast2WTotal}} hours</td>
-        <td>{{$tuesdayLast2WTotal}} hours</td>
-        <td>{{$wednesdayLast2WTotal}} hours</td>
-        <td>{{$thursdayLast2WTotal}} hours</td>
-        <td>{{$fridayLast2WTotal}} hours</td>
+        <td>{{$last2WeeksTotals[0]}} hours</td>
+        <td>{{$last2WeeksTotals[1]}} hours</td>
+        <td>{{$last2WeeksTotals[2]}} hours</td>
+        <td>{{$last2WeeksTotals[3]}} hours</td>
+        <td>{{$last2WeeksTotals[4]}} hours</td>
         </tr>
     
     </table>

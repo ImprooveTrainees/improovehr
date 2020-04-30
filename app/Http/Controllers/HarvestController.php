@@ -88,6 +88,8 @@ $wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
 $thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
 $friday = date( 'Y-m-d', strtotime( 'friday this week'));
 
+$daysCurrentWeek = [$monday, $tuesday, $wednesday, $thursday, $friday];
+
 $mondayTotal = 0;
 $tuesdayTotal = 0;  
 $wednesdayTotal = 0; 
@@ -95,33 +97,15 @@ $thursdayTotal = 0;
 $fridayTotal = 0; 
 $totalHours = 0;
 
-for($i = 0; $i  < count($result2->time_entries); $i++) {
-    if($result2->time_entries[$i]->spent_date == $monday) {
-        $mondayTotal += $result2->time_entries[$i]->hours;
-        $totalHours += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $tuesday) {
-        $tuesdayTotal += $result2->time_entries[$i]->hours;
-        $totalHours += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $wednesday) {
-        $wednesdayTotal += $result2->time_entries[$i]->hours;
-        $totalHours += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $thursday) {
-        $thursdayTotal += $result2->time_entries[$i]->hours;
-        $totalHours += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $friday) {
-        $fridayTotal += $result2->time_entries[$i]->hours;
-        $totalHours += $result2->time_entries[$i]->hours;
-    
-    }
+$totalsCurrentWeek = [$mondayTotal, $tuesdayTotal,$wednesdayTotal,$thursdayTotal,$fridayTotal];
 
+for($i = 0; $i  < count($result2->time_entries); $i++) {
+    for($b = 0; $b < count($daysCurrentWeek); $b++) {
+        if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
+            $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
+            $totalHours += $result2->time_entries[$i]->hours;
+        }
+    }
 
 }
 //
@@ -136,39 +120,23 @@ $wednesdayLastW = date( 'Y-m-d', strtotime( '-1 week wednesday this week'));
 $thursdayLastW = date( 'Y-m-d', strtotime( '-1 week thursday this week'));
 $fridayLastW = date( 'Y-m-d', strtotime( '-1 week friday this week'));
 
+$daysLastWeek = [$mondayLastW,$tuesdayLastW,$wednesdayLastW,$thursdayLastW,$fridayLastW];
+
 $mondayLastWTotal = 0;
 $tuesdayLastWTotal = 0;  
 $wednesdayLastWTotal = 0; 
 $thursdayLastWTotal = 0; 
 $fridayLastWTotal = 0;
+
+$lastWeekTotals = [$mondayLastWTotal, $tuesdayLastWTotal, $wednesdayLastWTotal, $thursdayLastWTotal, $fridayLastWTotal];
+
 for($i = 0; $i  < count($result2->time_entries); $i++) {
-    if($result2->time_entries[$i]->spent_date == $mondayLastW) {
-        $mondayLastWTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
+    for($b = 0; $b < count($daysLastWeek); $b++) {
+        if($result2->time_entries[$i]->spent_date == $daysLastWeek[$b]) {
+            $lastWeekTotals[$b] += $result2->time_entries[$i]->hours;
+            $totalHours15days += $result2->time_entries[$i]->hours;
+        }
     }
-    if($result2->time_entries[$i]->spent_date == $tuesdayLastW) {
-        $tuesdayLastWTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $wednesdayLastW) {
-        $wednesdayLastWTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $thursdayLastW) {
-        $thursdayLastWTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $fridayLastW) {
-        $fridayLastWTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-
-
 } 
 //
 
@@ -180,40 +148,24 @@ $wednesdayLast2W = date( 'Y-m-d', strtotime( '-2 week wednesday this week'));
 $thursdayLast2W = date( 'Y-m-d', strtotime( '-2 week thursday this week'));
 $fridayLast2W = date( 'Y-m-d', strtotime( '-2 week friday this week'));
 
+$daysLast2Weeks = [$mondayLast2W,$tuesdayLast2W,$wednesdayLast2W,$thursdayLast2W,$fridayLast2W];
+
 $mondayLast2WTotal = 0;
 $tuesdayLast2WTotal = 0;  
 $wednesdayLast2WTotal = 0; 
 $thursdayLast2WTotal = 0; 
 $fridayLast2WTotal = 0; 
 
+$last2WeeksTotals = [$mondayLast2WTotal, $tuesdayLast2WTotal, $wednesdayLast2WTotal, $thursdayLast2WTotal, $fridayLast2WTotal];
+
 for($i = 0; $i  < count($result2->time_entries); $i++) {
-    if($result2->time_entries[$i]->spent_date == $mondayLast2W) {
-        $mondayLast2WTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
+    for($b = 0; $b < count($daysLast2Weeks); $b++) {
+        if($result2->time_entries[$i]->spent_date == $daysLast2Weeks[$b]) {
+            $last2WeeksTotals[$b] += $result2->time_entries[$i]->hours;
+            $totalHours15days += $result2->time_entries[$i]->hours;
+        }
     }
-    if($result2->time_entries[$i]->spent_date == $tuesdayLast2W) {
-        $tuesdayLast2WTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
     
-    }
-    if($result2->time_entries[$i]->spent_date == $wednesdayLast2W) {
-        $wednesdayLast2WTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $thursdayLast2W) {
-        $thursdayLast2WTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-    if($result2->time_entries[$i]->spent_date == $fridayLast2W) {
-        $fridayLast2WTotal += $result2->time_entries[$i]->hours;
-        $totalHours15days += $result2->time_entries[$i]->hours;
-    
-    }
-
-
 }
 
 
@@ -232,29 +184,12 @@ return view('testeHarvest')
     ->with('harvestProfile', $result)
     ->with('month', $month)
     ->with('currentWeek', $currentWeek)
-    ->with('monday', $monday)
-    ->with('tuesday', $tuesday)
-    ->with('wednesday', $wednesday)
-    ->with('thursday', $thursday)
-    ->with('friday', $friday)
-    ->with('mondayTotal',$mondayTotal)
-    ->with('tuesdayTotal',$tuesdayTotal)
-    ->with('wednesdayTotal',$wednesdayTotal)
-    ->with('thursdayTotal',$thursdayTotal)
-    ->with('fridayTotal',$fridayTotal)
+    ->with('totalsCurrentWeek', $totalsCurrentWeek)
     ->with('totalHours',$totalHours)
     ->with('last2weeks', $last2weeks)
+    ->with('last2WeeksTotals', $last2WeeksTotals)
     ->with('lastWeek', $lastWeek)
-    ->with('mondayLastWTotal', $mondayLastWTotal)
-    ->with('tuesdayLastWTotal', $tuesdayLastWTotal)
-    ->with('wednesdayLastWTotal', $wednesdayLastWTotal)
-    ->with('thursdayLastWTotal', $thursdayLastWTotal)
-    ->with('fridayLastWTotal', $fridayLastWTotal)
-    ->with('mondayLast2WTotal',$mondayLast2WTotal)
-    ->with('tuesdayLast2WTotal',$tuesdayLast2WTotal)
-    ->with('wednesdayLast2WTotal',$wednesdayLast2WTotal)
-    ->with('thursdayLast2WTotal',$thursdayLast2WTotal)
-    ->with('fridayLast2WTotal',$fridayLast2WTotal)
+    ->with('lastWeekTotals', $lastWeekTotals)
     ->with('totalHours15days', $totalHours15days)
     ->with('hoursReportedTotal', $hoursReportedTotal)
     ->with('hoursLeftReport', $hoursLeftReport)
