@@ -68,11 +68,13 @@
 
 
     <tr>
-    <td>{{$totalsCurrentWeek[0]}} hours</td>
-    <td>{{$totalsCurrentWeek[1]}} hours</td>
-    <td>{{$totalsCurrentWeek[2]}} hours</td>
-    <td>{{$totalsCurrentWeek[3]}} hours</td>
-    <td>{{$totalsCurrentWeek[4]}} hours</td>
+    @foreach($totalsCurrentWeek as $dayCurrent)
+        @if(is_numeric($dayCurrent))
+            <td>{{$dayCurrent}} hours</td>
+        @else
+            <td>{{$dayCurrent}}</td>
+        @endif
+    @endforeach
     </tr>
 
 
@@ -153,11 +155,11 @@
     
         </tr>
         <tr>
-        <td>{{$last2WeeksTotals[0]}} hours</td>
-        <td>{{$last2WeeksTotals[1]}} hours</td>
-        <td>{{$last2WeeksTotals[2]}} hours</td>
-        <td>{{$last2WeeksTotals[3]}} hours</td>
-        <td>{{$last2WeeksTotals[4]}} hours</td>
+        <td>{{$last2WeeksTotals[0]}}</td>
+        <td>{{$last2WeeksTotals[1]}}</td>
+        <td>{{$last2WeeksTotals[2]}}</td>
+        <td>{{$last2WeeksTotals[3]}}</td>
+        <td>{{$last2WeeksTotals[4]}}</td>
         </tr>
     
     </table>

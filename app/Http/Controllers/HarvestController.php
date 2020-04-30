@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\sliderView;
+use App\absence;
+use Auth;
+use DatePeriod;
+use DateTime;
+use DateInterval;
 
 class HarvestController extends Controller
 {
@@ -20,10 +24,7 @@ class HarvestController extends Controller
 
 
 
-        $allAbsences = sliderView::All()->where('Absence Type', '!=', 'null');
-        foreach($allAbsences as $absence) {
-            echo $absence->{'Absence Type'};
-        }
+        $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
 
 
         //Profile info harvest
@@ -98,13 +99,36 @@ $fridayTotal = 0;
 $totalHours = 0;
 
 $totalsCurrentWeek = [$mondayTotal, $tuesdayTotal,$wednesdayTotal,$thursdayTotal,$fridayTotal];
+$absenceExist = false;
 
 for($i = 0; $i  < count($result2->time_entries); $i++) {
     for($b = 0; $b < count($daysCurrentWeek); $b++) {
-        if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
-            $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
-            $totalHours += $result2->time_entries[$i]->hours;
+        foreach($allAbsences as $absence) {
+            $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
+            $dateEndAbsence = date('Y-m-d',strtotime($absence->end_date));
+            $AbsenceDatesBetween = new DatePeriod(
+                new DateTime($dateStartAbsence),
+                new DateInterval('P1D'),
+                new DateTime($dateEndAbsence)
+           );
+           foreach ($AbsenceDatesBetween as $key => $value) {
+                if($value->format('Y-m-d') == $daysCurrentWeek[$b]) { 
+                    $totalsCurrentWeek[$b] = $absence->motive;
+                    $absenceExist = true;
+                    //pega em todos os dias da absence (inclusive os que estão no meio) e 
+                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual, 
+                    //é porque o user esteve ausente esses dias.
+                }
+                else if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
+                        $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
+                        $totalHours += $result2->time_entries[$i]->hours;
+                }
+            }
+             
+            
         }
+
+    
     }
 
 }
