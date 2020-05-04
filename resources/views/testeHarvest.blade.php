@@ -12,7 +12,7 @@
 <br>
 <br>
 <br>
-<img src="{{$harvestProfile->avatar_url}}">
+<img src="{{$harvestProfile->avatar_url}}" style="width: 60px; height: 60px">
 <br>
 {{$harvestProfile->first_name}}
 {{$harvestProfile->last_name}}
@@ -21,7 +21,7 @@
 
  <br>
  <br>
- Total hours reported: {{$hoursReportedTotal}} of 160
+ Total hours reported: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
  <br>
  You must report more {{$hoursLeftReport}} hours
  <br>
@@ -35,7 +35,7 @@
     <br>
     {{$currentWeek}}
     <br>
-    {{$totalHours}} of 40 hours | You must report more {{40 - $totalHours}} hours this week.
+    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.
     <br>
     <br>
 
