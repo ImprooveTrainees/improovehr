@@ -233,14 +233,70 @@ $fridayLastWTotal = 0;
 
 $lastWeekTotals = [$mondayLastWTotal, $tuesdayLastWTotal, $wednesdayLastWTotal, $thursdayLastWTotal, $fridayLastWTotal];
 
+
 for($i = 0; $i  < count($result2->time_entries); $i++) {
     for($b = 0; $b < count($daysLastWeek); $b++) {
-        if($result2->time_entries[$i]->spent_date == $daysLastWeek[$b]) {
-            $lastWeekTotals[$b] += $result2->time_entries[$i]->hours;
-            $totalHours15days += $result2->time_entries[$i]->hours;
+        foreach($allAbsences as $absence) {
+            $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
+            $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($absence->end_date)));
+            $AbsenceDatesBetween = new DatePeriod(
+                new DateTime($dateStartAbsence),
+                new DateInterval('P1D'),
+                new DateTime($dateEndAbsence)
+           );
+           foreach ($AbsenceDatesBetween as $key => $value) {
+                if($value->format('Y-m-d') == $daysLastWeek[$b]) { 
+                    if($absence->absencetype == 1) {
+                        $lastWeekTotals[$b] = "Vacations";
+                        continue 3; //após confirmado que é ausência, passa para o prox dia
+                    }
+                    else {
+                        $lastWeekTotals[$b] = $absence->motive;
+                        continue 3;
+                    }
+                     // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
+                    //pega em todos os dias da absence (inclusive os que estão no meio) e 
+                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual, 
+                    //é porque o user esteve ausente esses dias.
+                }
+            }
+             
+            
         }
+        foreach($resultHolidays as $holiday) { 
+            if($holiday->date == $daysLastWeek[$b]) {
+                $lastWeekTotals[$b] = $holiday->localName;
+                continue 2;
+            }
+        }
+        if($result2->time_entries[$i]->spent_date == $daysLastWeek[$b]) {
+                $lastWeekTotals[$b] += $result2->time_entries[$i]->hours;
+                $totalHours15days += $result2->time_entries[$i]->hours;
+        }
+
+    
     }
-} 
+
+}
+
+$totalHoursTodoPast2Weeks = 0;
+$dateRangeLastWeek = new DatePeriod(
+    new DateTime(date( 'F d', strtotime( '-2 week monday this week'))),
+    new DateInterval('P1D'),
+    new DateTime(date( 'Y-m-d', strtotime( '-1 week saturday this week')))
+);
+
+
+foreach ($dateRangeLastWeek as $key => $value) { 
+        $totalHoursTodoPast2Weeks +=8;
+        foreach($resultHolidays as $holiday) { 
+            if($holiday->date == $value->format('Y-m-d')) {
+                $totalHoursTodoPast2Weeks -= 8;
+            }
+        }
+    
+}
+
 //
 
 //last 2 weeks vars
@@ -278,7 +334,7 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
 $hoursReportedTotal = $totalHours15days + $totalHours;
 $hoursLeftReport = $monthlyHoursWorkDays - $hoursReportedTotal;
 
-$hoursToReportPer15Days = ($monthlyHoursWorkDays / 2) - $totalHours15days;
+$hoursToReportPer15Days = $totalHoursTodoPast2Weeks - $totalHours15days;
 
 
         
@@ -298,6 +354,7 @@ return view('testeHarvest')
     ->with('hoursLeftReport', $hoursLeftReport)
     ->with('hoursToReportPer15Days', $hoursToReportPer15Days)
     ->with('totalHoursTodoCurrentWeek', $totalHoursTodoCurrentWeek)
+    ->with('totalHoursTodoPast2Weeks', $totalHoursTodoPast2Weeks)
     ->with('monthlyHoursWorkDays', $monthlyHoursWorkDays);
 
     }

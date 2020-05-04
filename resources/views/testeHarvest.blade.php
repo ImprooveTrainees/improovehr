@@ -112,15 +112,17 @@
             <br>
             {{date( 'd F', strtotime( '-1 week friday this week'))}}
         </th>
-    
-        </tr>
+
+
         <tr>
-        <td>{{$lastWeekTotals[0]}} hours</td>
-        <td>{{$lastWeekTotals[1]}} hours</td>
-        <td>{{$lastWeekTotals[2]}} hours</td>
-        <td>{{$lastWeekTotals[3]}} hours</td>
-        <td>{{$lastWeekTotals[4]}} hours</td>
-        </tr> 
+            @foreach($lastWeekTotals as $dayPastweek)
+                @if(is_numeric($dayPastweek))
+                    <td>{{$dayPastweek}} hours</td>
+                @else
+                    <td>{{$dayPastweek}}</td>
+                @endif
+            @endforeach
+        </tr>
     
     </table>
     <br>
