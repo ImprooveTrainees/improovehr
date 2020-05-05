@@ -21,12 +21,14 @@
 
  <br>
  <br>
- Total hours reported: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
+ Total hours reported this month: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
  <br>
  You must report more {{$hoursLeftReport}} hours
  <br>
-<button onclick="last2weeks()">Last 15 days</button>
+ <button onclick="lastMonth()">Last Month</button>
+<button onclick="last2weeks()">Last 2 weeks</button>
 <button onclick="currentWeek()">This Week</button>
+
 
 
  <div style='display: none;' id="currentWeek">
@@ -154,26 +156,40 @@
             <br>
             {{date( 'd F', strtotime( '-2 week friday this week'))}}
         </th>
-    
-        </tr>
+
         <tr>
-        <td>{{$last2WeeksTotals[0]}}</td>
-        <td>{{$last2WeeksTotals[1]}}</td>
-        <td>{{$last2WeeksTotals[2]}}</td>
-        <td>{{$last2WeeksTotals[3]}}</td>
-        <td>{{$last2WeeksTotals[4]}}</td>
+            @foreach($last2WeeksTotals as $dayPast2week)
+                @if(is_numeric($dayPast2week))
+                    <td>{{$dayPast2week}} hours</td>
+                @else
+                    <td>{{$dayPast2week}}</td>
+                @endif
+            @endforeach
         </tr>
     
     </table>
     
     
     <br>
-    {{$totalHours15days}} hours reported in the last 2 weeks.
+    {{$totalHours15days}} hours reported total in the last 2 weeks.
     <br>
-    {{$hoursToReportPer15Days}} hours left to report.
+    {{$hoursToReportPer15Days}} hours left to report in the last two weeks.
+    <br>
+
+
 </div>
 
+<div id="lastMonth" style="display: none;">
+    <br>
+    Last Month
+    <br>
+    
+    <br>
+    
 
+
+
+</div>
 
 
 <script>
@@ -192,6 +208,14 @@ function last2weeks() {
     }
     else {
         document.getElementById("last2weeks").style.display = "none";
+    }
+}
+function lastMonth() {
+    if(document.getElementById("lastMonth").style.display == "none") {
+        document.getElementById("lastMonth").style.display = "block";
+    }
+    else {
+        document.getElementById("lastMonth").style.display = "none";
     }
 }
 
