@@ -23,7 +23,7 @@
  <br>
  Total hours reported this month: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
  <br>
- You must report more {{$hoursLeftReport}} hours
+ You must report more {{$hoursLeftReport}} hours this month.
  <br>
  <button onclick="lastMonth()">Last Month</button>
 <button onclick="last2weeks()">Last 2 weeks</button>
@@ -175,17 +175,42 @@
     <br>
     {{$hoursToReportPer15Days}} hours left to report in the last two weeks.
     <br>
+    <br>
+    {{$totalHoursDone15daysThisMonth}} done of {{$totalHoursTodoPast2WeeksThisMonth}} hours this month in the past two weeks
 
 
 </div>
 
 <div id="lastMonth" style="display: none;">
     <br>
-    Last Month
+    Previous Month
     <br>
-    
-    <br>
-    
+<table>
+    <tr>
+        @foreach($daysPreviousMonth as $day)
+            <th>{{date( 'D', strtotime($day->format('Y-m-d')))}}
+                <br>
+                {{date( 'd F', strtotime($day->format('Y-m-d')))}}
+                <?php $countTr++ ?>
+            </th>
+            @if($day->format('w') == 5) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
+                </tr>   <!-- encerra a tr dos headers -->
+
+                        <tr>  <!-- começa as td -->
+                            @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
+                                <td>{{$daysPreviousMonthTotals[$b]}}</td>
+                            @endfor
+                            <?php $countTh = $b ?>
+                        </tr> <!-- acaba as td -->
+                </table> 
+                <br>
+                <table> 
+                <tr>
+            @endif
+        @endforeach
+       
+    </tr>
+</table>
 
 
 

@@ -97,7 +97,7 @@ $resultHolidays = json_decode($resultHolidays);
 
 //$actualMonthDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date("Y"));
 $monthBegin = new DateTime('first day of this month');
-$monthEnd = new DateTime('first day of next month'); //ele inclui a start date, mas não a end date, portanto temos de adicioanr mais um dia após o fim da semana
+$monthEnd = new DateTime('tomorrow'); //ele inclui a start date, mas não a end date, portanto adicionamos mais um dia
 $monthlyHoursWorkDays = 0;
 $dateRangeCountWeekends = new DatePeriod(
     new DateTime($monthBegin->format('Y-m-d')),
@@ -286,6 +286,8 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
 }
 
 $totalHoursTodoPast2Weeks = 0;
+$totalHoursTodoPast2WeeksThisMonth = 0;
+
 $dateRangeLastWeek = new DatePeriod(
     new DateTime(date( 'Y-m-d', strtotime( '-2 week monday this week'))),
     new DateInterval('P1D'),
@@ -296,9 +298,15 @@ $dateRangeLastWeek = new DatePeriod(
 foreach ($dateRangeLastWeek as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
         $totalHoursTodoPast2Weeks +=8;
+        if($value->format('m') == date('m')) {
+            $totalHoursTodoPast2WeeksThisMonth += 8; //horas para fazer do mês actual nas ultimas 2 semanas
+        }
         foreach($resultHolidays as $holiday) { 
             if($holiday->date == $value->format('Y-m-d')) {
                 $totalHoursTodoPast2Weeks -= 8;
+                if($value->format('m') == date('m')) {
+                    $totalHoursTodoPast2WeeksThisMonth -= 8;
+                }
             }
         }
      }
@@ -390,13 +398,68 @@ $dateRangeLastMonth = new DatePeriod(
     new DateTime($monthEnd)
 );
 
+$daysPreviousMonth = [];
+$daysPreviousMonthTotals = [];
+$countTr = 0;
+$countTh = 0; 
 
 foreach ($dateRangeLastMonth as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
-        echo $value->format('Y-m-d')."<br>";
+        array_push($daysPreviousMonth, $value);
     }
-    
 }
+
+
+foreach ($dateRangeLastMonth as $key => $value) { 
+    if($value->format('w') != 6 && $value->format('w') != 0) {
+        array_push($daysPreviousMonthTotals, 0);
+    }
+}
+
+for($i = 0; $i  < count($result2->time_entries); $i++) {
+    for($b = 0; $b < count($daysPreviousMonth); $b++) {
+        foreach($allAbsences as $absence) {
+            $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
+            $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($absence->end_date)));
+            $AbsenceDatesBetween = new DatePeriod(
+                new DateTime($dateStartAbsence),
+                new DateInterval('P1D'),
+                new DateTime($dateEndAbsence)
+           );
+           foreach ($AbsenceDatesBetween as $key => $value) {
+                if($value->format('Y-m-d') == $daysPreviousMonth[$b]->format('Y-m-d')) { 
+                    if($absence->absencetype == 1) {
+                        $daysPreviousMonthTotals[$b] = "Vacations";
+                        continue 3; //após confirmado que é ausência, passa para o prox dia
+                    }
+                    else {
+                        $daysPreviousMonthTotals[$b] = $absence->motive;
+                        continue 3;
+                    }
+                     // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
+                    //pega em todos os dias da absence (inclusive os que estão no meio) e 
+                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual, 
+                    //é porque o user esteve ausente esses dias.
+                }
+            }
+             
+            
+        }
+        foreach($resultHolidays as $holiday) { 
+            if($holiday->date == $daysPreviousMonth[$b]->format('Y-m-d')) {
+                $daysPreviousMonthTotals[$b] = $holiday->localName;
+                continue 2;
+            }
+        }
+        if($result2->time_entries[$i]->spent_date == $daysPreviousMonth[$b]->format('Y-m-d')) {
+                $daysPreviousMonthTotals[$b] += $result2->time_entries[$i]->hours;
+        }
+
+    
+    }
+
+}
+
 
 //endLastMonth
 
@@ -428,7 +491,12 @@ return view('testeHarvest')
     ->with('totalHoursTodoCurrentWeek', $totalHoursTodoCurrentWeek)
     ->with('totalHoursTodoPast2Weeks', $totalHoursTodoPast2Weeks)
     ->with('totalHoursDone15daysThisMonth', $totalHoursDone15daysThisMonth)
+    ->with('totalHoursTodoPast2WeeksThisMonth', $totalHoursTodoPast2WeeksThisMonth)
     ->with('monthlyHoursWorkDays', $monthlyHoursWorkDays)
+    ->with('daysPreviousMonth', $daysPreviousMonth)
+    ->with('daysPreviousMonthTotals', $daysPreviousMonthTotals)
+    ->with('countTr', $countTr)
+    ->with('countTh', $countTh)
     ;
 
     }
