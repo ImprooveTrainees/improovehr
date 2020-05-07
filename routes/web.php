@@ -74,7 +74,6 @@ Route::get('/showSurvey', 'EvaluationsController@show');
 //Evaluations User Perspective
 Route::get('/indexUserEvals', 'EvaluationsUserPerspective@index');
 Route::get('/showSurveyUser/{id}', 'EvaluationsUserPerspective@showSurvey');
-//para usar a função route() e passar argumentos, temos de definir o nome da route com a função name()
 //
 
 Auth::routes();

@@ -9,4 +9,9 @@ class questSurvey extends Model
     //
     protected $table = 'quest_surveys';
     protected $primaryKey = 'id';
+
+    public function questions()
+    {
+        return $this->belongsTo('App\Questions', 'idQuestion', 'id');
+    }
 }

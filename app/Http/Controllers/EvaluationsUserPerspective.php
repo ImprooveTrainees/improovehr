@@ -29,38 +29,36 @@ class EvaluationsUserPerspective extends Controller
         $authUser = Auth::User()->id;
         $surveyUserMsg = "";
         $surveyUser = User::find($authUser)->surveys()->get();
-        if($surveyUser->count() == 0) {
-            $surveyUserMsg .= "There are no available surveys at the moment.";
-        }
-        else {
-                  
-        $repeatedSurveys = [];
-        foreach($surveyUser as $surveyName) {
-            if(!in_array($surveyName->name, $repeatedSurveys)) {
-                $dateLimit = surveyUsers::where('idSurvey',$surveyName->id)->where('idUser',$authUser)->first();
-                $surveyUserMsg .= "<tr>";
-                $surveyUserMsg .= "<td>".$surveyName->name."</td>";
-                $surveyUserMsg .= "<td>".$surveyName->surveyType->description."</td>";
-
-                $todayDate = date_create(date("Y/m/d"));
-                $Limit = date_create($dateLimit->dateLimit);
-                $interval = date_diff($todayDate, $Limit); 
-
-                $surveyUserMsg .= "<td>".$interval->format('%d days left')."(".$Limit->format('d-m-Y').")</td>";
-                $surveyUserMsg .= "<td><a href=showSurveyUser/".$surveyName->id."><i class='fas fa-pencil-alt'></i></a></td>";
-                //chama a route com o nome "showSurveyUser", e passa o argumento do nr do survey
-                $surveyUserMsg .= "</tr>";
-                array_push($repeatedSurveys,$surveyName->name);
-            }
-            
-        }
-    }
-
+        $surveysHTML = [];
+        $surveysHTMLType = [];
+        $daysLeftSurveyHTML = [];
+        $dateLimitSurveyHTML = [];
         
-    
+       
+        foreach($surveyUser as $survey) {
+            $dateLimit = surveyUsers::where('idSurvey',$survey->id)->where('idUser', $authUser)->first()->dateLimit;
+            $todayDate = date_create(date("Y-m-d"));
+            $Limit = date_create($dateLimit);
+            $daysLeft = date_diff($todayDate, $Limit); 
+            array_push($surveysHTML,$survey);
+            array_push($surveysHTMLType, $survey->surveyType->description);
+            if($todayDate > $Limit) {
+                array_push($daysLeftSurveyHTML, "Expired");
+                array_push($dateLimitSurveyHTML, "");
+            }
+            else {
+                array_push($daysLeftSurveyHTML, $daysLeft);
+                array_push($dateLimitSurveyHTML, $Limit->format('Y-m-d'));
+            }
 
+        }
 
-        return view('testeEvalsUserPerspectiveIndex')->with('surveyUserMsg',$surveyUserMsg);
+        return view('testeEvalsUserPerspectiveIndex')
+        ->with('surveysHTML', $surveysHTML)
+        ->with('surveysHTMLType', $surveysHTMLType)
+        ->with('daysLeftSurveyHTML', $daysLeftSurveyHTML)
+        ->with('dateLimitSurveyHTML', $dateLimitSurveyHTML)
+        ->with('surveyUserMsg',$surveyUserMsg);
     }
 
     /**
@@ -99,7 +97,8 @@ class EvaluationsUserPerspective extends Controller
 
 
         $surveyName = Survey::find($selectedSurveyId)->name;
-        $surveyType = Survey::find($selectedSurveyId)->surveyType->description;
+        $surveyType = Survey::find($selectedSurveyId)->surveyType;
+        $surveyAnswerLimit = Survey::find($selectedSurveyId)->answerLimit;
         $allAreasDB = Areas::All();
         $subCats = subCategories::All();
         $PPs = PP::All();
@@ -185,6 +184,7 @@ class EvaluationsUserPerspective extends Controller
     'questionsNumericHTML',
     'usersEvaluatedHTML',
     'usersWillEvalueHTML',
+    'surveyAnswerLimit'
     ));
 
 

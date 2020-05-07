@@ -387,10 +387,6 @@ Add: <select name='selectedSubCat'>
 
 
 
-
-
-
-
 </div>
 
 @if(session('msgError'))

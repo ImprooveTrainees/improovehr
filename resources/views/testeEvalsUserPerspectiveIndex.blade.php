@@ -39,7 +39,17 @@
         <th><h2>Time Left</h2></th>
         <th><h2></h2></th>
     </tr>
-    <?php echo $surveyUserMsg ?>
+
+   
+    @for($i = 0; $i < count($surveysHTML); $i++)
+    <tr>
+        <td>{{$surveysHTML[$i]->name}}</td>
+        <td>{{$surveysHTMLType[$i]}}</td>
+        <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
+        <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+    </tr>
+    @endfor
+
 </table>
 
 

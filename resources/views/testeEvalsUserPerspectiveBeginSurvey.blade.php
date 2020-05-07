@@ -34,6 +34,14 @@
 
 <!-- Begin Survey Structure  -->
 
+<h1>{{$surveyType->description}}</h1>
+@if($surveyType->id == 1)
+<h4>This is your periodic evaluation. Above you will find three main areas that will be evaluated regarding your performance in the last semester. Please answer with honesty and clarity.</h4>
+@endif
+
+<h5 style="color:red">Please rate the following sentences on a scale of 1 to {{$surveyAnswerLimit}}, where 1 represents "Poor" and {{$surveyAnswerLimit}} represents "Excellent".</h5>
+
+
 @if(count($areasHTML) == 0)
     <br>
     There are no areas in this survey yet!
@@ -56,9 +64,9 @@
                                     @else
 
                                         @if($questionsNumericHTML[$c+1]->idPP == 2)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}} <input placeholder="0" type="number" min="1" max={{$surveyAnswerLimit}}></li>
                                         @else
-                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}} <input placeholder="0" type="number" min="1" max={{$surveyAnswerLimit}}></li>
                                         @endif
                                     @endif
                                     
@@ -85,6 +93,7 @@
                     This area has no open questions!
                 @else
                 <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                <textarea placeholder="Write your answer here" id="w3mission" rows="4" cols="50"></textarea>
                 @endif
             @endif                   
         @endfor

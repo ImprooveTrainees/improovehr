@@ -419,10 +419,24 @@ class EvaluationsController extends Controller
     public function assignUser(Request $request)
     {
         //
-        
+        $allQuestionsSurvey = questSurvey::where('idSurvey', $request->input('idSurveyAutoShow'))->get();
+        $countPerformance = 0;
+        $countPotential = 0;
+        foreach($allQuestionsSurvey as $question) {
+            if($question->questions->idPP == 1) {
+                $countPerformance++;
+            }
+            else {
+                $countPotential++;
+            }
+        }//o nr de questões performance e potencial tem de ser igual
+
         $usersSelected = $request->input('users');
         if($usersSelected == 0) {
             $msg = "Select users to add!";
+        }
+        else if($countPerformance != $countPotential) {
+            $msg = "The number of performance and potential questions must be equal!";
         }
         else {
 
@@ -680,7 +694,7 @@ class EvaluationsController extends Controller
                         array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
                     }
                     else {
-                        $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name;
+                        $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name; //array associativo
                     }
                     
                 }    
