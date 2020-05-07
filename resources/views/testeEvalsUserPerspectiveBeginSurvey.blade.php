@@ -32,7 +32,76 @@
 </head>
 <body>
 
+<!-- Begin Survey Structure  -->
 
-   <?php echo $showSurveyGeneral ?>
+@if(count($areasHTML) == 0)
+    <br>
+    There are no areas in this survey yet!
+@else 
+<ul>
+    @for($i = 0; $i < count($areasHTML); $i++)
+        <li><strong>{{$areasHTML[$i]->description}}</strong></li>
+            @for($b = 0; $b < count($subCatsHTML); $b+=2)
+                @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
+                    @if($subCatsHTML[$b+1] == '0')
+                        This area has no subcategories!
+                    @else
+                        &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
+                        <ol>
+                     
+                            @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
+                                @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
+                                    @if($questionsNumericHTML[$c+1] == '0')
+                                        This subcategory has no questions!
+                                    @else
+
+                                        @if($questionsNumericHTML[$c+1]->idPP == 2)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @else
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                        @endif
+                                    @endif
+                                    
+                                @endif                   
+                            @endfor
+                        </ol>
+                    @endif     
+                @endif
+            @endfor
+    @endfor
+</ul>
+
+
+@endif
+
+<strong>Open ended questions:</strong><br>
+<ul>
+@foreach($surveyAreas as $sAreasOpen)
+    <li><strong>{{$sAreasOpen->description}}</strong></li>
+        <ol>
+        @for($d = 0; $d < count($openQuestionsHTML); $d+=2)
+            @if($openQuestionsHTML[$d]->id == $sAreasOpen->id)
+                @if($openQuestionsHTML[$d+1] == '0')
+                    This area has no open questions!
+                @else
+                <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                @endif
+            @endif                   
+        @endfor
+        </ol>
+    
+@endforeach
+
+
+</ul>
+
+<br>
+
+
+
+
+
+<!-- End Survey Structure -->
+
 </body>
 </html>

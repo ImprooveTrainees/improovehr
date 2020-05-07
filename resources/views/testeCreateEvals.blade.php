@@ -361,7 +361,7 @@ Add: <select name='selectedSubCat'>
 
 <div>
     <strong>Users assigned:</strong><br>
-    @if(count($usersEvaluatedHTML) == 0 && count($$usersWillEvalueHTML) == 0)
+    @if(count($usersEvaluatedHTML) == 0 && count($usersWillEvalueHTML) == 0)
         <br>There are no users assigned to this survey!
     @else 
         @foreach($usersEvaluatedHTML as $user)

@@ -629,14 +629,14 @@ for($l = 0; $l < $blocksNum; $l++) {
 //Flextime begin
 $ch2 = curl_init();
 
-        curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries?user_id=3206639&');
+        curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, 'GET');
 
 
         $headers2 = array();
-        $headers2[] = 'Harvest-Account-Id: 1270741';
-        $headers2[] = 'Authorization: Bearer 2275709.pt.c6eIYJ4rw1djonReSiOhr9RfEdZCvvtVb_oBG0UaDhbaOx54c9dpzDrO9QgpG-SNuPutMguXIVx-b8UVE-tI9Q';
+        $headers2[] = 'Harvest-Account-Id: 1287235';
+        $headers2[] = 'Authorization: Bearer 2303952.pt.xaKulkdplacNlAb2W77kLcNyen2H3RUsxQgzVgndlSypJP0bE8EUcHw-bWeq6AYqWVL4l0-uwd9J1VGi5A32bw';
         $headers2[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
         curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers2);
 

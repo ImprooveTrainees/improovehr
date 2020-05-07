@@ -32,5 +32,6 @@ class absence extends Model
     //     return $diasAusencia;
     // }
 
-
+    protected $table = 'absences';
+    protected $primaryKey = 'id';
 }
