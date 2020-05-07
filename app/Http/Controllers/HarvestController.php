@@ -207,7 +207,6 @@ foreach ($dateRangeCurrentWeek as $key => $value) {
 }
 
 
-
 //endcurrentweek
 
 $totalHours15days = 0;
@@ -402,6 +401,8 @@ $daysPreviousMonth = [];
 $daysPreviousMonthTotals = [];
 $countTr = 0;
 $countTh = 0; 
+$totalHoursDoneLastMonth = 0;
+$totalHoursToDoLastMonth = 0;
 
 foreach ($dateRangeLastMonth as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
@@ -415,6 +416,21 @@ foreach ($dateRangeLastMonth as $key => $value) {
         array_push($daysPreviousMonthTotals, 0);
     }
 }
+
+
+foreach ($dateRangeLastMonth as $key => $value) {
+    if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
+        $totalHoursToDoLastMonth+=8;
+        foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
+            if($holiday->date == $value->format('Y-m-d')) {
+                $totalHoursToDoLastMonth-=8;
+            }
+        }
+    }
+}
+
+
+
 
 for($i = 0; $i  < count($result2->time_entries); $i++) {
     for($b = 0; $b < count($daysPreviousMonth); $b++) {
@@ -453,6 +469,7 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
         }
         if($result2->time_entries[$i]->spent_date == $daysPreviousMonth[$b]->format('Y-m-d')) {
                 $daysPreviousMonthTotals[$b] += $result2->time_entries[$i]->hours;
+                $totalHoursDoneLastMonth += $result2->time_entries[$i]->hours;
         }
 
     
@@ -495,6 +512,8 @@ return view('testeHarvest')
     ->with('monthlyHoursWorkDays', $monthlyHoursWorkDays)
     ->with('daysPreviousMonth', $daysPreviousMonth)
     ->with('daysPreviousMonthTotals', $daysPreviousMonthTotals)
+    ->with('totalHoursDoneLastMonth', $totalHoursDoneLastMonth)
+    ->with('totalHoursToDoLastMonth', $totalHoursToDoLastMonth)
     ->with('countTr', $countTr)
     ->with('countTh', $countTh)
     ;

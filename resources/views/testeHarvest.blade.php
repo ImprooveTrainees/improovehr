@@ -37,7 +37,11 @@
     <br>
     {{$currentWeek}}
     <br>
+    @if($totalHours > $totalHoursTodoCurrentWeek)
+    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You did more {{$totalHours - $totalHoursTodoCurrentWeek}} hours this week.
+    @else 
     {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.
+    @endif
     <br>
     <br>
 
@@ -173,11 +177,18 @@
     <br>
     {{$totalHours15days}} hours reported total in the last 2 weeks.
     <br>
+    @if($totalHours15days > $hoursToReportPer15Days)
+    {{$totalHours15days - $hoursToReportPer15Days}} hours overtime.
+    @else
     {{$hoursToReportPer15Days}} hours left to report in the last two weeks.
+    @endif
     <br>
     <br>
-    {{$totalHoursDone15daysThisMonth}} done of {{$totalHoursTodoPast2WeeksThisMonth}} hours this month in the past two weeks
-
+    {{$totalHoursDone15daysThisMonth}} of {{$totalHoursTodoPast2WeeksThisMonth}} hours done this month in the past two weeks
+    @if($totalHoursDone15daysThisMonth > $totalHoursTodoPast2WeeksThisMonth)
+        <br>
+        You did more {{$totalHoursDone15daysThisMonth - $totalHoursTodoPast2WeeksThisMonth}} hours overtime.
+    @endif
 
 </div>
 
@@ -202,17 +213,34 @@
                             @endfor
                             <?php $countTh = $b ?>
                         </tr> <!-- acaba as td -->
-                </table> 
+                </table> <!-- termina uma table -->
                 <br>
-                <table> 
+                <table>  <!-- começa outra table -->
                 <tr>
+            @elseif($day->format('w') != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
+                </tr>   <!-- encerra a tr dos headers -->
+
+                         <tr>  <!-- começa as td -->
+                            @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
+                                    <td>{{$daysPreviousMonthTotals[$b]}}</td>
+                            @endfor
+                            <?php $countTh = $b ?>
+                        </tr> <!-- acaba as td -->
+                    </table> 
+                    <br>
+                    <table> 
+                    <tr>
             @endif
         @endforeach
        
     </tr>
 </table>
 
-
+{{$totalHoursDoneLastMonth}} of {{$totalHoursToDoLastMonth}} of hours done last month.
+<br>
+@if($totalHoursDoneLastMonth > $totalHoursToDoLastMonth)
+    You have done {{$totalHoursDoneLastMonth - $totalHoursToDoLastMonth}} hours overtime last month.
+@endif
 
 </div>
 
