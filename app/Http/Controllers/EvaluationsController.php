@@ -426,7 +426,7 @@ class EvaluationsController extends Controller
             if($question->questions->idPP == 1) {
                 $countPerformance++;
             }
-            else {
+            else if($question->questions->idPP == 2){
                 $countPotential++;
             }
         }//o nr de questões performance e potencial tem de ser igual

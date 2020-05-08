@@ -53,7 +53,7 @@ Route::get('/employees', 'UserController@employees');
 Route::get('/harvest', 'HarvestController@index');
 //
 
-//Evaluations AdminRH Perspective
+//Evaluations AdminRH Create Evaluation
 Route::get('/evals', 'EvaluationsController@index');
 Route::get('/createSurvey', 'EvaluationsController@createSurvey');
 Route::get('/createArea', 'EvaluationsController@createArea');
@@ -71,9 +71,14 @@ Route::get('/remUser', 'EvaluationsController@remUser');
 Route::get('/showSurvey', 'EvaluationsController@show');
 //
 
+//Evaluations AdminRH Evaluation Result 
+Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
+//
+
 //Evaluations User Perspective
 Route::get('/indexUserEvals', 'EvaluationsUserPerspective@index');
 Route::get('/showSurveyUser/{id}', 'EvaluationsUserPerspective@showSurvey');
+Route::get('/storeAnswers', 'EvaluationsUserPerspective@storeAnswers');
 //
 
 Auth::routes();

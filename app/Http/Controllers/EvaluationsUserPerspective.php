@@ -11,6 +11,8 @@ use App\Areas;
 use App\subCategories;
 use App\Questions;
 use App\PP;
+use App\questSurvey;
+use App\Answers;
 use App\typeQuestion;
 use App\surveyType;
 use Auth;
@@ -33,6 +35,7 @@ class EvaluationsUserPerspective extends Controller
         $surveysHTMLType = [];
         $daysLeftSurveyHTML = [];
         $dateLimitSurveyHTML = [];
+        $submittedSurveyHTML = [];
         
        
         foreach($surveyUser as $survey) {
@@ -50,6 +53,8 @@ class EvaluationsUserPerspective extends Controller
                 array_push($daysLeftSurveyHTML, $daysLeft);
                 array_push($dateLimitSurveyHTML, $Limit->format('Y-m-d'));
             }
+            $submitted = surveyUsers::where('idSurvey', $survey->id)->where('idUser', $authUser)->first()->submitted;
+            array_push($submittedSurveyHTML, $submitted); 
 
         }
 
@@ -58,6 +63,7 @@ class EvaluationsUserPerspective extends Controller
         ->with('surveysHTMLType', $surveysHTMLType)
         ->with('daysLeftSurveyHTML', $daysLeftSurveyHTML)
         ->with('dateLimitSurveyHTML', $dateLimitSurveyHTML)
+        ->with('submittedSurveyHTML', $submittedSurveyHTML)
         ->with('surveyUserMsg',$surveyUserMsg);
     }
 
@@ -77,9 +83,31 @@ class EvaluationsUserPerspective extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeAnswers(Request $request)
     {
         //
+        $questionsID = $request->input("questions"); //hidden input para saber a qual questão pertence a resposta
+        $answers = $request->input("answers");
+        $surveyId = $request->input("selectedSurveyId");
+        $authUser = Auth::User()->id;
+
+        for($i = 0; $i < count($questionsID); $i++) {
+            $questSurvey = questSurvey::where('idSurvey', $surveyId)->where('idQuestion', $questionsID[$i])->first();
+            $newAnswer = new Answers;
+            $newAnswer->idQuestSurvey = $questSurvey->id;
+            $newAnswer->value = $answers[$i];
+            $newAnswer->save();
+        } //insere as respostas já com a questão associada
+
+        $surveyUser = surveyUsers::where('idUser', $authUser)->where('idSurvey', $surveyId)->first();
+        $surveyUser->submitted = true;
+        $surveyUser->save();
+
+
+        $msg = "Survey Submited";
+
+        return redirect()->action('EvaluationsUserPerspective@index')
+        ->with('completed', $msg);
 
         
     }
@@ -184,7 +212,8 @@ class EvaluationsUserPerspective extends Controller
     'questionsNumericHTML',
     'usersEvaluatedHTML',
     'usersWillEvalueHTML',
-    'surveyAnswerLimit'
+    'surveyAnswerLimit',
+    'selectedSurveyId'
     ));
 
 

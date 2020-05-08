@@ -16,11 +16,7 @@ class CreateAnswersTable extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('idAnswer');
             $table->integer('idQuestSurvey');
-            $table->integer('idUserEvaluated')->nullable();
-            $table->integer('idUserEvaluator')->nullable();
             $table->string('value');
-            $table->foreign('idUserEvaluated')->references('id')->on('users');
-            $table->foreign('idUserEvaluator')->references('id')->on('users');
             $table->timestamps();
         });
     }
