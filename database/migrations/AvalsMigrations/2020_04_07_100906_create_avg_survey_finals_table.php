@@ -15,11 +15,9 @@ class CreateAvgSurveyFinalsTable extends Migration
     {
         Schema::create('avg_survey_finals', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idUserEvaluated')->nullable();
-            $table->integer('idUserEvaluator')->nullable();
+            $table->integer('idUser')->nullable();
             $table->integer('idSurvey');
-            $table->foreign('idUserEvaluated')->references('id')->on('users');
-            $table->foreign('idUserEvaluator')->references('id')->on('users');
+            $table->foreign('idUser')->references('id')->on('users');
             $table->foreign('idSurvey')->references('id')->on('surveys');
             $table->double('avgPotentialFinal');
             $table->double('avgPerformanceFinal');

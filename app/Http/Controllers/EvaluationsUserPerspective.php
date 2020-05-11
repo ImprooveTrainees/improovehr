@@ -64,7 +64,8 @@ class EvaluationsUserPerspective extends Controller
         ->with('daysLeftSurveyHTML', $daysLeftSurveyHTML)
         ->with('dateLimitSurveyHTML', $dateLimitSurveyHTML)
         ->with('submittedSurveyHTML', $submittedSurveyHTML)
-        ->with('surveyUserMsg',$surveyUserMsg);
+        ->with('surveyUserMsg',$surveyUserMsg)
+        ->with('authUser', $authUser); //user autenticado
     }
 
     /**
@@ -95,7 +96,18 @@ class EvaluationsUserPerspective extends Controller
             $questSurvey = questSurvey::where('idSurvey', $surveyId)->where('idQuestion', $questionsID[$i])->first();
             $newAnswer = new Answers;
             $newAnswer->idQuestSurvey = $questSurvey->id;
-            $newAnswer->value = $answers[$i];
+            $newAnswer->value = $answers[$i]; //todas as respostas vão ter um igual nr de perguntas
+            $surveyUser = surveyUsers::where('idUser', $authUser)->where('idSurvey', $surveyId)->first();
+            if($surveyUser->evaluated == 1) { //se o user tiver ligado ao survey como avaliado.
+                $newAnswer->idUser = $authUser;
+                $newAnswer->evaluated = true;
+            }
+            else { //se o user tiver ligado ao survey como avaliador.
+                $newAnswer->idUser = $authUser;
+                $newAnswer->evaluated = false;
+                $newAnswer->willEvalue = $surveyUser->willEvaluate;
+
+            }
             $newAnswer->save();
         } //insere as respostas já com a questão associada
 
@@ -122,6 +134,12 @@ class EvaluationsUserPerspective extends Controller
     {
         //
         $selectedSurveyId = $id;
+
+        //para sabermos que quem vai avaliar quem no header do questionario
+        $authUser = Auth::User()->id;
+        $willEvaluateUser = surveyUsers::where('idUser', $authUser)->where('idSurvey', $selectedSurveyId)->first()->willEvaluate;
+        $willEvaluateNameUser = User::find($willEvaluateUser)->name;
+        //
 
 
         $surveyName = Survey::find($selectedSurveyId)->name;
@@ -213,7 +231,8 @@ class EvaluationsUserPerspective extends Controller
     'usersEvaluatedHTML',
     'usersWillEvalueHTML',
     'surveyAnswerLimit',
-    'selectedSurveyId'
+    'selectedSurveyId',
+    'willEvaluateNameUser'
     ));
 
 

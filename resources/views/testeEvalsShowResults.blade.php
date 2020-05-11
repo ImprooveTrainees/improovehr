@@ -31,27 +31,6 @@
 
 </head>
 <body>
-{{$submitted}} of {{$total}} submitted.
-<br>
-<table style="border-collapse:separate;border-spacing:15px;">
-    <tr>
-        <th><h2>User</h2></th>
-        <th><h2>Evaluation</h2></th>
-        <th><h2>Type</h2></th>
-        <th><h2></h2></th>
-    </tr>
-
-    @for($i = 0; $i < count($surveyNames); $i++)
-        <tr>
-            <td>{{$userNames[$i]->name}}</td>
-            <td>{{$surveyNames[$i]->name}}</td>
-            <td>{{$surveyType[$i]->description}}</td>
-            <td><a href=""><i class="fas fa-eye"></i></a></td>
-        </tr>
-    @endfor
-
-</table>
-
 
 
 

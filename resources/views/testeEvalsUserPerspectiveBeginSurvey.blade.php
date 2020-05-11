@@ -36,7 +36,9 @@
 
 <h1>{{$surveyType->description}}</h1>
 @if($surveyType->id == 1)
-<h4>This is your periodic evaluation. Above you will find three main areas that will be evaluated regarding your performance in the last semester. Please answer with honesty and clarity.</h4>
+<h4>This is your periodic evaluation. Above you will find {{count($areasHTML)}} main areas that will be evaluated regarding your performance in the last semester. Please answer with honesty and clarity.</h4>
+@else
+<h4>This is {{$willEvaluateNameUser}}'s periodic evaluation. Above you will find {{count($areasHTML)}} main areas that will be evaluated regarding {{$willEvaluateNameUser}}'s performance in the last semester. Please answer with honesty and clarity.</h4>
 @endif
 
 <h5 style="color:red">Please rate the following sentences on a scale of 1 to {{$surveyAnswerLimit}}, where 1 represents "Poor" and {{$surveyAnswerLimit}} represents "Excellent".</h5>

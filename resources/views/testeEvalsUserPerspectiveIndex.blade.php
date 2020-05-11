@@ -55,7 +55,7 @@
             @else 
             <td>No</td>
             @endif
-            <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+        <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
         </tr>
         @endfor
     @endif

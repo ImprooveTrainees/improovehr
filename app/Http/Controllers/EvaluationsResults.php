@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Survey;
+use App\surveyUsers;
 
 class EvaluationsResults extends Controller
 {
@@ -15,22 +16,39 @@ class EvaluationsResults extends Controller
     public function index()
     {
         //
-        $surveyNames = [];
-        $userNames = [];
-        $surveyType = [];
+        $surveyNames = []; //surveys
+        $userNames = []; //users
+        $surveyType = []; //types
         $surveys = Survey::All();
+        $submitted = 0;
+        $total = 0;
 
         for($i = 0; $i < $surveys->count(); $i++){
-             $usersSurvey = Survey::find($surveys[$i]->id)->users()->get();
-             foreach($usersSurvey as $user) {
-                 array_push($surveyNames, $surveys->name);
-                 array_push($userNames, $user->name);
-                 array_push($surveyType, $surveys[$i]->idSurveyType);
+             $usersSurvey = Survey::find($surveys[$i]->id)->users()->get(); //todos os users deste survey (iteração)
+             for($b = 0; $b < $usersSurvey->count(); $b++) {
+                $isSubmitted = surveyUsers::where('idSurvey', $surveys[$i]->id)->where('idUser', $usersSurvey[$b]->id)->first()->submitted;
+                if($isSubmitted == 1) { //mostra apenas o questionarios já submetidos
+                    array_push($surveyNames, $surveys[$i]);
+                    array_push($userNames, $usersSurvey[$b]);
+                    array_push($surveyType, $surveys[$i]->surveyType()->first());
+                    $submitted++;
+                    $total++;    
+                }
+                else {
+                    $total++;
+                }
+
              }
         } 
+        //ele procura todos os surveys e todos os users que lhe pertencem
 
-
-        return view('testeEvalsResultsIndex');
+        return view('testeEvalsResultsIndex')
+        ->with('surveyNames',$surveyNames)
+        ->with('userNames',$userNames)
+        ->with('surveyType',$surveyType)
+        ->with('submitted',$submitted)
+        ->with('total',$total)
+        ;
     }
 
     /**
@@ -38,9 +56,10 @@ class EvaluationsResults extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function showResults()
     {
         //
+        return view('testeEvalsShowResults');
     }
 
     /**
