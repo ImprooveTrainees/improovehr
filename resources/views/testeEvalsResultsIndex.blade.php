@@ -46,7 +46,7 @@
             <td>{{$userNames[$i]->name}}</td>
             <td>{{$surveyNames[$i]->name}}</td>
             <td>{{$surveyType[$i]->description}}</td>
-            <td><a href=""><i class="fas fa-eye"></i></a></td>
+            <td><a href="/showResults/{{$surveyNames[$i]->id}}/{{$userNames[$i]->id}}"><i class="fas fa-eye"></i></a></td>
         </tr>
     @endfor
 

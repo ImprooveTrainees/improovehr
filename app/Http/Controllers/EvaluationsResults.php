@@ -5,6 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Survey;
 use App\surveyUsers;
+use App\Answers;
+use App\questSurvey;
+
+use App\Areas;
+use App\subCategories;
+use App\PP;
+use App\User;
+use App\typeQuestion;
+use App\surveyType;
 
 class EvaluationsResults extends Controller
 {
@@ -56,10 +65,131 @@ class EvaluationsResults extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showResults()
+    public function showResults($idSurvey, $idUser)
     {
         //
-        return view('testeEvalsShowResults');
+        $idAnswersUser = Answers::where('idUser', $idUser)->get();
+        $idQuestSurveys = questSurvey::All();
+        $arrayQuestSurvey = [];
+        $answersUserSurvey = [];
+
+        foreach($idQuestSurveys as $questSurvey) {
+            foreach($idAnswersUser as $answer) {
+                if($questSurvey->id == $answer->idQuestSurvey && $questSurvey->idSurvey == $idSurvey) {
+                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
+                    array_push($answersUserSurvey, $answer); //guarda as respostas
+                }
+            }
+        }
+
+
+    //    foreach($answersUserSurvey as $answerGiven) {
+    //        echo $answerGiven->value."<br>";
+    //    }
+//survey structure
+
+
+        $selectedSurveyId = $idSurvey;
+
+        $userSelected = User::find($idUser);
+        $willEvaluateUser = surveyUsers::where('idUser', $idUser)->where('idSurvey', $selectedSurveyId)->first()->willEvaluate;
+        $willEvaluateNameUser = User::find($willEvaluateUser)->name;
+
+        $surveyTypes = surveyType::All();
+        $surveys = Survey::All();
+        $surveyName = Survey::find($selectedSurveyId)->name;
+        $surveyType = Survey::find($selectedSurveyId)->surveyType;
+        $surveyAnswerLimit = Survey::find($selectedSurveyId)->answerLimit;
+        $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
+
+        $allAreasDB = Areas::All();
+        $subCats = subCategories::All();
+        $PPs = PP::All();
+        $users = User::All();
+        $questionTypes = typeQuestion::All();
+        $countQuestions = 1;
+
+
+        $areasExist = false;
+        $areasHTML = [];
+        $subCatsHTML = [];
+        $questionsNumericHTML = [];
+        $openQuestionsHTML = [];
+        $usersEvaluatedHTML = [];
+        $usersWillEvalueHTML = [];
+
+            for($i = 0; $i < $surveyAreas->count(); $i++){
+                array_push($areasHTML,$surveyAreas[$i]);
+                $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
+                if($subCats->count() == 0) {
+                    array_push($subCatsHTML,$surveyAreas[$i],'0');
+                }
+                else {
+                    foreach($subCats as $subcatArea) {
+                            array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);       
+                            $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
+                            if($subCatsQuestions->count() == 0) {
+                                array_push($questionsNumericHTML,$subcatArea,'0');
+                            }
+                            else {
+                            foreach($subCatsQuestions as $question) {
+                                if($question->idTypeQuestion == 2) {
+                                    array_push($questionsNumericHTML,$subcatArea, $question);                                 
+                                } //mostra apenas as questões numéricas, e não as abertas, pois estas não
+                                  //têm subcategoria
+                                
+                            }
+                        }
+                    }
+                }       
+            }
+            foreach($surveyAreas as $sAreasOpen) {
+                    $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
+                    if($openQuestions->count() == 0) {
+                        array_push($openQuestionsHTML,$sAreasOpen,'0');
+                    }
+                    else {
+                        foreach($openQuestions as $openQuestion) {
+                            array_push($openQuestionsHTML,$sAreasOpen,$openQuestion);
+                        }
+                    }
+                        
+                    
+            } //aqui procura só as questoes abertas, que não têm subcategoria
+        
+        // //Users assigned
+        //     $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
+        //     foreach($usersEvaluated as $user) {            
+        //         if($user->evaluated == 1) {
+        //             array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
+        //         }
+        //         else {
+        //             $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name;
+        //         }
+                
+        //     }
+            
+//end survey structure
+
+
+        return view('testeEvalsShowResults')
+        ->with('areasHTML', $areasHTML)
+        ->with('subCatsHTML', $subCatsHTML)
+        ->with('questionsNumericHTML', $questionsNumericHTML)
+        ->with('openQuestionsHTML', $openQuestionsHTML)
+        ->with('usersEvaluatedHTML', $usersEvaluatedHTML)
+        ->with('usersWillEvalueHTML', $usersWillEvalueHTML)
+        ->with('surveyAreas',$surveyAreas)
+        ->with('selectedSurveyId', $selectedSurveyId)
+        ->with('surveyAnswerLimit', $surveyAnswerLimit)
+        ->with('surveyName',  $surveyName)
+        ->with('surveyType', $surveyType)
+        ->with('userSelected', $userSelected)
+        ->with('willEvaluateNameUser', $willEvaluateNameUser)
+        ->with('surveyAnswerLimit', $surveyAnswerLimit)
+        ->with('arrayQuestSurvey', $arrayQuestSurvey)
+        ->with('answersUserSurvey', $answersUserSurvey)
+        ;
     }
 
     /**

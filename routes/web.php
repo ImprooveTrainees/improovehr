@@ -73,7 +73,7 @@ Route::get('/showSurvey', 'EvaluationsController@show');
 
 //Evaluations AdminRH Evaluation Result 
 Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
-Route::get('/showResults', 'EvaluationsResults@showResults');
+Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
 //
 
 //Evaluations User Perspective
