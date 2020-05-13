@@ -14,6 +14,7 @@ use App\PP;
 use App\User;
 use App\typeQuestion;
 use App\surveyType;
+use App\Questions;
 
 class EvaluationsResults extends Controller
 {
@@ -70,21 +71,62 @@ class EvaluationsResults extends Controller
         //
         $idAnswersUser = Answers::where('idUser', $idUser)->get();
         $idQuestSurveys = questSurvey::All();
-        $arrayQuestSurvey = [];
-        $answersUserSurvey = [];
+        $arrayQuestSurvey = []; //all questions in survey
+        $answersUserSurvey = []; //all answers in survey
+        $areasUserSurvey = []; //all areas in survey
+
+        $closedQuestionAreas = [];
+        $closedQuestions = [];
+        $closedeQuestionsWeight = [];
 
         foreach($idQuestSurveys as $questSurvey) {
             foreach($idAnswersUser as $answer) {
                 if($questSurvey->id == $answer->idQuestSurvey && $questSurvey->idSurvey == $idSurvey) {
-                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
-                    array_push($answersUserSurvey, $answer); //guarda as respostas
+                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com todas as questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
+                    array_push($answersUserSurvey, $answer); //guarda as respostas (todas)
+                    $subCatId = $questSurvey->questions->idSubcat;
+                    if($subCatId == null){ //areas resposta aberta
+                        array_push($areasUserSurvey, $questSurvey->questions->idAreaOpenQuest); // a subcat é nula, é porque é uma questao resposta aberta, sem subcatId
+                    }
+                    else { //areas resposta fechada
+                        $area = subCategories::find($subCatId);
+                        array_push($areasUserSurvey, $area->idArea);// se tiver subcat já pode guardar a area da subcat
+                        array_push($closedQuestionAreas, $area->idArea);
+                        array_push($closedQuestions, $questSurvey);
+                        $weight = Questions::find($questSurvey->idQuestion);
+                        array_push($closedeQuestionsWeight, $weight->weight);
+                        
+                    }
+              
+            
                 }
             }
         }
 
+        $totalPerformance = [];
+        $totalPotential = [];
 
-    //    foreach($answersUserSurvey as $answerGiven) {
-    //        echo $answerGiven->value."<br>";
+        foreach($closedQuestionAreas as $area) {
+            $questionsThisAreaWeight = []; //novo array por area
+            $questionsThisAreaPercentagePerQuestion = []; //novo array por area
+            foreach($closedQuestions as $question) {
+                $subCatId = $question->questions->idSubcat;
+                $areaQuestionId = subCategories::find($subCatId);
+                if($area == $areaQuestionId->idArea) { //se a area actual for igual a area da questao
+                    $weight = Questions::find($question->idQuestion)->weight;
+                    array_push($questionsThisAreaWeight, $weight);
+                }
+            }
+            foreach($questionsThisAreaWeight as $weight) {
+                $total = 100 / count($questionsThisAreaWeight); //o conjunto de todas as questões por área têm de dar 100%
+
+            }
+
+        }
+
+
+    //    foreach($closedQuestions as $answerGiven) {
+    //        echo $answerGiven->idQuestion."<br>";
     //    }
 //survey structure
 

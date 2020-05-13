@@ -72,11 +72,11 @@
                                                 <table>
                                                     <tr>
                                                         <th>Score:</th>
-                                                        {{-- @for($e = 0; $e < count($arrayQuestSurvey); $e++)
-                                                            @if($questionsNumericHTML[$c]->id == $arrayQuestSurvey[$e]->idQuestion)
-                                                                <td>{{$answersUserSurvey[$e]->value}}</td>
+                                                        @for($e = 0; $e < count($arrayQuestSurvey); $e++)
+                                                            @if($questionsNumericHTML[$c+1]->id == $arrayQuestSurvey[$e]->idQuestion)
+                                                                <td>{{$answersUserSurvey[$e]->value}}</td> <!-- Respostas -->
                                                             @endif
-                                                        @endfor --}}
+                                                        @endfor
                                                     </tr>
                                                     <tr>
                                                         <th>Rating Scale:</th>
@@ -88,6 +88,11 @@
                                                 <table>
                                                     <tr>
                                                         <th>Score:</th>
+                                                        @for($f = 0; $f < count($arrayQuestSurvey); $f++)
+                                                            @if($questionsNumericHTML[$c+1]->id == $arrayQuestSurvey[$f]->idQuestion)
+                                                                <td>{{$answersUserSurvey[$f]->value}}</td> <!-- Respostas -->
+                                                            @endif
+                                                    @endfor
                                                     </tr>
                                                     <tr>
                                                         <th>Rating Scale:</th>
@@ -120,6 +125,11 @@
                         This area has no open questions!
                     @else
                     <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                        @for($g = 0; $g < count($arrayQuestSurvey); $g++)
+                            @if($openQuestionsHTML[$d+1]->id == $arrayQuestSurvey[$g]->idQuestion)
+                                <textarea readonly>{{$answersUserSurvey[$g]->value}}</textarea> <!-- Respostas -->
+                            @endif
+                        @endfor
                     @endif
                 @endif                   
             @endfor
