@@ -69,65 +69,7 @@ class EvaluationsResults extends Controller
     public function showResults($idSurvey, $idUser)
     {
         //
-        $idAnswersUser = Answers::where('idUser', $idUser)->get();
-        $idQuestSurveys = questSurvey::All();
-        $arrayQuestSurvey = []; //all questions in survey
-        $answersUserSurvey = []; //all answers in survey
-        $areasUserSurvey = []; //all areas in survey
-
-        $closedQuestionAreas = [];
-        $closedQuestions = [];
-        $closedeQuestionsWeight = [];
-
-        foreach($idQuestSurveys as $questSurvey) {
-            foreach($idAnswersUser as $answer) {
-                if($questSurvey->id == $answer->idQuestSurvey && $questSurvey->idSurvey == $idSurvey) {
-                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com todas as questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
-                    array_push($answersUserSurvey, $answer); //guarda as respostas (todas)
-                    $subCatId = $questSurvey->questions->idSubcat;
-                    if($subCatId == null){ //areas resposta aberta
-                        array_push($areasUserSurvey, $questSurvey->questions->idAreaOpenQuest); // a subcat é nula, é porque é uma questao resposta aberta, sem subcatId
-                    }
-                    else { //areas resposta fechada
-                        $area = subCategories::find($subCatId);
-                        array_push($areasUserSurvey, $area->idArea);// se tiver subcat já pode guardar a area da subcat
-                        array_push($closedQuestionAreas, $area->idArea);
-                        array_push($closedQuestions, $questSurvey);
-                        $weight = Questions::find($questSurvey->idQuestion);
-                        array_push($closedeQuestionsWeight, $weight->weight);
-                        
-                    }
-              
-            
-                }
-            }
-        }
-
-        $totalPerformance = [];
-        $totalPotential = [];
-
-        foreach($closedQuestionAreas as $area) {
-            $questionsThisAreaWeight = []; //novo array por area
-            $questionsThisAreaPercentagePerQuestion = []; //novo array por area
-            foreach($closedQuestions as $question) {
-                $subCatId = $question->questions->idSubcat;
-                $areaQuestionId = subCategories::find($subCatId);
-                if($area == $areaQuestionId->idArea) { //se a area actual for igual a area da questao
-                    $weight = Questions::find($question->idQuestion)->weight;
-                    array_push($questionsThisAreaWeight, $weight);
-                }
-            }
-            foreach($questionsThisAreaWeight as $weight) {
-                $total = 100 / count($questionsThisAreaWeight); //o conjunto de todas as questões por área têm de dar 100%
-
-            }
-
-        }
-
-
-    //    foreach($closedQuestions as $answerGiven) {
-    //        echo $answerGiven->idQuestion."<br>";
-    //    }
+        
 //survey structure
 
 
@@ -160,6 +102,8 @@ class EvaluationsResults extends Controller
         $usersEvaluatedHTML = [];
         $usersWillEvalueHTML = [];
 
+        $questionsClosedForPercentage = [];
+
             for($i = 0; $i < $surveyAreas->count(); $i++){
                 array_push($areasHTML,$surveyAreas[$i]);
                 $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
@@ -176,7 +120,8 @@ class EvaluationsResults extends Controller
                             else {
                             foreach($subCatsQuestions as $question) {
                                 if($question->idTypeQuestion == 2) {
-                                    array_push($questionsNumericHTML,$subcatArea, $question);                                 
+                                    array_push($questionsNumericHTML,$subcatArea, $question);
+                                    array_push($questionsClosedForPercentage, $question);                                   
                                 } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                   //têm subcategoria
                                 
@@ -199,19 +144,87 @@ class EvaluationsResults extends Controller
                     
             } //aqui procura só as questoes abertas, que não têm subcategoria
         
-        // //Users assigned
-        //     $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
-        //     foreach($usersEvaluated as $user) {            
-        //         if($user->evaluated == 1) {
-        //             array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
-        //         }
-        //         else {
-        //             $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name;
-        //         }
-                
-        //     }
-            
 //end survey structure
+
+        $idAnswersUser = Answers::where('idUser', $idUser)->get();
+        $idQuestSurveys = questSurvey::All();
+        $arrayQuestSurvey = []; //all questions in survey
+        $answersUserSurvey = []; //all answers in survey
+
+
+
+        foreach($idQuestSurveys as $questSurvey) {
+            foreach($idAnswersUser as $answer) {
+                if($questSurvey->id == $answer->idQuestSurvey && $questSurvey->idSurvey == $idSurvey) {
+                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com todas as questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
+                    array_push($answersUserSurvey, $answer); //guarda as respostas (todas)           
+            
+                }
+            }
+        }
+
+        $totalPercentagePerformanceFinal = [];
+        $totalPercentagePotentialFinal = [];
+        $totalPercentageFinalAll = [];
+
+        $totalPercentagesAllQuestions = [];
+        $totalAllQuestions = [];
+
+        foreach($surveyAreas as $area) {
+            $questionsThisAreaWeight = []; //peso por questão da area
+            $questionsThisAreaPercentagePerQuestion = []; //percentagem(weight) por questao
+            $questionsThisAreaWeightedScore = []; //weightedScore por questao (calculo: Resposta / RatingScale * Percentage(weight))
+            $answersThisAreaScore = []; //resposta de cada pergunta
+            $totalWeights = 0; //irá somar todos os pesos (não percentagens)
+
+            $totalPercentagesSum = 0; //total percentagens somado
+            $totalWeightedScoreSum = 0; //total weighted score somado
+            foreach($questionsClosedForPercentage as $question) {
+                $subCatId = $question->idSubcat;
+                $areaQuestionId = subCategories::find($subCatId);
+                if($area->id == $areaQuestionId->idArea) { //se a area actual for igual a area da questao
+                    $weight = $question->weight;
+                    array_push($questionsThisAreaWeight, $weight);
+                    array_push($totalAllQuestions, $question); //põe a questão na mesma posição que o peso
+                    for($c = 0; $c < count($arrayQuestSurvey); $c++) {
+                        if($arrayQuestSurvey[$c]->idQuestion == $question->id) {
+                            array_push($answersThisAreaScore, $answersUserSurvey[$c]); //poe as respostas na mesma posicao
+                        }
+                    }
+                }
+            }
+            foreach($questionsThisAreaWeight as $weight) {
+                $totalWeights += $weight; //junta todos os pesos
+
+            }
+            foreach($questionsThisAreaWeight as $weight) {
+                $resultPercentage = ($weight / $totalWeights) * 100; //divide a percentagem correcta por cada questão
+                $resultPercentage = number_format($resultPercentage, 2);
+                $totalPercentagesSum += $resultPercentage;
+                array_push($questionsThisAreaPercentagePerQuestion, $resultPercentage);
+                array_push($totalPercentagesAllQuestions, $resultPercentage); //põe a percentagem na mesma posição que o peso
+            }
+            for($b = 0; $b < count($questionsThisAreaWeight); $b++) {
+                $weightedScore = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPercentagePerQuestion[$b]);
+                $weightedScore = number_format($weightedScore, 2);
+                array_push($questionsThisAreaWeightedScore, $weightedScore);
+                $totalWeightedScoreSum += $weightedScore;
+            }
+            if($totalPercentagesSum != 0) {
+                array_push($totalPercentageFinalAll, $area->id, ($totalWeightedScoreSum)); 
+                //calculo original seria: ($totalWeightedScoreSum) / ($totalPercentagesSum)
+                // mas o total de percentagem será sempre 100, portanto pode-se tirar
+            }
+            
+            
+            
+
+        }
+
+
+    //    foreach($totalPercentageFinalAll as $answerGiven) {
+    //        echo $answerGiven."<br>";
+    //    }
 
 
         return view('testeEvalsShowResults')
@@ -231,6 +244,9 @@ class EvaluationsResults extends Controller
         ->with('surveyAnswerLimit', $surveyAnswerLimit)
         ->with('arrayQuestSurvey', $arrayQuestSurvey)
         ->with('answersUserSurvey', $answersUserSurvey)
+        ->with('totalAllQuestions', $totalAllQuestions)
+        ->with('totalPercentagesAllQuestions', $totalPercentagesAllQuestions)
+        ->with('totalPercentageFinalAll', $totalPercentageFinalAll)
         ;
     }
 

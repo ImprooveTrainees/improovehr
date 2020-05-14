@@ -370,7 +370,7 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
         }
         if($result2->time_entries[$i]->spent_date == $daysLast2Weeks[$b]) {
                 $last2WeeksTotals[$b] += $result2->time_entries[$i]->hours;
-                if(date("F", strtotime($daysLastWeek[$b])) == date("F")) {
+                if(date("n", strtotime($daysLast2Weeks[$b])) == date("n")) {
                     $totalHoursDone15daysThisMonth += $result2->time_entries[$i]->hours;
                      //guarda apenas as horas do mês actual das passadas duas semanas
                 }

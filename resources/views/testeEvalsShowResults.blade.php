@@ -43,7 +43,7 @@
 
 
 
-<button onclick="hideAvgPPArea()">Average Perf/Poten Area</button>
+<button onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
 
 <div id="avgPPArea" style="display: none">
 
@@ -82,6 +82,14 @@
                                                         <th>Rating Scale:</th>
                                                         <td>&nbsp;&nbsp;{{$surveyAnswerLimit}}</td>
                                                     </tr>
+                                                    <tr>
+                                                        <th>Weight:</th>
+                                                        @for($g = 0; $g < count($totalAllQuestions); $g++)
+                                                            @if($questionsNumericHTML[$c+1]->id == $totalAllQuestions[$g]->id)
+                                                                <td>{{$totalPercentagesAllQuestions[$g]}}%</td> <!-- Pesos -->
+                                                            @endif
+                                                        @endfor
+                                                    </tr>
                                                 </table>
                                             @else
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
@@ -92,11 +100,19 @@
                                                             @if($questionsNumericHTML[$c+1]->id == $arrayQuestSurvey[$f]->idQuestion)
                                                                 <td>{{$answersUserSurvey[$f]->value}}</td> <!-- Respostas -->
                                                             @endif
-                                                    @endfor
+                                                        @endfor
                                                     </tr>
                                                     <tr>
                                                         <th>Rating Scale:</th>
                                                         <td>&nbsp;&nbsp;{{$surveyAnswerLimit}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Weight:</th>
+                                                        @for($h = 0; $h < count($totalAllQuestions); $h++)
+                                                            @if($questionsNumericHTML[$c+1]->id == $totalAllQuestions[$h]->id)
+                                                                <td>{{$totalPercentagesAllQuestions[$h]}}%</td> <!-- Pesos -->
+                                                            @endif
+                                                        @endfor
                                                     </tr>
                                                 </table>
                                             @endif
@@ -108,6 +124,17 @@
                         @endif     
                     @endif
                 @endfor
+                <table>
+                    <tr>
+                        <th>Total: </th>
+                        @for($j = 0; $j < count($totalPercentageFinalAll); $j++)
+                            @if($totalPercentageFinalAll[$j] == $areasHTML[$i]->id)
+                                <td>&nbsp;&nbsp;{{$totalPercentageFinalAll[$j+1]}}%</td> <!-- Total Percentagem -->
+                            @endif
+                        @endfor
+                    </tr>
+                </table>
+                <br>
         @endfor
     </ul>
 
