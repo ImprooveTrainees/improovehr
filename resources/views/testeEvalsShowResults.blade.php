@@ -37,13 +37,14 @@
 @if($surveyType->id == 1)
     <h5>This is {{$userSelected->name}}'s self evaluation.</h5>
 @else
-<h5>This is {{$willEvaluateNameUser->name}}'s evaluation by {{$userSelected->name}}.</h5>
+<h5>This is {{$willEvaluateNameUser}}'s evaluation by {{$userSelected->name}}.</h5>
 @endif
 <br>
 
 
 
 <button onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
+<button onclick="finalResults()">Final Results</button>
 
 <div id="avgPPArea" style="display: none">
 
@@ -133,6 +134,25 @@
                             @endif
                         @endfor
                     </tr>
+                    <tr>
+                        <th>Total Performance: </th>
+                        @for($k = 0; $k < count($totalPercentagePerformanceFinal); $k++)
+                            @if($totalPercentagePerformanceFinal[$k] == $areasHTML[$i]->id)
+                                <td>&nbsp;&nbsp;{{$totalPercentagePerformanceFinal[$k+1]}}%</td> <!-- Total Percentagem -->
+                                <td>&nbsp;&nbsp;{{($totalPercentagePerformanceFinal[$k+2])}}</td>
+                            @endif
+                        @endfor
+
+                    </tr>
+                    <tr>
+                        <th>Total Potential: </th>
+                        @for($l = 0; $l < count($totalPercentagePotentialFinal); $l++)
+                            @if($totalPercentagePotentialFinal[$l] == $areasHTML[$i]->id)
+                                <td>&nbsp;&nbsp;{{$totalPercentagePotentialFinal[$l+1]}}%</td> <!-- Total Percentagem -->
+                                <td>&nbsp;&nbsp;{{($totalPercentagePotentialFinal[$l+2])}}</td>
+                            @endif
+                        @endfor
+                    </tr>
                 </table>
                 <br>
         @endfor
@@ -166,6 +186,28 @@
 
 </div>
 
+
+<div style="display: none" id="finalResults">
+<table>
+            @for($ç = 0; $ç < count($areasHTML); $ç++)
+            <tr>
+                <th>{{$areasHTML[$ç]->description}}</th>
+                @for($v = 0; $v < count($totalNoPercentagePerformancePotential); $v++)
+                    @if($areasHTML[$ç]->id == $totalNoPercentagePerformancePotential[$v])
+                        <td>{{$totalNoPercentagePerformancePotential[$v+1]}}</td>
+                        <td>{{$totalNoPercentagePerformancePotential[$v+2]}}</td>
+                    @endif
+                @endfor
+            </tr>
+            @endfor
+       
+</table>
+
+</div>
+
+
+
+
 <script>
     
 function hideAvgPPArea() {
@@ -175,6 +217,17 @@ function hideAvgPPArea() {
     }
     else {
         document.getElementById("avgPPArea").style.display = "block";
+        
+    }
+}
+
+function finalResults() {
+    if(document.getElementById("finalResults").style.display == "block") {
+        document.getElementById("finalResults").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("finalResults").style.display = "block";
         
     }
 }

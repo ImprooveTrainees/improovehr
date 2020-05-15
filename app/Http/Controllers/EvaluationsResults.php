@@ -165,6 +165,9 @@ class EvaluationsResults extends Controller
 
         $totalPercentagePerformanceFinal = [];
         $totalPercentagePotentialFinal = [];
+        $totalNoPercentagePerformancePotential = [];
+
+
         $totalPercentageFinalAll = [];
 
         $totalPercentagesAllQuestions = [];
@@ -179,6 +182,17 @@ class EvaluationsResults extends Controller
 
             $totalPercentagesSum = 0; //total percentagens somado
             $totalWeightedScoreSum = 0; //total weighted score somado
+
+            $questionsThisAreaType = []; //performance ou potencial
+            $totalWeightsPerformance = 0;
+            $totalWeightsPotential = 0;
+            $totalPercentagesSumPerformance = 0;
+            $totalPercentagesSumPotential = 0;
+            $totalWeightedScorePerformanceSum = 0;
+            $totalWeightedScorePotentialSum = 0;
+            $questionsThisAreaPerformancePotentialPercentagePerQuestion = [];
+
+
             foreach($questionsClosedForPercentage as $question) {
                 $subCatId = $question->idSubcat;
                 $areaQuestionId = subCategories::find($subCatId);
@@ -186,6 +200,8 @@ class EvaluationsResults extends Controller
                     $weight = $question->weight;
                     array_push($questionsThisAreaWeight, $weight);
                     array_push($totalAllQuestions, $question); //põe a questão na mesma posição que o peso
+                    array_push($questionsThisAreaType, $question->idPP);
+                    
                     for($c = 0; $c < count($arrayQuestSurvey); $c++) {
                         if($arrayQuestSurvey[$c]->idQuestion == $question->id) {
                             array_push($answersThisAreaScore, $answersUserSurvey[$c]); //poe as respostas na mesma posicao
@@ -193,31 +209,69 @@ class EvaluationsResults extends Controller
                     }
                 }
             }
-            foreach($questionsThisAreaWeight as $weight) {
-                $totalWeights += $weight; //junta todos os pesos
+            for($i = 0; $i < count($questionsThisAreaWeight); $i++) {
+                $totalWeights += $questionsThisAreaWeight[$i]; //junta todos os pesos da area actual
+                if($questionsThisAreaType[$i] == 1) {
+                    $totalWeightsPerformance += $questionsThisAreaWeight[$i]; //junta os pesos da area actual performance
+
+                }
+                else {
+                    $totalWeightsPotential += $questionsThisAreaWeight[$i];//junta os pesos da area actual potencial
+                }
 
             }
-            foreach($questionsThisAreaWeight as $weight) {
-                $resultPercentage = ($weight / $totalWeights) * 100; //divide a percentagem correcta por cada questão
+            for($b = 0; $b < count($questionsThisAreaWeight); $b++) {
+                $resultPercentage = ($questionsThisAreaWeight[$b] / $totalWeights) * 100; //divide a percentagem correcta por cada questão
                 $resultPercentage = number_format($resultPercentage, 2);
-                $totalPercentagesSum += $resultPercentage;
+                $totalPercentagesSum += $resultPercentage; //soma todas as percentagens
                 array_push($questionsThisAreaPercentagePerQuestion, $resultPercentage);
                 array_push($totalPercentagesAllQuestions, $resultPercentage); //põe a percentagem na mesma posição que o peso
+                if($questionsThisAreaType[$b] == 1) {
+                    $resultPercentagePerformance = ($questionsThisAreaWeight[$b] / $totalWeightsPerformance) * 100;
+                    $resultPercentagePerformance = number_format($resultPercentagePerformance, 2);
+                    $totalPercentagesSumPerformance += $resultPercentagePerformance;
+                    array_push($questionsThisAreaPerformancePotentialPercentagePerQuestion, $resultPercentagePerformance); 
+                }
+                else {
+                    $resultPercentagePotential = ($questionsThisAreaWeight[$b] / $totalWeightsPotential) * 100;
+                    $resultPercentagePotential = number_format($resultPercentagePotential, 2);
+                    $totalPercentagesSumPotential += $resultPercentagePotential;
+                    array_push($questionsThisAreaPerformancePotentialPercentagePerQuestion, $resultPercentagePotential);
+                }
             }
             for($b = 0; $b < count($questionsThisAreaWeight); $b++) {
                 $weightedScore = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPercentagePerQuestion[$b]);
                 $weightedScore = number_format($weightedScore, 2);
                 array_push($questionsThisAreaWeightedScore, $weightedScore);
-                $totalWeightedScoreSum += $weightedScore;
+                $totalWeightedScoreSum += $weightedScore; //soma todos os weighted scores
+                if($questionsThisAreaType[$b] == 1) {
+                    $weightedScorePerformance = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPerformancePotentialPercentagePerQuestion[$b]);
+                    $weightedScorePerformance = number_format($weightedScorePerformance, 2);
+                    $totalWeightedScorePerformanceSum += $weightedScorePerformance;
+                }
+                else {
+                    $weightedScorePotential = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPerformancePotentialPercentagePerQuestion[$b]);
+                    $weightedScorePotential = number_format($weightedScorePotential, 2);
+                    $totalWeightedScorePotentialSum += $weightedScorePotential;
+                }
+
             }
             if($totalPercentagesSum != 0) {
                 array_push($totalPercentageFinalAll, $area->id, ($totalWeightedScoreSum)); 
                 //calculo original seria: ($totalWeightedScoreSum) / ($totalPercentagesSum)
                 // mas o total de percentagem será sempre 100, portanto pode-se tirar
+                
             }
-            
-            
-            
+            if($totalPercentagesSumPerformance != 0 && $totalPercentagesSumPotential != 0) {
+                array_push($totalNoPercentagePerformancePotential,$area->id, number_format(($totalWeightedScorePerformanceSum * $surveyAnswerLimit / 100),2), number_format(($totalWeightedScorePotentialSum * $surveyAnswerLimit / 100),2));
+            }
+            if($totalPercentagesSumPerformance != 0) {
+                array_push($totalPercentagePerformanceFinal, $area->id, ($totalWeightedScorePerformanceSum),  number_format(($totalWeightedScorePerformanceSum * $surveyAnswerLimit / 100),2)); 
+
+            }
+            if($totalPercentagesSumPotential != 0) {
+                array_push($totalPercentagePotentialFinal, $area->id, ($totalWeightedScorePotentialSum), number_format(($totalWeightedScorePotentialSum * $surveyAnswerLimit / 100),2)); 
+            }
 
         }
 
@@ -247,6 +301,9 @@ class EvaluationsResults extends Controller
         ->with('totalAllQuestions', $totalAllQuestions)
         ->with('totalPercentagesAllQuestions', $totalPercentagesAllQuestions)
         ->with('totalPercentageFinalAll', $totalPercentageFinalAll)
+        ->with('totalPercentagePerformanceFinal', $totalPercentagePerformanceFinal)
+        ->with('totalPercentagePotentialFinal', $totalPercentagePotentialFinal)
+        ->with('totalNoPercentagePerformancePotential', $totalNoPercentagePerformancePotential)
         ;
     }
 
