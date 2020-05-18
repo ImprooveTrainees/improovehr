@@ -20,6 +20,8 @@
     crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
 
 
     <!-- Fonts -->
@@ -45,6 +47,7 @@
 
 <button onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
 <button onclick="finalResults()">Final Results</button>
+<button onclick="graph()">Graph</button>
 
 <div id="avgPPArea" style="display: none">
 
@@ -62,7 +65,6 @@
                         @else
                             &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
                             <ol>
-                        
                                 @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
                                     @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
                                         @if($questionsNumericHTML[$c+1] == '0')
@@ -125,6 +127,7 @@
                         @endif     
                     @endif
                 @endfor
+                <br>
                 <table>
                     <tr>
                         <th>Total: </th>
@@ -139,7 +142,7 @@
                         @for($k = 0; $k < count($totalPercentagePerformanceFinal); $k++)
                             @if($totalPercentagePerformanceFinal[$k] == $areasHTML[$i]->id)
                                 <td>&nbsp;&nbsp;{{$totalPercentagePerformanceFinal[$k+1]}}%</td> <!-- Total Percentagem -->
-                                <td>&nbsp;&nbsp;{{($totalPercentagePerformanceFinal[$k+2])}}</td>
+                  
                             @endif
                         @endfor
 
@@ -149,7 +152,7 @@
                         @for($l = 0; $l < count($totalPercentagePotentialFinal); $l++)
                             @if($totalPercentagePotentialFinal[$l] == $areasHTML[$i]->id)
                                 <td>&nbsp;&nbsp;{{$totalPercentagePotentialFinal[$l+1]}}%</td> <!-- Total Percentagem -->
-                                <td>&nbsp;&nbsp;{{($totalPercentagePotentialFinal[$l+2])}}</td>
+
                             @endif
                         @endfor
                     </tr>
@@ -189,27 +192,100 @@
 
 <div style="display: none" id="finalResults">
 <table>
+    <tr>
+        <th></th>
+        <th>Total Performance</th>
+        <th>Total Potential</th>
+    </tr>
+    <?php 
+     $sumPerformanceFinalAvg = 0; 
+     $countPerformanceFinalAvg = 0;
+     $sumPotentialFinalAvg = 0; 
+     $countPotentialFinalAvg = 0;  
+     ?>
             @for($ç = 0; $ç < count($areasHTML); $ç++)
             <tr>
                 <th>{{$areasHTML[$ç]->description}}</th>
                 @for($v = 0; $v < count($totalNoPercentagePerformancePotential); $v++)
                     @if($areasHTML[$ç]->id == $totalNoPercentagePerformancePotential[$v])
                         <td>{{$totalNoPercentagePerformancePotential[$v+1]}}</td>
+                        <?php 
+                        $sumPerformanceFinalAvg += $totalNoPercentagePerformancePotential[$v+1]; 
+                        $countPerformanceFinalAvg++;
+                        ?>
                         <td>{{$totalNoPercentagePerformancePotential[$v+2]}}</td>
+                        <?php 
+                        $sumPotentialFinalAvg += $totalNoPercentagePerformancePotential[$v+2]; 
+                        $countPotentialFinalAvg++;
+                        ?>
                     @endif
                 @endfor
             </tr>
             @endfor
-       
+            <tr>
+                <th>Average Calculation</th>
+                <th>{{($sumPerformanceFinalAvg) / $countPerformanceFinalAvg}}</th>
+                <th>{{($sumPotentialFinalAvg) / $countPotentialFinalAvg}}</th>
+            </tr>     
 </table>
+
+</div>
+
+<div style="display: none" id="graph">
+
+    <canvas id="myChart"></canvas>
+
 
 </div>
 
 
 
 
+
+
+<style>
+#myChart {
+    max-width: 900px;
+    max-height: 900px;
+}
+
+</style>
+
 <script>
     
+var ctx = document.getElementById('myChart');
+var scatterChart = new Chart(ctx, {
+   type: 'scatter',
+   data: {
+       datasets: [{
+           label: 'Performance',
+           pointBackgroundColor: '#22b53b',
+           backgroundColor: '#22b53b',
+           data: [{
+               x: {{($sumPerformanceFinalAvg) / $countPerformanceFinalAvg}},
+               y: 0
+           }]
+       },
+       {
+           label: 'Potential',
+           pointBackgroundColor: '#349eeb',
+           backgroundColor: '#349eeb',
+           data: [{
+               x: 0,
+               y: {{($sumPotentialFinalAvg) / $countPotentialFinalAvg}}
+           }]
+       }]
+   },
+   options: {
+       scales: {
+           xAxes: [{
+               type: 'linear',
+               position: 'bottom'
+           }]
+       }
+   }
+});
+ 
 function hideAvgPPArea() {
     if(document.getElementById("avgPPArea").style.display == "block") {
         document.getElementById("avgPPArea").style.display = "none";
@@ -228,6 +304,17 @@ function finalResults() {
     }
     else {
         document.getElementById("finalResults").style.display = "block";
+        
+    }
+}
+
+function graph() {
+    if(document.getElementById("graph").style.display == "block") {
+        document.getElementById("graph").style.display = "none";
+        
+    }
+    else {
+        document.getElementById("graph").style.display = "block";
         
     }
 }
