@@ -15,6 +15,8 @@ use App\User;
 use App\typeQuestion;
 use App\surveyType;
 use App\Questions;
+use App\avgSurveyFinal;
+use Session;
 
 class EvaluationsResults extends Controller
 {
@@ -274,7 +276,26 @@ class EvaluationsResults extends Controller
             }
 
         }
+        //final Results and graph variables
+        $sumPerformanceFinalAvg = 0; 
+        $countPerformanceFinalAvg = 0;
+        $sumPotentialFinalAvg = 0; 
+        $countPotentialFinalAvg = 0;  
+        for($i = 0; $i < count($totalNoPercentagePerformancePotential); $i+=3) {
+            $sumPerformanceFinalAvg += $totalNoPercentagePerformancePotential[$i+1]; 
+            $countPerformanceFinalAvg++;
+            $sumPotentialFinalAvg += $totalNoPercentagePerformancePotential[$i+2]; 
+            $countPotentialFinalAvg++;
+            
+        }
+        $finalAvgPerformance = number_format(($sumPerformanceFinalAvg) / $countPerformanceFinalAvg,2);
+        $finalAvgPotential = number_format(($sumPotentialFinalAvg) / $countPotentialFinalAvg,2);
 
+        session(['finalAvgPerformance' => $finalAvgPerformance]);
+        session(['finalAvgPotential' => $finalAvgPotential]);
+        
+
+        //end final Results and graph variables
 
     //    foreach($totalPercentageFinalAll as $answerGiven) {
     //        echo $answerGiven."<br>";
@@ -304,6 +325,8 @@ class EvaluationsResults extends Controller
         ->with('totalPercentagePerformanceFinal', $totalPercentagePerformanceFinal)
         ->with('totalPercentagePotentialFinal', $totalPercentagePotentialFinal)
         ->with('totalNoPercentagePerformancePotential', $totalNoPercentagePerformancePotential)
+        ->with('finalAvgPerformance', $finalAvgPerformance)
+        ->with('finalAvgPotential', $finalAvgPotential)
         ;
     }
 

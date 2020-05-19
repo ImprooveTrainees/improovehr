@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class avgAllFinal extends Model
+class avgAllSurveysUser extends Model
 {
     //
 }

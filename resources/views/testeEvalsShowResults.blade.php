@@ -20,7 +20,8 @@
     crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 
 
@@ -197,35 +198,22 @@
         <th>Total Performance</th>
         <th>Total Potential</th>
     </tr>
-    <?php 
-     $sumPerformanceFinalAvg = 0; 
-     $countPerformanceFinalAvg = 0;
-     $sumPotentialFinalAvg = 0; 
-     $countPotentialFinalAvg = 0;  
-     ?>
+
             @for($ç = 0; $ç < count($areasHTML); $ç++)
             <tr>
                 <th>{{$areasHTML[$ç]->description}}</th>
                 @for($v = 0; $v < count($totalNoPercentagePerformancePotential); $v++)
                     @if($areasHTML[$ç]->id == $totalNoPercentagePerformancePotential[$v])
                         <td>{{$totalNoPercentagePerformancePotential[$v+1]}}</td>
-                        <?php 
-                        $sumPerformanceFinalAvg += $totalNoPercentagePerformancePotential[$v+1]; 
-                        $countPerformanceFinalAvg++;
-                        ?>
                         <td>{{$totalNoPercentagePerformancePotential[$v+2]}}</td>
-                        <?php 
-                        $sumPotentialFinalAvg += $totalNoPercentagePerformancePotential[$v+2]; 
-                        $countPotentialFinalAvg++;
-                        ?>
                     @endif
                 @endfor
             </tr>
             @endfor
             <tr>
                 <th>Average Calculation</th>
-                <th>{{($sumPerformanceFinalAvg) / $countPerformanceFinalAvg}}</th>
-                <th>{{($sumPotentialFinalAvg) / $countPotentialFinalAvg}}</th>
+                <th>{{$finalAvgPerformance}}</th>
+                <th>{{$finalAvgPotential}}</th>
             </tr>     
 </table>
 
@@ -233,7 +221,7 @@
 
 <div style="display: none" id="graph">
 
-    <canvas id="myChart"></canvas>
+    <div id="myChart"></div>
 
 
 </div>
@@ -253,38 +241,40 @@
 
 <script>
     
-var ctx = document.getElementById('myChart');
-var scatterChart = new Chart(ctx, {
-   type: 'scatter',
-   data: {
-       datasets: [{
-           label: 'Performance',
-           pointBackgroundColor: '#22b53b',
-           backgroundColor: '#22b53b',
-           data: [{
-               x: {{($sumPerformanceFinalAvg) / $countPerformanceFinalAvg}},
-               y: 0
-           }]
-       },
-       {
-           label: 'Potential',
-           pointBackgroundColor: '#349eeb',
-           backgroundColor: '#349eeb',
-           data: [{
-               x: 0,
-               y: {{($sumPotentialFinalAvg) / $countPotentialFinalAvg}}
-           }]
-       }]
-   },
-   options: {
-       scales: {
-           xAxes: [{
-               type: 'linear',
-               position: 'bottom'
-           }]
-       }
-   }
+    window.onload = function () {
+
+var chart = new CanvasJS.Chart("myChart", {
+	animationEnabled: true,
+	title:{
+		text: "Average Results Graph"
+	},
+	axisX: {
+		title:"Potential",
+      	minimum: 0,
+		maximum: 6,
+        interval: 2,
+      gridThickness: 1
+	},
+	axisY:{
+		title: "Performance",
+      	minimum: 0,
+	  	maximum: 6,
+        interval: 2,
+      	gridThickness: 1
+	},
+	data: [{
+		type: "scatter",
+		toolTipContent: "<span style=\"color:#4F81BC \"><b>{name}</b></span><br/><b> Potential:</b> {x} <br/><b> Performance:</b></span> {y}",
+		name: "Result",
+		showInLegend: true,
+		dataPoints: [
+			{ x: {{$finalAvgPotential}}, y: {{$finalAvgPerformance}} },
+		]
+	}]
 });
+chart.render();
+
+}
  
 function hideAvgPPArea() {
     if(document.getElementById("avgPPArea").style.display == "block") {

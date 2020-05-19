@@ -17,6 +17,8 @@ use App\typeQuestion;
 use App\surveyType;
 use Auth;
 use DB;
+use Session;
+use App\AvgSurveyFinal;
 
 class EvaluationsUserPerspective extends Controller
 {
@@ -117,6 +119,19 @@ class EvaluationsUserPerspective extends Controller
 
 
         $msg = "Survey Submited";
+
+        $newAvgSurveyFinal = new AvgSurveyFinal;
+        $newAvgSurveyFinal->idUser = $authUser;
+        $newAvgSurveyFinal->idSurvey = $surveyId;
+        $newAvgSurveyFinal->avgPotentialFinal = session('finalAvgPotential'); //vai buscar esta variavel de sessao e o seu valor no controlador onde ela é definida
+        $newAvgSurveyFinal->avgPerformanceFinal = session('finalAvgPerformance'); //vai buscar esta variavel de sessao e o seu valor no controlador onde ela é definida
+        $newAvgSurveyFinal->date = date('Y-m-d');
+        $newAvgSurveyFinal->save();
+
+
+
+
+
 
         return redirect()->action('EvaluationsUserPerspective@index')
         ->with('completed', $msg);

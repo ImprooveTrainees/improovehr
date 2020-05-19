@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAvgSurveyFinalsTable extends Migration
+class AvgAllSurveysUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateAvgSurveyFinalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('avg_survey_finals', function (Blueprint $table) {
+        Schema::create('avgAllSurveysUser', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idUser')->nullable();
+            $table->integer('idUser');
             $table->integer('idSurvey');
-            $table->foreign('idUser')->references('id')->on('users');
-            $table->foreign('idSurvey')->references('id')->on('surveys');
             $table->double('avgPotentialFinal');
             $table->double('avgPerformanceFinal');
+            $table->date('date');
+            $table->foreign('idUser')->references('id')->on('users');
+            $table->foreign('idSurvey')->references('id')->on('surveys');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateAvgSurveyFinalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('avg_survey_finals');
+        Schema::dropIfExists('avgAllSurveysUser');
     }
 }
