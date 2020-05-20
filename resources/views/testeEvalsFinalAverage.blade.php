@@ -34,13 +34,30 @@
 
 </head>
 <body>
+<h4>Select a user to see his final average results of a chosen year</h4>
 
 
+<form action="/finalCalculus">
+<select name="idUser">
+    @foreach ($allUsers as $user)
+        <option value={{$user->id}}>{{$user->name}}</option>
+    @endforeach
+</select>
 
+<select name="chosenYear">
+    @foreach ($yearsArray as $year)
+        <option value={{$year}}>{{$year}}</option>
+    @endforeach
+</select>
+    
+<button type="submit">Show</button>
 
+</form>
 
-
-
+    @if(session('msg') == true)
+        asdasd
+        {{$count}}
+    @endif
 
 
 

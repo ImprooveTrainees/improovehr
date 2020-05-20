@@ -75,6 +75,7 @@ Route::get('/showSurvey', 'EvaluationsController@show');
 Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
 Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
 Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys');
+Route::get('/finalCalculus', 'EvaluationsResults@finalAverageAllSurveysCalculus');
 //
 
 //Evaluations User Perspective

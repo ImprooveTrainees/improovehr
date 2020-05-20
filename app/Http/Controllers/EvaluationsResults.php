@@ -16,7 +16,9 @@ use App\typeQuestion;
 use App\surveyType;
 use App\Questions;
 use App\avgSurveyFinal;
-use Session;
+use DatePeriod;
+use DateTime;
+use DateInterval;
 
 class EvaluationsResults extends Controller
 {
@@ -337,8 +339,29 @@ class EvaluationsResults extends Controller
     public function finalAverageAllSurveys(Request $request)
     {
         //
+        $allUsers = User::All();
+        $yearsArray = [];
+        $date2020 = date("Y", strtotime("2020")); 
+        $dateNow = date("Y", strtotime("next year"));
 
-        return view("testeEvalsFinalAverage");
+
+        $dateRangeYears = new DatePeriod(
+            new DateTime($date2020),
+            new DateInterval('P1D'),
+            new DateTime($dateNow)
+        );
+        
+        
+        foreach ($dateRangeYears as $key => $value) {
+            array_push($yearsArray, $value->format('Y'));
+        }
+
+
+
+        return view("testeEvalsFinalAverage")
+        ->with('allUsers', $allUsers)
+        ->with('yearsArray', $yearsArray)
+        ;
     }
 
     /**
@@ -347,9 +370,33 @@ class EvaluationsResults extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function finalAverageAllSurveysCalculus(Request $request)
     {
         //
+        $userSelectedId = $request->input('idUser');
+        $yearSelected = $request->input('chosenYear');
+        $count = 0;
+        $sumPerformance = 0;
+        $sumPotential = 0;
+        $msg = "";
+
+        $finalResultsUser = avgSurveyFinal::where('idUser',$userSelectedId);
+
+        if($finalResultsUser->count() == 0) {
+            $msg = "This user didn't complete any surveys in the selected year";
+        }
+        else {
+            foreach($finalResultsUser as $result) {
+                 $count++;
+                $sumPerformance += $result->avgPerformanceFinal;
+                $sumPotential += $result->avgPotentialFinal;
+            }
+            
+        }
+
+        return redirect()->action('EvaluationsResults@finalAverageAllSurveys')
+        ->with('msg', $msg);
+
     }
 
     /**
