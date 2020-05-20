@@ -74,6 +74,7 @@ Route::get('/showSurvey', 'EvaluationsController@show');
 //Evaluations AdminRH Evaluation Result 
 Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
 Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
+Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys');
 //
 
 //Evaluations User Perspective

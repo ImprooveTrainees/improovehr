@@ -120,17 +120,204 @@ class EvaluationsUserPerspective extends Controller
 
         $msg = "Survey Submited";
 
+        //survey structure begin
+        $selectedSurveyId = $surveyId;
+
+        $userSelected = User::find($authUser);
+        $willEvaluateUser = surveyUsers::where('idUser', $authUser)->where('idSurvey', $selectedSurveyId)->first()->willEvaluate;
+        $willEvaluateNameUser = User::find($willEvaluateUser)->name;
+
+        $surveyTypes = surveyType::All();
+        $surveys = Survey::All();
+        $surveyName = Survey::find($selectedSurveyId)->name;
+        $surveyType = Survey::find($selectedSurveyId)->surveyType;
+        $surveyAnswerLimit = Survey::find($selectedSurveyId)->answerLimit;
+        $surveyAreas = Survey::find($selectedSurveyId)->areas()->get();
+
+        $allAreasDB = Areas::All();
+        $subCats = subCategories::All();
+        $PPs = PP::All();
+        $users = User::All();
+        $questionTypes = typeQuestion::All();
+        $countQuestions = 1;
+
+
+        $areasExist = false;
+        $areasHTML = [];
+        $subCatsHTML = [];
+        $questionsNumericHTML = [];
+        $openQuestionsHTML = [];
+        $usersEvaluatedHTML = [];
+        $usersWillEvalueHTML = [];
+
+        $questionsClosedForPercentage = [];
+
+            for($i = 0; $i < $surveyAreas->count(); $i++){
+                array_push($areasHTML,$surveyAreas[$i]);
+                $subCats = Areas::find($surveyAreas[$i]->id)->subCategories()->get();
+                if($subCats->count() == 0) {
+                    array_push($subCatsHTML,$surveyAreas[$i],'0');
+                }
+                else {
+                    foreach($subCats as $subcatArea) {
+                            array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);       
+                            $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
+                            if($subCatsQuestions->count() == 0) {
+                                array_push($questionsNumericHTML,$subcatArea,'0');
+                            }
+                            else {
+                            foreach($subCatsQuestions as $question) {
+                                if($question->idTypeQuestion == 2) {
+                                    array_push($questionsNumericHTML,$subcatArea, $question);
+                                    array_push($questionsClosedForPercentage, $question);                                   
+                                } //mostra apenas as questões numéricas, e não as abertas, pois estas não
+                                  //têm subcategoria
+                                
+                            }
+                        }
+                    }
+                }       
+            }
+            foreach($surveyAreas as $sAreasOpen) {
+                    $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
+                    if($openQuestions->count() == 0) {
+                        array_push($openQuestionsHTML,$sAreasOpen,'0');
+                    }
+                    else {
+                        foreach($openQuestions as $openQuestion) {
+                            array_push($openQuestionsHTML,$sAreasOpen,$openQuestion);
+                        }
+                    }
+                        
+                    
+            } //aqui procura só as questoes abertas, que não têm subcategoria
+        
+//end survey structure
+
+        $idAnswersUser = Answers::where('idUser', $authUser)->get();
+        $idQuestSurveys = questSurvey::All();
+        $arrayQuestSurvey = []; //all questions in survey
+        $answersUserSurvey = []; //all answers in survey
+
+
+
+        foreach($idQuestSurveys as $questSurvey) {
+            foreach($idAnswersUser as $answer) {
+                if($questSurvey->id == $answer->idQuestSurvey && $questSurvey->idSurvey == $surveyId) {
+                    array_push($arrayQuestSurvey, $questSurvey); //se o id questSurvey(table com todas as questões ligadas ao survey) for igual ao que está nas respostas, assim como o surveyId, é a resposta do user relativo
+                    array_push($answersUserSurvey, $answer); //guarda as respostas (todas)           
+            
+                }
+            }
+        }
+
+        $totalPercentagePerformanceFinal = [];
+        $totalPercentagePotentialFinal = [];
+        $totalNoPercentagePerformancePotential = [];
+
+
+        $totalPercentageFinalAll = [];
+        $totalAllQuestions = [];
+
+        foreach($surveyAreas as $area) {
+            $questionsThisAreaWeight = []; //peso por questão da area
+            $questionsThisAreaPercentagePerQuestion = []; //percentagem(weight) por questao
+            $questionsThisAreaWeightedScore = []; //weightedScore por questao (calculo: Resposta / RatingScale * Percentage(weight))
+            $answersThisAreaScore = []; //resposta de cada pergunta
+
+            $questionsThisAreaType = []; //performance ou potencial
+            $totalWeightsPerformance = 0;
+            $totalWeightsPotential = 0;
+            $totalPercentagesSumPerformance = 0;
+            $totalPercentagesSumPotential = 0;
+            $totalWeightedScorePerformanceSum = 0;
+            $totalWeightedScorePotentialSum = 0;
+            $questionsThisAreaPerformancePotentialPercentagePerQuestion = [];
+
+
+            foreach($questionsClosedForPercentage as $question) {
+                $subCatId = $question->idSubcat;
+                $areaQuestionId = subCategories::find($subCatId);
+                if($area->id == $areaQuestionId->idArea) { //se a area actual for igual a area da questao
+                    $weight = $question->weight;
+                    array_push($questionsThisAreaWeight, $weight);
+                    array_push($totalAllQuestions, $question); //põe a questão na mesma posição que o peso
+                    array_push($questionsThisAreaType, $question->idPP);
+                    
+                    for($c = 0; $c < count($arrayQuestSurvey); $c++) {
+                        if($arrayQuestSurvey[$c]->idQuestion == $question->id) {
+                            array_push($answersThisAreaScore, $answersUserSurvey[$c]); //poe as respostas na mesma posicao
+                        }
+                    }
+                }
+            }
+            for($i = 0; $i < count($questionsThisAreaWeight); $i++) {
+                if($questionsThisAreaType[$i] == 1) {
+                    $totalWeightsPerformance += $questionsThisAreaWeight[$i]; //junta os pesos da area actual performance
+
+                }
+                else {
+                    $totalWeightsPotential += $questionsThisAreaWeight[$i];//junta os pesos da area actual potencial
+                }
+
+            }
+            for($b = 0; $b < count($questionsThisAreaWeight); $b++) {
+                if($questionsThisAreaType[$b] == 1) {
+                    $resultPercentagePerformance = ($questionsThisAreaWeight[$b] / $totalWeightsPerformance) * 100;
+                    $resultPercentagePerformance = number_format($resultPercentagePerformance, 2);
+                    $totalPercentagesSumPerformance += $resultPercentagePerformance;
+                    array_push($questionsThisAreaPerformancePotentialPercentagePerQuestion, $resultPercentagePerformance); 
+                }
+                else {
+                    $resultPercentagePotential = ($questionsThisAreaWeight[$b] / $totalWeightsPotential) * 100;
+                    $resultPercentagePotential = number_format($resultPercentagePotential, 2);
+                    $totalPercentagesSumPotential += $resultPercentagePotential;
+                    array_push($questionsThisAreaPerformancePotentialPercentagePerQuestion, $resultPercentagePotential);
+                }
+            }
+            for($b = 0; $b < count($questionsThisAreaWeight); $b++) {
+                if($questionsThisAreaType[$b] == 1) {
+                    $weightedScorePerformance = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPerformancePotentialPercentagePerQuestion[$b]);
+                    $weightedScorePerformance = number_format($weightedScorePerformance, 2);
+                    $totalWeightedScorePerformanceSum += $weightedScorePerformance;
+                }
+                else {
+                    $weightedScorePotential = ($answersThisAreaScore[$b]->value / $surveyAnswerLimit * $questionsThisAreaPerformancePotentialPercentagePerQuestion[$b]);
+                    $weightedScorePotential = number_format($weightedScorePotential, 2);
+                    $totalWeightedScorePotentialSum += $weightedScorePotential;
+                }
+
+            }
+            if($totalPercentagesSumPerformance != 0 && $totalPercentagesSumPotential != 0) {
+                array_push($totalNoPercentagePerformancePotential,$area->id, number_format(($totalWeightedScorePerformanceSum * $surveyAnswerLimit / 100),2), number_format(($totalWeightedScorePotentialSum * $surveyAnswerLimit / 100),2));
+            }
+
+
+        }
+        //final Results to save in DB
+        $sumPerformanceFinalAvg = 0; 
+        $countPerformanceFinalAvg = 0;
+        $sumPotentialFinalAvg = 0; 
+        $countPotentialFinalAvg = 0;  
+        for($i = 0; $i < count($totalNoPercentagePerformancePotential); $i+=3) {
+            $sumPerformanceFinalAvg += $totalNoPercentagePerformancePotential[$i+1]; 
+            $countPerformanceFinalAvg++;
+            $sumPotentialFinalAvg += $totalNoPercentagePerformancePotential[$i+2]; 
+            $countPotentialFinalAvg++;
+            
+        }
+        $finalAvgPerformance = number_format(($sumPerformanceFinalAvg) / $countPerformanceFinalAvg,2);
+        $finalAvgPotential = number_format(($sumPotentialFinalAvg) / $countPotentialFinalAvg,2);
+
         $newAvgSurveyFinal = new AvgSurveyFinal;
         $newAvgSurveyFinal->idUser = $authUser;
         $newAvgSurveyFinal->idSurvey = $surveyId;
-        $newAvgSurveyFinal->avgPotentialFinal = session('finalAvgPotential'); //vai buscar esta variavel de sessao e o seu valor no controlador onde ela é definida
-        $newAvgSurveyFinal->avgPerformanceFinal = session('finalAvgPerformance'); //vai buscar esta variavel de sessao e o seu valor no controlador onde ela é definida
+        $newAvgSurveyFinal->avgPotentialFinal = $finalAvgPotential;
+        $newAvgSurveyFinal->avgPerformanceFinal =  $finalAvgPerformance; 
         $newAvgSurveyFinal->date = date('Y-m-d');
+
         $newAvgSurveyFinal->save();
-
-
-
-
+        //
 
 
         return redirect()->action('EvaluationsUserPerspective@index')

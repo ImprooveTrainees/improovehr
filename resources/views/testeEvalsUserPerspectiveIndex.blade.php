@@ -53,9 +53,10 @@
             @if($submittedSurveyHTML[$i] == 1)
                 <td>Yes</td>
             @else 
-            <td>No</td>
+                <td>No</td>
+                <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
             @endif
-        <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+        
         </tr>
         @endfor
     @endif

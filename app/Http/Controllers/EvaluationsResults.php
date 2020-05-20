@@ -291,8 +291,6 @@ class EvaluationsResults extends Controller
         $finalAvgPerformance = number_format(($sumPerformanceFinalAvg) / $countPerformanceFinalAvg,2);
         $finalAvgPotential = number_format(($sumPotentialFinalAvg) / $countPotentialFinalAvg,2);
 
-        session(['finalAvgPerformance' => $finalAvgPerformance]);
-        session(['finalAvgPotential' => $finalAvgPotential]);
         
 
         //end final Results and graph variables
@@ -336,9 +334,11 @@ class EvaluationsResults extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function finalAverageAllSurveys(Request $request)
     {
         //
+
+        return view("testeEvalsFinalAverage");
     }
 
     /**
