@@ -16,11 +16,9 @@ class CreateAvgPPAreasTable extends Migration
         Schema::create('avg_p_p_areas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('AreasQuestConnect');
-            $table->integer('idUserEvaluated')->nullable();
-            $table->integer('idUserEvaluator')->nullable();
+            $table->integer('idUser');
             $table->foreign('AreasQuestConnect')->references('id')->on('areas_quest_connects');
-            $table->foreign('idUserEvaluated')->references('id')->on('users');
-            $table->foreign('idUserEvaluator')->references('id')->on('users');
+            $table->foreign('idUser')->references('id')->on('users');
             $table->double('avgPotential');
             $table->double('avgPerformance');
             $table->timestamps();

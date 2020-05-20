@@ -289,11 +289,28 @@
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Employees</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link" href="/evals">
-                                <i class="material-icons">assessment</i>
-                                <span class="nav-main-link-name" style="margin-left: 6%;">Evaluations</span>
+                        <li class="nav-main-item @yield('opensidebar')">
+                            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                <i class="fas fa-user"></i>
+                                <span class="nav-main-link-name" style="margin-left: 7%;">Evaluations</span>
                             </a>
+                            <ul class="nav-main-submenu">
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link @yield('sidebarpersonal')" href="/evals">
+                                        <span class="nav-main-link-name">Create Evaluation (RH)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/indexUserEvals">
+                                        <span class="nav-main-link-name">Complete Survey (User)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/evalsResultsIndex">
+                                        <span class="nav-main-link-name">Show Survey Results (RH)</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-main-item">
                             <a class="nav-main-link" href="javascript:void(0)">

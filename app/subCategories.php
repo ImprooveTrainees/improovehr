@@ -14,4 +14,8 @@ class subCategories extends Model
     {
         return $this->hasMany('App\Questions', 'idSubcat', 'id');
     }
+    public function areas()
+    {
+        return $this->belongsTo('App\Areas', 'idArea', 'id');
+    }
 }

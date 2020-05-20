@@ -31,44 +31,28 @@
 
 </head>
 <body>
-
+{{$submitted}} of {{$total}} submitted.
+<br>
 <table style="border-collapse:separate;border-spacing:15px;">
     <tr>
-        <th><h2>Own Evaluations</h2></th>
+        <th><h2>User</h2></th>
+        <th><h2>Evaluation</h2></th>
         <th><h2>Type</h2></th>
-        <th><h2>Time Left</h2></th>
-        <th><h2>Submitted</h2></th>
         <th><h2></h2></th>
     </tr>
 
-    @if(count($surveysHTML) == 0) 
-        There are no surveys available to complete at the moment.
-    
-    @else
-        @for($i = 0; $i < count($surveysHTML); $i++)
+    @for($i = 0; $i < count($surveyNames); $i++)
         <tr>
-            <td>{{$surveysHTML[$i]->name}}</td>
-            <td>{{$surveysHTMLType[$i]}}</td>
-            <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
-            @if($submittedSurveyHTML[$i] == 1)
-                <td>Yes</td>
-            @else 
-                <td>No</td>
-                <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
-            @endif
-        
+            <td>{{$userNames[$i]->name}}</td>
+            <td>{{$surveyNames[$i]->name}}</td>
+            <td>{{$surveyType[$i]->description}}</td>
+            <td><a href="/showResults/{{$surveyNames[$i]->id}}/{{$userNames[$i]->id}}"><i class="fas fa-eye"></i></a></td>
         </tr>
-        @endfor
-    @endif
-    
+    @endfor
 
 </table>
 
-@if(session('completed'))
-<div class="alert alert-info alert-block">
-    <?php echo session('completed')  ?>
-</div>
-@endif
+
 
 
 
