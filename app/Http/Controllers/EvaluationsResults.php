@@ -19,6 +19,7 @@ use App\avgSurveyFinal;
 use DatePeriod;
 use DateTime;
 use DateInterval;
+use Session;
 
 class EvaluationsResults extends Controller
 {
@@ -343,6 +344,10 @@ class EvaluationsResults extends Controller
         $yearsArray = [];
         $date2020 = date("Y", strtotime("2020")); 
         $dateNow = date("Y", strtotime("next year"));
+        $arrayAveragesTable = [];
+
+        $resultPerformance = 0;
+        $resultPotential = 0;
 
 
         $dateRangeYears = new DatePeriod(
@@ -356,11 +361,42 @@ class EvaluationsResults extends Controller
             array_push($yearsArray, $value->format('Y'));
         }
 
+        $userSelected = $request->input('idUser');
+        $yearSelected = $request->input('chosenYear');
+        if(isset($userSelected) && isset($yearSelected)) {
+            $count = 0;
+            $sumPerformance = 0;
+            $sumPotential = 0;
+    
+            $finalResultsUser = avgSurveyFinal::where('idUser',$userSelected)->whereYear('date','=', $yearSelected)->get();
+        
+            if($finalResultsUser->count() == 0) {
+                Session::flash('msgError', "This user didn't complete any surveys in the selected year.");
+            }
+            else {
+                foreach($finalResultsUser as $result) {
+                    array_push($arrayAveragesTable, Survey::find($result->idSurvey)->name);
+                    array_push($arrayAveragesTable, $result->avgPotentialFinal);
+                    array_push($arrayAveragesTable, $result->avgPerformanceFinal);
+                    $count++;
+                    $sumPerformance += $result->avgPerformanceFinal;
+                    $sumPotential += $result->avgPotentialFinal;
+                }
+                $resultPerformance =  ($sumPerformance) / $count;
+                $resultPotential =  ($sumPotential) / $count;
 
+                    
+            }
+            
+
+        }
 
         return view("testeEvalsFinalAverage")
         ->with('allUsers', $allUsers)
         ->with('yearsArray', $yearsArray)
+        ->with('arrayAveragesTable', $arrayAveragesTable)
+        ->with('resultPerformance', $resultPerformance)
+        ->with('resultPotential', $resultPotential)
         ;
     }
 
@@ -370,34 +406,7 @@ class EvaluationsResults extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function finalAverageAllSurveysCalculus(Request $request)
-    {
-        //
-        $userSelectedId = $request->input('idUser');
-        $yearSelected = $request->input('chosenYear');
-        $count = 0;
-        $sumPerformance = 0;
-        $sumPotential = 0;
-        $msg = "";
 
-        $finalResultsUser = avgSurveyFinal::where('idUser',$userSelectedId);
-
-        if($finalResultsUser->count() == 0) {
-            $msg = "This user didn't complete any surveys in the selected year";
-        }
-        else {
-            foreach($finalResultsUser as $result) {
-                 $count++;
-                $sumPerformance += $result->avgPerformanceFinal;
-                $sumPotential += $result->avgPotentialFinal;
-            }
-            
-        }
-
-        return redirect()->action('EvaluationsResults@finalAverageAllSurveys')
-        ->with('msg', $msg);
-
-    }
 
     /**
      * Show the form for editing the specified resource.

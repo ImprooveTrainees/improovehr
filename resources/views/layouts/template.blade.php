@@ -324,7 +324,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link @yield('sidebarsettings')" href="/settingspage">
+                            <a class="nav-main-link @yield('sidebarsettings')" href="/settings">
                                 <i class="fas fa-cog"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Settings</span>
                             </a>

@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('linkedIn')->nullable();
             $table->string('country')->nullable();
+            $table->string('officeAdress')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

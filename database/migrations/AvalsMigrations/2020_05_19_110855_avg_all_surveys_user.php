@@ -16,12 +16,10 @@ class AvgAllSurveysUser extends Migration
         Schema::create('avgAllSurveysUser', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('idUser');
-            $table->integer('idSurvey');
             $table->double('avgPotentialFinal');
             $table->double('avgPerformanceFinal');
             $table->date('date');
             $table->foreign('idUser')->references('id')->on('users');
-            $table->foreign('idSurvey')->references('id')->on('surveys');
             $table->timestamps();
         });
     }
