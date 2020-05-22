@@ -44,9 +44,9 @@
 
 <strong><label>Address:</label></strong>
 @if($officeUserLogged->adress == null)
-  <input type="text" name="companyAdress" class="" placeholder="Insert your company's address">
+  <textarea name="companyAdress" placeholder="Insert your company's address"></textarea>
 @else
-    <input type="text" name="companyAdress" class="" placeholder="Insert your company's address" value={{$officeUserLogged->adress}}>
+    <textarea name="companyAdress" style="height: 30px" placeholder="Insert your company's address">{{$officeUserLogged->adress}}</textarea>
 @endif
 
 <strong><label>E-mail:</label></strong>
@@ -71,14 +71,91 @@
 @endif
 
 
+<h4>Flex Time</h4>
+Days:
+<br>
+<strong><label>Start</label></strong>
+<select>
+  <option>Monday</option>
+  <option>Tuesday</option>
+  <option>Wednesday</option>
+  <option>Thursday</option>
+  <option>Friday</option>
+</select>
 
+<strong><label>End</label></strong>
+<select>
+  <option>Monday</option>
+  <option>Tuesday</option>
+  <option>Wednesday</option>
+  <option>Thursday</option>
+  <option>Friday</option>
+</select>
+
+<strong><label>Hours per Week:</label></strong><input type="number">
+
+
+<h4>Holidays/Absences</h4>
+<strong><label>Extra Days:</label></strong>
+<input type="date" id="dateSelected">
+<button onclick="addDate()">Add date</button>
+
+<ul id="dateList">
+
+</ul>
+
+<strong><label>Limit of vacations per year:</label></strong>
+<input type="number">
+
+<h4>Alerts</h4>
+<strong><label>Holidays:</label></strong>
+<select>
+  <option>Yes</option>
+  <option>No</option>
+</select>
+<br>
+
+<strong><label>Birthdays:</label></strong>
+<select>
+  <option>Yes</option>
+  <option>No</option>
+</select>
+<br>
+
+<strong><label>Evaluations:</label></strong>
+<select>
+  <option>Yes</option>
+  <option>No</option>
+</select>
+<br>
+
+<strong><label>Flex-Time:</label></strong>
+<select>
+  <option>Yes</option>
+  <option>No</option>
+</select>
+<br>
+
+<strong><label>Not working:</label></strong>
+<select>
+  <option>Yes</option>
+  <option>No</option>
+</select>
 
 
 
 
 </div>
 
-
+<script>
+function addDate() {
+  var ul = document.getElementById("dateList");
+  var li = document.createElement("li");
+  li.appendChild(document.createTextNode(document.getElementById('dateSelected').value));
+  li.setAttribute("value", document.getElementById('dateSelected').value);
+  ul.appendChild(li);
+}
+</script>
 
 </body>
 </html>
