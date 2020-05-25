@@ -49,12 +49,19 @@
         <tr>
             <td>{{$surveysHTML[$i]->name}}</td>
             <td>{{$surveysHTMLType[$i]}}</td>
-            <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
+            @if($daysLeftSurveyHTML[$i] != "Expired")
+                <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
+            @else 
+                <td>Expired</td>
+            @endif
             @if($submittedSurveyHTML[$i] == 1)
                 <td>Yes</td>
             @else 
                 <td>No</td>
-                <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+                @if($daysLeftSurveyHTML[$i] != "Expired") <!-- Se não tiver sido submetido, e não tiver expirado -->
+                    <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+                @endif
+                
             @endif
         
         </tr>

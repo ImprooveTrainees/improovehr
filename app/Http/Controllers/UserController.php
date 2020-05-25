@@ -129,11 +129,13 @@ class UserController extends Controller
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
         $department = $request->input('Department');
+        $officeAdressCreator = $accountCreator->officeAdress; // caso haja mais offices no país
         
         $employee->name = $name;
         $employee->email = $email;
         $employee->password = Hash::make($passwordAutomatica);
         $employee->country = $country;
+        $employee->officeAdress = $officeAdressCreator;
         $employee->save();
 
         $contractNewEmployee->iduser = $employee->id;

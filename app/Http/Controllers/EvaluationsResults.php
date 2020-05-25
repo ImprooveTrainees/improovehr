@@ -16,6 +16,9 @@ use App\typeQuestion;
 use App\surveyType;
 use App\Questions;
 use App\avgSurveyFinal;
+use DatePeriod;
+use DateTime;
+use DateInterval;
 use Session;
 
 class EvaluationsResults extends Controller
@@ -337,8 +340,64 @@ class EvaluationsResults extends Controller
     public function finalAverageAllSurveys(Request $request)
     {
         //
+        $allUsers = User::All();
+        $yearsArray = [];
+        $date2020 = date("Y", strtotime("2020")); 
+        $dateNow = date("Y", strtotime("next year"));
+        $arrayAveragesTable = [];
 
-        return view("testeEvalsFinalAverage");
+        $resultPerformance = 0;
+        $resultPotential = 0;
+
+
+        $dateRangeYears = new DatePeriod(
+            new DateTime($date2020),
+            new DateInterval('P1D'),
+            new DateTime($dateNow)
+        );
+        
+        
+        foreach ($dateRangeYears as $key => $value) {
+            array_push($yearsArray, $value->format('Y'));
+        }
+
+        $userSelected = $request->input('idUser');
+        $yearSelected = $request->input('chosenYear');
+        if(isset($userSelected) && isset($yearSelected)) {
+            $count = 0;
+            $sumPerformance = 0;
+            $sumPotential = 0;
+    
+            $finalResultsUser = avgSurveyFinal::where('idUser',$userSelected)->whereYear('date','=', $yearSelected)->get();
+        
+            if($finalResultsUser->count() == 0) {
+                Session::flash('msgError', "This user didn't complete any surveys in the selected year.");
+            }
+            else {
+                foreach($finalResultsUser as $result) {
+                    array_push($arrayAveragesTable, Survey::find($result->idSurvey)->name);
+                    array_push($arrayAveragesTable, $result->avgPotentialFinal);
+                    array_push($arrayAveragesTable, $result->avgPerformanceFinal);
+                    $count++;
+                    $sumPerformance += $result->avgPerformanceFinal;
+                    $sumPotential += $result->avgPotentialFinal;
+                }
+                $resultPerformance =  ($sumPerformance) / $count;
+                $resultPotential =  ($sumPotential) / $count;
+
+                    
+            }
+            
+
+        }
+
+        return view("testeEvalsFinalAverage")
+        ->with('allUsers', $allUsers)
+        ->with('yearsArray', $yearsArray)
+        ->with('arrayAveragesTable', $arrayAveragesTable)
+        ->with('resultPerformance', $resultPerformance)
+        ->with('resultPotential', $resultPotential)
+        ;
     }
 
     /**
@@ -347,10 +406,7 @@ class EvaluationsResults extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

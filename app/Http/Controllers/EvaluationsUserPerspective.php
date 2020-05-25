@@ -310,7 +310,13 @@ class EvaluationsUserPerspective extends Controller
         $finalAvgPotential = number_format(($sumPotentialFinalAvg) / $countPotentialFinalAvg,2);
 
         $newAvgSurveyFinal = new AvgSurveyFinal;
-        $newAvgSurveyFinal->idUser = $authUser;
+        if($surveyType->id != 1) {
+            $newAvgSurveyFinal->idUser = $willEvaluateUser;
+        }
+        else {
+            $newAvgSurveyFinal->idUser = $authUser;
+        }
+       
         $newAvgSurveyFinal->idSurvey = $surveyId;
         $newAvgSurveyFinal->avgPotentialFinal = $finalAvgPotential;
         $newAvgSurveyFinal->avgPerformanceFinal =  $finalAvgPerformance; 

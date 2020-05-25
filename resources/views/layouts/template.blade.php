@@ -310,6 +310,11 @@
                                         <span class="nav-main-link-name">Show Survey Results (RH)</span>
                                     </a>
                                 </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/finalAverageAllSurveys">
+                                        <span class="nav-main-link-name">Show Final Results from all Surveys (RH)</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-main-item">
@@ -319,7 +324,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link @yield('sidebarsettings')" href="/settingspage">
+                            <a class="nav-main-link @yield('sidebarsettings')" href="/settings">
                                 <i class="fas fa-cog"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Settings</span>
                             </a>
