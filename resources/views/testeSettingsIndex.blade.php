@@ -35,117 +35,129 @@
 
 <h4>General</h4>
 <div>
-<strong><label>Company Name:</label></strong>
-@if($officeUserLogged->description == null)
-  <input type="text" name="companyName" class="" placeholder="Insert your company name">
-@else
-    <input type="text" name="companyName" class="" placeholder="Insert your company name" value={{$officeUserLogged->description}}>
-@endif
+<form action="/saveSettings/{{$officeUserLogged->id}}" method="post">
+    @csrf
+  <strong><label>Company Name:</label></strong>
+  @if($officeUserLogged->description == null)
+    <input type="text" name="companyName" class="" placeholder="Insert your company name">
+  @else
+      <input type="text" name="companyName" class="" placeholder="Insert your company name" value={{$officeUserLogged->description}}>
+  @endif
 
-<strong><label>Address:</label></strong>
-@if($officeUserLogged->adress == null)
-  <textarea name="companyAdress" placeholder="Insert your company's address"></textarea>
-@else
-    <textarea name="companyAdress" style="height: 30px" placeholder="Insert your company's address">{{$officeUserLogged->adress}}</textarea>
-@endif
+  <strong><label>Address:</label></strong>
+  @if($officeUserLogged->adress == null)
+    <textarea name="companyAdress" placeholder="Insert your company's address"></textarea>
+  @else
+      <textarea name="companyAdress" style="height: 30px" placeholder="Insert your company's address">{{$officeUserLogged->adress}}</textarea>
+  @endif
 
-<strong><label>E-mail:</label></strong>
-@if($officeUserLogged->mail == null)
-  <input type="text" name="emailAdress" class="" placeholder="Insert your company's email">
-@else
-    <input type="text" name="emailAdress" class="" placeholder="Insert your company's email" value={{$officeUserLogged->mail}}>
-@endif
+  <strong><label>E-mail:</label></strong>
+  @if($officeUserLogged->mail == null)
+    <input type="text" name="emailAdress" class="" placeholder="Insert your company's email">
+  @else
+      <input type="text" name="emailAdress" class="" placeholder="Insert your company's email" value={{$officeUserLogged->mail}}>
+  @endif
 
-<strong><label>Contact:</label></strong>
-@if($officeUserLogged->contact == null)
-  <input type="text" name="contact" class="" placeholder="Insert your company's phone number">
-@else
-    <input type="text" name="contact" class="" placeholder="Insert your company's phone number" value={{$officeUserLogged->contact}}>
-@endif
+  <strong><label>Contact:</label></strong>
+  @if($officeUserLogged->contact == null)
+    <input type="text" name="contact" class="" placeholder="Insert your company's phone number">
+  @else
+      <input type="text" name="contact" class="" placeholder="Insert your company's phone number" value={{$officeUserLogged->contact}}>
+  @endif
 
-<strong><label>Country:</label></strong>
-@if($officeUserLogged->country == null)
-  <input type="text" name="country" class="" placeholder="Insert your company's country">
-@else
-    <input type="text" name="country" class="" placeholder="Insert your company's country" readonly value={{$officeUserLogged->country}}>
-@endif
-
-
-<h4>Flex Time</h4>
-Days:
-<br>
-<strong><label>Start</label></strong>
-<select>
-  <option>Monday</option>
-  <option>Tuesday</option>
-  <option>Wednesday</option>
-  <option>Thursday</option>
-  <option>Friday</option>
-</select>
-
-<strong><label>End</label></strong>
-<select>
-  <option>Monday</option>
-  <option>Tuesday</option>
-  <option>Wednesday</option>
-  <option>Thursday</option>
-  <option>Friday</option>
-</select>
-
-<strong><label>Hours per Week:</label></strong><input type="number">
+  <strong><label>Country:</label></strong>
+  @if($officeUserLogged->country == null)
+    <input type="text" name="country" class="" placeholder="Insert your company's country">
+  @else
+      <input type="text" name="country" class="" placeholder="Insert your company's country" readonly value={{$officeUserLogged->country}}>
+  @endif
 
 
-<h4>Holidays/Absences</h4>
-<strong><label>Extra Days:</label></strong>
-<input type="date" id="dateSelected">
-<button onclick="addDate()">Add date</button>
+  <h4>Flex Time</h4>
+  Days:
+  <br>
+  <strong><label>Start</label></strong>
+  <select name="startDay">
+    <option value="1">Monday</option>
+    <option value="2">Tuesday</option>
+    <option value="3">Wednesday</option>
+    <option value="4">Thursday</option>
+    <option value="5">Friday</option>
+  </select>
 
-<ul id="dateList">
+  <strong><label>End</label></strong>
+  <select name="endDay">
+    <option value="1">Monday</option>
+    <option value="2">Tuesday</option>
+    <option value="3">Wednesday</option>
+    <option value="4">Thursday</option>
+    <option value="5">Friday</option>
+  </select>
 
-</ul>
+  <strong><label>Hours per Week:</label></strong><input name="hoursPerWeek" type="number">
+  <br>
+  Current definition:
 
-<strong><label>Limit of vacations per year:</label></strong>
-<input type="number">
+  <h4>Holidays/Absences</h4>
+  <strong><label>Extra Days:</label></strong>
+  <input type="date" id="dateSelected">
+  <button onclick="addDate()">Add date</button>
 
-<h4>Alerts</h4>
-<strong><label>Holidays:</label></strong>
-<select>
-  <option>Yes</option>
-  <option>No</option>
-</select>
-<br>
+  <ul id="dateList">
 
-<strong><label>Birthdays:</label></strong>
-<select>
-  <option>Yes</option>
-  <option>No</option>
-</select>
-<br>
+  </ul>
 
-<strong><label>Evaluations:</label></strong>
-<select>
-  <option>Yes</option>
-  <option>No</option>
-</select>
-<br>
+  <strong><label>Limit of vacations per year:</label></strong>
+  <input type="number">
 
-<strong><label>Flex-Time:</label></strong>
-<select>
-  <option>Yes</option>
-  <option>No</option>
-</select>
-<br>
+  <h4>Alerts</h4>
+  <strong><label>Holidays:</label></strong>
+  <select>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+  <br>
 
-<strong><label>Not working:</label></strong>
-<select>
-  <option>Yes</option>
-  <option>No</option>
-</select>
+  <strong><label>Birthdays:</label></strong>
+  <select>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+  <br>
 
+  <strong><label>Evaluations:</label></strong>
+  <select>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+  <br>
 
+  <strong><label>Flex-Time:</label></strong>
+  <select>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+  <br>
 
+  <strong><label>Not working:</label></strong>
+  <select>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
+
+  <br>
+<button type="submit">Save</button>
+</form>
 
 </div>
+
+@if(session('msg'))
+<div class="alert alert-info alert-block">
+    <?php echo session('msg')  ?>
+</div>
+@endif
+
+
 
 <script>
 function addDate() {

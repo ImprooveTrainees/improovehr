@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\offices;
 use Auth;
+use App\User;
+use App\settings_general;
+use App\settings_extradays;
 
 class SettingController extends Controller
 {
@@ -41,9 +44,45 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeSettings($officeID, Request $request)
     {
-        //
+        // 
+
+        //office settings
+        $officeSelected = offices::find($officeID);
+        $usersSameAdress = User::where('officeAdress', $officeSelected->adress)->get();
+        $officeSelected->description = $request->input('companyName');
+        $officeSelected->adress = $request->input('companyAdress');
+        foreach($usersSameAdress as $user) {
+            $user->officeAdress = $request->input('companyAdress'); //muda a morada da empresa dos users da empresa que mudou a morada
+            $user->save();
+        } 
+        $officeSelected->mail = $request->input('emailAdress');
+        $officeSelected->contact = $request->input('contact');
+        $officeSelected->save();
+        // end office settings
+
+        //flextime settings
+        $newSettingsGeneral = new settings_general;
+        $newSettingsGeneral->flextime_startDay = $request->input('startDay');
+        $newSettingsGeneral->flextime_endDay = $request->input('endDay');
+        $newSettingsGeneral->flextime_weeklyHours = $request->input('hoursPerWeek');
+        $newSettingsGeneral->limit_vacations = $request->input('limit_vacations');
+
+        $newSettingsExtraDays = new settings_extradays;
+        $newSettingsExtraDays->extra_day = 
+        //end flextime settings
+
+
+
+
+        $msg = "Preferences saved successfully";
+
+        return redirect()->action('SettingController@index')
+        ->with('msg', $msg);
+        ;
+
+
     }
 
     /**
