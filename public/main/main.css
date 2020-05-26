@@ -723,7 +723,7 @@ body {
 }
 
 .cardbox2 {
-  height: 70px;
+  height: 90px;
   width: 90%;
   margin: auto;
   border-radius: 25px;
@@ -1248,4 +1248,30 @@ body {
     font-size: 10pt;
   }
 }
+/*# sourceMappingURL=main.css.map */
+.holidayDates {
+
+    font-size: 15px;
+
+}
+
+.attachContainer{
+
+    min-width: 300px;
+position: relative;
+
+}
+
+.attachamentText {
+
+    font-size: 14px;
+
+}
+
+.iconSize {
+
+    font-size: 14px;
+
+}
+
 /*# sourceMappingURL=main.css.map */
