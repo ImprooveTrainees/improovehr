@@ -972,21 +972,6 @@ body {
           justify-content: center;
 }
 
-.departmentEmployeesAlign {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 70px 00px;
-      grid-template-columns: 100px 200px;
-  margin: auto;
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  margin-top: 30px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
 #rolenew {
   display: none;
 }
@@ -1005,6 +990,132 @@ body {
 
 #pills-tab {
   margin-left: 17px;
+}
+
+#holidaysExtra {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 180px 190px;
+      grid-template-columns: 180px 190px;
+  -ms-grid-rows: 30px 55px;
+      grid-template-rows: 30px 55px;
+}
+
+#holidaysExtra .cardbox2 {
+  height: 50px;
+  width: 90%;
+  border-radius: 25px;
+  margin: unset;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+}
+
+#holidaysExtra .cardbox3 {
+  -ms-grid-columns: 45px 105px;
+      grid-template-columns: 45px 105px;
+  margin-top: 0;
+}
+
+#holidaysExtra p {
+  -ms-grid-row: 1;
+      grid-row-start: 1;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  margin: 0;
+}
+
+#holidaysExtra label {
+  margin: 0;
+  text-align: -webkit-center;
+}
+
+#holidaysExtra2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 180px 75px 25px;
+      grid-template-columns: 180px 75px 25px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+  margin-top: 30px;
+}
+
+#holidaysExtra2 label {
+  text-align: -webkit-center;
+}
+
+#holidaysExtra3 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 180px 80px;
+      grid-template-columns: 180px 80px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+  margin-top: 30px;
+}
+
+#holidaysExtra3 label {
+  text-align: start;
+}
+
+#evaluations1 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px;
+      grid-template-columns: 140px 80px;
+}
+
+#evaluations2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px 50px;
+      grid-template-columns: 140px 80px 50px;
+  margin-top: 35px;
+}
+
+#evaluations2 p {
+  text-align: center;
+}
+
+.modal-body2 {
+  margin-left: 20px;
+  margin-top: 25px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 45px;
+      grid-template-rows: 45px;
+  -ms-grid-columns: 120px 200px;
+      grid-template-columns: 120px 200px;
+}
+
+#hoursflextime {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px 20px;
+      grid-template-columns: 140px 80px 20px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+}
+
+#daysflextime {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 135px 20px;
+      grid-template-columns: 140px 135px 20px;
+  -ms-grid-rows: 50px;
+      grid-template-rows: 50px;
+}
+
+#daysflextime label {
+  text-align: center;
+  margin-left: 55px;
 }
 
 #general p {
@@ -1028,7 +1139,16 @@ body {
   margin-bottom: 20px;
 }
 
-#allnotifications {
+#allnotifications,
+#holidaysnoti,
+#birthdaynoti,
+#evaluationsnoti,
+#flextimenoti,
+#notworkingnoti {
+  width: 30%;
+  display: -ms-grid;
+  display: grid;
+  float: left;
   margin-top: 15px;
 }
 
@@ -1082,6 +1202,53 @@ body {
   margin-top: 20px;
 }
 
+@media (min-width: 425px) and (max-width: 1024px) {
+  #companyaddress {
+    margin-top: 20px;
+  }
+  #entreprisename,
+  #generalemail {
+    float: none;
+  }
+  #entreprisename,
+  #companyaddress,
+  #generalemail,
+  #generalmobile,
+  #country {
+    -ms-grid-columns: 140px 190px;
+        grid-template-columns: 140px 190px;
+  }
+  #allnotifications,
+  #holidaysnoti,
+  #birthdaynoti,
+  #evaluationsnoti,
+  #flextimenoti,
+  #notworkingnoti {
+    float: none;
+    -ms-grid-columns: 250px;
+        grid-template-columns: 250px;
+    -ms-grid-rows: 45px;
+        grid-template-rows: 45px;
+    margin-top: 0;
+  }
+  #allnotifications {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 425px) {
+  .modal {
+    width: 95%;
+  }
+  #holidaysExtra {
+    -ms-grid-columns: 180px 160px;
+        grid-template-columns: 180px 160px;
+  }
+  .cardbox3 h6 {
+    font-size: 10pt;
+  }
+}
+/*# sourceMappingURL=main.css.map */
 .holidayDates {
 
     font-size: 15px;

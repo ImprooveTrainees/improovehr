@@ -86,6 +86,7 @@ Route::get('/storeAnswers', 'EvaluationsUserPerspective@storeAnswers');
 
 //Settings
 Route::get('/settings', 'SettingController@index');
+Route::post('/saveSettings/{officeID}', 'SettingController@storeSettings');
 
 //
 Auth::routes();
