@@ -43,7 +43,7 @@
         <script src='assets/fullcalendar/list/main.js'></script>
         <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
         <script
-        
+
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
@@ -324,7 +324,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link @yield('sidebarsettings')" href="/settings">
+                            <a class="nav-main-link @yield('sidebarsettings')" href="/settingspage">
                                 <i class="fas fa-cog"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Settings</span>
                             </a>

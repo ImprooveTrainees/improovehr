@@ -7,6 +7,107 @@
     font-size: 11pt;
 }
 
+@mixin notifications {
+    width: 30%;
+    display: grid;
+    float: left;
+    margin-top: 15px;
+}
+
+#holidaysExtra {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 180px 190px;
+    grid-template-rows: 30px 55px;
+
+    .cardbox2 {
+        height: 50px;
+        width: 90%;
+        border-radius: 25px;
+        margin: unset;
+        grid-column-start: 2;
+        grid-row-start: 2;
+    }
+
+    .cardbox3 {
+        grid-template-columns: 45px 105px;
+        margin-top: 0;
+
+    }
+
+    p {
+        grid-row-start: 1;
+        grid-column-start: 2;
+        margin: 0;
+    }
+
+    label {
+        margin: 0;
+        text-align: -webkit-center;
+    }
+}
+
+#holidaysExtra2 {
+    display: grid;
+    grid-template-columns: 180px 75px 25px;
+    grid-template-rows: 30px;
+    margin-top: 30px;
+
+    label {
+        text-align: -webkit-center;
+    }
+}
+
+#holidaysExtra3 {
+    display: grid;
+    grid-template-columns: 180px 80px;
+    grid-template-rows: 30px;
+    margin-top: 30px;
+
+    label {
+        text-align: start;
+    }
+}
+
+#evaluations1 {
+    display: grid;
+    grid-template-columns: 140px 80px;
+}
+
+#evaluations2 {
+    display: grid;
+    grid-template-columns: 140px 80px 50px;
+    margin-top: 35px;
+    p {
+        text-align: center;
+    }
+}
+
+.modal-body2 {
+    margin-left: 20px;
+    margin-top: 25px;
+    align-items: center;
+    display: grid;
+    grid-template-rows: 45px;
+    grid-template-columns: 120px 200px;
+}
+
+#hoursflextime {
+    display: grid;
+    grid-template-columns: 140px 80px 20px;
+    grid-template-rows: 30px;
+}
+
+#daysflextime {
+    display: grid;
+    grid-template-columns: 140px 135px 20px;
+    grid-template-rows: 50px;
+    label{
+        text-align: center;
+        margin-left: 55px;
+    }
+}
+
 #general {
     p {
         margin: auto;
@@ -22,13 +123,19 @@
         display: flex;
         margin: 0;
     }
-    #companyline{
+
+    #companyline {
         margin-bottom: 20px;
     }
 }
 
-#allnotifications{
-    margin-top: 15px;
+#allnotifications,
+#holidaysnoti,
+#birthdaynoti,
+#evaluationsnoti,
+#flextimenoti,
+#notworkingnoti {
+    @include notifications();
 }
 
 #settingstab {
