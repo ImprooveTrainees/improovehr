@@ -14,6 +14,7 @@ open
 
 @section('content')
 
+
 <div id="table_hol">
 
 
