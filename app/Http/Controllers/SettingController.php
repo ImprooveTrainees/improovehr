@@ -23,9 +23,13 @@ class SettingController extends Controller
         $userAuth = Auth::user();
         $officeUserLogged = offices::where('adress', $userAuth->officeAdress)->first(); //fica preparado para vários offices no mesmo país
         //selecciona o first porque a morada aponta sempre para o id do escritorio certo
-
+        $lastSettingsGeneral = settings_general::orderBy('created_at', 'desc')->first();
+        $extraDays = settings_extradays::orderBy('extra_day', 'asc')->get();
         return view('testeSettingsIndex')
-        ->with('officeUserLogged', $officeUserLogged);
+        ->with('officeUserLogged', $officeUserLogged)
+        ->with('lastSettingsGeneral', $lastSettingsGeneral)
+        ->with('extraDays', $extraDays)
+        ;
     }
 
     /**
@@ -66,11 +70,31 @@ class SettingController extends Controller
         $newSettingsGeneral = new settings_general;
         $newSettingsGeneral->flextime_startDay = $request->input('startDay');
         $newSettingsGeneral->flextime_endDay = $request->input('endDay');
-        $newSettingsGeneral->flextime_weeklyHours = $request->input('hoursPerWeek');
-        $newSettingsGeneral->limit_vacations = $request->input('limit_vacations');
+        $newSettingsGeneral->flextime_dailyHours = $request->input('hoursPerDay');
+        $newSettingsGeneral->limit_vacations = $request->input('limitVacations');
 
-        $newSettingsExtraDays = new settings_extradays;
-        $newSettingsExtraDays->extra_day = 
+        $newSettingsGeneral->alert_holidays = $request->input('holidaysAlert');
+        $newSettingsGeneral->alert_birthdays = $request->input('BDaysAlert');
+        $newSettingsGeneral->alert_evaluations = $request->input('evalsAlert');
+        $newSettingsGeneral->alert_flextime = $request->input('flexAlert');
+        $newSettingsGeneral->alert_notworking = $request->input('notWorkingAlert');
+        $newSettingsGeneral->save();
+
+        $datesSelected = $request->input('dateList');
+        $datesSelectedDescription = $request->input('descriptionExtraDay');
+        if($datesSelected != null) {
+            for($i = 0; $i < count($datesSelected); $i++) {
+                $newSettingsExtraDays = new settings_extradays;
+                $newSettingsExtraDays->extra_day = $datesSelected[$i];
+                $newSettingsExtraDays->description = $datesSelectedDescription[$i];
+                $newSettingsExtraDays->save();
+                 
+             }
+        }
+     
+        
+        
+
         //end flextime settings
 
 
@@ -80,7 +104,7 @@ class SettingController extends Controller
 
         return redirect()->action('SettingController@index')
         ->with('msg', $msg);
-        ;
+        
 
 
     }
@@ -91,9 +115,14 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function deleteExtraDay($idExtraDay)
     {
         //
+        settings_extradays::find($idExtraDay)->delete();
+        $msg = "Extra day deleted successfully";
+
+        return redirect()->action('SettingController@index')
+        ->with('msg', $msg);
     }
 
     /**

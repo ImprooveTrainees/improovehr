@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\absence;
+use App\settings_general;
 use Auth;
 use DatePeriod;
 use DateTime;
@@ -23,6 +24,7 @@ class HarvestController extends Controller
         // header("Content-Type: application/json");
 
 
+        $workHoursSettings = settings_general::orderBy('created_at', 'desc')->first();
 
         $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
 
@@ -108,10 +110,10 @@ $dateRangeCountWeekends = new DatePeriod(
 
 foreach ($dateRangeCountWeekends as $key => $value) {
     if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
-        $monthlyHoursWorkDays+=8;
+        $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
         foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
             if($holiday->date == $value->format('Y-m-d')) {
-                $monthlyHoursWorkDays-=8;
+                $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
             }
         }
     }
@@ -197,10 +199,10 @@ $dateRangeCurrentWeek = new DatePeriod(
 
 
 foreach ($dateRangeCurrentWeek as $key => $value) { 
-        $totalHoursTodoCurrentWeek+=8;
+        $totalHoursTodoCurrentWeek+= $workHoursSettings->flextime_dailyHours;
         foreach($resultHolidays as $holiday) { 
             if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursTodoCurrentWeek-=8;
+                $totalHoursTodoCurrentWeek-= $workHoursSettings->flextime_dailyHours;
             }
         }
     
@@ -296,15 +298,15 @@ $dateRangeLastWeek = new DatePeriod(
 
 foreach ($dateRangeLastWeek as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
-        $totalHoursTodoPast2Weeks +=8;
+        $totalHoursTodoPast2Weeks += $workHoursSettings->flextime_dailyHours;
         if($value->format('m') == date('m')) {
-            $totalHoursTodoPast2WeeksThisMonth += 8; //horas para fazer do mês actual nas ultimas 2 semanas
+            $totalHoursTodoPast2WeeksThisMonth += $workHoursSettings->flextime_dailyHours; //horas para fazer do mês actual nas ultimas 2 semanas
         }
         foreach($resultHolidays as $holiday) { 
             if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursTodoPast2Weeks -= 8;
+                $totalHoursTodoPast2Weeks -= $workHoursSettings->flextime_dailyHours;
                 if($value->format('m') == date('m')) {
-                    $totalHoursTodoPast2WeeksThisMonth -= 8;
+                    $totalHoursTodoPast2WeeksThisMonth -= $workHoursSettings->flextime_dailyHours;
                 }
             }
         }
@@ -420,10 +422,10 @@ foreach ($dateRangeLastMonth as $key => $value) {
 
 foreach ($dateRangeLastMonth as $key => $value) {
     if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
-        $totalHoursToDoLastMonth+=8;
+        $totalHoursToDoLastMonth+= $workHoursSettings->flextime_dailyHours;
         foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
             if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursToDoLastMonth-=8;
+                $totalHoursToDoLastMonth-= $workHoursSettings->flextime_dailyHours;
             }
         }
     }
@@ -489,6 +491,7 @@ $hoursLeftReport = $monthlyHoursWorkDays - $hoursReportedTotal; //total que falt
 $hoursToReportPer15Days = $totalHoursTodoPast2Weeks - $totalHours15days; //total para reportar nas ultimas 2 semanas
 
 
+
         
 
 return view('testeHarvest')
@@ -516,6 +519,7 @@ return view('testeHarvest')
     ->with('totalHoursToDoLastMonth', $totalHoursToDoLastMonth)
     ->with('countTr', $countTr)
     ->with('countTh', $countTh)
+    ->with('workHoursSettings', $workHoursSettings)
     ;
 
     }

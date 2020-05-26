@@ -87,6 +87,7 @@ Route::get('/storeAnswers', 'EvaluationsUserPerspective@storeAnswers');
 //Settings
 Route::get('/settings', 'SettingController@index');
 Route::post('/saveSettings/{officeID}', 'SettingController@storeSettings');
+Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay');
 
 //
 Auth::routes();
