@@ -35,7 +35,7 @@
 
 <h4>General</h4>
 <div>
-<form action="/saveSettings/{{$officeUserLogged->id}}" method="post">
+<form action="/saveSettings/{{$officeUserLogged->id}}" method="post" id="form">
     @csrf
   <strong><label>Company Name:</label></strong>
   @if($officeUserLogged->description == null)
@@ -78,71 +78,126 @@
   <br>
   <strong><label>Start</label></strong>
   <select name="startDay">
-    <option value="1">Monday</option>
-    <option value="2">Tuesday</option>
-    <option value="3">Wednesday</option>
-    <option value="4">Thursday</option>
-    <option value="5">Friday</option>
+    @if($lastSettingsGeneral->flextime_startDay == 1)
+      <option selected value="1">Monday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 2)
+      <option selected value="2">Tuesday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 3)
+      <option selected value="3">Wednesday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 4)
+      <option selected value="4">Thursday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 5)
+      <option selected value="5">Friday</option>
+    @endif
   </select>
 
   <strong><label>End</label></strong>
   <select name="endDay">
-    <option value="1">Monday</option>
-    <option value="2">Tuesday</option>
-    <option value="3">Wednesday</option>
-    <option value="4">Thursday</option>
-    <option value="5">Friday</option>
+    @if($lastSettingsGeneral->flextime_endDay == 1)
+      <option selected value="1">Monday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 2)
+      <option selected value="2">Tuesday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 3)
+      <option selected value="3">Wednesday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 4)
+      <option selected value="4">Thursday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 5)
+      <option selected value="5">Friday</option>
+    @endif
   </select>
 
-  <strong><label>Hours per Week:</label></strong><input name="hoursPerWeek" type="number">
+  <strong><label>Hours per day:</label></strong>
+  @if($lastSettingsGeneral->flextime_dailyHours == null)
+    <input type="number" name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
+  @else
+      <input type="number" value={{$lastSettingsGeneral->flextime_dailyHours}} name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
+  @endif
   <br>
-  Current definition:
 
   <h4>Holidays/Absences</h4>
   <strong><label>Extra Days:</label></strong>
   <input type="date" id="dateSelected">
-  <button onclick="addDate()">Add date</button>
+  Description: <input type="text" id="descriptionExtraDay">
+  <button type="button" onclick="addDate()">Add date</button>
 
   <ul id="dateList">
 
   </ul>
 
+  Current dates: <br>
+  @foreach($extraDays as $days)
+    {{$days->extra_day}} | {{$days->description}} <a href="/removeExtraDay/{{$days->id}}"><i class="fas fa-times"></i></a><br> 
+  @endforeach
+
+
   <strong><label>Limit of vacations per year:</label></strong>
-  <input type="number">
+  @if($lastSettingsGeneral->limit_vacations == null)
+    <input type="number" name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+  @else
+      <input type="number" value={{$lastSettingsGeneral->limit_vacations}} name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+  @endif
+
+
+
 
   <h4>Alerts</h4>
   <strong><label>Holidays:</label></strong>
-  <select>
-    <option>Yes</option>
-    <option>No</option>
+  <select name="holidaysAlert">
+    @if($lastSettingsGeneral->alert_holidays == 1)
+      <option selected value="1">Yes</option>
+      <option value="0">No</option>
+    @else 
+      <option value="1">Yes</option>
+      <option selected value="0">No</option>
+    @endif
   </select>
   <br>
 
   <strong><label>Birthdays:</label></strong>
-  <select>
-    <option>Yes</option>
-    <option>No</option>
+  <select name="BDaysAlert">
+    @if($lastSettingsGeneral->alert_birthdays == 1)
+      <option selected value="1">Yes</option>
+      <option value="0">No</option>
+    @else 
+      <option value="1">Yes</option>
+      <option selected value="0">No</option>
+    @endif
   </select>
   <br>
 
   <strong><label>Evaluations:</label></strong>
-  <select>
-    <option>Yes</option>
-    <option>No</option>
+  <select  name="evalsAlert">
+    @if($lastSettingsGeneral->alert_evaluations == 1)
+      <option selected value="1">Yes</option>
+      <option value="0">No</option>
+    @else 
+      <option value="1">Yes</option>
+      <option selected value="0">No</option>
+    @endif
   </select>
   <br>
 
   <strong><label>Flex-Time:</label></strong>
-  <select>
-    <option>Yes</option>
-    <option>No</option>
+  <select name="flexAlert">
+    @if($lastSettingsGeneral->alert_flextime == 1)
+      <option selected value="1">Yes</option>
+      <option value="0">No</option>
+    @else 
+      <option value="1">Yes</option>
+      <option selected value="0">No</option>
+    @endif
   </select>
   <br>
 
   <strong><label>Not working:</label></strong>
-  <select>
-    <option>Yes</option>
-    <option>No</option>
+  <select name="notWorkingAlert">
+    @if($lastSettingsGeneral->alert_notworking == 1)
+      <option selected value="1">Yes</option>
+      <option value="0">No</option>
+    @else 
+      <option value="1">Yes</option>
+      <option selected value="0">No</option>
+    @endif
   </select>
 
   <br>
@@ -166,6 +221,21 @@ function addDate() {
   li.appendChild(document.createTextNode(document.getElementById('dateSelected').value));
   li.setAttribute("value", document.getElementById('dateSelected').value);
   ul.appendChild(li);
+
+  var form = document.getElementById('form');
+  var hiddenInput = document.createElement("input");
+  hiddenInput.setAttribute("type", "hidden");
+  hiddenInput.setAttribute("value",  document.getElementById('dateSelected').value);
+  hiddenInput.setAttribute("name",  "dateList[]");
+  form.appendChild(hiddenInput); //cria hidden inputs como array, com os valores das datas, para
+  //ser mais fácil transmitir para o php
+
+  var hiddenInputDescription =  document.createElement("input");
+  hiddenInputDescription.setAttribute("type", "hidden");
+  hiddenInputDescription.setAttribute("value",  document.getElementById('descriptionExtraDay').value);
+  hiddenInputDescription.setAttribute("name",  "descriptionExtraDay[]");
+  form.appendChild(hiddenInputDescription);
+
 }
 </script>
 
