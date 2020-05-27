@@ -14,6 +14,13 @@ open
 
 @section('content')
 
+@if($errors->any())
+<div class="errorVacation">
+<p style="color: red;">{{$errors->first()}}</p>
+</div>
+@endif
+
+
 <div id="table_hol">
 
 
@@ -38,6 +45,7 @@ open
                 <div class="shadow p-1 bg-white cardbox3">
                     <i class="fas fa-plus"></i>
                     <h5>Add New Holiday</h5>
+
                 </div>
             </a>
             </div>
@@ -484,11 +492,10 @@ open
                         <input type="date" id="end_date" name="end_date">
 
                         <br><br>
-
+                        <input type="hidden" value={{$vacation_days_available}} name="vacationDays">
                         <input type="hidden" value=1 name="op">
 
                         <!-- <input type="submit" value="ADD VACATION"> -->
-
 
                         </div>
                         <div class="modal-footer">

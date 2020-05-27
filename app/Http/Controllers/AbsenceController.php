@@ -9,6 +9,7 @@ use Auth;
 use DB;
 use App\sliderView;
 use Redirect,Response;
+use Carbon\Carbon;
 
 class AbsenceController extends Controller
 {
@@ -17,7 +18,8 @@ class AbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -90,8 +92,9 @@ class AbsenceController extends Controller
         //$end_date = DB::table('absences')->where('iduser', $userid)->value('end_date');
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
+        $vacation_days_available = $request->session()->get('vacationDays');
 
-        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal'));
+        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal', 'vacation_days_available'));
     }
 
 
@@ -123,20 +126,42 @@ class AbsenceController extends Controller
 
         $op = request('op');
 
+        $available_days = request('vacationDays');
+
+
+
         $updValue = request('upd');
 
         if($op==1) {
 
-            $vacation->iduser=$userid;
-            $vacation->absencetype=1;
-            $vacation->attachment="";
-            $vacation->status="Pending";
-            $vacation->start_date = request('start_date');
-            $vacation->end_date = request('end_date');
-            $vacation->motive = "";
+            $startDate = request('start_date');
+            $endDate = request('end_date');
 
+            $from = Carbon::parse($startDate);
+            $to = Carbon::parse($endDate);
 
-            $vacation->save();
+            $days = $to->diffInWeekdays($from);
+
+            if($available_days < $days) {
+
+                return redirect('/holidays')->withErrors('You only have '.$available_days.' vacation days available. Please do not exceed your vacation days.');
+
+            } else {
+
+                error_log($days);
+
+                $vacation->iduser=$userid;
+                $vacation->absencetype=1;
+                $vacation->attachment="";
+                $vacation->status="Pending";
+                $vacation->start_date = request('start_date');
+                $vacation->end_date = request('end_date');
+                $vacation->motive = "";
+
+                $vacation->save();
+
+            }
+
 
         } else if($op==2) {
 
@@ -248,7 +273,7 @@ class AbsenceController extends Controller
      * @param  \App\absence  $absence
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
 
         $user = Auth::user();
@@ -299,6 +324,29 @@ class AbsenceController extends Controller
 
         $dateEnd2Y = date('Y-12-31', strtotime('- 2 year')); // DATE - END OF 2 YEARS AGO
 
+        $holidays = [
+
+            Carbon::create(2020, 1, 1),
+            Carbon::create(2020, 2, 26),
+            Carbon::create(2020, 4, 10),
+            Carbon::create(2020, 4, 12),
+            Carbon::create(2020, 4, 25),
+            Carbon::create(2020, 5, 1),
+            Carbon::create(2020, 6, 10),
+            Carbon::create(2020, 6, 11),
+            Carbon::create(2020, 8, 15),
+            Carbon::create(2020, 10, 5),
+            Carbon::create(2020, 11, 1),
+            Carbon::create(2020, 12, 1),
+            Carbon::create(2020, 12, 8),
+            Carbon::create(2020, 12, 24),
+            Carbon::create(2020, 12, 25),
+            Carbon::create(2020, 12, 31)
+
+
+        ];
+
+
         foreach($nrVacationsCY as $vac) {
 
             $start = $vac->start_date;
@@ -313,12 +361,26 @@ class AbsenceController extends Controller
             $date3 = date_create($start);
             $date4 = date_create($end);
 
-            $diff_endstart = date_diff($date3,$date4);
-            $days = $diff_endstart->format("%d%"); //format days
 
-            $count_days += $days;
+            //$diff_endstart = date_diff($date3,$date4);
+            //$days = $diff_endstart->format("%d%"); //format days
+
+            $from = Carbon::parse($date3);
+            $to = Carbon::parse($date4);
+
+            //$days = $to->diffInWeekdays($from);
+
+            $days=$from->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+                return $date->isWeekday() && !in_array($date, $holidays);
+
+            }, $to);
+
+
 
         }
+
+        $count_days = $days;
 
         $count_days += 1; //Number of vacation days already spent this year
 
@@ -336,8 +398,13 @@ class AbsenceController extends Controller
             $date5 = date_create($start2);
             $date6 = date_create($end2);
 
-            $diff_endstart2 = date_diff($date5,$date6);
-            $days2 = $diff_endstart2->format("%d%"); //format days
+            //$diff_endstart2 = date_diff($date5,$date6);
+            //$days2 = $diff_endstart2->format("%d%"); //format days
+
+            $from2 = Carbon::parse($date5);
+            $to2 = Carbon::parse($date6);
+
+            $days2 = $to2->diffInWeekdays($from2);
 
             $count_days2 += $days2;
 
@@ -416,6 +483,12 @@ class AbsenceController extends Controller
 
         $vacations_total = $vacationDaysCY + $balanceLY; // TOTAL DAYS
 
+        if($vacations_total > 30) {
+
+            $vacations_total = 30;
+
+        }
+
         $vacationDaysAvailable = $vacations_total - $count_days; // TOTAL AVAILABLE DAYS
 
         // $numberVacationsAvailable = $vacations_total - $count_days;
@@ -442,7 +515,6 @@ class AbsenceController extends Controller
             $diasAusencia += $days;
         }
         $diasAusencia += 1;
-
 
 
         //Calendar begin
@@ -661,37 +733,40 @@ $ch2 = curl_init();
         for($i = 0; $i  < count($result2->time_entries); $i++) {
             if($result2->time_entries[$i]->spent_date == $monday) {
                 $totalHours += $result2->time_entries[$i]->hours;
-            
+
             }
             if($result2->time_entries[$i]->spent_date == $tuesday) {
-                
+
                 $totalHours += $result2->time_entries[$i]->hours;
-            
+
             }
             if($result2->time_entries[$i]->spent_date == $wednesday) {
-                
+
                 $totalHours += $result2->time_entries[$i]->hours;
-            
+
             }
             if($result2->time_entries[$i]->spent_date == $thursday) {
                 $totalHours += $result2->time_entries[$i]->hours;
-            
+
             }
             if($result2->time_entries[$i]->spent_date == $friday) {
                 $totalHours += $result2->time_entries[$i]->hours;
-            
+
             }
-            
-            
+
+
             }
-            
+
 
 
 //FlexTime End
 
 
+        $request->session()->put('vacationDays', $vacationDaysAvailable);
 
+        //$_SESSION["vacationDays"] = $vacationDaysAvailable;
 
+        //session(['vacationDays' => $vacationDaysAvailable]);
 
 
 
