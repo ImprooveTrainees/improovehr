@@ -1107,4 +1107,15 @@ position: relative;
 
 }
 
+.errorVacation {
+
+    height: 40px;
+    width: "100%";
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left: 2%;
+
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -19,7 +19,7 @@ class AbsenceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -92,9 +92,9 @@ class AbsenceController extends Controller
         //$end_date = DB::table('absences')->where('iduser', $userid)->value('end_date');
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
 
+        $vacation_days_available = $request->session()->get('vacationDays');
 
-
-        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal'));
+        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal', 'vacation_days_available'));
     }
 
 
@@ -116,7 +116,7 @@ class AbsenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         $userid = Auth::id();
 
@@ -124,20 +124,31 @@ class AbsenceController extends Controller
 
         $absence = new absence();
 
-        $vacation_days_available = $request->session()->get('vacationDays');
-
         $op = request('op');
+
+        $available_days = request('vacationDays');
+
+
 
         $updValue = request('upd');
 
         if($op==1) {
 
-            $startDate = date_create(request('start_date'));
-            $endDate = date_create(request('end_date'));
+            $startDate = request('start_date');
+            $endDate = request('end_date');
 
-            $diff=date_diff($startDate,$endDate);
-            $daysDiff = $diff->format("%d%"); //format days
+            $from = Carbon::parse($startDate);
+            $to = Carbon::parse($endDate);
 
+            $days = $to->diffInWeekdays($from);
+
+            if($available_days < $days) {
+
+                return redirect('/holidays')->withErrors('You only have '.$available_days.' vacation days available. Please do not exceed your vacation days.');
+
+            } else {
+
+                error_log($days);
 
                 $vacation->iduser=$userid;
                 $vacation->absencetype=1;
@@ -149,8 +160,7 @@ class AbsenceController extends Controller
 
                 $vacation->save();
 
-
-
+            }
 
 
         } else if($op==2) {
