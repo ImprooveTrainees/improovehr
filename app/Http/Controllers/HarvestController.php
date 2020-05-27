@@ -107,15 +107,24 @@ $dateRangeCountWeekends = new DatePeriod(
     new DateTime($monthEnd->format('Y-m-d'))
 );
 
+$workingDays = [];
+for($i = $workHoursSettings->flextime_startDay; $i <= $workHoursSettings->flextime_endDay; $i++) {
+    array_push($workingDays, $i);
+}
+
 
 foreach ($dateRangeCountWeekends as $key => $value) {
     if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
-        $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
-        foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
-            if($holiday->date == $value->format('Y-m-d')) {
-                $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
-            }
-        }
+           foreach($workingDays as $wDays) {
+               if($value->format('w') == $wDays) { //se for dentro da range dos dias escolhidos para trabalhar nas settings
+                    $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
+                    foreach($resultHolidays as $holiday) { //se não for fim de semana e fôr um dia da semana escolhido nas settings, mas fôr feriado, retira as horas
+                        if($holiday->date == $value->format('Y-m-d')) {
+                            $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
+                        }
+                    }       
+               }
+           }
     }
 }
 
@@ -127,23 +136,18 @@ $month = date('F');
 
 //this week vars
 $currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y'); 
-$monday = date( 'Y-m-d', strtotime( 'monday this week'));
-$tuesday = date( 'Y-m-d', strtotime( 'tuesday this week'));
-$wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
-$thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
-$friday = date( 'Y-m-d', strtotime( 'friday this week'));
 
-$daysCurrentWeek = [$monday, $tuesday, $wednesday, $thursday, $friday];
-
-$mondayTotal = 0;
-$tuesdayTotal = 0;  
-$wednesdayTotal = 0; 
-$thursdayTotal = 0; 
-$fridayTotal = 0; 
+$daysCurrentWeek = [];
+$totalsCurrentWeek = [];
 $totalHours = 0;
 
+for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++) 
+{
+    array_push($daysCurrentWeek,date('Y-m-d', strtotime( 'monday this week +'.$b.' days')));
+    array_push($totalsCurrentWeek, 0);
+}
 
-$totalsCurrentWeek = [$mondayTotal, $tuesdayTotal,$wednesdayTotal,$thursdayTotal,$fridayTotal];
+
 
 for($i = 0; $i  < count($result2->time_entries); $i++) {
     for($b = 0; $b < count($daysCurrentWeek); $b++) {
@@ -192,10 +196,13 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
 
 $totalHoursTodoCurrentWeek = 0;
 $dateRangeCurrentWeek = new DatePeriod(
-    new DateTime($monday),
+    new DateTime($daysCurrentWeek[0]),
     new DateInterval('P1D'),
-    new DateTime(date( 'Y-m-d', strtotime( 'saturday this week')))
+    new DateTime(date( "Y-m-d", strtotime(end($daysCurrentWeek) . '+1 day'))) //ultimo dia do array +1 dia, para ele contá-lo no total de horas
 );
+
+
+
 
 
 foreach ($dateRangeCurrentWeek as $key => $value) { 
@@ -219,21 +226,19 @@ $totalHoursDone15daysThisMonth = 0;
 
 //last week vars
 $lastWeek = date( 'F d', strtotime( '-1 week monday this week' ) )." | ". date( 'F d', strtotime( '-1 week sunday this week' ) )." ".date('Y');
-$mondayLastW = date( 'Y-m-d', strtotime( '-1 week monday this week'));
-$tuesdayLastW = date( 'Y-m-d', strtotime( '-1 week tuesday this week'));
-$wednesdayLastW = date( 'Y-m-d', strtotime( '-1 week wednesday this week'));
-$thursdayLastW = date( 'Y-m-d', strtotime( '-1 week thursday this week'));
-$fridayLastW = date( 'Y-m-d', strtotime( '-1 week friday this week'));
 
-$daysLastWeek = [$mondayLastW,$tuesdayLastW,$wednesdayLastW,$thursdayLastW,$fridayLastW];
+$daysLastWeek = [];
+$lastWeekTotals = [];
 
-$mondayLastWTotal = 0;
-$tuesdayLastWTotal = 0;  
-$wednesdayLastWTotal = 0; 
-$thursdayLastWTotal = 0; 
-$fridayLastWTotal = 0;
+for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++) 
+{
+    array_push($daysLastWeek,date('Y-m-d', strtotime( '-1 week monday this week +'.$b.' days')));
+    array_push($lastWeekTotals, 0);
+}
 
-$lastWeekTotals = [$mondayLastWTotal, $tuesdayLastWTotal, $wednesdayLastWTotal, $thursdayLastWTotal, $fridayLastWTotal];
+
+
+
 
 
 for($i = 0; $i  < count($result2->time_entries); $i++) {
@@ -289,50 +294,23 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
 $totalHoursTodoPast2Weeks = 0;
 $totalHoursTodoPast2WeeksThisMonth = 0;
 
-$dateRangeLastWeek = new DatePeriod(
-    new DateTime(date( 'Y-m-d', strtotime( '-2 week monday this week'))),
-    new DateInterval('P1D'),
-    new DateTime(date( 'Y-m-d', strtotime( '-1 week saturday this week')))
-);
-
-
-foreach ($dateRangeLastWeek as $key => $value) { 
-    if($value->format('w') != 6 && $value->format('w') != 0) {
-        $totalHoursTodoPast2Weeks += $workHoursSettings->flextime_dailyHours;
-        if($value->format('m') == date('m')) {
-            $totalHoursTodoPast2WeeksThisMonth += $workHoursSettings->flextime_dailyHours; //horas para fazer do mês actual nas ultimas 2 semanas
-        }
-        foreach($resultHolidays as $holiday) { 
-            if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursTodoPast2Weeks -= $workHoursSettings->flextime_dailyHours;
-                if($value->format('m') == date('m')) {
-                    $totalHoursTodoPast2WeeksThisMonth -= $workHoursSettings->flextime_dailyHours;
-                }
-            }
-        }
-     }
-}
 
 
 //endlastweek
 
 //last 2 weeks vars
 $last2weeks = date( 'F d', strtotime( '-2 week monday this week' ) )." | ". date( 'F d', strtotime( '-2 week sunday this week' ) )." ".date('Y');
-$mondayLast2W = date( 'Y-m-d', strtotime( '-2 week monday this week'));
-$tuesdayLast2W = date( 'Y-m-d', strtotime( '-2 week tuesday this week'));
-$wednesdayLast2W = date( 'Y-m-d', strtotime( '-2 week wednesday this week'));
-$thursdayLast2W = date( 'Y-m-d', strtotime( '-2 week thursday this week'));
-$fridayLast2W = date( 'Y-m-d', strtotime( '-2 week friday this week'));
 
-$daysLast2Weeks = [$mondayLast2W,$tuesdayLast2W,$wednesdayLast2W,$thursdayLast2W,$fridayLast2W];
+$daysLast2Weeks = [];
+$last2WeeksTotals = [];
 
-$mondayLast2WTotal = 0;
-$tuesdayLast2WTotal = 0;  
-$wednesdayLast2WTotal = 0; 
-$thursdayLast2WTotal = 0; 
-$fridayLast2WTotal = 0; 
+for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++) 
+{
+    array_push($daysLast2Weeks,date('Y-m-d', strtotime( '-2 week monday this week +'.$b.' days')));
+    array_push($last2WeeksTotals, 0);
+}
 
-$last2WeeksTotals = [$mondayLast2WTotal, $tuesdayLast2WTotal, $wednesdayLast2WTotal, $thursdayLast2WTotal, $fridayLast2WTotal];
+
 
 
 for($i = 0; $i  < count($result2->time_entries); $i++) {
@@ -383,6 +361,51 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
     }
 
 }
+
+$dateRangeLastWeek = new DatePeriod(
+    new DateTime($daysLast2Weeks[0]),
+    new DateInterval('P1D'),
+    new DateTime(date( "Y-m-d", strtotime(end($daysLastWeek) . '+1 day')))
+);
+
+
+foreach ($dateRangeLastWeek as $key => $value) { 
+    if($value->format('w') != 6 && $value->format('w') != 0) { // se não for weekend
+        foreach($workingDays as $wDays) { //e for um dia de trabalho definido nas settings
+            if($value->format('w') == $wDays) {
+                foreach($allAbsences as $abs) { // e não for férias
+                    $dateStartAbsence = date('Y-m-d',strtotime($abs->start_date));
+                    $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($abs->end_date)));
+                    $AbsenceDatesBetween = new DatePeriod(
+                        new DateTime($dateStartAbsence),
+                        new DateInterval('P1D'),
+                        new DateTime($dateEndAbsence)
+                   );
+                   foreach($AbsenceDatesBetween as $key => $value2) {
+                       if($value->format('Y-m-d') == $value2->format('Y-m-d') && $abs->absencetype == 1) {
+                           $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours; //tira as horas do total do mês que o user deveria fazer, quando o user está de férias
+                           continue 4;
+                       }
+                   }
+                }
+                $totalHoursTodoPast2Weeks += $workHoursSettings->flextime_dailyHours;
+                if($value->format('m') == date('m')) {
+                    $totalHoursTodoPast2WeeksThisMonth += $workHoursSettings->flextime_dailyHours; //horas para fazer do mês actual nas ultimas 2 semanas
+                }
+                foreach($resultHolidays as $holiday) {  // e nao fôr feriado
+                    if($holiday->date == $value->format('Y-m-d')) {
+                        $totalHoursTodoPast2Weeks -= $workHoursSettings->flextime_dailyHours;
+                        if($value->format('m') == date('m')) {
+                            $totalHoursTodoPast2WeeksThisMonth -= $workHoursSettings->flextime_dailyHours;
+                        }
+                    }
+                }
+            } 
+        }
+
+     }
+}
+
 
 
 //endLast2weeks

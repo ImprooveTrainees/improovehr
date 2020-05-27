@@ -47,7 +47,7 @@
 
     <table>
     <tr>
-
+{{-- 
     <th>{{date( 'D', strtotime( 'monday this week'))}}
         <br>
         {{date( 'd F', strtotime( 'monday this week'))}}
@@ -67,7 +67,15 @@
     <th>{{date( 'D', strtotime( 'friday this week'))}}
         <br>
         {{date( 'd F', strtotime( 'friday this week'))}}
-    </th>
+    </th> --}}
+
+    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+        <th>{{date( 'D', strtotime( 'monday this week +'.$b.' days'))}}
+            <br>
+            {{date( 'd F', strtotime( 'monday this week +'.$b.' days'))}}
+        </th>
+    @endfor
+
 
     </tr>
 
@@ -97,27 +105,13 @@
     {{$lastWeek}}
     <table>
         <tr>
-    
-        <th>{{date( 'D', strtotime( '-1 week monday this week'))}}
+
+    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+        <th>{{date( 'D', strtotime( '-1 week monday this week +'.$b.' days'))}}
             <br>
-            {{date( 'd F', strtotime( '-1 week monday this week'))}}
+            {{date( 'd F', strtotime( ' -1 week monday this week +'.$b.' days'))}}
         </th>
-        <th>{{date( 'D', strtotime( '-1 week tuesday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-1 week tuesday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-1 week wednesday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-1 week wednesday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-1 week thursday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-1 week thursday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-1 week friday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-1 week friday this week'))}}
-        </th>
+    @endfor
 
 
         <tr>
@@ -139,27 +133,13 @@
 
     <table>
         <tr>
-    
-        <th>{{date( 'D', strtotime( '-2 week monday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-2 week monday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-2 week tuesday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-2 week tuesday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-2 week wednesday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-2 week wednesday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-2 week thursday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-2 week thursday this week'))}}
-        </th>
-        <th>{{date( 'D', strtotime( '-2 week friday this week'))}}
-            <br>
-            {{date( 'd F', strtotime( '-2 week friday this week'))}}
-        </th>
+        
+        @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+            <th>{{date( 'D', strtotime( '-2 week monday this week +'.$b.' days'))}}
+                <br>
+                {{date( 'd F', strtotime( ' -2 week monday this week +'.$b.' days'))}}
+            </th>
+        @endfor
 
         <tr>
             @foreach($last2WeeksTotals as $dayPast2week)
