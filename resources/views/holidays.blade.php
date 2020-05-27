@@ -45,7 +45,6 @@ open
                 <div class="shadow p-1 bg-white cardbox3">
                     <i class="fas fa-plus"></i>
                     <h5>Add New Holiday</h5>
-
                 </div>
             </a>
             </div>
