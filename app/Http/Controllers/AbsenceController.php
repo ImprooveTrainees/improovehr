@@ -27,9 +27,27 @@ class AbsenceController extends Controller
 
         $id_typeuser = $user->roles->id;
 
-        // $listAbsencesPending = $user->userAbsence()->where('status','Pending');
+        //$present_date = Carbon::now();
 
-        // $listAbsencesTotal = $user->userAbsence()->whereIn('status',['Concluded','Disapproved','Approved']);
+        //$listAbsencesConcluded = $user->userAbsence();
+
+        //DB::table('absences')->where(['status','=','Approved'],['end_date','<',$present_date])->update(['status' => 'Concluded']);
+
+        $present_date = Carbon::now();
+
+        $allAbsences = absence::All();
+
+        foreach($allAbsences as $ab) {
+
+            if($present_date>$ab->end_date && $ab->status=="Approved") {
+
+                $ab->status="Concluded";
+                $ab->save();
+
+            }
+
+        }
+
 
         $listVacationsTotal = $user->listVacations(); // LIST VACATIONS ALL USERS
 
@@ -83,6 +101,7 @@ class AbsenceController extends Controller
 
             }
 
+
         }
 
         //$mssg = is('Admin');
@@ -91,6 +110,8 @@ class AbsenceController extends Controller
         //$status = DB::table('absences')->where('iduser', $userid)->value('status');
         //$end_date = DB::table('absences')->where('iduser', $userid)->value('end_date');
         //$start_date = DB::table('absences')->where('iduser', $userid)->value('start_date');
+
+
 
         $vacation_days_available = $request->session()->get('vacationDays');
 
@@ -118,6 +139,8 @@ class AbsenceController extends Controller
      */
     public function store()
     {
+
+        $user = Auth::user();
         $userid = Auth::id();
 
         $vacation = new absence();
@@ -126,9 +149,22 @@ class AbsenceController extends Controller
 
         $op = request('op');
 
+        /* $present_date = Carbon::now();
+
+        $allAbsences = absence::All();
+
+        foreach($allAbsences as $ab) {
+
+            if($present_date>$ab->end_date && $ab->status=="Approved") {
+
+                $ab->status="Concluded";
+                $ab->save();
+
+            }
+
+        } */
+
         $available_days = request('vacationDays');
-
-
 
         $updValue = request('upd');
 
@@ -376,11 +412,11 @@ class AbsenceController extends Controller
 
             }, $to);
 
-
+            $count_days += $days;
 
         }
 
-        $count_days = $days;
+        //$count_days = $days;
 
         $count_days += 1; //Number of vacation days already spent this year
 
