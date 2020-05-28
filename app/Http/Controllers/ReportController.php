@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use App\User;
+use App\absenceType;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -40,7 +41,22 @@ class ReportController extends Controller
 
         }
 
-        return view('/reports', compact('array_users'));
+        $listAbsencesTotal = absenceType::All(); // LIST ALL TYPE ABSENCES
+
+        $array_absences = array();
+
+        foreach($listAbsencesTotal as $abs) {
+
+            $id = $abs->absencetype;
+            $name = $abs->description;
+
+            array_push($array_absences, $id, $name);
+
+        }
+
+
+
+        return view('/reports', compact('array_users','array_absences'));
     }
 
     /**
