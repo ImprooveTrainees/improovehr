@@ -318,7 +318,7 @@
                             </ul>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="javascript:void(0)">
+                            <a class="nav-main-link @yield('sidebarreports')" href="/reports">
                                 <i class="fas fa-file-import"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Reports</span>
                             </a>
