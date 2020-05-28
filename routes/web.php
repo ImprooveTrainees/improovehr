@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/saveSettings/{officeID}', 'SettingController@storeSettings')->middleware('roles');
         Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('roles');
         //
-        
+        Route::get('/reports', 'ReportController@index');
         Route::get('/settingspage', function () {
             return view('settingspage');
         })->middleware('roles');

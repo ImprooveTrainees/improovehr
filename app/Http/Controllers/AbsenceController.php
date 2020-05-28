@@ -27,8 +27,6 @@ class AbsenceController extends Controller
 
         $id_typeuser = $user->roles->id;
 
-        //$present_date = Carbon::now();
-
         //$listAbsencesConcluded = $user->userAbsence();
 
         //DB::table('absences')->where(['status','=','Approved'],['end_date','<',$present_date])->update(['status' => 'Concluded']);
