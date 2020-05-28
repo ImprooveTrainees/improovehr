@@ -431,26 +431,56 @@ $totalHoursToDoLastMonth = 0;
 
 foreach ($dateRangeLastMonth as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
-        array_push($daysPreviousMonth, $value);
+        foreach($workingDays as $wDays) {
+            if($value->format('w') == $wDays) {
+                array_push($daysPreviousMonth, $value);
+            }
+        }        
+        
     }
 }
 
 
 foreach ($dateRangeLastMonth as $key => $value) { 
     if($value->format('w') != 6 && $value->format('w') != 0) {
-        array_push($daysPreviousMonthTotals, 0);
+        foreach($workingDays as $wDays) {
+            if($value->format('w') == $wDays) {
+                array_push($daysPreviousMonthTotals, 0);
+            }
+        } 
+        
     }
 }
 
 
 foreach ($dateRangeLastMonth as $key => $value) {
     if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
-        $totalHoursToDoLastMonth+= $workHoursSettings->flextime_dailyHours;
-        foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
-            if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursToDoLastMonth-= $workHoursSettings->flextime_dailyHours;
+        foreach($workingDays as $wDays) { //e for um dia de trabalho definido nas settings
+            if($value->format('w') == $wDays) {
+                foreach($allAbsences as $abs) { // e não for férias
+                    $dateStartAbsence = date('Y-m-d',strtotime($abs->start_date));
+                    $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($abs->end_date)));
+                    $AbsenceDatesBetween = new DatePeriod(
+                        new DateTime($dateStartAbsence),
+                        new DateInterval('P1D'),
+                        new DateTime($dateEndAbsence)
+                   );
+                   foreach($AbsenceDatesBetween as $key => $value2) {
+                       if($value->format('Y-m-d') == $value2->format('Y-m-d') && $abs->absencetype == 1) {
+                           $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours; //tira as horas do total do mês que o user deveria fazer, quando o user está de férias
+                           continue 4;
+                       }
+                   }
+                }
+                $totalHoursToDoLastMonth+= $workHoursSettings->flextime_dailyHours;
+                foreach($resultHolidays as $holiday) { //se não for fim de semana mas fôr feriado, retira as horas
+                    if($holiday->date == $value->format('Y-m-d')) {
+                        $totalHoursToDoLastMonth-= $workHoursSettings->flextime_dailyHours;
+                    }
+                }
             }
         }
+
     }
 }
 
@@ -543,6 +573,7 @@ return view('testeHarvest')
     ->with('countTr', $countTr)
     ->with('countTh', $countTh)
     ->with('workHoursSettings', $workHoursSettings)
+    ->with('workingDays', $workingDays)
     ;
 
     }

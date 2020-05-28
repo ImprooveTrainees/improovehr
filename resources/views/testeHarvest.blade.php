@@ -184,7 +184,7 @@
                 {{date( 'd F', strtotime($day->format('Y-m-d')))}}
                 <?php $countTr++ ?>
             </th>
-            @if($day->format('w') == 5) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
+            @if($day->format('w') == end($workingDays)) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
                 </tr>   <!-- encerra a tr dos headers -->
 
                         <tr>  <!-- começa as td -->
@@ -197,7 +197,7 @@
                 <br>
                 <table>  <!-- começa outra table -->
                 <tr>
-            @elseif($day->format('w') != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
+            @elseif(end($workingDays) != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
                 </tr>   <!-- encerra a tr dos headers -->
 
                          <tr>  <!-- começa as td -->
