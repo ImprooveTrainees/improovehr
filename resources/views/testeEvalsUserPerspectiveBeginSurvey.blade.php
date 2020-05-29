@@ -1,36 +1,20 @@
-<!doctype html>
+@extends('layouts.template')
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-  
+@section('title')
+    Improove HR - Create Evaluation
+@endsection
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('sidebarCompleteSurvey')
+active
+@endsection
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('openEvaluations')
+open
+@endsection
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+@section('content')
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
-
-
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-</head>
-<body>
+<div class="shadow p-1 bg-white cardbox1">
 
 <!-- Begin Survey Structure  -->
 
@@ -48,7 +32,7 @@
     @if(count($areasHTML) == 0)
         <br>
         There are no areas in this survey yet!
-    @else 
+    @else
     <ul>
         @for($i = 0; $i < count($areasHTML); $i++)
             <li><strong>{{$areasHTML[$i]->description}}</strong></li>
@@ -59,7 +43,7 @@
                         @else
                             &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
                             <ol>
-                        
+
                                 @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
                                     @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
                                         @if($questionsNumericHTML[$c+1] == '0')
@@ -73,11 +57,11 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}} <input required name="answers[]" placeholder="0-{{$surveyAnswerLimit}}" type="number" min="1" max={{$surveyAnswerLimit}}></li>
                                             @endif
                                         @endif
-                                        
-                                    @endif                   
+
+                                    @endif
                                 @endfor
                             </ol>
-                        @endif     
+                        @endif
                     @endif
                 @endfor
         @endfor
@@ -100,12 +84,12 @@
                     <input type="hidden" name="questions[]" value={{$openQuestionsHTML[$d+1]->id}}>
                     <textarea required name="answers[]" placeholder="Write your answer here" rows="4" cols="50"></textarea>
                     @endif
-                @endif                   
+                @endif
             @endfor
             </ol>
     @endforeach
     </ul>
-    <button>Submit Answers</button> 
+    <button>Submit Answers</button>
 
 
 
@@ -118,6 +102,10 @@
 
 
 <!-- End Survey Structure -->
+
+</div>
+
+@endsection
 
 </body>
 </html>
