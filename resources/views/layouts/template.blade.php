@@ -43,7 +43,7 @@
         <script src='assets/fullcalendar/list/main.js'></script>
         <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
         <script
-        
+
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
@@ -289,14 +289,14 @@
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Employees</span>
                             </a>
                         </li>
-                        <li class="nav-main-item @yield('opensidebar')">
+                        <li class="nav-main-item @yield('openEvaluations')">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <i class="fas fa-user"></i>
                                 <span class="nav-main-link-name" style="margin-left: 7%;">Evaluations</span>
                             </a>
                             <ul class="nav-main-submenu">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link @yield('sidebarpersonal')" href="/evals">
+                                    <a class="nav-main-link @yield('sidebarCreateEvaluation')" href="/evals">
                                         <span class="nav-main-link-name">Create Evaluation (RH)</span>
                                     </a>
                                 </li>

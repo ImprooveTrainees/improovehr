@@ -69,9 +69,10 @@ Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea');
 Route::get('/assignUser', 'EvaluationsController@assignUser');
 Route::get('/remUser', 'EvaluationsController@remUser');
 Route::get('/showSurvey', 'EvaluationsController@show');
+Route::get('/showSurvey', 'EvaluationsController@show');
 //
 
-//Evaluations AdminRH Evaluation Result 
+//Evaluations AdminRH Evaluation Result
 Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
 Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
 Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys');
