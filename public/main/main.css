@@ -723,7 +723,7 @@ body {
 }
 
 .cardbox2 {
-  height: 90px;
+  height: 70px;
   width: 90%;
   margin: auto;
   border-radius: 25px;
@@ -1202,6 +1202,53 @@ body {
   margin-top: 20px;
 }
 
+@media (min-width: 425px) and (max-width: 1024px) {
+  #companyaddress {
+    margin-top: 20px;
+  }
+  #entreprisename,
+  #generalemail {
+    float: none;
+  }
+  #entreprisename,
+  #companyaddress,
+  #generalemail,
+  #generalmobile,
+  #country {
+    -ms-grid-columns: 140px 190px;
+        grid-template-columns: 140px 190px;
+  }
+  #allnotifications,
+  #holidaysnoti,
+  #birthdaynoti,
+  #evaluationsnoti,
+  #flextimenoti,
+  #notworkingnoti {
+    float: none;
+    -ms-grid-columns: 250px;
+        grid-template-columns: 250px;
+    -ms-grid-rows: 45px;
+        grid-template-rows: 45px;
+    margin-top: 0;
+  }
+  #allnotifications {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 425px) {
+  .modal {
+    width: 95%;
+  }
+  #holidaysExtra {
+    -ms-grid-columns: 180px 160px;
+        grid-template-columns: 180px 160px;
+  }
+  .cardbox3 h6 {
+    font-size: 10pt;
+  }
+}
+
 .gridTop {
   margin-top: 5%;
   display: -ms-grid;
@@ -1386,7 +1433,7 @@ input[type=radio] {
 }
 
 .multiColor {
-  background: linear-gradient(-60deg, #c93a3a 50%, #489c48 50%);
+  background: linear-gradient(-60deg, #de6060 50%, #4fac4f 50%);
 }
 
 .alignbtn {
@@ -1559,164 +1606,4 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
-/*# sourceMappingURL=main.css.map */
-@media (min-width: 425px) and (max-width: 1024px) {
-  #companyaddress {
-    margin-top: 20px;
-  }
-  #entreprisename,
-  #generalemail {
-    float: none;
-  }
-  #entreprisename,
-  #companyaddress,
-  #generalemail,
-  #generalmobile,
-  #country {
-    -ms-grid-columns: 140px 190px;
-        grid-template-columns: 140px 190px;
-  }
-  #allnotifications,
-  #holidaysnoti,
-  #birthdaynoti,
-  #evaluationsnoti,
-  #flextimenoti,
-  #notworkingnoti {
-    float: none;
-    -ms-grid-columns: 250px;
-        grid-template-columns: 250px;
-    -ms-grid-rows: 45px;
-        grid-template-rows: 45px;
-    margin-top: 0;
-  }
-  #allnotifications {
-    margin-top: 15px;
-  }
-}
-
-@media (max-width: 425px) {
-  .modal {
-    width: 95%;
-  }
-  #holidaysExtra {
-    -ms-grid-columns: 180px 160px;
-        grid-template-columns: 180px 160px;
-  }
-  .cardbox3 h6 {
-    font-size: 10pt;
-  }
-}
-/*# sourceMappingURL=main.css.map */
-.holidayDates {
-
-    font-size: 15px;
-
-}
-
-.attachContainer{
-
-    min-width: 300px;
-position: relative;
-
-}
-
-.attachamentText {
-
-    font-size: 14px;
-
-}
-
-.iconSize {
-
-    font-size: 14px;
-
-}
-
-.errorVacation {
-
-    height: 40px;
-    width: "100%";
-    margin: auto;
-    border-radius: 25px;
-    margin-top: 10px;
-    margin-left: 2%;
-
-}
-
-.reportEmployees {
-
-    position: relative;
-    margin-top: 50px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-}
-
-.reportEmployees select {
-
-background-color: #0563af;
-  color: white;
-  padding: 12px;
-  width: 250px;
-  border: none;
-  font-size: 20px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-  -webkit-appearance: button;
-  appearance: button;
-  outline: none;
-
-}
-
-.reportEmployees::before {
-    content: "\f13a";
-    font-family: FontAwesome;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20%;
-    height: 100%;
-    text-align: center;
-    font-size: 28px;
-    line-height: 45px;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.1);
-    pointer-events: none;
-  }
-
-  .reportEmployees:hover::before {
-    color: rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .reportEmployees select option {
-    padding: 30px;
-  }
-
-  .reportDate {
-
-    background-color: #0563af;
-    border-radius: 10px;
-    color: white;
-
-  }
-
-  .reportSubTitle {
-
-    font-size: 18px;
-    font-weight: bold;
-
-  }
-
-  .reportTitle {
-
-    border-style: solid;
-    border-width: 2px;
-    border-color: #0563af;
-    border-radius: 4px;
-    padding: 2px;
-    display: inline-block;
-  }
-
-
 /*# sourceMappingURL=main.css.map */

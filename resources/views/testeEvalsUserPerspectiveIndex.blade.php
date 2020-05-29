@@ -1,83 +1,78 @@
-<!doctype html>
+@extends('layouts.template')
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-  
+@section('title')
+    Improove HR - Create Evaluation
+@endsection
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('sidebarCompleteSurvey')
+active
+@endsection
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('openEvaluations')
+open
+@endsection
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+@section('content')
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
+<div class="shadow p-1 bg-white cardbox1">
 
+    <div class="block-content block-content-full">
+        <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
+        <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <thead>
+                <tr>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Own Evaluations</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Type</th>
+                    <th class="d-none d-sm-table-cell" style="width: 10%;">Time Left</th>
+                    <th class="d-none d-sm-table-cell" style="width: 5%;">Submitted</th>
+                    <th style="width: 5%;"></th>
+                </tr>
+            </thead>
+            @if(count($surveysHTML) == 0)
+            <h4>There are no surveys available to complete at the moment.</h4>
+                @else
+                @for($i = 0; $i < count($surveysHTML); $i++)
+                    <tbody>
+                        <tr>
+                            <td class="font-w600 font-size-sm">
+                                <label for="">{{$surveysHTML[$i]->name}}</label>
+                            </td>
+                            <td class="font-w600 font-size-sm">
+                                <a href="">{{$surveysHTMLType[$i]}}</a>
+                            </td>
+                            @if($daysLeftSurveyHTML[$i] != "Expired")
+                                <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
+                            @else
+                                <td>Expired</td>
+                            @endif
+                            @if($submittedSurveyHTML[$i] == 1)
+                                <td>Yes</td>
+                                <td><i class='fas fa-check'></i></td>
+                            @else
+                                <td>No</td>
+                            @if($daysLeftSurveyHTML[$i] != "Expired") <!-- Se não tiver sido submetido, e não tiver expirado -->
+                                <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
 
+                            @endif
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-</head>
-<body>
-
-<table style="border-collapse:separate;border-spacing:15px;">
-    <tr>
-        <th><h2>Own Evaluations</h2></th>
-        <th><h2>Type</h2></th>
-        <th><h2>Time Left</h2></th>
-        <th><h2>Submitted</h2></th>
-        <th><h2></h2></th>
-    </tr>
-
-    @if(count($surveysHTML) == 0) 
-        There are no surveys available to complete at the moment.
-    
-    @else
-        @for($i = 0; $i < count($surveysHTML); $i++)
-        <tr>
-            <td>{{$surveysHTML[$i]->name}}</td>
-            <td>{{$surveysHTMLType[$i]}}</td>
-            @if($daysLeftSurveyHTML[$i] != "Expired")
-                <td>{{$daysLeftSurveyHTML[$i]->format('%d days left')}}({{$dateLimitSurveyHTML[$i]}})</td>
-            @else 
-                <td>Expired</td>
-            @endif
-            @if($submittedSurveyHTML[$i] == 1)
-                <td>Yes</td>
-            @else 
-                <td>No</td>
-                @if($daysLeftSurveyHTML[$i] != "Expired") <!-- Se não tiver sido submetido, e não tiver expirado -->
-                    <td><a href="showSurveyUser/{{$surveysHTML[$i]->id}}"><i class='fas fa-pencil-alt'></i></a></td>
+                            @endif
+                        </tr>
+                    </tbody>
+                    @endfor
                 @endif
-                
-            @endif
-        
-        </tr>
-        @endfor
+        </table>
+    </div>
+
+
+    @if(session('completed'))
+        <div class="alert alert-info alert-block">
+            <?php echo session('completed')  ?>
+        </div>
     @endif
-    
 
-</table>
-
-@if(session('completed'))
-<div class="alert alert-info alert-block">
-    <?php echo session('completed')  ?>
 </div>
-@endif
 
-
+@endsection
 
 </body>
 </html>

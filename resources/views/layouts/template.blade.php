@@ -301,7 +301,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/indexUserEvals">
+                                    <a class="nav-main-link @yield('sidebarCompleteSurvey')" href="/indexUserEvals">
                                         <span class="nav-main-link-name">Complete Survey (User)</span>
                                     </a>
                                 </li>
