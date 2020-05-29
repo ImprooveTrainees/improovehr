@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/showSurvey', 'EvaluationsController@show');
         //
 
-        //Evaluations AdminRH Evaluation Result 
+        //Evaluations AdminRH Evaluation Result
         Route::get('/evalsResultsIndex', 'EvaluationsResults@index')->middleware('roles');
         Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults')->middleware('roles');
         Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys')->middleware('roles');
@@ -93,7 +93,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/settingspage', function () {
             return view('settingspage');
         })->middleware('roles');
-        
+        Route::post('/reports', 'ReportController@store');
+
 
 });
 

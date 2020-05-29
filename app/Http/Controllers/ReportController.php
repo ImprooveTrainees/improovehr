@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use App\absence;
 use App\User;
 use App\absenceType;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
@@ -45,6 +46,8 @@ class ReportController extends Controller
 
         $array_absences = array();
 
+        array_push($array_absences, 0, 'All Absences');
+
         foreach($listAbsencesTotal as $abs) {
 
             $id = $abs->absencetype;
@@ -54,9 +57,39 @@ class ReportController extends Controller
 
         }
 
+        /* $iduser2 = $request->session()->get('id_user');
+        $typeabsence2 = $request->session()->get('type_absence');
+        $start_date2 = $request->session()->get('startdate');
+        $end_date2 = $request->session()->get('enddate'); */
+
+        /* $iduser2 = 1;
+        $typeabsence2 = 1;
+        $start_date2 = "2020-06-07 00:00:00";
+        $end_date2 = "2020-12-16 00:00:00"; */
+
+        //$listAbsencesFiltered = DB::table('absences')->get();
+
+        /* $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('iduser', $iduser2)->where('absencetype',$typeabsence2)->where('start_date','>=',$start_date2)->where('end_date','<=',$end_date2)->get();
+
+        $arrayAbsencesFiltered = array();
+
+        foreach($listAbsencesFiltered as $list) {
+
+            $iduser = $list->iduser;
+            $username = "admin";
+            $absencetype = $list->absencetype;
+            $absencetypename = "ferias";
+            $startdate = $list->start_date;
+            $enddate = $list->end_date;
+
+            array_push($arrayAbsencesFiltered, $iduser, $username, $absencetype, $absencetypename ,$startdate, $enddate);
+
+        } */
+
+        $listReports = Report::All();
 
 
-        return view('/reports', compact('array_users','array_absences'));
+        return view('/reports', compact('array_users','array_absences','listReports'));
     }
 
     /**
@@ -78,6 +111,49 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
+
+        $user = Auth::user();
+        $userid = Auth::id();
+
+        $iduser = request('iduser');
+        $absencetype = request('absencetype');
+        $start_date = request('start_date');
+        $end_date = request('end_date');
+
+
+        $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('iduser',$iduser)->where('absencetype',$absencetype)->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+
+        //$listAbsencesFiltered = DB::table('absences')->get();
+
+        DB::table('reports')->delete();
+
+        foreach($listAbsencesFiltered as $list) {
+
+            $report = new Report();
+
+            $id = $list->iduser;
+            $type = $list->absencetype;
+            $start = $list->start_date;
+            $end = $list->end_date;
+
+            $report->iduser=$id;
+            $report->name="Diogo";
+            $report->absencetype=$type;
+            $report->description="Potes";
+            $report->start_date=$start;
+            $report->end_date=$end;
+
+
+
+            $report->save();
+
+
+        }
+
+
+
+        return redirect('/reports');
+
     }
 
     /**
@@ -89,6 +165,8 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         //
+
+
     }
 
     /**

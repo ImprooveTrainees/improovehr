@@ -8,15 +8,16 @@ class Report extends Model
 {
     //
 
-    public function allAbsences() {
+    public function absencesFiltered() {
 
 
-        $allAbsences = DB::table('absences')
+        $absencesFiltered = DB::table('users')
+        ->join('absences', 'users.id', '=', 'absences.iduser')
         ->join('absence_types', 'absence_types.id', '=', 'absences.absencetype')
-        ->select('absences.*','absence_types.description as description')
+        ->select('absences.*','users.id','users.name','absence_types.id','absence_types.description')
         ->get();
 
-        return $allAbsences;
+        return $absencesFiltered;
 
     }
 
