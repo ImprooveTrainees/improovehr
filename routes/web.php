@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/settingspage', function () {
             return view('settingspage');
         })->middleware('roles');
+        Route::post('/reports', 'ReportController@store');
 
 
 });
