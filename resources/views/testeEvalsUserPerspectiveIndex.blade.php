@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-    Improove HR - Create Evaluation
+    Improove HR - Surveys to Complete
 @endsection
 
 @section('sidebarCompleteSurvey')
