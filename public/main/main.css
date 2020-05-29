@@ -723,7 +723,7 @@ body {
 }
 
 .cardbox2 {
-  height: 70px;
+  height: 90px;
   width: 90%;
   margin: auto;
   border-radius: 25px;
@@ -992,6 +992,132 @@ body {
   margin-left: 17px;
 }
 
+#holidaysExtra {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 180px 190px;
+      grid-template-columns: 180px 190px;
+  -ms-grid-rows: 30px 55px;
+      grid-template-rows: 30px 55px;
+}
+
+#holidaysExtra .cardbox2 {
+  height: 50px;
+  width: 90%;
+  border-radius: 25px;
+  margin: unset;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+}
+
+#holidaysExtra .cardbox3 {
+  -ms-grid-columns: 45px 105px;
+      grid-template-columns: 45px 105px;
+  margin-top: 0;
+}
+
+#holidaysExtra p {
+  -ms-grid-row: 1;
+      grid-row-start: 1;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  margin: 0;
+}
+
+#holidaysExtra label {
+  margin: 0;
+  text-align: -webkit-center;
+}
+
+#holidaysExtra2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 180px 75px 25px;
+      grid-template-columns: 180px 75px 25px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+  margin-top: 30px;
+}
+
+#holidaysExtra2 label {
+  text-align: -webkit-center;
+}
+
+#holidaysExtra3 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 180px 80px;
+      grid-template-columns: 180px 80px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+  margin-top: 30px;
+}
+
+#holidaysExtra3 label {
+  text-align: start;
+}
+
+#evaluations1 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px;
+      grid-template-columns: 140px 80px;
+}
+
+#evaluations2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px 50px;
+      grid-template-columns: 140px 80px 50px;
+  margin-top: 35px;
+}
+
+#evaluations2 p {
+  text-align: center;
+}
+
+.modal-body2 {
+  margin-left: 20px;
+  margin-top: 25px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 45px;
+      grid-template-rows: 45px;
+  -ms-grid-columns: 120px 200px;
+      grid-template-columns: 120px 200px;
+}
+
+#hoursflextime {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 80px 20px;
+      grid-template-columns: 140px 80px 20px;
+  -ms-grid-rows: 30px;
+      grid-template-rows: 30px;
+}
+
+#daysflextime {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 140px 135px 20px;
+      grid-template-columns: 140px 135px 20px;
+  -ms-grid-rows: 50px;
+      grid-template-rows: 50px;
+}
+
+#daysflextime label {
+  text-align: center;
+  margin-left: 55px;
+}
+
 #general p {
   margin: auto;
   margin-top: 20px;
@@ -1013,7 +1139,16 @@ body {
   margin-bottom: 20px;
 }
 
-#allnotifications {
+#allnotifications,
+#holidaysnoti,
+#birthdaynoti,
+#evaluationsnoti,
+#flextimenoti,
+#notworkingnoti {
+  width: 30%;
+  display: -ms-grid;
+  display: grid;
+  float: left;
   margin-top: 15px;
 }
 
@@ -1424,4 +1559,164 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
+/*# sourceMappingURL=main.css.map */
+@media (min-width: 425px) and (max-width: 1024px) {
+  #companyaddress {
+    margin-top: 20px;
+  }
+  #entreprisename,
+  #generalemail {
+    float: none;
+  }
+  #entreprisename,
+  #companyaddress,
+  #generalemail,
+  #generalmobile,
+  #country {
+    -ms-grid-columns: 140px 190px;
+        grid-template-columns: 140px 190px;
+  }
+  #allnotifications,
+  #holidaysnoti,
+  #birthdaynoti,
+  #evaluationsnoti,
+  #flextimenoti,
+  #notworkingnoti {
+    float: none;
+    -ms-grid-columns: 250px;
+        grid-template-columns: 250px;
+    -ms-grid-rows: 45px;
+        grid-template-rows: 45px;
+    margin-top: 0;
+  }
+  #allnotifications {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 425px) {
+  .modal {
+    width: 95%;
+  }
+  #holidaysExtra {
+    -ms-grid-columns: 180px 160px;
+        grid-template-columns: 180px 160px;
+  }
+  .cardbox3 h6 {
+    font-size: 10pt;
+  }
+}
+/*# sourceMappingURL=main.css.map */
+.holidayDates {
+
+    font-size: 15px;
+
+}
+
+.attachContainer{
+
+    min-width: 300px;
+position: relative;
+
+}
+
+.attachamentText {
+
+    font-size: 14px;
+
+}
+
+.iconSize {
+
+    font-size: 14px;
+
+}
+
+.errorVacation {
+
+    height: 40px;
+    width: "100%";
+    margin: auto;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-left: 2%;
+
+}
+
+.reportEmployees {
+
+    position: relative;
+    margin-top: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.reportEmployees select {
+
+background-color: #0563af;
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+
+}
+
+.reportEmployees::before {
+    content: "\f13a";
+    font-family: FontAwesome;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 45px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+  }
+
+  .reportEmployees:hover::before {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .reportEmployees select option {
+    padding: 30px;
+  }
+
+  .reportDate {
+
+    background-color: #0563af;
+    border-radius: 10px;
+    color: white;
+
+  }
+
+  .reportSubTitle {
+
+    font-size: 18px;
+    font-weight: bold;
+
+  }
+
+  .reportTitle {
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: #0563af;
+    border-radius: 4px;
+    padding: 2px;
+    display: inline-block;
+  }
+
+
 /*# sourceMappingURL=main.css.map */

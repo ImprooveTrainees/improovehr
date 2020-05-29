@@ -14,6 +14,13 @@ open
 
 @section('content')
 
+@if($errors->any())
+<div class="errorVacation">
+<p style="color: red;">{{$errors->first()}}</p>
+</div>
+@endif
+
+
 <div id="table_hol">
 
 
@@ -46,22 +53,56 @@ open
             <div class="shadow p-1 bg-white cardbox2">
                 <div id="startday">
                     <h5>Start Day</h5>
-                    <p>{{$array_vacations[$i+1]}}</p>
+                    <p class="holidayDates">{{$array_vacations[$i+1]}}</p>
                     <a data-toggle="modal" data-target="#editStartDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="endday">
                     <h5>End Day</h5>
-                    <p>{{$array_vacations[$i+2]}}</p>
+                    <p class="holidayDates">{{$array_vacations[$i+2]}}</p>
                     <a data-toggle="modal" data-target="#editEndDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click2(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
-                <div id="approval">
+
+                @if($array_vacations[$i+3]=="Disapproved")
+
+                    <div id="approval">
+                    <h5>Approval</h5>
+                    <p><p class="dot" style="background-color:#EC6927"></p>{{$array_vacations[$i+3]}}</p>
+                </div>
+
+
+
+
+                @elseif($array_vacations[$i+3]=="Concluded")
+
+                    <div id="approval">
+                    <h5>Approval</h5>
+                    <p><p class="dot" style="background-color:#3B96F2"></p>{{$array_vacations[$i+3]}}</p>
+                </div>
+
+                @elseif($array_vacations[$i+3]=="Pending")
+
+                    <div id="approval">
+                    <h5>Approval</h5>
+                    <p><p class="dot" style="background-color:#EBD12A"></p>{{$array_vacations[$i+3]}}</p>
+                </div>
+
+
+
+                @else
+
+                    <div id="approval">
                     <h5>Approval</h5>
                     <p><p class="dot"></p>{{$array_vacations[$i+3]}}</p>
                 </div>
+
+
+                @endif
+
+
             </div>
         @endfor
 
@@ -191,33 +232,62 @@ open
       <div class="shadow p-1 bg-white cardbox2">
           <div id="startdayab">
               <h5>Start Day</h5>
-              <p>{{$array_absences[$i+1]}}</p>
+              <p class="holidayDates">{{$array_absences[$i+1]}}</p>
               <a data-toggle="modal" data-target="#editStartDatetime">
                   <i type="button" id="{{$array_absences[$i]}}" onClick="reply_click3(this.id)" class="fas fa-pen"></i>
               </a>
           </div>
           <div id="enddayab">
               <h5>End Day</h5>
-              <p>{{$array_absences[$i+2]}}</p>
+              <p class="holidayDates">{{$array_absences[$i+2]}}</p>
               <a data-toggle="modal" data-target="#editEndDatetime">
                   <i type="button" id="{{$array_absences[$i]}}" onClick="reply_click4(this.id)" class="fas fa-pen"></i>
               </a>
           </div>
 
+          @if($array_absences[$i+3]=="Disapproved")
+
           <div id="approvalab">
               <h5>Approval</h5>
-              <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
+              <p><p class="dot" style="background-color:#EC6927"></p>{{$array_absences[$i+3]}}</p>
           </div>
+
+            @elseif($array_absences[$i+3]=="Concluded")
+
+            <div id="approvalab">
+                        <h5>Approval</h5>
+                        <p><p class="dot" style="background-color:#3B96F2"></p>{{$array_absences[$i+3]}}</p>
+                    </div>
+
+            @elseif($array_absences[$i+3]=="Pending")
+
+            <div id="approvalab">
+            <h5>Approval</h5>
+            <p><p class="dot" style="background-color:#EBD12A"></p>{{$array_absences[$i+3]}}</p>
+            </div>
+
+            @else
+
+            <div id="approvalab">
+                        <h5>Approval</h5>
+                        <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
+                    </div>
+
+
+            @endif
+
 
           <div id="attachment">
             <h5>Attachment</h5>
 
         @if($array_absences[$i+4]!="")
 
-            <p>{{$array_absences[$i+4]}}</p>
+            <div class="attachContainer">
+            <p class="attachamentText">{{$array_absences[$i+4]}}</p>
             <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
-                  <i class="fas fa-pen"></i>
+                  <i class="fas fa-pen iconSize"></i>
               </a>
+              </div>
 
         @else
 
@@ -421,11 +491,10 @@ open
                         <input type="date" id="end_date" name="end_date">
 
                         <br><br>
-
+                        <input type="hidden" value={{$vacation_days_available}} name="vacationDays">
                         <input type="hidden" value=1 name="op">
 
                         <!-- <input type="submit" value="ADD VACATION"> -->
-
 
                         </div>
                         <div class="modal-footer">
