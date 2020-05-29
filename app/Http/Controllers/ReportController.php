@@ -120,8 +120,25 @@ class ReportController extends Controller
         $start_date = request('start_date');
         $end_date = request('end_date');
 
+        if($iduser == 0 && $absencetype == 0) {
 
-        $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('iduser',$iduser)->where('absencetype',$absencetype)->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+         $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+
+
+        } else if($iduser == 0) {
+
+         $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('absencetype',$absencetype)->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+
+
+        } else if($absencetype == 0) {
+
+        $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('iduser',$iduser)->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+
+        } else {
+
+            $listAbsencesFiltered = absence::select('iduser','absencetype','end_date','start_date')->where('iduser',$iduser)->where('absencetype',$absencetype)->where('start_date','>=',$start_date)->where('end_date','<=',$end_date)->get();
+
+        }
 
         //$listAbsencesFiltered = DB::table('absences')->get();
 
