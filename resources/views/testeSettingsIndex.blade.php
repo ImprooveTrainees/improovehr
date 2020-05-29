@@ -118,7 +118,7 @@
   <strong><label>Extra Days:</label></strong>
   <input type="date" id="dateSelected">
   Description: <input type="text" id="descriptionExtraDay">
-  <button type="button" onclick="addDate()">Add date</button>
+  <button type="button" onclick="addDate()">Add dates</button>
 
   <ul id="dateList">
 
@@ -141,6 +141,7 @@
 
 
   <h4>Alerts</h4>
+
   <strong><label>Holidays:</label></strong>
   <select name="holidaysAlert">
     @if($lastSettingsGeneral->alert_holidays == 1)

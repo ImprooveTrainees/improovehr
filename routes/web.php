@@ -91,9 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('roles');
         //
         Route::get('/reports', 'ReportController@index');
-        Route::get('/settingspage', function () {
-            return view('settingspage');
-        })->middleware('roles');
+        Route::get('/settingspage', 'SettingController@index')->middleware('roles');
         
 
 });
