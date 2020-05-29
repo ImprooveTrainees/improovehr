@@ -723,7 +723,7 @@ body {
 }
 
 .cardbox2 {
-  height: 90px;
+  height: 70px;
   width: 90%;
   margin: auto;
   border-radius: 25px;
@@ -1248,117 +1248,362 @@ body {
     font-size: 10pt;
   }
 }
-/*# sourceMappingURL=main.css.map */
-.holidayDates {
 
-    font-size: 15px;
-
+.gridTop {
+  margin-top: 5%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 50px 300px 200px;
+      grid-template-columns: 50px 300px 200px;
 }
 
-.attachContainer{
-
-    min-width: 300px;
-position: relative;
-
+.grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 50px 300px 200px;
+      grid-template-columns: 50px 300px 200px;
 }
 
-.attachamentText {
-
-    font-size: 14px;
-
+.testgrid2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 80px 300px 10px 300px 200px;
+      grid-template-columns: 80px 300px 10px 300px 200px;
+  text-align: center;
+  grid-gap: 2%;
 }
 
-.iconSize {
-
-    font-size: 14px;
-
+.testgrid3 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 80px 300px 200px;
+      grid-template-columns: 80px 300px 200px;
+  text-align: center;
+  grid-gap: 8%;
 }
 
-.errorVacation {
-
-    height: 40px;
-    width: "100%";
-    margin: auto;
-    border-radius: 25px;
-    margin-top: 10px;
-    margin-left: 2%;
-
+.testgrid33 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 80px 300px 200px;
+      grid-template-columns: 80px 300px 200px;
+  text-align: center;
+  grid-gap: 2%;
 }
 
-.reportEmployees {
-
-    position: relative;
-    margin-top: 50px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+.testgrid4 {
+  display: -ms-grid;
+  display: grid;
 }
 
-.reportEmployees select {
-
-background-color: #0563af;
-  color: white;
-  padding: 12px;
-  width: 250px;
-  border: none;
-  font-size: 20px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-  -webkit-appearance: button;
-  appearance: button;
-  outline: none;
-
+.testgrid5 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 1100px;
+      grid-template-columns: 176px 1100px;
+  grid-gap: 2%;
 }
 
-.reportEmployees::before {
-    content: "\f13a";
-    font-family: FontAwesome;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20%;
-    height: 100%;
-    text-align: center;
-    font-size: 28px;
-    line-height: 45px;
-    color: rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.1);
-    pointer-events: none;
-  }
+.testgrid6 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 300px 50px;
+      grid-template-columns: 176px 300px 50px;
+  grid-gap: 2%;
+  margin-top: 1%;
+}
 
-  .reportEmployees:hover::before {
-    color: rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0.2);
-  }
+.testgrid7 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 300px 50px;
+      grid-template-columns: 176px 300px 50px;
+  grid-gap: 2%;
+}
 
-  .reportEmployees select option {
-    padding: 30px;
-  }
+.testgrid8 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 150px 50px;
+      grid-template-columns: 176px 150px 50px;
+  grid-gap: 2%;
+  margin-top: 1%;
+}
 
-  .reportDate {
+.testgrid10 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 550px 40px;
+      grid-template-columns: 176px 550px 40px;
+  grid-gap: 2%;
+}
 
-    background-color: #0563af;
-    border-radius: 10px;
-    color: white;
+.testgrid11 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 176px 550px;
+      grid-template-columns: 176px 550px;
+}
 
-  }
+.testgrid12 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 76px 100px 200px;
+      grid-template-columns: 76px 100px 200px;
+  width: 400px;
+  margin: auto;
+}
 
-  .reportSubTitle {
+.testgrid13 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 150px 150px;
+      grid-template-columns: 120px 150px 150px;
+  width: 400px;
+  margin: auto;
+  grid-gap: 10%;
+  margin-top: 2%;
+}
 
-    font-size: 18px;
-    font-weight: bold;
+.testgrid14 {
+  font-size: large;
+  width: 400px;
+  margin: auto;
+  grid-gap: 10%;
+  margin-top: 2%;
+  color: grey;
+  font-family: Helvetica;
+}
 
-  }
+.aligment {
+  margin-top: 2%;
+  margin-bottom: 1%;
+  font-family: Helvetica;
+  margin-left: 20%;
+  color: grey;
+}
 
-  .reportTitle {
+input[type=radio] {
+  border: 20px;
+  width: 2%;
+  height: 1em;
+}
 
-    border-style: solid;
-    border-width: 2px;
-    border-color: #0563af;
-    border-radius: 4px;
-    padding: 2px;
-    display: inline-block;
-  }
+.testgrid-template-rows-1 {
+  -ms-grid-rows: 50px 100px 500px;
+      grid-template-rows: 50px 100px 500px;
+}
 
+.gridtest2 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
 
+.testgrid2-template-rows-1 {
+  -ms-grid-rows: 50px 100px 500px 100px 100px;
+      grid-template-rows: 50px 100px 500px 100px 100px;
+}
+
+.surveyname,
+.answerlimit,
+.surveytype,
+.showSurv,
+.showSurv2 {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 86px 220px 40px;
+      grid-template-columns: 86px 220px 40px;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  float: left;
+  font-size: 11pt;
+}
+
+.showSurv6 {
+  margin-top: 3%;
+  text-align: center;
+  font-size: x-large;
+  font-family: Helvetica;
+  color: #745757;
+}
+
+.multiColor {
+  background: linear-gradient(-60deg, #de6060 50%, #4fac4f 50%);
+}
+
+.alignbtn {
+  margin-top: 2%;
+  text-align: center;
+}
+
+.btncreate {
+  width: 300%;
+}
+
+.creatSurvey {
+  width: 25%;
+}
+
+.showSurvey {
+  width: 25%;
+}
+
+.showSurv2 {
+  width: 25%;
+}
+
+.showSurv3 {
+  width: 25%;
+}
+
+.btnAlign {
+  text-align: center;
+}
+
+.hrStyle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.firstbox {
+  margin-left: 4%;
+  margin-top: 3%;
+}
+
+.firstbox h2 {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  text-align: center;
+}
+
+.firstbox p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.firstbox hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.ndbox {
+  margin-left: 4%;
+  margin-top: 3%;
+}
+
+.ndbox h2 {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  text-align: center;
+}
+
+.ndbox h4 {
+  margin: auto;
+  color: rgba(114, 50, 50, 0.692);
+  text-align: center;
+  font-size: xx-large;
+}
+
+.ndbox p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.ndbox hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.createsurveyform {
+  margin-top: 8%;
+}
+
+.createsurveyform #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.showSurveyForm {
+  margin-top: 5%;
+  margin-left: 30%;
+}
+
+.showSurveyForm #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.showSurveyForm2 {
+  margin-top: 5%;
+}
+
+.showSurveyForm2 #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.showSurveyForm3 {
+  margin-top: 5%;
+}
+
+.showSurveyForm3 #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+#check {
+  color: green;
+}
+
+#remove {
+  color: red;
+}
+
+.surveybox {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 10px red;
+  height: 98%;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+}
+
+.edit-form-control {
+  display: block;
+  width: 300%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
 /*# sourceMappingURL=main.css.map */
