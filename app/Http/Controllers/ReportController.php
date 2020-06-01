@@ -155,15 +155,15 @@ class ReportController extends Controller
             $report = new Report();
 
             $id = $list->iduser;
-            $type = $list->absencetype;
             $start = $list->start_date;
             $end = $list->end_date;
             $type_name = $list->description;
             $user_name = $list->name;
+            $status = $list->status;
 
             $report->iduser=$id;
             $report->name=$user_name;
-            $report->absencetype=$type;
+            $report->status=$status;
             $report->description=$type_name;
             $report->start_date=$start;
             $report->end_date=$end;

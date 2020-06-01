@@ -19,8 +19,8 @@ class CreateReportsTable extends Migration
             $table->foreign('iduser')->references('id')->on('users');
             $table->string('name');
             $table->foreign('name')->references('name')->on('users');
-            $table->integer('absencetype');
-            $table->foreign('absencetype')->references('absencetype')->on('absences');
+            $table->string('status');
+            $table->foreign('status')->references('status')->on('absences');
             $table->string('description');
             $table->foreign('description')->references('description')->on('absence_types');
             $table->datetime('start_date');
