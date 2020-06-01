@@ -1432,10 +1432,6 @@ input[type=radio] {
   color: #745757;
 }
 
-.multiColor {
-  background: linear-gradient(-60deg, #de6060 50%, #4fac4f 50%);
-}
-
 .alignbtn {
   margin-top: 2%;
   text-align: center;
@@ -1605,5 +1601,17 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.colors h2 {
+  margin-bottom: 13px;
+  color: #3b685a;
+  text-align: center;
+}
+
+.colors h4 {
+  margin: auto;
+  color: rgba(99, 79, 79, 0.692);
+  text-align: center;
 }
 /*# sourceMappingURL=main.css.map */
