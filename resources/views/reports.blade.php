@@ -75,8 +75,10 @@ active
         <hr>
             <div class="form-group" >
 
-        <button type="submit" class="form-group btn btn-outline-primary bsettings">Export Report</button>
+        <button type="submit" class="form-group btn btn-outline-primary bsettings">Create Table</button>
         </div>
+
+        <a href="{{ route('reports.excel') }}" class="btn btn-success">Export To Excel</a>
 
 
 
