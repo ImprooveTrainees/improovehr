@@ -88,7 +88,7 @@ active
 <thead>
     <th>IDUSER</th>
     <th>USERNAME</th>
-    <th>IDABSENCETYPE</th>
+    <th>STATUS</th>
     <th>ABSENCETYPENAME</th>
     <th>STARTDATE</th>
     <th>ENDDATE</th>
@@ -98,7 +98,7 @@ active
     <tr>
       <td>{{$list->iduser}}</td>
       <td>{{$list->name}}</td>
-      <td>{{$list->absencetype}}</td>
+      <td>{{$list->status}}</td>
       <td>{{$list->description}}</td>
       <td>{{$list->start_date}}</td>
       <td>{{$list->end_date}}</td>
