@@ -87,11 +87,11 @@ class ReportController extends Controller
 
         } */
 
-        $listReports = Report::All();
+        //$listReports = Report::All();
 
 
 
-        return view('/reports', compact('array_users','array_absences','listReports'));
+        return view('/reports', compact('array_users','array_absences'));
     }
 
     /**
@@ -165,32 +165,32 @@ class ReportController extends Controller
 
         if($iduser == 0 && $absencetype == 0 && $start_date == '' && $end_date == '') {
 
-            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->get();
+            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
 
         } else if($start_date == '' && $end_date == '') {
 
-            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.absencetype',$absencetype)->where('absences.iduser',$iduser)->get();
+            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.absencetype',$absencetype)->where('absences.iduser',$iduser)->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
         } else if($iduser == 0 && $absencetype == 0) {
 
-         $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->get();
+         $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
 
         } else if($iduser == 0) {
 
-        $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.absencetype',$absencetype)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->get();
+        $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.absencetype',$absencetype)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
 
         } else if($absencetype == 0) {
 
-        $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.iduser',$iduser)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->get();
+        $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.iduser',$iduser)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
 
         } else {
 
 
-            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.iduser',$iduser)->where('absences.absencetype',$absencetype)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->get();
+            $listAbsencesFiltered = DB::table('absences')->join('users','absences.iduser','=','users.id')->join('absence_types','absences.absencetype','=','absence_types.id')->select('absences.*','absence_types.description','users.name')->where('absences.iduser',$iduser)->where('absences.absencetype',$absencetype)->where('absences.start_date','>=',$start_date)->where('absences.end_date','<=',$end_date)->orderBy('iduser','ASC')->orderBy('end_date','DESC')->get();
 
         }
 
@@ -222,8 +222,9 @@ class ReportController extends Controller
 
         }
 
+        $listReports = Report::All();
 
-        return redirect('/reports');
+        return view('/absenceReport', compact('listReports'));
 
     }
 
