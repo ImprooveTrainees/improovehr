@@ -434,82 +434,37 @@
                         </form>
                         <!-- END Search Form -->
                         <!-- Notifications Dropdown -->
+                        <?php 
+                            use App\notifications;
+                            use App\settings_general;
+                            $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
+                            $allNotificationsUser = notifications::where('userID', Auth::User()->id)->orderby('created_at', 'desc')->limit(6)->get(); //notificacoes da DB
+                        ?>
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="si si-bell"></i>
-                                <span class="badge badge-primary badge-pill">6</span>
+                                <span class="badge badge-primary badge-pill">{{$allNotificationsUser->count()}}</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="p-2 bg-primary text-center">
                                     <h5 class="dropdown-header text-uppercase text-white">Notifications</h5>
                                 </div>
                                 <ul class="nav-items mb-0">
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-check-circle text-success"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">You have a new follower</div>
-                                                <small class="text-muted">15 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-plus-circle text-info"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">1 new sale, keep it up</div>
-                                                <small class="text-muted">22 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-times-circle text-danger"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">Update failed, restart server</div>
-                                                <small class="text-muted">26 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-plus-circle text-info"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">2 new sales, keep it up</div>
-                                                <small class="text-muted">33 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-user-plus text-success"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">You have a new subscriber</div>
-                                                <small class="text-muted">41 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-2 ml-3">
-                                                <i class="fa fa-fw fa-check-circle text-success"></i>
-                                            </div>
-                                            <div class="media-body pr-2">
-                                                <div class="font-w600">You have a new follower</div>
-                                                <small class="text-muted">42 min ago</small>
-                                            </div>
-                                        </a>
-                                    </li>
+                                    @foreach($allNotificationsUser as $not) <!-- Notificacoes -->
+                                        @if($settingsAlerts->alert_evaluations == 1 && $not->notificationType == "Evaluation")
+                                        <li>
+                                            <a class="text-dark media py-2" href="javascript:void(0)">
+                                                <div class="mr-2 ml-3">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </div>
+                                                <div class="media-body pr-2">
+                                                    <div class="font-w600">{{$not->description}}</div>
+                                                    <small class="text-muted">{{$not->created_at}}</small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                                 <div class="p-2 border-top">
                                     <a class="btn btn-sm btn-light btn-block text-center" href="javascript:void(0)">

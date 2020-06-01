@@ -382,7 +382,7 @@ foreach ($dateRangeLastWeek as $key => $value) {
                         new DateTime($dateEndAbsence)
                    );
                    foreach($AbsenceDatesBetween as $key => $value2) {
-                       if($value->format('Y-m-d') == $value2->format('Y-m-d') && $abs->absencetype == 1) {
+                       if($value->format('Y-m-d') == $value2->format('Y-m-d') && $abs->absencetype == 1 && $value->format('m') == date('m')) {
                            $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours; //tira as horas do total do mês que o user deveria fazer, quando o user está de férias
                            continue 4;
                        }
@@ -467,8 +467,8 @@ foreach ($dateRangeLastMonth as $key => $value) {
                    );
                    foreach($AbsenceDatesBetween as $key => $value2) {
                        if($value->format('Y-m-d') == $value2->format('Y-m-d') && $abs->absencetype == 1) {
-                           $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours; //tira as horas do total do mês que o user deveria fazer, quando o user está de férias
-                           continue 4;
+                           $totalHoursToDoLastMonth -= $workHoursSettings->flextime_dailyHours; //tira as horas do total do mês que o user deveria fazer, quando o user está de férias
+                           continue;
                        }
                    }
                 }

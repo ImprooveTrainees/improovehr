@@ -350,7 +350,7 @@ active
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form action="" method="POST" class="action">
+    
                         <div class="modal-body2">
                         @csrf
                         <h5>New Limit:</h5>
@@ -360,7 +360,7 @@ active
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
-                        </form>
+                        
                 </div>
                 </div>
             </div>
@@ -371,10 +371,11 @@ active
         </div>
     </div>
 
-    <button type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
+    
     </form>
 
 </div>
+<button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
 
 @if(session('msg'))
 <div class="alert alert-info alert-block">
@@ -406,6 +407,10 @@ active
       hiddenInputDescription.setAttribute("name",  "descriptionExtraDay[]");
       form.appendChild(hiddenInputDescription);
     
+    }
+
+    function execForm() {
+      document.getElementById('form').submit();
     }
 </script>
 

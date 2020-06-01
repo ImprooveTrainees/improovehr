@@ -16,6 +16,9 @@ use App\questSurvey;
 use App\User;
 use App\surveyUsers;
 
+use App\settings_general;
+use App\notifications;
+
 class EvaluationsController extends Controller
 {
     /**
@@ -445,6 +448,7 @@ class EvaluationsController extends Controller
         $survey = $request->input('idSurveyAutoShow');
         $msg = "Users assigned successfully!";
         $allSurveyUsers = surveyUsers::All();
+        $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
 
         foreach($usersSelected as $user) {
             foreach($allSurveyUsers as $all) {
@@ -465,7 +469,22 @@ class EvaluationsController extends Controller
             }
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
+
+          
+            if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
+                $newAlertEval = new notifications;
+                $newAlertEval->userID = $user;
+                $newAlertEval->read = false;
+                $newAlertEval->description = "You have a new survey to complete.";
+                $newAlertEval->notificationType = "Evaluation";
+                $newAlertEval->save();
+            }
+    
+
         }
+
+
+
     }
         $msg .= "<script>";
         $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
