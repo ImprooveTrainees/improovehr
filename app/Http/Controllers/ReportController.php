@@ -9,6 +9,7 @@ use App\absenceType;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Exporter;
 use Redirect,Response;
 
 
@@ -89,6 +90,7 @@ class ReportController extends Controller
         $listReports = Report::All();
 
 
+
         return view('/reports', compact('array_users','array_absences','listReports'));
     }
 
@@ -100,6 +102,47 @@ class ReportController extends Controller
     public function create()
     {
         //
+    }
+
+    public function excel() {
+
+
+        $listReports = DB::table('reports')->select('iduser','name','status','description','start_date','end_date');
+
+        $excel = Exporter::make('Excel');
+
+        $excel->loadQuery($listReports);
+
+        $fileName = 'report.xlsx';
+
+        return $excel->stream($fileName);
+
+        //$report_array = array('IDUSER', 'USERNAME', 'STATUS', 'ABSENCE TYPE', 'START DATE', 'END DATE');
+
+
+       /*  foreach($listReports as $list) {
+
+            $report_array[]=array('IDUSER'=>$list->iduser,
+            'USERNAME'=>$list->name,'STATUS'=>$list->status,
+            'ABSENCE TYPE'=>$list->description,'START DATE'=>$list->start_date,
+            'END_DATE'=>$list->end_date);
+
+
+        }
+
+
+        Excel::create('Report', function($excel) use ($report_array) {
+
+            $excel->setTitle('Report');
+            $excel->sheet('Report', function($sheet) use($report_array){
+
+                $sheet->fromArray($report_array, 'Report', null, 'A1', false, false);
+
+            });
+
+        })->download('xlsx'); */
+
+
     }
 
     /**

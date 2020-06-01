@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
             return view('settingspage');
         })->middleware('roles');
         Route::post('/reports', 'ReportController@store');
+        Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
 
 
 });
