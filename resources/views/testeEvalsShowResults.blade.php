@@ -2,7 +2,7 @@
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-  
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,7 +55,7 @@
     @if(count($areasHTML) == 0)
         <br>
         There are no areas in this survey yet!
-    @else 
+    @else
     <ul>
         @for($i = 0; $i < count($areasHTML); $i++)
             <li><strong>{{$areasHTML[$i]->description}}</strong></li>
@@ -121,11 +121,11 @@
                                                 </table>
                                             @endif
                                         @endif
-                                        
-                                    @endif                   
+
+                                    @endif
                                 @endfor
                             </ol>
-                        @endif     
+                        @endif
                     @endif
                 @endfor
                 <br>
@@ -143,7 +143,7 @@
                         @for($k = 0; $k < count($totalPercentagePerformanceFinal); $k++)
                             @if($totalPercentagePerformanceFinal[$k] == $areasHTML[$i]->id)
                                 <td>&nbsp;&nbsp;{{$totalPercentagePerformanceFinal[$k+1]}}%</td> <!-- Total Percentagem -->
-                  
+
                             @endif
                         @endfor
 
@@ -182,7 +182,7 @@
                             @endif
                         @endfor
                     @endif
-                @endif                   
+                @endif
             @endfor
             </ol>
     @endforeach
@@ -214,7 +214,7 @@
                 <th>Average Calculation</th>
                 <th>{{$finalAvgPerformance}}</th>
                 <th>{{$finalAvgPotential}}</th>
-            </tr>     
+            </tr>
 </table>
 
 </div>
@@ -240,7 +240,7 @@
 </style>
 
 <script>
-    
+
     window.onload = function () {
 
 var chart = new CanvasJS.Chart("myChart", {
@@ -275,37 +275,37 @@ var chart = new CanvasJS.Chart("myChart", {
 chart.render();
 
 }
- 
+
 function hideAvgPPArea() {
     if(document.getElementById("avgPPArea").style.display == "block") {
         document.getElementById("avgPPArea").style.display = "none";
-        
+
     }
     else {
         document.getElementById("avgPPArea").style.display = "block";
-        
+
     }
 }
 
 function finalResults() {
     if(document.getElementById("finalResults").style.display == "block") {
         document.getElementById("finalResults").style.display = "none";
-        
+
     }
     else {
         document.getElementById("finalResults").style.display = "block";
-        
+
     }
 }
 
 function graph() {
     if(document.getElementById("graph").style.display == "block") {
         document.getElementById("graph").style.display = "none";
-        
+
     }
     else {
         document.getElementById("graph").style.display = "block";
-        
+
     }
 }
 
