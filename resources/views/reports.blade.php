@@ -78,38 +78,10 @@ active
         <button type="submit" class="form-group btn btn-outline-primary bsettings">Create Table</button>
         </div>
 
-        <a href="{{ route('reports.excel') }}" class="btn btn-success">Export To Excel</a>
-
-
 
         </form>
 
 </div>
-
-        <table class="table table-striped">
-<thead>
-    <th>IDUSER</th>
-    <th>USERNAME</th>
-    <th>STATUS</th>
-    <th>ABSENCETYPENAME</th>
-    <th>STARTDATE</th>
-    <th>ENDDATE</th>
-  </thead>
-  <tbody>
-  @foreach($listReports as $list)
-    <tr>
-      <td>{{$list->iduser}}</td>
-      <td>{{$list->name}}</td>
-      <td>{{$list->status}}</td>
-      <td>{{$list->description}}</td>
-      <td>{{$list->start_date}}</td>
-      <td>{{$list->end_date}}</td>
-    </tr>
-@endforeach
-  </tbody>
-
-
-</table>
 
 
 @endsection
