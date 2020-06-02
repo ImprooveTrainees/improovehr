@@ -4,7 +4,7 @@
     Improove HR - Employees
 @endsection
 
-@section('sidebaremployees')
+@section('sidebarreports')
 active
 @endsection
 
