@@ -305,11 +305,28 @@
                                         <span class="nav-main-link-name">Complete Survey (User)</span>
                                     </a>
                                 </li>
-                                <li class="nav-main-item">
-                                    <a class="nav-main-link @yield('sidebarprofessional')" href="/evalsResultsIndex">
-                                        <span class="nav-main-link-name">Show Survey Results (RH)</span>
+
+
+                                 <li class="nav-main-item @yield('Results')">
+                                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                        <span class="nav-main-link-name" style="margin-left: 7%;">Survey Results (RH)</span>
                                     </a>
+                                    <ul class="nav-main-submenu">
+                                        <li class="nav-main-item">
+                                            <a class="nav-main-link @yield('sidebarShowResults')" href="/evalsResultsIndex">
+                                                <span class="nav-main-link-name">Show Results</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-main-item">
+                                            <a class="nav-main-link @yield('showOther')" href="/indexUserEvals">
+                                                <span class="nav-main-link-name">Results</span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
+
+
+
                                 <li class="nav-main-item">
                                     <a class="nav-main-link @yield('sidebarFinalAverage')" href="/finalAverageAllSurveys">
                                         <span class="nav-main-link-name">Show Final Results from all Surveys (RH)</span>
@@ -322,7 +339,7 @@
                                 <i class="fas fa-file-import"></i>
                                 <span class="nav-main-link-name" style="margin-left: 6%;">Reports</span>
                             </a>
-                        </li>
+                        </>
                         <li class="nav-main-item">
                             <a class="nav-main-link @yield('sidebarsettings')" href="/settingspage">
                                 <i class="fas fa-cog"></i>

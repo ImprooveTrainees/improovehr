@@ -1,58 +1,66 @@
-<!doctype html>
+@extends('layouts.template')
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-  
+@section('title')
+    Improove HR - Show Results
+@endsection
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('sidebarShowResults')
+active
+@endsection
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('openEvaluations')
+    open
+    @section('Results')
+        open
+    @endsection
+@endsection
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+@section('content')
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
+<div class="shadow p-1 bg-white cardbox1">
+    <div class="colors">
+        <h2>Survey Results</h2>
 
+        <h4 class="">{{$submitted}} of {{$total}} submitted.</h4>
 
+    </div>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <div class="block-content block-content-full">
+        <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
+        <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <thead>
+                <tr>
+                    <th class="d-none d-sm-table-cell" style="width: 5%;"><b>User</b></th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;"><b>Evaluation</b></th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;"><b>Type</b></th>
+                    <th class="d-none d-sm-table-cell" style="width: 5%;"></th>
+                </tr>
+            </thead>
+                    <tbody>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+                        @for($i = 0; $i < count($surveyNames); $i++)
 
-</head>
-<body>
-{{$submitted}} of {{$total}} submitted.
-<br>
-<table style="border-collapse:separate;border-spacing:15px;">
-    <tr>
-        <th><h2>User</h2></th>
-        <th><h2>Evaluation</h2></th>
-        <th><h2>Type</h2></th>
-        <th><h2></h2></th>
-    </tr>
+                        <tr>
+                            <td class="font-w600 font-size-sm">
+                                <label for="">{{$userNames[$i]->name}}</label>
+                            </td>
+                            <td class="font-w600 font-size-sm">
+                                <label>{{$surveyNames[$i]->name}}</label>
+                            </td>
+                            <td>
+                                <label for="">{{$surveyType[$i]->description}}</label>
+                            </td>
+                            <td>
+                                <a href="/showResults/{{$surveyNames[$i]->id}}/{{$userNames[$i]->id}}"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    @endfor
+                    </tbody>
+        </table>
+    </div>
+</div>
 
-    @for($i = 0; $i < count($surveyNames); $i++)
-        <tr>
-            <td>{{$userNames[$i]->name}}</td>
-            <td>{{$surveyNames[$i]->name}}</td>
-            <td>{{$surveyType[$i]->description}}</td>
-            <td><a href="/showResults/{{$surveyNames[$i]->id}}/{{$userNames[$i]->id}}"><i class="fas fa-eye"></i></a></td>
-        </tr>
-    @endfor
-
-</table>
-
-
+@endsection
 
 
 

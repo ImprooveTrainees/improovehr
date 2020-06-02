@@ -1,0 +1,18 @@
+   .colors{
+
+   h2{
+
+        margin-bottom: 13px;
+        color: rgb(59, 104, 90);
+        text-align: center;
+    }
+
+    h4 {
+        margin: auto;
+        color: rgba(99, 79, 79, 0.692);
+        text-align: center;
+    }
+
+   }
+
+   @import '../../../screens/components/showResults/_showResults.scss';

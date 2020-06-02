@@ -1432,10 +1432,6 @@ input[type=radio] {
   color: #745757;
 }
 
-.multiColor {
-  background: linear-gradient(-60deg, #de6060 50%, #4fac4f 50%);
-}
-
 .alignbtn {
   margin-top: 2%;
   text-align: center;
@@ -1606,8 +1602,11 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> cbcaba14693e5d44cc3b7b315a31b3a131d770e7
 
 .colors h2 {
   margin-bottom: 13px;
@@ -1620,6 +1619,7 @@ input[type=radio] {
   color: rgba(99, 79, 79, 0.692);
   text-align: center;
 }
+<<<<<<< HEAD
 
 .formSurvTest {
   display: -ms-grid;
@@ -1690,4 +1690,6 @@ input[type=radio] {
   margin-top: 4%;
 }
 >>>>>>> Stashed changes
+=======
+>>>>>>> cbcaba14693e5d44cc3b7b315a31b3a131d770e7
 /*# sourceMappingURL=main.css.map */
