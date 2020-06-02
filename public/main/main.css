@@ -1606,4 +1606,88 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
+<<<<<<< Updated upstream
+=======
+
+.colors h2 {
+  margin-bottom: 13px;
+  color: #3b685a;
+  text-align: center;
+}
+
+.colors h4 {
+  margin: auto;
+  color: rgba(99, 79, 79, 0.692);
+  text-align: center;
+}
+
+.formSurvTest {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 86px 220px 40px;
+      grid-template-columns: 86px 220px 40px;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  float: left;
+  font-size: 11pt;
+}
+
+.centerStyle h4 {
+  margin-top: 3%;
+  text-align: center;
+  font-family: Helvetica;
+  color: #a7b530;
+}
+
+.finalAverage {
+  margin-top: 5%;
+}
+
+.finalAverage #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.showFinalAverage {
+  width: 25%;
+}
+
+.showFinalAverageGrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 120px 120px;
+      grid-template-columns: 120px 120px 120px;
+  margin: auto;
+  width: 400px;
+  text-align: center;
+  grid-gap: 20px;
+}
+
+#tableStyle {
+  color: white;
+  font-family: Helvetica;
+}
+
+#tableFormat {
+  text-align: center;
+  margin-top: 4%;
+}
+
+#myChart {
+  max-width: 500px;
+  max-height: 900px;
+  background-color: red;
+}
+
+.chartStyle {
+  width: 400px;
+  margin: auto;
+  margin-top: 4%;
+}
+>>>>>>> Stashed changes
 /*# sourceMappingURL=main.css.map */
