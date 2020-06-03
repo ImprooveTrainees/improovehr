@@ -1689,4 +1689,8 @@ input[type=radio] {
   margin: auto;
   margin-top: 4%;
 }
+
+.reportTitle {
+  background-color: yellow;
+}
 /*# sourceMappingURL=main.css.map */
