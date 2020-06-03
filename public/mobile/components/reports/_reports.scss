@@ -20,7 +20,7 @@
 	color: #444;
 	line-height: 1.3;
 	padding: .6em 1.4em .5em .8em;
-	width: 25%;
+	width: 300px;
 	max-width: 100%;
 	box-sizing: border-box;
 	margin: 0;
@@ -63,16 +63,28 @@
 .reportDateSpace {
 
     flex-direction: row;
-    align-self: center;
+    max-width: 100%;
+}
+
+.reportStart {
+
+    padding: 2px;
 
 }
 
 .reportDate {
 
+    width: 80px;
     background-color: #007bff;
     border-radius: 5px;
     border-width: 10px;
     color: white;
+}
+
+.buttonArea {
+
+    margin-top: -20px;
+
 }
 
 .createTableReport {

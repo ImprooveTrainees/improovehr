@@ -64,17 +64,21 @@ active
         <p class="subTitleReport">CHOOSE TIME INTERVAL</p>
 
         <div class="reportDateSpace">
+        <div class="reportStart">
         <label class="reportDate" for="start_date" >Start Date </label>
         <input type="date" id="start_date" name="start_date">
+        </div>
 
+        <div class="reportStart">
         <label class="reportDate" for="end_date">End Date </label>
         <input type="date" id="end_date" name="end_date">
+        </div>
         </div>
 
         </div>
 
         <hr>
-            <div class="form-group" >
+            <div class="form-group buttonArea" >
 
         <button type="submit" class="form-group btn btn-outline-primary bsettings createTableReport">CREATE TABLE</button>
         </div>
