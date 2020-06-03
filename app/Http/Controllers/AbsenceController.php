@@ -733,7 +733,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
 //Flextime begin
-$ch2 = curl_init();
+/* $ch2 = curl_init();
 
         curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
@@ -789,7 +789,7 @@ $ch2 = curl_init();
             }
 
 
-            }
+            } */
 
 
 
@@ -804,7 +804,7 @@ $ch2 = curl_init();
 
 
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg', 'totalHours'));
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }
