@@ -11,6 +11,7 @@ use App\users_deps;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
+use App\notifications;
 use Validator,Redirect,Response,File;
 use DB;
 use Image;
@@ -99,6 +100,9 @@ class UserController extends Controller
         $departmentList = departments::All();
 
 
+        
+
+
         return view('employees')->with('msg', $msg)->with('departmentList', $departmentList);
     }
 
@@ -146,6 +150,13 @@ class UserController extends Controller
         $userDepartment->idDepartment = $department;
         $userDepartment->idUser = $employee->id;
         $userDepartment->save();
+        
+        // $newNotification = new notifications; //guarda o aniv nas notificações
+        // $newNotification->userID = $employee->id;
+        // $newNotification->read = false;
+        // $newNotification->notificationType = "Birthday";
+        // $newNotification->save();
+
 
         return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');;
 
@@ -262,6 +273,18 @@ class UserController extends Controller
 
 
         $userLogado->save();
+
+
+        // $notification = notifications::where('userID',Auth::User()->id)->where('notificationType', 'Birthday')->first();  //edita o aniv nas notificações
+        // if($notification != null) {
+        //     $notification->dateBegin = $birthday;
+        //     $notification->dateEnd = $birthday;
+        //     $notification->save();
+        // }
+
+
+
+
 
         return redirect()->action('UserController@index')->with('message', 'Info saved successfully');;
 

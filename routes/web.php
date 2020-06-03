@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/offices', 'OfficesDepsController@index');
 
-//Login
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 
 
 Route::group(['middleware' => ['auth']], function () {
+        //Login
+        Route::get('/', function () {
+            return view('auth.login');
+        });
 
         //Dashboard
         Route::get('/admin', 'AbsenceController@show');
@@ -46,7 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/editar', 'UserController@edit');
         Route::get('/profEdit', 'ProfessionalInfoController@edit');
         Route::get('/testeCalendar', 'FullCalendarController@index');
-        Route::get('/employees', 'UserController@employees')->middleware('roles');
+        Route::get('/employees', 'UserController@employees')->middleware('roles');     
+        Route::get('/offices', 'OfficesDepsController@index');
         //
 
         //Harvest
@@ -90,12 +91,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('roles');
         //
         Route::get('/reports', 'ReportController@index');
-        Route::get('/settingspage', function () {
-            return view('settingspage');
-        })->middleware('roles');
-        Route::post('/reports', 'ReportController@store');
+        Route::get('/settingspage', 'SettingController@index')->middleware('roles');
         Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
-
+        
 
 });
 Auth::routes();
