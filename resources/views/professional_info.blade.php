@@ -16,6 +16,7 @@ open
 <div class="shadow p-1 bg-white cardbox1">
     <div class="box1">
     <img src="{{$userPhoto}}" alt="img" id="profile2">
+
         @if(session()->has('pop'))
             <div class="alert alert-success">
                 {{ session()->get('pop') }}
@@ -101,18 +102,17 @@ open
                 @endif
             </div>
                 @endforeach  {{--END For Para Form --}}
-                <br><br>
             <button type="submit" class="form-group btn btn-outline-primary bprofile2">Save</button>
+            <br><br>
         </form>
         {{--------------------------- FIM Form PARA ALTERAR Phone and Email  -------------------------------------------}}
         <div id="subtitle">
             <p>Documents</p>
-            <hr><br>
+            <hr>
             @foreach ($usersAttachments as $item)
                     | {{$item->files}}<br>
             @endforeach
         </div>
-        <br><br>
             @if(session()->has('file'))
                 <div class="alert alert-success">
                     {{ session()->get('file') }}
@@ -120,13 +120,14 @@ open
             @endif
                 <div id="attachments" >
                     <form  method="POST" action="/storeimg">
-                        <div class="custom-file">
+                        <div class="submitfile custom-file" id="inputdoc">
                             <input type="file" name="user_img" class="custom-file-input" id="customFile" accept="file_extension|pdf/*|image">
                             @csrf
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                         <br><br>
                         <button type="submit" id="btnupload" class="form-group btn btn-outline-primary bprofile">Upload file</button>
+                        <br><br>
                     </form>
                 </div>
     @endforeach {{--End of controller info --}}

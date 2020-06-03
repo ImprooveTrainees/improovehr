@@ -21,9 +21,9 @@ open
         @else
         <img src="{{$users->photo}}" alt="img" id="profile">
       @endif
-    
+
     <form id="file-upload-form" class="element" action="/saveProfileImage" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-      @csrf   
+      @csrf
       <div class="shadow p-1 bg-white cardbox4">
             <i class="fa fa-camera" id="imagefile"></i>
               <input id="file-upload" type="file" name="fileUpload" accept="image/*" onchange="insertImage()">
@@ -209,7 +209,7 @@ open
             <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link" value={{$users->linkedIn}}>
             @endif
         </div>
-
+    <br>
   <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
   </form>
     </div>
@@ -228,10 +228,10 @@ open
     //         };
 
     //         reader.readAsDataURL(input.files[0]);
-            
+
     //     }
 
-       
+
     //  }
 
     function insertImage() {
