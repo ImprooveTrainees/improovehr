@@ -4,7 +4,7 @@
     Improove HR - Employees
 @endsection
 
-@section('sidebaremployees')
+@section('sidebarreports')
 active
 @endsection
 
@@ -14,20 +14,23 @@ active
         <h2 class="reportTitle">CREATE REPORT</h2>
         <hr>
 
+
         <div class="form-group" >
 
-        <p class="reportSubTitle">Choose Type Of Absence</p>
-
-
-
+        <p for="absencetype" class="reportSubTitle">Choose Type Of Absence</p>
+        <form action="/reports" method="POST" class="action">
         <div class="reportEmployees">
-        <select name="employees">
 
-        @for($i=0;$i<count($array_absences);$i+=2)
+        @csrf
 
-            <option value={{$array_absences[$i]}}>{{$array_absences[$i+1]}}</option>
+        <select name="absencetype" id="absencetype">
 
-        @endfor
+        <option value="0">All Absences</option>
+        <option value="1">Vacations</option>
+        <option value="2">Excused Absence</option>
+                                <option value="3">Unexcused Absence</option>
+                                <option value="4">Maternity Leave</option>
+                                <option value="5">Medical Leave</option>
 
         </select>
         </div>
@@ -37,11 +40,12 @@ active
 
         <div class="form-group" >
 
-        <p class="reportSubTitle">Choose Employee(s)</p>
+
+        <p for="iduser" class="reportSubTitle">Choose Employee(s)</p>
 
 
         <div class="reportEmployees">
-        <select name="employees">
+        <select name="iduser" id="iduser">
 
         @for($i=0;$i<count($array_users);$i+=2)
 
@@ -71,12 +75,11 @@ active
         <hr>
             <div class="form-group" >
 
-        <button type="submit" class="form-group btn btn-outline-primary bsettings">Export to Excel</button>
+        <button type="submit" class="form-group btn btn-outline-primary bsettings">Create Table</button>
         </div>
 
 
-
-        </div>
+        </form>
 
 </div>
 

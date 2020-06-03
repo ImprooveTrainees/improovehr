@@ -32,8 +32,8 @@ class EvaluationsController extends Controller
         $surveyTypes = surveyType::All();
         $surveys = Survey::All();
         $clickedShow = false; //será posto true na funcao "show"
-        
-    
+
+
 
         return view('testeCreateEvals')->with('surveyTypes', $surveyTypes)
         ->with('surveys', $surveys)->with('clickedShow', $clickedShow);
@@ -59,13 +59,21 @@ class EvaluationsController extends Controller
 
         $survey->save();
 
-        $msg = "Survey created successfully";
+        $msg =
+                 "<script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Survey created successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>";
 
 
 
         return redirect()->action('EvaluationsController@index')->with('msgError', $msg);
     }
-    
+
 
 
     public function createArea(Request $request)
@@ -78,7 +86,15 @@ class EvaluationsController extends Controller
         $areas->description = $areaName;
         $areas->save();
 
-        $areaSuccess = "Area created successfully!";
+        $areaSuccess =
+                        "<script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Area created successfully!',
+                                showConfirmButton: false,
+                                timer: 1500
+                                })
+                        </script>";
 
          $areaSuccess .= "<script>";
          $areaSuccess .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
@@ -106,12 +122,28 @@ class EvaluationsController extends Controller
         }
 
         if($existe) {
-            $subCatNewMsg = "Subcategory already exists!";
+            $subCatNewMsg =
+                            "<script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Subcategory already exists!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    })
+                            </script>";
         }
         else {
             $subcat->description = $subCatName;
             $subcat->save();
-            $subCatNewMsg = "Subcategory successfully created!";
+            $subCatNewMsg =
+                            "<script>
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Subcategory successfully created!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    })
+                            </script>";
         }
 
          //faz com que após a página carregar ele mostre o questionário previamente seleccionado
@@ -133,9 +165,9 @@ class EvaluationsController extends Controller
         $surveySelected = Survey::find($request->input('idSurvey'))->id;
         $areaSurveyConnection = new AreasQuestConnect;
 
-        
+
         $exists = false;
-        $areaEQuest = AreasQuestConnect::All();   
+        $areaEQuest = AreasQuestConnect::All();
         $areaName = Areas::find($request->input('areaSelect'))->description;
         $areaInSurveyMsg = "";
 
@@ -147,18 +179,35 @@ class EvaluationsController extends Controller
                     }
                 }
                 if($exists) {
-                    $areaInSurveyMsg = "This area already exists in this survey!";
+                    $areaInSurveyMsg =
+                                        "<script>
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'This area already exists in this survey!',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                                })
+                                        </script>";
+
                 }
                 else {
                     $area->description = $areaName;
                     $area->save();
-            
+
                     $areaSurveyConnection->idArea = $area->id;
                     $areaSurveyConnection->idSurvey = $surveySelected;
                     $areaSurveyConnection->save();
-                    $areaInSurveyMsg = "Area added to survey successfully";
+                    $areaInSurveyMsg =
+                                        "<script>
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Area added to survey successfully',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                                })
+                                        </script>";
                 }
-                
+
                 //faz com que após a página carregar ele mostre o questionário previamente seleccionado
                  $areaInSurveyMsg .= "<script>";
                  $areaInSurveyMsg .= 'document.getElementById("surveyShowID").value='.$surveySelected;
@@ -170,11 +219,11 @@ class EvaluationsController extends Controller
                 return redirect()->action('EvaluationsController@index')
                 ->with('msgError', $areaInSurveyMsg);
 
-        
- 
 
 
-        
+
+
+
     }
 
 
@@ -200,14 +249,22 @@ class EvaluationsController extends Controller
             $newQuestion->idTypeQuestion = $questionType;
 
             $newQuestion->save();
-            
+
             $newQuestSurvey->idSurvey = $surveyID;
             $newQuestSurvey->idQuestion = $newQuestion->id;
             $newQuestSurvey->save();
 
-          
 
-            $msg = "Question successfully added to subcategory!";
+
+            $msg =
+                    "<script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Question successfully added to subcategory!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                    </script>";
         }
         else if($request->input('questionTypeForm') == 2) {
             $question = $request->input('questionOpen');
@@ -225,18 +282,26 @@ class EvaluationsController extends Controller
             $newQuestSurvey->save();
 
 
-            $msg = "Open question successfully added to area!";
+            $msg =
+                    "<script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Open question successfully added to area!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                    </script>";
         }
-        
+
                  $msg .= "<script>";
                  $msg .= 'document.getElementById("surveyShowID").value='.$surveyID;
                  $msg .= "</script>";
                  $msg .= "<script>";
                  $msg .= 'document.getElementById("showSurvey").submit();';
                  $msg .= "</script>";
-    
 
-       
+
+
 
         return redirect()->action('EvaluationsController@index')
          ->with('msgError', $msg);
@@ -247,7 +312,15 @@ class EvaluationsController extends Controller
         $questionId = $request->input('questionIdRemove');
         Questions::find($questionId)->questSurveys()->first()->delete();
         Questions::find($questionId)->delete();
-        $msg = "Question removed successsfully!";
+        $msg =
+                    "<script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Question removed successsfully!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                    </script>";
 
         $msg .= "<script>";
         $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
@@ -260,13 +333,13 @@ class EvaluationsController extends Controller
          ->with('msgError', $msg);
     }
 
-    
+
     // public function showAreasSurvey(Request $request)
     // {
     //     //
-      
 
-        
+
+
     //     $idSurveySelected = $request->input('idSurvey');
     //     $areasInSurvey = Survey::find($idSurveySelected)->areas()->get();
     //     $surveyName = Survey::find($idSurveySelected)->name;
@@ -280,9 +353,9 @@ class EvaluationsController extends Controller
     //     ->with('areasPerSurvey', $areasInSurveyMsg);
 
 
-        
-        
-        
+
+
+
     // }
 
     public function deleteAreasSurvey(Request $request)
@@ -290,13 +363,22 @@ class EvaluationsController extends Controller
         //
         //com o explode separamos o id do survey do id da area.
         $idAreaAndSurvey = explode("and", $request->input('areaSurveyRemId'));
-        
+
         AreasQuestConnect::where('idSurvey',  $idAreaAndSurvey[1])
         ->where('idArea', $idAreaAndSurvey[0])->first()->delete();
 
         subCategories::where('idArea', $idAreaAndSurvey[0])->delete();
 
-        $areaInSurveyMsg = "This area and her subcategories were deleted successfully from survey!";
+        $areaInSurveyMsg =
+                                        "<script>
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'This area and her subcategories were deleted successfully from survey!',
+                                                showConfirmButton: false,
+                                                timer: 3500
+                                                })
+                                        </script>";
+
         $areaInSurveyMsg .= "<script>";
         $areaInSurveyMsg .= 'document.getElementById("surveyShowID").value='.$idAreaAndSurvey[1];
         $areaInSurveyMsg .= "</script>";
@@ -333,7 +415,7 @@ class EvaluationsController extends Controller
     //                     array_push($allSubCats, $subCat->description);
     //                     $msg .= "<option value=$subCat->id>".$subCat->description."</option>";
     //                 }
-                   
+
     //             }
     //     $msg .= "</select>";
     //     $msg .= "<br>";
@@ -341,7 +423,7 @@ class EvaluationsController extends Controller
     //     $msg .= "<select name='selectedArea'>";
     //                 foreach($areaPerSurvey as $aps) {
     //     $msg .=           "<option value=$aps->id>".$aps->description."</option>";
-    //                 }                
+    //                 }
     //     $msg .= "</select>";
     //     $msg .= "<button>Add</button>";
     //     $msg .= "</form>";
@@ -355,7 +437,7 @@ class EvaluationsController extends Controller
     public function addSubcatArea(Request $request)
     {
         //
-        //em vez de associar o id da subcat existente, é criado um novo com a ilusão que 
+        //em vez de associar o id da subcat existente, é criado um novo com a ilusão que
         //seleccionamos o existente, como foi feito nas areas.
 
         $newSubCat = new subCategories;
@@ -371,7 +453,15 @@ class EvaluationsController extends Controller
             }
         }
         if($existe) {
-            $msg = "Subcategorie already exists in this area!";
+            $msg =
+                    "<script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Subcategory already exists in this area!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    })
+                            </script>";
         }
         else {
             $newSubCat->idArea = $selectedArea;
@@ -379,7 +469,15 @@ class EvaluationsController extends Controller
 
             $newSubCat->save();
 
-            $msg = "Subcategorie sucessfully added to area!";
+            $msg =
+                "<script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Subcategory sucessfully added to area!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>";
         }
 
 
@@ -389,7 +487,7 @@ class EvaluationsController extends Controller
         $msg .= "<script>";
         $msg .= 'document.getElementById("showSurvey").submit();';
         $msg .= "</script>";
-        
+
 
         return redirect()->action('EvaluationsController@index')
             ->with('msgError', $msg);
@@ -404,8 +502,16 @@ class EvaluationsController extends Controller
         $areaAndSubcatId = explode("and", $request->input('choosenAreaSubCatId'));
 
         subCategories::find($areaAndSubcatId[1])->delete();
-        $msg = "Subcategorie removed with success from this area!";
-        
+        $msg =
+                "<script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Subcategory removed with success from this area!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>";
+
 
         $msg .= "<script>";
         $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
@@ -436,24 +542,59 @@ class EvaluationsController extends Controller
 
         $usersSelected = $request->input('users');
         if($usersSelected == 0) {
-            $msg = "Select users to add!";
+            $msg =
+                    "<script>
+                        Swal.fire({
+
+                            icon: 'error',
+                            title: 'Select users to add!',
+                            showConfirmButton: false,
+                            timer: 13500
+                        })
+                    </script>";
         }
         else if($countPerformance != $countPotential) {
-            $msg = "The number of performance and potential questions must be equal!";
+            $msg =
+                    "<script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'The number of performance and potential questions must be equal!',
+                                showConfirmButton: false,
+                                timer: 3500
+                                })
+                        </script>";
         }
         else {
 
-        
+
         $dateLimit = $request->input('limitDate');
         $survey = $request->input('idSurveyAutoShow');
-        $msg = "Users assigned successfully!";
+        $msg =
+                "<script>
+                    Swal.fire({
+
+                        icon: 'success',
+                        title: 'Users assigned successfully!',
+                        showConfirmButton: false,
+                        timer: 13500
+                    })
+                </script>";
         $allSurveyUsers = surveyUsers::All();
         $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
 
         foreach($usersSelected as $user) {
             foreach($allSurveyUsers as $all) {
                 if($all->idUser == $user && $all->idSurvey == $survey){ //verifica se já existe o user no survey
-                    $msg = "That user is already assigned to this survey!";
+                    $msg =
+                            "<script>
+                                Swal.fire({
+
+                                    icon: 'error',
+                                    title: 'That user is already assigned to this survey!',
+                                    showConfirmButton: false,
+                                    timer: 13500
+                                })
+                            </script>";
                     break 2;
                 }
             }
@@ -507,10 +648,26 @@ class EvaluationsController extends Controller
         $survey = $request->input('idSurveyAutoShow');
 
         if($usersSelected == 0) {
-            $msg = "Select users to remove!";
+            $msg = "<script>
+                        Swal.fire({
+
+                            icon: 'error',
+                            title: 'Select users to remove!',
+                            showConfirmButton: false,
+                            timer: 13500
+                        })
+                    </script>";
         }
-        else {   
-            $msg = "Users removed successfully!";
+        else {
+            $msg = "<script>
+                        Swal.fire({
+
+                            icon: 'success',
+                            title: 'Users removed successfully!',
+                            showConfirmButton: false,
+                            timer: 13500
+                        })
+                    </script>";
         foreach($usersSelected as $usersRem) {
             surveyUsers::where('idUser', $usersRem)->where('idSurvey', $survey)->delete();
         }
@@ -546,10 +703,10 @@ class EvaluationsController extends Controller
     public function show(Request $request)
     {
         //
-        
+
         $clickedShow = true;
         $showSurveyGeneral = "";
-        
+
         $selectedSurveyId = $request->input('surveyShowID');
 
 
@@ -572,31 +729,31 @@ class EvaluationsController extends Controller
         ///////////////
         $allAreas = [];
         $allAreasId = [];
-            
+
 
             foreach($allAreasDB as $area) {
             if(!in_array($area->description, $allAreas)) {
                 array_push($allAreas, $area->description);
                 array_push($allAreasId, $area->id);
                 }
-            
+
             }
-                
+
              //End Button Area
             ///////////////
 
             //Button Subcategory
             ///////////////
-  
+
             $allSubCats = [];
             $allSubCatsId = [];
             foreach($subCats as $subCat) {
                 if(!in_array($subCat->description, $allSubCats)) {
                     array_push($allSubCats, $subCat->description);
                     array_push($allSubCatsId, $subCat->id);
-                    
+
                 }
-               
+
             }  //para não repetir as subcats
 
             $subCatsLoop = "";
@@ -605,7 +762,7 @@ class EvaluationsController extends Controller
             foreach($subCatsArea as $subCat) {
                 $subCatsLoop .= "<option value=".$area->id."and".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
                 }
-            
+
             }
 
             //End Button Subcategory
@@ -620,11 +777,11 @@ class EvaluationsController extends Controller
                 foreach($subCatsArea as $subCat) {
                     $subCatsLoopQuestions .=  "<option value=".$subCat->id.">Subcat: ".$subCat->description." | Area: ".$area->description."</option>";
                 }
-                
+
             }
             //Mostra todas as subcats das areas de um questionario, assim como as questões de
-            //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a 
-            //questão certa 
+            //cada subcat. A contagem é para ficar igual ao li do questionário, e remover a
+            //questão certa
             $openQuestionsLoop = "";
             $NumericQuestionsLoop = "";
 
@@ -638,7 +795,7 @@ class EvaluationsController extends Controller
                         $countQuestions++;
                     }
                     $countQuestions = 1;
-                    
+
                 }
                 foreach($openQuestions as $openQuestion){
                     $openQuestionsLoop .= '<option value='.$openQuestion->id.'>'.$area->description.' | '.'Open Question: '.$countQuestions.'</option>';
@@ -647,7 +804,7 @@ class EvaluationsController extends Controller
                 $countQuestions = 1;
             }
 
-            
+
             //End Button Questions
             ///////////////
 
@@ -655,9 +812,9 @@ class EvaluationsController extends Controller
             ///////////////
             $usersAssigned = Survey::find($selectedSurveyId)->users()->get();
 
-            //End Users 
+            //End Users
             ///////////////
-                    
+
             //Survey Structure
             $areasExist = false;
             $areasHTML = [];
@@ -675,7 +832,7 @@ class EvaluationsController extends Controller
                     }
                     else {
                         foreach($subCats as $subcatArea) {
-                                array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);       
+                                array_push($subCatsHTML,$surveyAreas[$i],$subcatArea);
                                 $subCatsQuestions = subCategories::find($subcatArea->id)->questions()->orderBy('created_at', 'asc')->get();
                                 if($subCatsQuestions->count() == 0) {
                                     array_push($questionsNumericHTML,$subcatArea,'0');
@@ -683,14 +840,14 @@ class EvaluationsController extends Controller
                                 else {
                                 foreach($subCatsQuestions as $question) {
                                     if($question->idTypeQuestion == 2) {
-                                        array_push($questionsNumericHTML,$subcatArea, $question);                                 
+                                        array_push($questionsNumericHTML,$subcatArea, $question);
                                     } //mostra apenas as questões numéricas, e não as abertas, pois estas não
                                       //têm subcategoria
-                                    
+
                                 }
                             }
                         }
-                    }       
+                    }
                 }
                 foreach($surveyAreas as $sAreasOpen) {
                         $openQuestions = Areas::find($sAreasOpen->id)->openQuestions()->orderBy('created_at', 'asc')->get();
@@ -702,29 +859,29 @@ class EvaluationsController extends Controller
                                 array_push($openQuestionsHTML,$sAreasOpen,$openQuestion);
                             }
                         }
-                            
-                        
+
+
                 } //aqui procura só as questoes abertas, que não têm subcategoria
-            
+
             //Users assigned
                 $usersEvaluated = surveyUsers::where('idSurvey', $selectedSurveyId)->get();
-                foreach($usersEvaluated as $user) {            
+                foreach($usersEvaluated as $user) {
                     if($user->evaluated == 1) {
                         array_push($usersEvaluatedHTML,User::find($user->idUser)->name);
                     }
                     else {
                         $usersWillEvalueHTML[User::find($user->idUser)->name] = User::find($user->willEvaluate)->name; //array associativo
                     }
-                    
-                }    
+
+                }
 
 
             //End Survey Structure
 
 
         return view('testeCreateEvals')->with(compact('showSurveyGeneral', 'surveyTypes', 'surveys',
-        'surveyName','surveyType', 
-        'selectedSurveyId', 'allAreas', 'allAreasDB','surveyAreas','allAreasId', 'allSubCats', 
+        'surveyName','surveyType',
+        'selectedSurveyId', 'allAreas', 'allAreasDB','surveyAreas','allAreasId', 'allSubCats',
         'allSubCatsId', 'subCatsLoop', 'questionTypes', 'PPs', 'subCatsLoopQuestions',
         'NumericQuestionsLoop','openQuestionsLoop', 'usersAssigned', 'users',
         'usersEvaluated',
