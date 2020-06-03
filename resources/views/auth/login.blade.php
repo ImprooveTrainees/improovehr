@@ -1,19 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-
-<img src="img/login.svg" alt="improove" srcset="" id="login_first">
 <div class="container">
     <div class="row justify-content-center">
+        <img src="img/login.svg" alt="improove" srcset="" id="login_first">
         <div class="login_box">
             <div class="card bg-light card_login">
-                <div class="card-body">
+                <div class="cardLogin">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                        <div class="emailLogin">
+                            <label for="email">{{ __('E-Mail Address') }}</label>
 
-                            <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -21,13 +19,10 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
+                        <div class="passwordLogin">
+                            <label for="password">{{ __('Password') }}</label>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -35,11 +30,9 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
+                        <div class="rememberLogin">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -47,11 +40,9 @@
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
-                            </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                        <div class="forgotLogin">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
@@ -61,7 +52,6 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                            </div>
                         </div>
                     </form>
                     <img/>

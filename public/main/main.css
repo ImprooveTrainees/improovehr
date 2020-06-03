@@ -11,12 +11,68 @@
 #login_first {
   width: 100%;
   right: 0;
+  top: 0;
   height: auto;
   position: absolute;
 }
 
 .card_login {
   border-radius: 30px;
+}
+
+.passwordLogin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 160px 200px;
+      grid-template-columns: 160px 200px;
+  width: 360px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.passwordLogin label {
+  margin: auto;
+}
+
+.emailLogin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 160px 200px;
+      grid-template-columns: 160px 200px;
+  width: 360px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.emailLogin label {
+  margin: auto;
+}
+
+.rememberLogin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 160px;
+      grid-template-columns: 160px;
+  width: 160px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.forgotLogin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 180px;
+      grid-template-columns: 120px 180px;
+  margin: auto;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.cardLogin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 230px;
+      grid-template-rows: 230px;
 }
 
 @media screen and (min-width: 800px) {
@@ -1234,6 +1290,9 @@ body {
   #allnotifications {
     margin-top: 15px;
   }
+  .cardboxsettings {
+    height: 98%;
+  }
 }
 
 @media (max-width: 425px) {
@@ -1602,6 +1661,11 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> cbcaba14693e5d44cc3b7b315a31b3a131d770e7
 
 .colors h2 {
   margin-bottom: 13px;
@@ -1614,4 +1678,77 @@ input[type=radio] {
   color: rgba(99, 79, 79, 0.692);
   text-align: center;
 }
+<<<<<<< HEAD
+
+.formSurvTest {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 86px 220px 40px;
+      grid-template-columns: 86px 220px 40px;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  float: left;
+  font-size: 11pt;
+}
+
+.centerStyle h4 {
+  margin-top: 3%;
+  text-align: center;
+  font-family: Helvetica;
+  color: #a7b530;
+}
+
+.finalAverage {
+  margin-top: 5%;
+}
+
+.finalAverage #lineform {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 0;
+}
+
+.showFinalAverage {
+  width: 25%;
+}
+
+.showFinalAverageGrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 120px 120px;
+      grid-template-columns: 120px 120px 120px;
+  margin: auto;
+  width: 400px;
+  text-align: center;
+  grid-gap: 20px;
+}
+
+#tableStyle {
+  color: white;
+  font-family: Helvetica;
+}
+
+#tableFormat {
+  text-align: center;
+  margin-top: 4%;
+}
+
+#myChart {
+  max-width: 500px;
+  max-height: 900px;
+  background-color: red;
+}
+
+.chartStyle {
+  width: 400px;
+  margin: auto;
+  margin-top: 4%;
+}
+>>>>>>> Stashed changes
+=======
+>>>>>>> cbcaba14693e5d44cc3b7b315a31b3a131d770e7
 /*# sourceMappingURL=main.css.map */

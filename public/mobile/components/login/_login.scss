@@ -18,12 +18,58 @@
 #login_first {
     width: 100%;
     right: 0;
+    top: 0;
     height: auto;
     position: absolute;
 }
 
 .card_login {
     border-radius: 30px;
+}
+
+.passwordLogin {
+    display: grid;
+    grid-template-columns: 160px 200px;
+    width: 360px;
+    margin: auto;
+    margin-top: 20px;
+
+    label {
+        margin: auto;
+    }
+}
+
+.emailLogin {
+    display: grid;
+    grid-template-columns: 160px 200px;
+    width: 360px;
+    margin: auto;
+    margin-top: 20px;
+
+    label {
+        margin: auto;
+    }
+}
+
+.rememberLogin {
+    display: grid;
+    grid-template-columns: 160px;
+    width: 160px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.forgotLogin {
+    display: grid;
+    grid-template-columns: 120px 180px;
+    margin: auto;
+    width: 300px;
+    margin-top: 20px;
+}
+
+.cardLogin{
+    display: grid;
+    grid-template-rows: 230px;
 }
 
 @import '../../../screens/components/login/login';

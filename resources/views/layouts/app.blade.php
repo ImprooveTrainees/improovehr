@@ -23,9 +23,9 @@
     <link rel="stylesheet" href="main/main.css">
 </head>
 <body>
-    <div id="app">
+    {{-- <div id="app"> --}}
         {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"> --}}
-            <div class="container">
+            {{-- <div class="container"> --}}
                 {{-- <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
@@ -70,11 +70,12 @@
                         @endguest
                     </ul>
                 </div>
-            </div>
-        </nav>
-<main class="">
+            {{-- </div> --}}
+        {{-- </nav> --}}
+    {{-- </div> --}}
+<main>
             @yield('content')
-        </main>
-    </div>
+</main>
+
 </body>
 </html>
