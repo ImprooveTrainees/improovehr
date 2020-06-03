@@ -71,7 +71,7 @@ Route::get('/remUser', 'EvaluationsController@remUser');
 Route::get('/showSurvey', 'EvaluationsController@show');
 //
 
-//Evaluations AdminRH Evaluation Result 
+//Evaluations AdminRH Evaluation Result
 Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
 Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
 Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys');
@@ -104,3 +104,6 @@ Route::get('/settingspage', function () {
     return view('settingspage');
 });
 
+Route::get('/flextime', function () {
+    return view('flextime');
+});

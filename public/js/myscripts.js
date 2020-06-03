@@ -1,4 +1,4 @@
-// Change the cheked Box of Notifications when press "All Notifications"
+// Change the checked Box of Notifications when press "All Notifications"
 document.addEventListener('DOMContentLoaded', function () {
     var checkbox = document.querySelector("#allnotifications input[type=checkbox]");
     var checkbox2 = document.querySelector("#holidaysnoti input[type=checkbox]");
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-
 
 // Employees Role
 $("#exampleRole").change(function(){

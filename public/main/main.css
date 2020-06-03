@@ -723,7 +723,7 @@ body {
 }
 
 .cardbox2 {
-  height: 90px;
+  height: 70px;
   width: 90%;
   margin: auto;
   border-radius: 25px;
@@ -1234,6 +1234,9 @@ body {
   #allnotifications {
     margin-top: 15px;
   }
+  .cardboxsettings {
+    height: 98%;
+  }
 }
 
 @media (max-width: 425px) {
@@ -1248,41 +1251,272 @@ body {
     font-size: 10pt;
   }
 }
-/*# sourceMappingURL=main.css.map */
-.holidayDates {
 
-    font-size: 15px;
-
+#lastMonth,
+#last2weeks,
+#currentWeek {
+  display: none;
 }
 
-.attachContainer{
-
-    min-width: 300px;
-position: relative;
-
+.flexstyle {
+  margin: unset;
+  margin-top: 60px;
+  margin-left: 100px;
+  width: 330px;
+  height: 190px;
+  float: left;
 }
 
-.attachamentText {
-
-    font-size: 14px;
-
+#flexh6 {
+  color: grey;
+  margin-top: 40px;
+  margin-left: 15px;
 }
 
-.iconSize {
-
-    font-size: 14px;
-
+#flexhours {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70px 30px 70px 70px;
+      grid-template-columns: 70px 30px 70px 70px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 15px;
 }
 
-.errorVacation {
+#flexhours h1,
+#flexhours h4 {
+  text-align: center;
+}
 
-    height: 40px;
-    width: "100%";
+table,
+th,
+td {
+  margin-bottom: 0;
+}
+
+.block-content {
+  padding: 1.25rem 1.25rem 1px;
+}
+
+#flexmonths {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 390px;
+      grid-template-columns: 390px;
+  margin-top: 100px;
+}
+
+#flexmonths h1 {
+  font-size: 60pt;
+  margin-left: 150px;
+}
+
+#flexleft {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 50px 50px;
+      grid-template-columns: 100px 50px 50px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 15px;
+}
+
+#flexleft h3,
+#flexleft h6 {
+  text-align: center;
+}
+
+#flexbuttons {
+  grid-gap: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 120px 120px;
+      grid-template-columns: 120px 120px 120px;
+  margin: auto;
+  width: 400px;
+  margin-top: 80px;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.mySlides1,
+.mySlides2 {
+  display: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  font-weight: bold;
+  font-size: 18px;
+  -webkit-transition: 0.6s ease;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  -webkit-transition: background-color 0.6s ease;
+  transition: background-color 0.6s ease;
+}
+
+.dot .active {
+  background-color: #717171;
+}
+
+@media screen and (min-width: 320px) and (max-width: 425px) {
+  .flexstyle {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 230px;
+    height: 180px;
+    float: none;
+  }
+  #flexbuttons {
+    -ms-grid-columns: 120px;
+        grid-template-columns: 120px;
+    width: 120px;
+    margin-top: 30px;
+  }
+  #flexhours {
+    -ms-grid-columns: 50px 30px 50px 50px;
+        grid-template-columns: 50px 30px 50px 50px;
+  }
+  #flexstyle h6 {
+    font-size: 10pt;
+  }
+  #flexstyle h1 {
+    font-size: 25pt;
+  }
+  #flexstyle h4 {
+    font-size: 15pt;
+  }
+  #flexmonths {
+    -ms-grid-columns: 280px;
+        grid-template-columns: 280px;
+    width: 280px;
+    margin-top: 40px;
+    text-align: center;
     margin: auto;
-    border-radius: 25px;
-    margin-top: 10px;
-    margin-left: 2%;
-
+    margin-top: 30px;
+  }
+  #flexmonths h1 {
+    margin-left: 0px;
+    font-size: 50pt;
+    margin: auto;
+  }
+  .block-content {
+    padding: 0.25rem 0.25rem 1px;
+  }
+  .block-content table,
+  .block-content th,
+  .block-content td {
+    width: 260px;
+    font-size: 9pt;
+    border: 1px solid black;
+    margin-bottom: 15px;
+  }
+  .block-content td {
+    background-color: #dee2e6;
+  }
+  #lastMonth h3 {
+    font-size: 15pt;
+  }
 }
 
+@media screen and (min-width: 700px) and (max-width: 1100px) {
+  #flexmonths {
+    margin: auto;
+    margin-top: 120px;
+    -ms-grid-columns: 190px;
+        grid-template-columns: 190px;
+    text-align: center;
+    width: 190px;
+  }
+  #flexmonths h1 {
+    margin-left: 0;
+  }
+  .flexstyle {
+    margin-left: 70px;
+    width: 300px;
+  }
+}
+
+@media only screen and (device-width: 425px) {
+  .block-content table {
+    width: 360px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+  .block-content table {
+    width: 320px;
+  }
+}
 /*# sourceMappingURL=main.css.map */

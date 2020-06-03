@@ -272,7 +272,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/harvest">
+                                    <a class="nav-main-link @yield('sidebarflextime')" href="/harvest">
                                         <span class="nav-main-link-name">Flex-Time</span>
                                     </a>
                                 </li>
@@ -607,5 +607,6 @@
         <script src="assets/js/pages/be_tables_datatables.min.js"></script>
 
         <script src="js/myscripts.js"></script>
+        <script src="js/flextime.js"></script>
     </body>
 </html>
