@@ -42,7 +42,7 @@ open
 
           <div class="shadow p-1 bg-white cardbox2">
                 <a data-toggle="modal" data-target="#modalVacation">
-                <div class="shadow p-1 bg-white cardbox3">
+                <div id="addholiday" class="shadow p-1 bg-white cardbox3">
                     <i class="fas fa-plus"></i>
                     <h5>Add New Holiday</h5>
                 </div>
@@ -50,18 +50,18 @@ open
             </div>
 
         @for($i=0;$i<count($array_vacations);$i+=4)
-            <div class="shadow p-1 bg-white cardbox2">
+            <div class="shadow p-1 bg-white cardbox2" id="holbox">
                 <div id="startday">
                     <h5>Start Day</h5>
-                    <p class="holidayDates">{{$array_vacations[$i+1]}}</p>
-                    <a data-toggle="modal" data-target="#editStartDay">
+                    <p1 class="holidayDates">{{$array_vacations[$i+1]}}</p1>
+                    <a class="editstart" data-toggle="modal" data-target="#editStartDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="endday">
                     <h5>End Day</h5>
-                    <p class="holidayDates">{{$array_vacations[$i+2]}}</p>
-                    <a data-toggle="modal" data-target="#editEndDay">
+                    <p2 class="holidayDates">{{$array_vacations[$i+2]}}</p2>
+                    <a class="editend" data-toggle="modal" data-target="#editEndDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click2(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
@@ -220,7 +220,7 @@ open
 
  <div class="shadow p-1 bg-white cardbox2">
           <a data-toggle="modal" data-target="#modalAbsence">
-          <div class="shadow p-1 bg-white cardbox3">
+          <div id="addabsence" class="shadow p-1 bg-white cardbox3">
               <i class="fas fa-plus"></i>
               <h5>Add New Absence</h5>
           </div>
@@ -229,7 +229,7 @@ open
 
 @for($i=0;$i<count($array_absences);$i+=7)
 
-      <div class="shadow p-1 bg-white cardbox2">
+      <div class="shadow p-1 bg-white cardbox2" id="absbox">
           <div id="startdayab">
               <h5>Start Day</h5>
               <p class="holidayDates">{{$array_absences[$i+1]}}</p>
