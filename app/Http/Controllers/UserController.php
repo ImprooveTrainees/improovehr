@@ -45,6 +45,7 @@ class UserController extends Controller
         //$idAutenticado = Auth::User()->id;
         $users = User::all();
         $departments = departments::all();
+        $userLogged = Auth::user();
 
 
         $msg = "";
@@ -91,7 +92,21 @@ class UserController extends Controller
             }
             else {
                 $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
-            }        
+            }
+            if($userLogged->idusertype == 1) { // se for admin
+                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";   
+                
+            }
+            else if($userLogged->idusertype == 2) { // se for manager
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
+                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";
+                }
+            }
+            else if($userLogged->idusertype == 3) { // se for RH
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
+                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";
+                }
+            }              
             $msg .= "</tr>";
 
 
@@ -103,7 +118,11 @@ class UserController extends Controller
         
 
 
-        return view('employees')->with('msg', $msg)->with('departmentList', $departmentList);
+        return view('employees')
+        ->with('msg', $msg)
+        ->with('departmentList', $departmentList)
+        ->with('userLogged', $userLogged);
+        ;
     }
 
     public function newEmployeeView()
