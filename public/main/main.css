@@ -9,14 +9,23 @@
 }
 
 #login_first {
-    width: 100%;
-    right: 0;
-    height: auto;
-    position: absolute;
+  width: 100%;
+  right: 0;
+  top: 0;
+  height: auto;
+  position: absolute;
 }
 
 .card_login {
     border-radius: 30px;
+}
+
+#btnlogin {
+  margin-top: -13px;
+}
+
+#linkfp {
+  margin-top: -13px;
 }
 
 @media screen and (min-width: 800px) {
@@ -285,71 +294,64 @@ body {
     margin-bottom: 1rem;
 }
 
-@media (min-width: 1300px) and (max-width: 1500px) {
-    #box1 {
-        margin-left: 127px;
-        width: 17%;
-        margin-top: 367px;
-    }
-
-    #box2 {
-        margin-left: -4px;
-        width: 17%;
-    }
-
-    #box3 {
-        margin-left: 266px;
-        width: 17%;
-    }
-
-    #allboxes {
-        margin-top: -411px;
-        margin-left: 1px;
-    }
-
-    #allboxes2 {
-        margin-left: 223px;
-        width: 100%;
-    }
-
-    #calendar {
-        margin-right: -20px;
-    }
-
-    #ptotal {
-        margin-left: 44%;
-        margin-top: -102px;
-    }
-
-    #year1 {
-        margin-left: 48px;
-    }
-
-    #currentyear1 {
-        margin-left: 168px;
-    }
-
-    #pholidays {
-        margin-top: 4px;
-    }
-
-    #year2 {
-        margin-left: 44px;
-    }
-
-    #pabsences {
-        margin-top: -14px;
-    }
-
-    #currentyear2 {
-        margin-left: 167px;
-    }
-
-    .controls-top {
-        margin-left: 470px;
-        margin-top: -19px;
-    }
-}
+@media (min-width: 1250px) and (max-width: 1500px) {
+  #box1 {
+    margin-left: 127px;
+    width: 17%;
+    margin-top: 367px;
+  }
+  #box2 {
+    margin-left: -4px;
+    width: 17%;
+  }
+  #box3 {
+    margin-left: 266px;
+    width: 17%;
+  }
+  #allboxes {
+    margin-top: -411px;
+    margin-left: 1px;
+  }
+  #allboxes2 {
+    margin-left: 223px;
+    width: 100%;
+  }
+  #calendar {
+    margin-right: -25px;
+    margin-top: 34%;
+  }
+  #ptotal {
+    margin-left: 44%;
+    margin-top: -102px;
+  }
+  #year1 {
+    margin-left: 48px;
+  }
+  #currentyear1 {
+    margin-left: 168px;
+  }
+  #pholidays {
+    margin-top: 4px;
+  }
+  #year2 {
+    margin-left: 44px;
+  }
+  #pabsences {
+    margin-top: -14px;
+  }
+  #currentyear2 {
+    margin-left: 167px;
+  }
+  .controls-top {
+    margin-left: 470px;
+    margin-top: -19px;
+  }
+  #multi-item-example {
+    margin-top: 679px;
+    width: 450px;
+    margin-left: -263px;
+    position: absolute;
+  }
 
 .bprofile {
     width: 25%;
@@ -446,8 +448,10 @@ body {
 }
 
 .element #imagefile {
-    font-size: 25px;
-    padding: 0;
+  font-size: 25px;
+  padding: 0;
+  margin-left: 4px;
+  margin-top: 2px;
 }
 
 .element .cardbox4 {
@@ -573,14 +577,13 @@ body {
 }
 
 .bprofile2 {
-    margin-top: 30px;
-    width: 25%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
+  width: 24%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .role,
@@ -839,9 +842,9 @@ body {
     margin-right: 23px;
 }
 
-#attachment a {
-    float: left;
-    margin-left: 13px;
+#attachment #addmotive {
+  float: left;
+  margin-left: 16px;
 }
 
 #type {
@@ -866,13 +869,18 @@ body {
 }
 
 #type p {
-    float: left;
-    margin-right: 15px;
+  float: left;
+  margin-right: 15px;
+  margin-left: 20px;
 }
 
 #type a {
-    float: left;
-    margin-left: 13px;
+  float: left;
+  margin-left: 30px;
+}
+
+#type #addtype {
+  margin-left: -9px;
 }
 
 #startdayab,
@@ -925,16 +933,17 @@ body {
 }
 
 #approvalab {
-    margin-top: 1%;
-    height: 50px;
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 35px 80px;
-    grid-template-columns: 35px 80px;
-    -ms-grid-rows: 25px 25px;
-    grid-template-rows: 25px 25px;
-    float: left;
-    width: 17%;
+  margin-top: 1%;
+  height: 50px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 35px 80px;
+      grid-template-columns: 35px 80px;
+  -ms-grid-rows: 25px 25px;
+      grid-template-rows: 25px 25px;
+  float: left;
+  width: 17%;
+  margin-left: 25px;
 }
 
 #approvalab h5 {
@@ -1002,6 +1011,16 @@ p2 {
 #addabsence {
   margin-top: 0px;
   margin-left: 7px;
+}
+
+#cardbox4 {
+  height: 110%;
+}
+
+#paginationholabs {
+  margin-right: -1010px;
+  margin-left: 40px;
+  margin-top: 10px;
 }
 
 @media screen and (min-width: 768px) {
@@ -1932,22 +1951,22 @@ input[type=radio] {
 }
 
 .edit-form-control {
-    display: block;
-    width: 300%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    -webkit-transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-    transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+  display: block;
+  width: 300%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
 
 .colors h2 {
@@ -2026,9 +2045,9 @@ input[type=radio] {
 }
 
 .chartStyle {
-    width: 400px;
-    margin: auto;
-    margin-top: 4%;
+  width: 400px;
+  margin: auto;
+  margin-top: 4%;
 }
 
 .titleReport {
@@ -2123,3 +2142,4 @@ input[type=radio] {
   font-size: 20px;
   font-weight: bold;
 }
+
