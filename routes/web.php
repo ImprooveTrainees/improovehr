@@ -51,6 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
 
         //
 
+        //Admin, RH, Manager Routes 
+        Route::get('/editProfessionalInfo', 'UserController@editProfessionalInfo');
+        Route::get('/deleteEmployee/{id}', 'UserController@deleteEmployee');
+        //
+
         //Harvest
         Route::get('/harvest', 'HarvestController@index');
         //

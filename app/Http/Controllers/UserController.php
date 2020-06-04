@@ -8,6 +8,7 @@ use App\departments;
 use App\offices_deps;
 use App\contract;
 use App\users_deps;
+use App\contractType;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class UserController extends Controller
         $users = User::all();
         $departments = departments::all();
         $userLogged = Auth::user();
+
+        $contractTypes = contractType::All();
 
 
         $msg = "";
@@ -94,17 +97,20 @@ class UserController extends Controller
                 $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
             }
             if($userLogged->idusertype == 1) { // se for admin
-                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";   
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";  
                 
             }
             else if($userLogged->idusertype == 2) { // se for manager
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
-                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>"; 
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
-                    $msg .= "<td>"."<button id='editUserModal'><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";   
                 }
             }              
             $msg .= "</tr>";
@@ -121,7 +127,9 @@ class UserController extends Controller
         return view('employees')
         ->with('msg', $msg)
         ->with('departmentList', $departmentList)
-        ->with('userLogged', $userLogged);
+        ->with('userLogged', $userLogged)
+        ->with('contractTypes', $contractTypes)
+        ->with('departments', $departments)
         ;
     }
 
@@ -305,10 +313,44 @@ class UserController extends Controller
 
 
 
-        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');;
+        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');
 
 
 
+
+    }
+
+    public function editProfessionalInfo(Request $request)
+    {
+        //
+        $userId = $request->input('idUser');
+        $newRole = $request->input('roleEditProf');
+        $contractTypeId = $request->input('contractTypeEdit');
+        $departmentId = $request->input('departmentTypeEdit');
+        $contractBegin = $request->input('dateBeginEditProf');
+        $contractEnd = $request->input('dateEndEditProf');
+        $companyMail = $request->input('companyMailProfInfo');
+        $companyMobile = $request->input('companyMobileProfInfo');
+
+        $editContractUser = contract::where('iduser', $userId)->first();
+        $editContractUser->position = $newRole;
+        $editContractUser->idcontracttype = $contractTypeId;
+
+        $editContractUser->start_date = $contractBegin;
+        $editContractUser->end_date = $contractEnd;
+        $editContractUser->save();
+
+        $userDep = users_deps::where('idUser', $userId)->first();
+        $userDep->idDepartment = $departmentId;
+        $userDep->save();
+
+        $userSelected = User::find($userId);
+        $userSelected->compMail = $companyMail;
+        $userSelected->compPhone = $companyMobile;
+        $userSelected->save();
+
+        
+        return redirect()->action('UserController@employees')->with('message', 'Info saved successfully');
 
     }
 
@@ -330,8 +372,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteEmployee($id)
     {
         //
+        $userToRemove = User::find($id);
+        $userToRemove->delete();
+
+        $msg = "Employee removed succesfully";
+
+        return redirect()->action('UserController@employees')->with('message', $msg);
+
+
+
+
+
     }
 }

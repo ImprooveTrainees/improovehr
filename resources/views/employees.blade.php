@@ -49,6 +49,7 @@ active
                     <th style="width: 15%;">Staff Manager</th>
                     @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
                         <th>Edit</th>
+                        <th>Remove</th>
                     @endif
                 </tr>
             </thead>
@@ -189,7 +190,6 @@ active
 
 
 <!-- Trigger/Open The Modal -->
-<button id="editUserModal">Open Modal</button>
 
   <!-- The Modal -->
 <div id="editProfessionaInfoModal" class="modal">
@@ -197,10 +197,54 @@ active
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
-      <p>Some text in the Modal..</p>
-    </div>
+        <form id="professionalEditForm" action="/editProfessionalInfo">
+            @csrf
+            Role:
+        <select class="form-control" name="roleEditProf" id="exampleRole" required>
+                <option>Manager</option>
+                <option value="Project Manager">Project Manager</option>
+                <option selected="selected" value="Front End Developer">Front-End Developer</option>
+                <option value="Back End Developer">Back-End Developer</option> 
+                <option>Human Resources</option>
+                <option value="other">Other</option> 
+        </select>
+        pôr hidden div (other role)
+        <br>
+        Type of contract: <br>
+        <select name="contractTypeEdit">
+        @foreach($contractTypes as $cont)
+            <option value={{$cont->id}}>{{$cont->description}}</option>
+        @endforeach
+        </select>
+        Department:  <br>
+        <select name="departmentTypeEdit">
+            @foreach($departments as $dep)
+                <option value={{$dep->id}}>{{$dep->description}}</option>
+            @endforeach
+        </select>
+
+        Contract begin: <br>
+        <input name="dateBeginEditProf" type="date">
+
+        End of contract: <br>
+        <input name="dateEndEditProf" type="date">
+        <br>
+        Company Email: <br>
+        <input name="companyMailProfInfo" type="text">
+        <br>
+        Company Mobile: <br>
+        <input name="companyMobileProfInfo" type="number">
+        <br>
+        <button type="submit">Save</button>
+    </form>
+</div>
+     
+</div>
+
+
+
   
-  </div>
+
 
 
 <style>
@@ -210,7 +254,7 @@ active
 }
     
     
-    .modal {
+.modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -253,32 +297,49 @@ active
     
     
 <script> 
-// Get the modal
-var modal = document.getElementById("editProfessionaInfoModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("editUserModal");
+function modalOpen(idUser) {
+    var modal = document.getElementById("editProfessionaInfoModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("editUserModal");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+    // When the user clicks the button, open the modal 
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+    modal.style.display = "block";
+    
+    var form = document.getElementById('professionalEditForm');
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("value",  idUser);
+    hiddenInput.setAttribute("id",  "idUser");
+    hiddenInput.setAttribute("name",  "idUser");
+    form.appendChild(hiddenInput); //cria hidden input com o id do user, que vem do argumento da funcao
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
     modal.style.display = "none";
-  }
+    document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+        }   
+    }
+
+
 }
-    </script>
+
+
+
+
+
+</script>
     
     
 
