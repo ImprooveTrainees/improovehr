@@ -1,0 +1,65 @@
+@mixin gridBox {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 86px 220px 40px;
+    grid-template-rows: auto;
+    float: left;
+    font-size: 11pt;
+}
+
+.formSurvTest{
+
+    @include gridBox();
+
+}
+.centerStyle{
+    h4{
+        margin-top: 3%;
+        text-align: center;
+        font-family: Helvetica;
+        color: #a7b530;
+    }
+}
+
+.finalAverage{
+    margin-top: 5%;
+
+    #lineform {
+        display: flex;
+        margin-left: 0;
+    }
+}
+
+.showFinalAverage{
+    width: 25%;
+}
+.showFinalAverageGrid{
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    margin: auto;
+    width: 400px;
+    text-align: center;
+    grid-gap: 20px;
+
+}
+
+#tableStyle{
+    color: white;
+    font-family: Helvetica;
+}
+
+#tableFormat{
+    text-align: center;
+    margin-top: 4%;
+}
+
+#myChart {
+    max-width: 500px;
+    max-height: 900px;
+    background-color: red;
+}
+.chartStyle{
+    width: 400px;
+    margin: auto;
+    margin-top: 4%;
+}

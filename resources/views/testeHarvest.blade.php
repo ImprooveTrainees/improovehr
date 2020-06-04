@@ -40,11 +40,81 @@ open
     {{$harvestProfile->first_name}} {{$harvestProfile->last_name}}
     <br>
     {{$harvestProfile->email}}
+    This Week
+    <br>
+    {{$currentWeek}}
+    <br>
+    @if($totalHours > $totalHoursTodoCurrentWeek)
+    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You did more {{$totalHours - $totalHoursTodoCurrentWeek}} hours this week.
+    @else
+    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.
+    @endif
+    <br>
+    <br>
+
+    <table>
+    <tr>
+{{--
+    <th>{{date( 'D', strtotime( 'monday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'monday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'tuesday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'tuesday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'wednesday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'wednesday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'thursday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'thursday this week'))}}
+    </th>
+    <th>{{date( 'D', strtotime( 'friday this week'))}}
+        <br>
+        {{date( 'd F', strtotime( 'friday this week'))}}
+    </th> --}}
+
+    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+        <th>{{date( 'D', strtotime( 'monday this week +'.$b.' days'))}}
+            <br>
+            {{date( 'd F', strtotime( 'monday this week +'.$b.' days'))}}
+        </th>
+    @endfor
+
+
+    </tr>
+
+
+
+    <tr>
+    @foreach($totalsCurrentWeek as $dayCurrent)
+        @if(is_numeric($dayCurrent))
+            <td>{{$dayCurrent}} hours</td>
+        @else
+            <td>{{$dayCurrent}}</td>
+        @endif
+    @endforeach
+    </tr>
+
+
 
     <br>
     Total hours reported this month: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
     <br>
     You must report more {{$hoursLeftReport}} hours this month. --}}
+    {{$lastWeek}}
+    <table>
+        <tr>
+
+    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+        <th>{{date( 'D', strtotime( '-1 week monday this week +'.$b.' days'))}}
+            <br>
+            {{date( 'd F', strtotime( ' -1 week monday this week +'.$b.' days'))}}
+        </th>
+    @endfor
+
 
     <div id="flexbuttons">
         <button  class="form-group btn btn-outline-primary" id="lastMonth2" onclick="showMonth()">Last Month</button>
@@ -52,6 +122,15 @@ open
         <button  class="form-group btn btn-outline-primary" id="currentWeek2" onclick="showWeek()">This Week</button>
     </div>
 
+    <table>
+        <tr>
+
+        @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+            <th>{{date( 'D', strtotime( '-2 week monday this week +'.$b.' days'))}}
+                <br>
+                {{date( 'd F', strtotime( ' -2 week monday this week +'.$b.' days'))}}
+            </th>
+        @endfor
 
 {{-- Last Month Table --}}
 <div id="lastMonth">
@@ -104,6 +183,33 @@ open
 {{-- END Last Month Table --}}
 
 
+<div id="lastMonth" style="display: none;">
+    <br>
+    Previous Month
+    <br>
+<table>
+    <tr>
+        @foreach($daysPreviousMonth as $day)
+            <th>{{date( 'D', strtotime($day->format('Y-m-d')))}}
+                <br>
+                {{date( 'd F', strtotime($day->format('Y-m-d')))}}
+                <?php $countTr++ ?>
+            </th>
+            @if($day->format('w') == end($workingDays)) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
+                </tr>   <!-- encerra a tr dos headers -->
+
+                        <tr>  <!-- começa as td -->
+                            @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
+                                <td>{{$daysPreviousMonthTotals[$b]}}</td>
+                            @endfor
+                            <?php $countTh = $b ?>
+                        </tr> <!-- acaba as td -->
+                </table> <!-- termina uma table -->
+                <br>
+                <table>  <!-- começa outra table -->
+                <tr>
+            @elseif(end($workingDays) != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
+                </tr>   <!-- encerra a tr dos headers -->
 
 {{-- Last 2 Weeks Table --}}
 <div id="last2weeks">
