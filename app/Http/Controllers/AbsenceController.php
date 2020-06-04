@@ -608,7 +608,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                 $absenceDateEnd = "";
             }
             if($eventos[$i]->Type == "Birthday") {
-                if($eventDate == $actualDate) {
+                if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
                     $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
@@ -622,7 +622,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
                     $msg .= "<br>";
-                    $msg .= "Date: ". $eventos[$i]->Date;
+                    $msg .= "Date: ". date('d/m',strtotime($eventos[$i]->Date));
                     $msg .= "<br>";
                     $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                     $msg .= "</p>";
@@ -644,13 +644,13 @@ for($l = 0; $l < $blocksNum; $l++) {
                 $msg.= "</div>";
             }
             else if($eventos[$i]->Type == "Contract Begin") {
-                if($eventDate == $actualDate) {
+                if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
                     $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
                     $msg .= "<br>";
-                    $msg .= "Date: ".$eventDate;
+                    $msg .= "Date: ".date('d/m',strtotime($eventos[$i]->Date));
                     $msg .= "</p>";
                     $msg.= "</div>";
                 }
@@ -660,7 +660,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
                     $msg .= "<br>";
-                    $msg .= "Date: ".$eventDate;
+                    $msg .= "Date: ".date('d/m',strtotime($eventos[$i]->Date));
                     $msg .= "<br>";
                     $msg .= "<a href='http://www.linkedin.com' class='fa fa-linkedin' id='social'></a>";
                     $msg .= "</p>";
@@ -733,7 +733,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
 //Flextime begin
-$ch2 = curl_init();
+/* $ch2 = curl_init();
 
         curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
@@ -789,7 +789,7 @@ $ch2 = curl_init();
             }
 
 
-            }
+            } */
 
 
 
@@ -804,7 +804,7 @@ $ch2 = curl_init();
 
 
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg', 'totalHours'));
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }

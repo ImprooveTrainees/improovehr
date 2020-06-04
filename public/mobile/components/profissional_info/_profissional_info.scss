@@ -1,7 +1,8 @@
 #profile2{
-    border-radius: 50%;
-    width: 15%;
+    border-radius: 30%;
+    width: 250px;
     height: auto;
+    height: 250px;
     margin-bottom: 3%;
 }
 
@@ -14,8 +15,7 @@
 }
 
 .bprofile2{
-    margin-top: 30px;
-    width: 25%;
+    width: 24%;
     display: flex;
     justify-content: center;
 }
@@ -40,6 +40,10 @@
 .department p,
 .departmentmanager p{
     margin-left: 40px;
+}
+
+#inputdoc {
+    width: 25%;
 }
 
 @import '../../../screens/components/profissional_info/_profissional_info';

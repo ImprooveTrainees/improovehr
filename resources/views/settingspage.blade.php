@@ -27,9 +27,6 @@ active
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#holidays">Holidays/Absences</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#evaluations">Evaluations</a>
-          </li>
         </ul>
 
         <!-- Tab panes -->
@@ -37,79 +34,180 @@ active
 
 
             {{-- GENERAL PAGE --}}
-          <div id="general" class="container tab-pane active">
-        <form class="form-group settingsform" action="">
+<div id="general" class="container tab-pane active">
+
+    <form action="/saveSettings/{{$officeUserLogged->id}}" method="post" id="form">
 
         <p>Company</p>
         <hr id="companyline">
 
-        <div id="entreprisename">
-            <label for="">Company Name:</label>
-            <input type="text" name="entreprisename" class="form-control" placeholder="Insert Company Name">
+        <div id="entreprisename"> 
+            <strong><label>Company Name:</label></strong>
+            @if($officeUserLogged->description == null)
+            <input type="text" name="companyName" class="" placeholder="Insert your company name">
+            @else
+                <input type="text" name="companyName" class="" placeholder="Insert your company name" value={{$officeUserLogged->description}}>
+            @endif
         </div>
 
         <div id="companyaddress">
-            <label for="">Company Address:</label>
-            <input type="text" name="entreprisename" class="form-control" placeholder="Insert Company Address">
+            <strong><label>Address:</label></strong>
+            @if($officeUserLogged->adress == null)
+              <textarea name="companyAdress" placeholder="Insert your company's address"></textarea>
+            @else
+                <textarea name="companyAdress" style="height: 30px" placeholder="Insert your company's address">{{$officeUserLogged->adress}}</textarea>
+            @endif
         </div>
 
         <div id="generalemail">
-            <label for="">General Email:</label>
-            <input type="text" name="entreprisename" class="form-control" placeholder="Insert General Email">
+            <strong><label>E-mail:</label></strong>
+            @if($officeUserLogged->mail == null)
+              <input type="text" name="emailAdress" class="" placeholder="Insert your company's email">
+            @else
+                <input type="text" name="emailAdress" class="" placeholder="Insert your company's email" value={{$officeUserLogged->mail}}>
+            @endif
         </div>
 
         <div id="generalmobile">
-            <label for="">General Mobile:</label>
-            <input type="text" name="entreprisename" class="form-control" placeholder="Insert General Mobile">
+            <strong><label>Contact:</label></strong>
+            @if($officeUserLogged->contact == null)
+              <input type="text" name="contact" class="" placeholder="Insert your company's phone number">
+            @else
+                <input type="text" name="contact" class="" placeholder="Insert your company's phone number" value={{$officeUserLogged->contact}}>
+            @endif
         </div>
 
         <div id="country">
-            <label for="">Country:</label>
-            <input type="text" name="entreprisename" class="form-control" placeholder="Insert Country">
+            <strong><label>Country:</label></strong>
+            @if($officeUserLogged->country == null)
+              <input type="text" name="country" class="" placeholder="Insert your company's country">
+            @else
+                <input type="text" name="country" class="" placeholder="Insert your company's country" readonly value={{$officeUserLogged->country}}>
+            @endif
         </div>
-        <button type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
-        </form>
+
+  
 
         <p>Alerts</p>
         <hr>
 
-        <div id="allnotifications" class="custom-control custom-switch">
+        {{-- <div id="allnotifications" class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="customSwitches">
             <label class="custom-control-label" for="customSwitches">All Notifications</label>
-        </div>
+        </div> --}}
 
-        <div id="holidaysnoti" class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitches1">
-            <label class="custom-control-label" for="customSwitches1">Holidays Notifications</label>
+<div id="holidaysnoti" class="custom-control custom-switch">
+        <label>Holidays Notifications</label>
+            <select name="holidaysAlert">
+                @if($lastSettingsGeneral->alert_holidays == 1)
+                <option selected value="1">Yes</option>
+                <option value="0">No</option>
+                @else 
+                <option value="1">Yes</option>
+                <option selected value="0">No</option>
+                @endif
+            </select>
         </div>
 
         <div id="birthdaynoti" class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitches2">
-            <label class="custom-control-label" for="customSwitches2">Birthdays Notifications</label>
+            <label>Birthdays Notifications</label>
+            <select name="BDaysAlert">
+                @if($lastSettingsGeneral->alert_birthdays == 1)
+                  <option selected value="1">Yes</option>
+                  <option value="0">No</option>
+                @else 
+                  <option value="1">Yes</option>
+                  <option selected value="0">No</option>
+                @endif
+              </select>
         </div>
 
         <div id="evaluationsnoti" class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitches3">
-            <label class="custom-control-label" for="customSwitches3">Evaluations Notifications</label>
+            <label>Evaluations Notifications</label>
+            <select  name="evalsAlert">
+                @if($lastSettingsGeneral->alert_evaluations == 1)
+                  <option selected value="1">Yes</option>
+                  <option value="0">No</option>
+                @else 
+                  <option value="1">Yes</option>
+                  <option selected value="0">No</option>
+                @endif
+              </select>
         </div>
 
         <div id="flextimenoti" class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitches4">
-            <label class="custom-control-label" for="customSwitches4">Flex-Time Notifications</label>
+            <label>Flex-Time Notifications</label>
+            <select name="flexAlert">
+                @if($lastSettingsGeneral->alert_flextime == 1)
+                  <option selected value="1">Yes</option>
+                  <option value="0">No</option>
+                @else 
+                  <option value="1">Yes</option>
+                  <option selected value="0">No</option>
+                @endif
+              </select>
         </div>
 
         <div id="notworkingnoti" class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitches5">
-            <label class="custom-control-label" for="customSwitches5">Not Working Notifications</label>
+            <label>Not Working Notifications</label>
+            <select name="notWorkingAlert">
+                @if($lastSettingsGeneral->alert_notworking == 1)
+                  <option selected value="1">Yes</option>
+                  <option value="0">No</option>
+                @else 
+                  <option value="1">Yes</option>
+                  <option selected value="0">No</option>
+                @endif
+            </select>
         </div>
 
-        </div>
+</div>
 
 
         {{-- FLEX-TIME --}}
 
-        <div id="flextime" class="container tab-pane fade">
-            <br>
+ <div id="flextime" class="container tab-pane fade">
+            Days:
+  <br>
+  <strong><label>Start</label></strong>
+  <select name="startDay">
+    @if($lastSettingsGeneral->flextime_startDay == 1)
+      <option selected value="1">Monday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 2)
+      <option selected value="2">Tuesday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 3)
+      <option selected value="3">Wednesday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 4)
+      <option selected value="4">Thursday</option>
+    @elseif($lastSettingsGeneral->flextime_startDay == 5)
+      <option selected value="5">Friday</option>
+    @endif
+  </select>
+
+  <strong><label>End</label></strong>
+  <select name="endDay">
+    @if($lastSettingsGeneral->flextime_endDay == 1)
+      <option selected value="1">Monday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 2)
+      <option selected value="2">Tuesday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 3)
+      <option selected value="3">Wednesday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 4)
+      <option selected value="4">Thursday</option>
+    @elseif($lastSettingsGeneral->flextime_endDay == 5)
+      <option selected value="5">Friday</option>
+    @endif
+  </select>
+
+  <strong><label>Hours per day:</label></strong>
+  @if($lastSettingsGeneral->flextime_dailyHours == null)
+    <input type="number" name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
+  @else
+      <input type="number" value={{$lastSettingsGeneral->flextime_dailyHours}} name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
+  @endif
+  <br>
+  
+            {{-- <br>
             <div id="daysflextime">
                 <label for="">Days:</label>
                 <p>Monday - Friday</p>
@@ -149,11 +247,11 @@ active
                 <a data-toggle="modal" data-target="#editFlexHours">
                     <i type="button" class="fas fa-pen"></i>
                 </a>
-            </div>
+            </div> --}}
         </div>
 
            <!-- Modal Change Hours -->
-        <div class="modal fade" id="editFlexHours" tabindex="-1" role="dialog" aria-labelledby="editEndDayLabel" aria-hidden="true">
+        {{-- <div class="modal fade" id="editFlexHours" tabindex="-1" role="dialog" aria-labelledby="editEndDayLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -175,30 +273,36 @@ active
                     </form>
             </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- HOLIDAYS --}}
 
         <div id="holidays" class="container tab-pane fade">
             <br>
             <div id="holidaysExtra">
-                <label for="">Extra-Days:</label>
-                <p>25 December</p>
-                <div class="shadow p-1 bg-white cardbox2">
-                    <a data-toggle="modal" data-target="#modalNewDay">
-                    <div class="shadow p-1 bg-white cardbox3">
-                        <i class="fas fa-plus"></i>
-                        <h6>Add New Day</h6>
-                    </div>
-                </a>
-                </div>
+                <strong><label>Extra Days:</label></strong>
+                <input type="date" id="dateSelected">
+                Description: <input type="text" id="descriptionExtraDay">
+                <button type="button" onclick="addDate()">Add date</button>
+                <br>
+            <ul id="dateList">
+              
+            </ul>
+
             </div>
+
+            Current dates: <br>
+            @foreach($extraDays as $days)
+              {{$days->extra_day}} {{$days->description}} <a href="/removeExtraDay/{{$days->id}}"><i class="fas fa-times"></i></a><br> 
+            @endforeach
             <div id="holidaysExtra2">
                 <label for="">Holidays Limit:</label>
-                <p>26 Days</p>
-                <a data-toggle="modal" data-target="#editHolidaysLimit">
-                    <i type="button" class="fas fa-pen"></i>
-                </a>
+                @if($lastSettingsGeneral->limit_vacations == null)
+                    <input type="number" name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+                @else
+                    <input type="number" value={{$lastSettingsGeneral->limit_vacations}} name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+                @endif
+
             </div>
             <div id="holidaysExtra3">
                 <label for="">Absence Justification:</label>
@@ -246,7 +350,7 @@ active
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form action="" method="POST" class="action">
+    
                         <div class="modal-body2">
                         @csrf
                         <h5>New Limit:</h5>
@@ -256,43 +360,58 @@ active
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
-                        </form>
+                        
                 </div>
                 </div>
             </div>
             <!-- End Modal Limit Holidays -->
 
 
-        {{-- EVALUATIONS --}}
-
-        <div id="evaluations" class="container tab-pane fade">
-            <br>
-            <div id="evaluations1">
-                <label for="">Limit of Surveys:</label>
-                <select class="form-control" name="Absence" id="limitEvaluationsForm">
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option selected="selected">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div id="evaluations2">
-                <label for="">Time Limit:</label>
-                <select class="form-control" name="Absence" id="limitEvaluationsForm">
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option selected="selected">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                </select>
-                <p>Days</p>
-            </div>
-        </div>
-
 
         </div>
     </div>
+
+    
+    </form>
+
 </div>
+<button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
+
+@if(session('msg'))
+<div class="alert alert-info alert-block">
+    <?php echo session('msg')  ?>
+</div>
+@endif
+
+
+
+<script>
+    function addDate() {
+      var ul = document.getElementById("dateList");
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(document.getElementById('dateSelected').value + " | " +  document.getElementById('descriptionExtraDay').value));
+      li.setAttribute("value", document.getElementById('dateSelected').value);
+      ul.appendChild(li);
+    
+      var form = document.getElementById('form');
+      var hiddenInput = document.createElement("input");
+      hiddenInput.setAttribute("type", "hidden");
+      hiddenInput.setAttribute("value",  document.getElementById('dateSelected').value);
+      hiddenInput.setAttribute("name",  "dateList[]");
+      form.appendChild(hiddenInput); //cria hidden inputs como array, com os valores das datas, para
+      //ser mais fácil transmitir para o php
+    
+      var hiddenInputDescription =  document.createElement("input");
+      hiddenInputDescription.setAttribute("type", "hidden");
+      hiddenInputDescription.setAttribute("value",  document.getElementById('descriptionExtraDay').value);
+      hiddenInputDescription.setAttribute("name",  "descriptionExtraDay[]");
+      form.appendChild(hiddenInputDescription);
+    
+    }
+
+    function execForm() {
+      document.getElementById('form').submit();
+    }
+</script>
 
 @endsection

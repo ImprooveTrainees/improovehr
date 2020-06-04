@@ -12,6 +12,7 @@ use DB;
 use Carbon;
 
 
+
 class User extends Authenticatable
 {
     use Notifiable;

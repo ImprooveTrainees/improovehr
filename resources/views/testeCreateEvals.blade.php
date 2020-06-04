@@ -370,7 +370,7 @@ open
 
 
 @endif
-
+<br>
 <strong>Open ended questions:</strong><br>
 <ul>
 @foreach($surveyAreas as $sAreasOpen)
