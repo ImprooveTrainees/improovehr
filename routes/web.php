@@ -169,3 +169,6 @@ Auth::routes();
 
 
 
+Route::get('/flextime', function () {
+    return view('flextime');
+});
