@@ -46,12 +46,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/editar', 'UserController@edit');
         Route::get('/profEdit', 'ProfessionalInfoController@edit');
         Route::get('/testeCalendar', 'FullCalendarController@index');
-        Route::get('/employees', 'UserController@employees');  
+        Route::get('/employees', 'UserController@employees')->middleware('roles');
         Route::get('/offices', 'OfficesDepsController@index');
 
         //
 
-        //Admin, RH, Manager Routes 
+        //Admin, RH, Manager Routes
         Route::get('/editProfessionalInfo', 'UserController@editProfessionalInfo');
         Route::get('/deleteEmployee/{id}', 'UserController@deleteEmployee');
         //
@@ -99,7 +99,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reports', 'ReportController@index');
         Route::get('/settingspage', 'SettingController@index');
         Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
-        Route::post('/reports', 'ReportController@store');
 
 
 });
