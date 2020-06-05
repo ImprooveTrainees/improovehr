@@ -9,42 +9,42 @@
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-        <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+        <link rel="shortcut icon" href="{{ asset ('assets/media/favicons/favicon.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset ('assets/media/favicons/favicon-192x192.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset ('assets/media/favicons/apple-touch-icon-180x180.png') }}">
+        <link href="{{ asset ('https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet') }}">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Fonts and OneUI framework -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-        <link rel="stylesheet" id="css-main" href="assets/css/oneui.min.css">
+        <link rel="stylesheet" href="{{ asset ('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700') }}">
+        <link rel="stylesheet" id="css-main" href="{{ asset ('assets/css/oneui.min.css') }}">
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
         <!-- END Stylesheets -->
-        <link rel="stylesheet" href="main/main.css">
+        <link rel="stylesheet" href="{{asset ('main/main.css') }}">
 
-        <link rel="stylesheet" href="assets/js/plugins/datatables/dataTables.bootstrap4.css">
-        <link rel="stylesheet" href="assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
+        <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{asset ('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous') }}">
+        <link rel="stylesheet" href="{{asset ('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css') }}" />
          <!-- Calendar -->
-        <link href='assets/fullcalendar/core/main.css' rel='stylesheet' />
-        <link href='assets/fullcalendar/daygrid/main.css' rel='stylesheet' />
-        <link href='assets/fullcalendar/timegrid/main.css' rel='stylesheet' />
-        <link href='assets/fullcalendar/list/main.css' rel='stylesheet' />
+        <link href="{{asset ('assets/fullcalendar/core/main.css') }}" rel='stylesheet' />
+        <link href="{{asset ('assets/fullcalendar/daygrid/main.css') }}" rel='stylesheet' />
+        <link href="{{asset ('assets/fullcalendar/timegrid/main.css') }}" rel='stylesheet' />
+        <link href="{{asset ('assets/fullcalendar/list/main.css') }}" rel='stylesheet' />
 
-        <script src='assets/fullcalendar/core/main.js'></script>
-        <script src='assets/fullcalendar/daygrid/main.js'></script>
-        <script src='assets/fullcalendar/timegrid/main.js'></script>
-        <script src='assets/fullcalendar/interaction/main.js'></script>
-        <script src='assets/fullcalendar/list/main.js'></script>
-        <script src="https://kit.fontawesome.com/041a9ee086.js" crossorigin="anonymous"></script>
+        <script src="{{asset('assets/fullcalendar/core/main.js') }}"></script>
+        <script src="{{asset('assets/fullcalendar/daygrid/main.js') }}"></script>
+        <script src="{{asset('assets/fullcalendar/timegrid/main.js') }}"></script>
+        <script src="{{asset('assets/fullcalendar/interaction/main.js') }}"></script>
+        <script src="{{asset('assets/fullcalendar/list/main.js') }}"></script>
+        <script src="{{asset('https://kit.fontawesome.com/041a9ee086.js') }}" crossorigin="anonymous"></script>
         <script
 
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
         </script>
@@ -161,7 +161,7 @@
                 <div class="content-header bg-white-5">
                     <!-- Logo -->
                     <a class="font-w600 text-dual" href="">
-                        <img src="img/icon-improove.png" alt="" srcset="" style="width: 30px;">
+                    <img src="{{asset ('img/icon-improove.png') }}" alt="" srcset="" style="width: 30px;">
                         <span class="smini-hide">
                             <span class="font-w700 font-size-h5">Improove HR</span>
                         </span>
@@ -451,7 +451,7 @@
                         </form>
                         <!-- END Search Form -->
                         <!-- Notifications Dropdown -->
-                        <?php 
+                        <?php
                             // use App\notifications;
                             // use App\settings_general;
                             // use App\sliderView;
@@ -489,7 +489,7 @@
                                     @endforeach --}}
 
                                     {{-- @foreach($notificationsBirthdays as $bday) <!-- Notificacoes -->
-                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name) 
+                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -513,7 +513,7 @@
                                                 </div>
                                             </a>
                                         </li>
-                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m')) 
+                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -529,7 +529,7 @@
                                 @endforeach
 
                                 @foreach($notificationsHolidays as $holiday) <!-- Notificacoes -->
-                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date))) 
+                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date)))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -626,20 +626,20 @@
         <!-- END Page Container -->
 
         <!-- OneUI JS -->
-        <script src="assets/js/oneui.core.min.js"></script>
-        <script src="assets/js/oneui.app.min.js"></script>
+        <script src="{{ asset ('assets/js/oneui.core.min.js') }}"></script>
+        <script src="{{ asset ('assets/js/oneui.app.min.js') }} "></script>
 
-        <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="assets/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
-        <script src="assets/js/plugins/datatables/buttons/buttons.print.min.js"></script>
-        <script src="assets/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
-        <script src="assets/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
-        <script src="assets/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/jquery.dataTables.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/dataTables.bootstrap4.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/buttons/dataTables.buttons.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/buttons/buttons.print.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/buttons/buttons.html5.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/buttons/buttons.flash.min.js ') }}"></script>
+        <script src="{{ asset ('assets/js/plugins/datatables/buttons/buttons.colVis.min.js ') }}"></script>
 
         <!-- Page JS Code -->
-        <script src="assets/js/pages/be_tables_datatables.min.js"></script>
+        <script src="{{ asset ('assets/js/pages/be_tables_datatables.min.js ') }}"></script>
 
-        <script src="js/myscripts.js"></script>
+        <script src="{{ asset ('js/myscripts.js ') }}"></script>
     </body>
 </html>
