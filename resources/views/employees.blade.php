@@ -9,6 +9,7 @@ active
 @endsection
 
 @section('content')
+
 <div class="shadow p-1 bg-white cardbox1">
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item">
@@ -22,8 +23,9 @@ active
     {{-- Principal DIV --}}
       <div class="tab-content" id="pills-tabContent">
 
+
 <!-- DIV Employees List -->
-        <div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
+<div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
 <!-- Dynamic Table Full -->
 <div class="block">
     <div class="block-content block-content-full">
@@ -45,6 +47,10 @@ active
                     <th style="width: 15%;">Department</th>
                     <th style="width: 15%;">Time</th>
                     <th style="width: 15%;">Staff Manager</th>
+                    @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
+                        <th>Edit</th>
+                        <th>Remove</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -146,13 +152,22 @@ active
                     <input type="email" name="email" class="form-control" placeholder="Insert Email" required>
                 </div>
 
+                <div class="form-group departmentEmployeesAlign">
+                    <label for="form-group departmentEmployeesAlign">Department:</label>
+                    <select class="form-control" name="Department" required>
+                            @foreach($departmentList as $department)
+                             <option value={{$department->id}}>{{$department->description}}</option>
+                             @endforeach
+                      </select>
+                </div>
+
                 <div class="form-group roleregister">
                     <label for="form-group roleregister">Role:</label>
                     <select class="form-control" name="role" id="exampleRole" required>
                              <option>Manager</option>
                              <option value="Project Manager">Project Manager</option>
                              <option selected="selected" value="Front End Developer">Front-End Developer</option>
-                             <option value="Back End Developer">Back-End Developer</option> 
+                             <option value="Back End Developer">Back-End Developer</option>
                              <option>Human Resources</option>
                              <option id="otherrole" value="other">Other</option>
                       </select>
@@ -163,29 +178,165 @@ active
                     <input type="text" name="otherRole" class="form-control" placeholder="Insert New Role">
                 </div>
 
-                
-                <div class="form-group departmentEmployeesAlign">
-                    <label for="form-group departmentEmployeesAlign">Department:</label>
-                    <select class="form-control" name="Department" required>
-                            @foreach($departmentList as $department)
-                             <option value={{$department->id}}>{{$department->description}}</option>
-                             @endforeach
-                      </select>
-                </div>
-                
-                <div class="form-group roleregister">
-                <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+                <div class="form-group registerButton">
+                    <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
                 </div>
             </form>
         </div>
       </div>
+
 </div>
+
+
+<!-- Trigger/Open The Modal -->
+
+  <!-- The Modal -->
+<div id="editProfessionaInfoModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+        <form id="professionalEditForm" action="/editProfessionalInfo">
+            @csrf
+            Role:
+        <select class="form-control" name="roleEditProf" id="exampleRole" required>
+                <option>Manager</option>
+                <option value="Project Manager">Project Manager</option>
+                <option selected="selected" value="Front End Developer">Front-End Developer</option>
+                <option value="Back End Developer">Back-End Developer</option>
+                <option>Human Resources</option>
+                <option value="other">Other</option>
+        </select>
+        pôr hidden div (other role)
+        <br>
+        Type of contract: <br>
+        <select name="contractTypeEdit">
+        @foreach($contractTypes as $cont)
+            <option value={{$cont->id}}>{{$cont->description}}</option>
+        @endforeach
+        </select>
+        Department:  <br>
+        <select name="departmentTypeEdit">
+            @foreach($departments as $dep)
+                <option value={{$dep->id}}>{{$dep->description}}</option>
+            @endforeach
+        </select>
+
+        Contract begin: <br>
+        <input name="dateBeginEditProf" type="date">
+
+        End of contract: <br>
+        <input name="dateEndEditProf" type="date">
+        <br>
+        Company Email: <br>
+        <input name="companyMailProfInfo" type="text">
+        <br>
+        Company Mobile: <br>
+        <input name="companyMobileProfInfo" type="number">
+        <br>
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+</div>
+
 
 <style>
 .sliderResize {
     height: 50px;
     width: 60px;
 }
+
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  margin-left:7%;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
+
+
+
+<script>
+
+function modalOpen(idUser) {
+    var modal = document.getElementById("editProfessionaInfoModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("editUserModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+
+    modal.style.display = "block";
+
+    var form = document.getElementById('professionalEditForm');
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("value",  idUser);
+    hiddenInput.setAttribute("id",  "idUser");
+    hiddenInput.setAttribute("name",  "idUser");
+    form.appendChild(hiddenInput); //cria hidden input com o id do user, que vem do argumento da funcao
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+        }
+    }
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+
 
 @endsection

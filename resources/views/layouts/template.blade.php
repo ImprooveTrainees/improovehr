@@ -272,7 +272,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/harvest">
+                                    <a class="nav-main-link @yield('sidebarflextime')" href="/harvest">
                                         <span class="nav-main-link-name">Flex-Time</span>
                                     </a>
                                 </li>
