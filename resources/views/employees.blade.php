@@ -23,7 +23,7 @@ active
       <div class="tab-content" id="pills-tabContent">
 
 <!-- DIV Employees List -->
-        <div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
+<div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
 <!-- Dynamic Table Full -->
 <div class="block">
     <div class="block-content block-content-full">
@@ -146,13 +146,22 @@ active
                     <input type="email" name="email" class="form-control" placeholder="Insert Email" required>
                 </div>
 
+                <div class="form-group departmentEmployeesAlign">
+                    <label for="form-group departmentEmployeesAlign">Department:</label>
+                    <select class="form-control" name="Department" required>
+                            @foreach($departmentList as $department)
+                             <option value={{$department->id}}>{{$department->description}}</option>
+                             @endforeach
+                      </select>
+                </div>
+
                 <div class="form-group roleregister">
                     <label for="form-group roleregister">Role:</label>
                     <select class="form-control" name="role" id="exampleRole" required>
                              <option>Manager</option>
                              <option value="Project Manager">Project Manager</option>
                              <option selected="selected" value="Front End Developer">Front-End Developer</option>
-                             <option value="Back End Developer">Back-End Developer</option> 
+                             <option value="Back End Developer">Back-End Developer</option>
                              <option>Human Resources</option>
                              <option id="otherrole" value="other">Other</option>
                       </select>
@@ -163,29 +172,12 @@ active
                     <input type="text" name="otherRole" class="form-control" placeholder="Insert New Role">
                 </div>
 
-                
-                <div class="form-group departmentEmployeesAlign">
-                    <label for="form-group departmentEmployeesAlign">Department:</label>
-                    <select class="form-control" name="Department" required>
-                            @foreach($departmentList as $department)
-                             <option value={{$department->id}}>{{$department->description}}</option>
-                             @endforeach
-                      </select>
-                </div>
-                
-                <div class="form-group roleregister">
-                <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+                <div class="form-group registerButton">
+                    <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
                 </div>
             </form>
         </div>
       </div>
 </div>
-
-<style>
-.sliderResize {
-    height: 50px;
-    width: 60px;
-}
-</style>
 
 @endsection
