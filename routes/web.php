@@ -99,7 +99,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reports', 'ReportController@index');
         Route::get('/settingspage', 'SettingController@index');
         Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
-        
+        Route::post('/reports', 'ReportController@store');
+
 
 });
 
@@ -115,3 +116,6 @@ Auth::routes();
 
 
 
+Route::get('/flextime', function () {
+    return view('flextime');
+});
