@@ -272,7 +272,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link" href="/harvest">
+                                    <a class="nav-main-link @yield('sidebarflextime')" href="/harvest">
                                         <span class="nav-main-link-name">Flex-Time</span>
                                     </a>
                                 </li>
@@ -451,7 +451,7 @@
                         </form>
                         <!-- END Search Form -->
                         <!-- Notifications Dropdown -->
-                        <?php 
+                        <?php
                             // use App\notifications;
                             // use App\settings_general;
                             // use App\sliderView;
@@ -489,7 +489,7 @@
                                     @endforeach --}}
 
                                     {{-- @foreach($notificationsBirthdays as $bday) <!-- Notificacoes -->
-                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name) 
+                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -513,7 +513,7 @@
                                                 </div>
                                             </a>
                                         </li>
-                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m')) 
+                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -529,7 +529,7 @@
                                 @endforeach
 
                                 @foreach($notificationsHolidays as $holiday) <!-- Notificacoes -->
-                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date))) 
+                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date)))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -641,5 +641,6 @@
         <script src="assets/js/pages/be_tables_datatables.min.js"></script>
 
         <script src="js/myscripts.js"></script>
+        <script src="js/flextime.js"></script>
     </body>
 </html>

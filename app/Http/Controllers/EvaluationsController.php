@@ -532,10 +532,10 @@ class EvaluationsController extends Controller
         $countPerformance = 0;
         $countPotential = 0;
         foreach($allQuestionsSurvey as $question) {
-            if($question->questions->idPP == 1) {
+            if($question->questions->idPP == 1 && $question->questions->idSubcat != null) {
                 $countPerformance++;
             }
-            else if($question->questions->idPP == 2){
+            else if($question->questions->idPP == 2 && $question->questions->idSubcat != null){
                 $countPotential++;
             }
         }//o nr de questões performance e potencial tem de ser igual
@@ -612,14 +612,14 @@ class EvaluationsController extends Controller
             $newSurveyUsers->save();
 
           
-            if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
-                $newAlertEval = new notifications;
-                $newAlertEval->userID = $user;
-                $newAlertEval->read = false;
-                $newAlertEval->description = "You have a new survey to complete.";
-                $newAlertEval->notificationType = "Evaluation";
-                $newAlertEval->save();
-            }
+            // if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
+            //     $newAlertEval = new notifications;
+            //     $newAlertEval->userID = $user;
+            //     $newAlertEval->read = false;
+            //     $newAlertEval->description = "You have a new survey to complete.";
+            //     $newAlertEval->notificationType = "Evaluation";
+            //     $newAlertEval->save();
+            // }
     
 
         }

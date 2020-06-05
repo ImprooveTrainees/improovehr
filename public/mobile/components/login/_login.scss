@@ -18,12 +18,21 @@
 #login_first {
     width: 100%;
     right: 0;
+    top: 0;
     height: auto;
     position: absolute;
 }
 
 .card_login {
     border-radius: 30px;
+}
+
+#btnlogin {
+    margin-top: -13px;
+}
+
+#linkfp {
+    margin-top: -13px;
 }
 
 @import '../../../screens/components/login/login';
