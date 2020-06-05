@@ -36,6 +36,55 @@ active
             </div>
         @endif
 
+
+        <!-- Teams -->
+            <h3>Teams</h3>
+
+            <h4>New Team</h4>
+
+            <form action="/newTeam">
+                @csrf
+            Insert team name: <input name="teamName" type="text">
+            Select team leader: 
+            <select name="teamLeader">
+                @foreach($userLeaders as $leader)
+                    @if($userLoggedIn->idusertype == 1)
+                        <option value={{$leader->id}}>{{$leader->name}}</option>
+                    @else 
+                        @if($userLoggedIn->country == $leader->country)
+                            <option value={{$leader->id}}>{{$leader->name}}</option>
+                        @endif
+                    @endif
+                @endforeach
+            </select>
+
+            <button type="submit">Create team</button>
+            </form>
+
+            <h4>Team Management</h4>
+            <form action="/showTeamDetails">
+            @if($allTeams->count() == 0)
+                There are no teams to manage!
+            @else
+            Select team:
+            <select name="teamDetailsId">
+                @foreach($allTeams as $team)
+                    <option value={{$team->id}}>{{$team->description}}<i class="fas fa-times"></i></option>
+                @endforeach
+            </select>
+            @endif
+            <button type="submit">Show team details</button>
+            </form>
+
+
+            <h4>Your Team</h4>
+            
+
+
+
+        <!-- Teams -->
+
+
         <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
         <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
             <thead>

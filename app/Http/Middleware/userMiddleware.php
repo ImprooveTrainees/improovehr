@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Auth;
 
 class userMiddleware
 {
@@ -15,8 +16,8 @@ class userMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::User()->idusertype == 4) {
-            // abort(403, "You don't have the necessary permissions do access this page");
+        if (Auth::User()->idusertype != 4) {
+            abort(403, "You don't have the necessary permissions do access this page");
         }
 
         return $next($request);

@@ -9,6 +9,8 @@ use App\offices_deps;
 use App\contract;
 use App\users_deps;
 use App\contractType;
+use App\teams;
+use App\team_users;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -27,6 +29,7 @@ class UserController extends Controller
     public function index()
     {
         //
+
         $idAutenticado = Auth::User()->id;
         $users = User::where('id', $idAutenticado)->first();
         $actualYear = date("Y/m/d");
@@ -37,13 +40,28 @@ class UserController extends Controller
         $statusArray = ['Married', 'Single', 'Other'];
         $statusAcademic = ['Doctorate', 'Masters', 'Graduate', 'High School', 'Middle School', 'Elementary School'];
 
-        return view('personal_info')->with('users', $users)->with('age', $age)->with('statusArray', $statusArray)->with('statusAcademic', $statusAcademic);
+        return view('personal_info')
+        ->with('users', $users)
+        ->with('age', $age)
+        ->with('statusArray', $statusArray)
+        ->with('statusAcademic', $statusAcademic)
+        ->with('userLeaders', $userLeaders)
+        ;
     }
 
     public function employees()
     {
         //
         //$idAutenticado = Auth::User()->id;
+
+        $managerListNames = [];
+        $managerListIDs = [];
+        $userLeaders = User::All();
+        $userLoggedIn = Auth::user();
+
+        $allTeams = teams::All();
+        
+
         $users = User::all();
         $departments = departments::all();
         $userLogged = Auth::user();
@@ -58,7 +76,8 @@ class UserController extends Controller
         // $diff=date_diff($date1,$date2);
         // $age = $diff->format("%Y%"); //formato anos
         for($i = 0; $i < count($users); $i++) {
-            $msg .= "<tr>";
+            if($userLogged->country == $users[$i]->country) { //só users do office do user logado
+                $msg .= "<tr>";
             if($users[$i]->photo == null) {
                 $msg .= "<td>No profile image</td>";
             }
@@ -114,6 +133,8 @@ class UserController extends Controller
                 }
             }              
             $msg .= "</tr>";
+            }
+            
 
 
         }
@@ -130,6 +151,9 @@ class UserController extends Controller
         ->with('userLogged', $userLogged)
         ->with('contractTypes', $contractTypes)
         ->with('departments', $departments)
+        ->with('userLeaders', $userLeaders)
+        ->with('userLoggedIn', $userLoggedIn)
+        ->with('allTeams', $allTeams)
         ;
     }
 
@@ -185,7 +209,7 @@ class UserController extends Controller
         // $newNotification->save();
 
 
-        return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');;
+        return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');
 
 
 
