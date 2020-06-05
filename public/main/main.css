@@ -1032,19 +1032,20 @@ p2 {
 .email,
 .roleregister,
 .newname,
-#rolenew {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 70px 200px;
-    grid-template-columns: 70px 200px;
-    margin: auto;
-    -webkit-box-align: baseline;
-    -ms-flex-align: baseline;
-    align-items: baseline;
-    margin-top: 30px;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
+#rolenew,
+.departmentEmployeesAlign {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 110px 200px;
+      grid-template-columns: 110px 200px;
+  margin: auto;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  margin-top: 30px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 #rolenew {
@@ -1065,6 +1066,92 @@ p2 {
 
 #pills-tab {
     margin-left: 17px;
+}
+
+.sliderResize {
+  height: 50px;
+  width: 60px;
+}
+
+.registerButton {
+  display: -ms-grid;
+  display: grid;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  tr {
+    border: 1px solid #ccc;
+  }
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+  td:before {
+    /* Now like a table header */
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 55%;
+    white-space: nowrap;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 140px 100px;
+        grid-template-columns: 140px 100px;
+    float: left;
+  }
+  /*
+	Label the data
+	*/
+  td:nth-of-type(1):before {
+    content: "Photo";
+  }
+  td:nth-of-type(2):before {
+    content: "Name";
+  }
+  td:nth-of-type(3):before {
+    content: "Company";
+  }
+  td:nth-of-type(4):before {
+    content: "Role";
+  }
+  td:nth-of-type(5):before {
+    content: "Department";
+  }
+  td:nth-of-type(6):before {
+    content: "Time";
+  }
+  td:nth-of-type(7):before {
+    content: "Staff Manager";
+  }
+}
+
+@media screen and (device-width: 320px) {
+  .email,
+  .roleregister,
+  .newname,
+  #rolenew,
+  .departmentEmployeesAlign {
+    -ms-grid-columns: 100px 165px;
+        grid-template-columns: 100px 165px;
+  }
 }
 
 #holidaysExtra {
