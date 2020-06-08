@@ -26,7 +26,9 @@
         "../mobile/components/finalAverage/_finalAverage.scss",
         "../mobile/components/SurveyPage/_SurveyPage.scss",
         "../mobile/components/reports/_reports.scss",
-        "../screens/components/reports/_reports.scss"
+        "../screens/components/reports/_reports.scss",
+        "../mobile/components/results/_results.scss",
+        "../screens/components/results/_results.scss"
     ],
     "names": [],
     "file": "main.css"

@@ -104,7 +104,7 @@ open
         @endforeach
         </ul>
             <div id="surveyBtn">
-                <button class="btn btn-success btn-lg">Submit Answers</button>
+                <button class="btn btn-success btn-lg" onclick="sweetalert()">Submit Answers</button>
             </div>
     </form>
 
@@ -115,4 +115,15 @@ open
 @endsection
 
 </body>
+<script>
+    sweetalert(){
+            Swal.fire(
+                'Good job!',
+                'You have succesfully submited your survey!',
+                'success'
+                )
+    }
+
+
+</script>
 </html>
