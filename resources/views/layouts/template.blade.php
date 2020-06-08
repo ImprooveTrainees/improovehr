@@ -318,7 +318,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-main-item">
-                                            <a class="nav-main-link @yield('showOther')" href="/indexUserEvals">
+                                            <a class="nav-main-link @yield('showOther')" href="">
                                                 <span class="nav-main-link-name">Results</span>
                                             </a>
                                         </li>
