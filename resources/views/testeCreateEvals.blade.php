@@ -14,7 +14,7 @@ open
 
 @section('content')
 
-<div class="shadow p-1 bg-white cardbox1">
+<div class="shadow p-1 bg-white cardbox0">
 
     <div class="firstbox">
         <h2>New Survey</h2>
@@ -65,6 +65,7 @@ open
             <b><h4>{{$surveyName}}</h4></b>
             <b><h4>{{$surveyType}}</h4></b>
             <div class="alignbtn">
+
                 <button type='button' onclick='hideArea()' class="btn btn-info multiColor"><b> Add  / Remove Areas  </b></button>
                 <button type='button' onclick='hideSubcat()' class="btn btn-info multiColor"><b>  Add  /  Remove Subcategories  </b></button>
                 <button type='button' onclick='hideQuestions()' class="btn btn-info multiColor"><b>  Add  /  Remove Questions  </b></button>
@@ -297,12 +298,13 @@ open
                             <option value="1">...will be evaluated.</option>
                             <option value="0">...will evalue</option>
                         </select>
-                </div>
-                <select  class="form-control" style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
-                    @foreach($users as $toBeEval)
-                        <option value={{$toBeEval->id}}>{{$toBeEval->name}}</option>
-                    @endforeach
+
+                    <select  class="form-control" style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
+                        @foreach($users as $toBeEval)
+                            <option value={{$toBeEval->id}}>{{$toBeEval->name}}</option>
+                        @endforeach
                     </select>
+                </div>
             @endforeach
         <div class="testgrid13">
             <label for="limitDate">Limit Date:</label>
@@ -331,86 +333,77 @@ open
 
 <!-- Begin Survey Structure  -->
 
-@if(count($areasHTML) == 0)
-    <br>
-    There are no areas in this survey yet!
-@else
-<ul>
-    @for($i = 0; $i < count($areasHTML); $i++)
-        <li><strong>{{$areasHTML[$i]->description}}</strong></li>
-            @for($b = 0; $b < count($subCatsHTML); $b+=2)
-                @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
-                    @if($subCatsHTML[$b+1] == '0')
-                        This area has no subcategories!
-                    @else
-                        &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
-                        <ol>
+    @if(count($areasHTML) == 0)
 
-                            @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
-                                @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
-                                    @if($questionsNumericHTML[$c+1] == '0')
-                                        This subcategory has no questions!
-                                    @else
+        <p><strong>There are no areas in this survey yet!</strong></p>
+    @else
+    <div class="topSurv">
+        <ul>
+            @for($i = 0; $i < count($areasHTML); $i++)
+                <li><strong>{{$areasHTML[$i]->description}}</strong></li>
+                    @for($b = 0; $b < count($subCatsHTML); $b+=2)
+                        @if($subCatsHTML[$b]->id == $areasHTML[$i]->id)
+                            @if($subCatsHTML[$b+1] == '0')
+                                This area has no subcategories!
+                            @else
+                                &nbsp;&nbsp;<strong>{{$subCatsHTML[$b+1]->description}}</strong><br>
+                                <ol>
 
-                                        @if($questionsNumericHTML[$c+1]->idPP == 2)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
-                                        @else
-                                            &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                    @for($c = 0; $c < count($questionsNumericHTML); $c+=2)
+                                        @if($questionsNumericHTML[$c]->id == $subCatsHTML[$b+1]->id)
+                                            @if($questionsNumericHTML[$c+1] == '0')
+                                                This subcategory has no questions!
+                                            @else
+
+                                                @if($questionsNumericHTML[$c+1]->idPP == 2)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<li style='color:blue;'>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                                @else
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<li>{{$questionsNumericHTML[$c+1]->description}}</li>
+                                                @endif
+                                            @endif
+
                                         @endif
-                                    @endif
+                                    @endfor
+                                </ol>
+                            @endif
+                        @endif
+                    @endfor
+            @endfor
+        </ul>
+        @endif
 
+        <strong>Open ended questions:</strong><br>
+            <ul>
+                @foreach($surveyAreas as $sAreasOpen)
+                    <li><strong>{{$sAreasOpen->description}}</strong></li>
+                        <ol>
+                            @for($d = 0; $d < count($openQuestionsHTML); $d+=2)
+                                @if($openQuestionsHTML[$d]->id == $sAreasOpen->id)
+                                    @if($openQuestionsHTML[$d+1] == '0')
+                                    <p><strong>This area has no open questions!</strong></p>
+                                    @else
+                                        <li>{{$openQuestionsHTML[$d+1]->description}}</li>
+                                    @endif
                                 @endif
                             @endfor
                         </ol>
-                    @endif
-                @endif
-            @endfor
-    @endfor
-</ul>
-
-
-@endif
-<br>
-<strong>Open ended questions:</strong><br>
-<ul>
-@foreach($surveyAreas as $sAreasOpen)
-    <li><strong>{{$sAreasOpen->description}}</strong></li>
-        <ol>
-        @for($d = 0; $d < count($openQuestionsHTML); $d+=2)
-            @if($openQuestionsHTML[$d]->id == $sAreasOpen->id)
-                @if($openQuestionsHTML[$d+1] == '0')
-                    This area has no open questions!
-                @else
-                <li>{{$openQuestionsHTML[$d+1]->description}}</li>
-                @endif
-            @endif
-        @endfor
-        </ol>
-
-@endforeach
-
-
-</ul>
-
-<div>
-    <strong>Users assigned:</strong><br>
-    @if(count($usersEvaluatedHTML) == 0 && count($usersWillEvalueHTML) == 0)
-        <br>There are no users assigned to this survey!
-    @else
-        @foreach($usersEvaluatedHTML as $user)
-            <strong>{{$user}}</strong> will autoevaluate himself.<br>
-        @endforeach
-        @foreach($usersWillEvalueHTML as $user => $otherUser)
-            <strong>{{$user}}</strong> will evaluate <strong>{{$otherUser}}</strong><br>
-        @endforeach
-    @endif
-
-
+                @endforeach
+            </ul>
+    </div>
+    <div class="usersSurv">
+        <h3><strong>Users assigned:</strong></h3><br>
+            @if(count($usersEvaluatedHTML) == 0 && count($usersWillEvalueHTML) == 0)
+                <p><strong>There are no users assigned to this survey!</strong></p>
+            @else
+            @foreach($usersEvaluatedHTML as $user)
+                <h5><strong>{{$user}}</strong> will autoevaluate himself.</h5><br>
+            @endforeach
+            @foreach($usersWillEvalueHTML as $user => $otherUser)
+                <h5><strong>{{$user}}</strong> will evaluate <strong>{{$otherUser}}</strong></h5><br>
+            @endforeach
+        @endif
+    </div>
 </div>
-
-<br>
-
-        </div>
 <!-- End Survey Structure -->
 
 
@@ -456,10 +449,12 @@ function hideParam() {
 function hideArea() {
     if(document.getElementById("hideArea").style.display == "block") {
         document.getElementById("hideArea").style.display = "none";
-
     }
     else {
         document.getElementById("hideArea").style.display = "block";
+        document.getElementById("hideSubcat").style.display = "none";
+        document.getElementById("hideQuestions").style.display = "none";
+        document.getElementById("hideUserSurvey").style.display = "none";
 
     }
 }
@@ -471,6 +466,9 @@ function hideSubcat() {
     }
     else {
         document.getElementById("hideSubcat").style.display = "block";
+        document.getElementById("hideQuestions").style.display = "none";
+        document.getElementById("hideUserSurvey").style.display = "none";
+        document.getElementById("hideArea").style.display = "none";
 
     }
 }
@@ -482,6 +480,9 @@ function hideQuestions() {
     }
     else {
         document.getElementById("hideQuestions").style.display = "block";
+        document.getElementById("hideSubcat").style.display = "none";
+        document.getElementById("hideArea").style.display = "none";
+        document.getElementById("hideUserSurvey").style.display = "none";
 
     }
 }
@@ -493,6 +494,9 @@ function hideUserSurvey() {
     }
     else {
         document.getElementById("hideUserSurvey").style.display = "block";
+        document.getElementById("hideQuestions").style.display = "none";
+        document.getElementById("hideSubcat").style.display = "none";
+        document.getElementById("hideArea").style.display = "none";
 
     }
 }
@@ -512,6 +516,7 @@ function showEvaluatedChoice(id) { //recebe o id do user, para mostrar o select 
 
 
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="sweetalert2.all.min.js"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
