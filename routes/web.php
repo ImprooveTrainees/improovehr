@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/editar', 'UserController@edit');
         Route::get('/profEdit', 'ProfessionalInfoController@edit');
         Route::get('/testeCalendar', 'FullCalendarController@index');
-        Route::get('/employees', 'UserController@employees')->middleware('roles');
+        Route::get('/employees', 'UserController@employees');
         Route::get('/offices', 'OfficesDepsController@index');
 
         //
@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth']], function () {
         //
         //Reports
         Route::get('/reports', 'ReportController@index');
-        Route::get('/settingspage', 'SettingController@index')->middleware('generalAdminsRole');;
+        Route::get('/settingspage', 'SettingController@index')->middleware('generalAdminsRole');
         Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
         Route::post('/reports', 'ReportController@store');
         //
