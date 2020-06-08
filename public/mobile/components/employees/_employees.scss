@@ -1,24 +1,25 @@
 @mixin divs {
     display: grid;
-    grid-template-columns: 70px 200px;
+    grid-template-columns: 110px 200px;
     margin: auto;
     align-items: baseline;
     margin-top: 30px;
     justify-content: center;
 }
 
-
 .email,
 .roleregister,
 .newname,
-#rolenew {
+#rolenew,
+.departmentEmployeesAlign {
     @include divs();
 }
 
-#rolenew{
+#rolenew {
     display: none;
 }
-.registeremployee{
+
+.registeremployee {
     margin: auto;
     margin-top: 30px;
     width: 25%;
@@ -30,7 +31,14 @@
     margin-left: 17px;
 }
 
+//Imagens da tabela
+.sliderResize {
+    height: 50px;
+    width: 60px;
+}
 
-
+.registerButton{
+    display: grid;
+}
 
 @import '../../../screens/components/employees/_employees';

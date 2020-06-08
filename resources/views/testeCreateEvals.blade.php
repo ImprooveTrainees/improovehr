@@ -51,7 +51,7 @@ open
         <div class="aligndiv">
             <form  class="form group showSurveyForm" id="showSurvey" action="/showSurvey">
                 <div class="form-group showSurv">
-                        <select class="edit-form-control" id="exampleFormControlSelect2" {{--id="surveyShowID"--}} name="surveyShowID">
+                        <select class="edit-form-control"  id="surveyShowID" {{--id="exampleFormControlSelect2"--}} name="surveyShowID">
                             @foreach($surveys as $survey)
                                 <option selected value={{$survey->id}}>{{$survey->name}}</option>
                             @endforeach

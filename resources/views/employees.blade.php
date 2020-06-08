@@ -22,10 +22,10 @@ active
 
     {{-- Principal DIV --}}
       <div class="tab-content" id="pills-tabContent">
-          
+
 
 <!-- DIV Employees List -->
-        <div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
+<div class="tab-pane fade show active" id="pills-employees" role="tabpanel" aria-labelledby="pills-employees-tab">
 <!-- Dynamic Table Full -->
 <div class="block">
     <div class="block-content block-content-full">
@@ -201,13 +201,22 @@ active
                     <input type="email" name="email" class="form-control" placeholder="Insert Email" required>
                 </div>
 
+                <div class="form-group departmentEmployeesAlign">
+                    <label for="form-group departmentEmployeesAlign">Department:</label>
+                    <select class="form-control" name="Department" required>
+                            @foreach($departmentList as $department)
+                             <option value={{$department->id}}>{{$department->description}}</option>
+                             @endforeach
+                      </select>
+                </div>
+
                 <div class="form-group roleregister">
                     <label for="form-group roleregister">Role:</label>
                     <select class="form-control" name="role" id="exampleRole" required>
                              <option>Manager</option>
                              <option value="Project Manager">Project Manager</option>
                              <option selected="selected" value="Front End Developer">Front-End Developer</option>
-                             <option value="Back End Developer">Back-End Developer</option> 
+                             <option value="Back End Developer">Back-End Developer</option>
                              <option>Human Resources</option>
                              <option id="otherrole" value="other">Other</option>
                       </select>
@@ -218,23 +227,13 @@ active
                     <input type="text" name="otherRole" class="form-control" placeholder="Insert New Role">
                 </div>
 
-                
-                <div class="form-group departmentEmployeesAlign">
-                    <label for="form-group departmentEmployeesAlign">Department:</label>
-                    <select class="form-control" name="Department" required>
-                            @foreach($departmentList as $department)
-                             <option value={{$department->id}}>{{$department->description}}</option>
-                             @endforeach
-                      </select>
-                </div>
-                
-                <div class="form-group roleregister">
-                <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+                <div class="form-group registerButton">
+                    <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
                 </div>
             </form>
         </div>
       </div>
-      
+
 </div>
 
 
@@ -253,9 +252,9 @@ active
                 <option>Manager</option>
                 <option value="Project Manager">Project Manager</option>
                 <option selected="selected" value="Front End Developer">Front-End Developer</option>
-                <option value="Back End Developer">Back-End Developer</option> 
+                <option value="Back End Developer">Back-End Developer</option>
                 <option>Human Resources</option>
-                <option value="other">Other</option> 
+                <option value="other">Other</option>
         </select>
         pôr hidden div (other role)
         <br>
@@ -287,13 +286,8 @@ active
         <button type="submit">Save</button>
     </form>
 </div>
-     
+
 </div>
-
-
-
-  
-
 
 
 <style>
@@ -301,8 +295,8 @@ active
     height: 50px;
     width: 60px;
 }
-    
-    
+
+
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -343,9 +337,9 @@ active
 }
 </style>
 
-    
-    
-<script> 
+
+
+<script>
 
 function modalOpen(idUser) {
     var modal = document.getElementById("editProfessionaInfoModal");
@@ -355,10 +349,10 @@ function modalOpen(idUser) {
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal 
+    // When the user clicks the button, open the modal
 
     modal.style.display = "block";
-    
+
     var form = document.getElementById('professionalEditForm');
     var hiddenInput = document.createElement("input");
     hiddenInput.setAttribute("type", "hidden");
@@ -378,7 +372,7 @@ function modalOpen(idUser) {
     if (event.target == modal) {
         modal.style.display = "none";
         document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
-        }   
+        }
     }
 
 
@@ -389,8 +383,8 @@ function modalOpen(idUser) {
 
 
 </script>
-    
-    
+
+
 
 
 

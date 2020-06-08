@@ -86,15 +86,18 @@ class EvaluationsController extends Controller
         $areas->description = $areaName;
         $areas->save();
 
+
         $areaSuccess =
-                        "<script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Area created successfully!',
-                                showConfirmButton: false,
-                                timer: 1500
-                                })
-                        </script>";
+        "<script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Area created successfully!',
+                showConfirmButton: false,
+                timer: 1500
+                })
+        </script>";
+
+
 
          $areaSuccess .= "<script>";
          $areaSuccess .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
@@ -611,16 +614,16 @@ class EvaluationsController extends Controller
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
 
-          
-            // if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
-            //     $newAlertEval = new notifications;
-            //     $newAlertEval->userID = $user;
-            //     $newAlertEval->read = false;
-            //     $newAlertEval->description = "You have a new survey to complete.";
-            //     $newAlertEval->notificationType = "Evaluation";
-            //     $newAlertEval->save();
-            // }
-    
+
+            if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
+                $newAlertEval = new notifications;
+                $newAlertEval->userID = $user;
+                $newAlertEval->read = false;
+                $newAlertEval->description = "You have a new survey to complete.";
+                $newAlertEval->notificationType = "Evaluation";
+                $newAlertEval->save();
+            }
+
 
         }
 
