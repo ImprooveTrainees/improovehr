@@ -45,7 +45,6 @@ class UserController extends Controller
         ->with('age', $age)
         ->with('statusArray', $statusArray)
         ->with('statusAcademic', $statusAcademic)
-        ->with('userLeaders', $userLeaders)
         ;
     }
 
