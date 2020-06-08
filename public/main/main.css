@@ -1119,74 +1119,53 @@ p2 {
   }
 }
 
-#holidaysExtra {
+#startFlexdays,
+#endFlexdays,
+#hoursperdayFlex {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 120px;
+      grid-template-columns: 120px 120px;
+  margin-top: 20px;
+}
+
+#daysettings {
+  margin-top: 20px;
+}
+
+#holidaysExtra,
+#holidaysExtra4,
+#holidaysExtra2 {
   display: -ms-grid;
   display: grid;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-grid-columns: 180px 190px;
-      grid-template-columns: 180px 190px;
-  -ms-grid-rows: 30px 55px;
-      grid-template-rows: 30px 55px;
-}
-
-#holidaysExtra .cardbox2 {
-  height: 50px;
-  width: 90%;
-  border-radius: 25px;
-  margin: unset;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  -ms-grid-row: 2;
-      grid-row-start: 2;
-}
-
-#holidaysExtra .cardbox3 {
-  -ms-grid-columns: 45px 105px;
-      grid-template-columns: 45px 105px;
-  margin-top: 0;
-}
-
-#holidaysExtra p {
-  -ms-grid-row: 1;
-      grid-row-start: 1;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  margin: 0;
-}
-
-#holidaysExtra label {
-  margin: 0;
-  text-align: -webkit-center;
-}
-
-#holidaysExtra2 {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 180px 75px 25px;
-      grid-template-columns: 180px 75px 25px;
+  -ms-grid-columns: 120px 190px;
+      grid-template-columns: 120px 190px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
-}
-
-#holidaysExtra2 label {
-  text-align: -webkit-center;
 }
 
 #holidaysExtra3 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 180px 80px;
-      grid-template-columns: 180px 80px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 170px 140px;
+      grid-template-columns: 170px 140px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
 }
 
-#holidaysExtra3 label {
-  text-align: start;
+#holidaysExtra6 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 20px;
+      grid-template-columns: 100px 20px;
 }
 
 #evaluations1 {
@@ -1272,11 +1251,17 @@ p2 {
 #evaluationsnoti,
 #flextimenoti,
 #notworkingnoti {
-  width: 30%;
   display: -ms-grid;
   display: grid;
+  margin-top: 20px;
+  -ms-grid-columns: 210px 75px;
+      grid-template-columns: 210px 75px;
+}
+
+#holidaysnoti,
+#evaluationsnoti {
   float: left;
-  margin-top: 15px;
+  margin-right: 40px;
 }
 
 #settingstab {
@@ -1302,8 +1287,8 @@ p2 {
           align-items: center;
   -ms-grid-columns: 140px 220px;
       grid-template-columns: 140px 220px;
-  -ms-grid-rows: auto;
-      grid-template-rows: auto;
+  -ms-grid-rows: 45px;
+      grid-template-rows: 45px;
   float: none;
   font-size: 11pt;
 }
@@ -1325,11 +1310,17 @@ p2 {
 }
 
 .bsettings {
-  width: 25%;
-  margin-top: 20px;
+  width: 260px;
+  margin-top: 45px;
+  margin-left: 30px;
 }
 
-@media (min-width: 425px) and (max-width: 1024px) {
+.bsettings2 {
+  margin-top: 20px;
+  width: 260px;
+}
+
+@media (min-width: 320px) and (max-width: 1024px) {
   #companyaddress {
     margin-top: 20px;
   }
@@ -1352,11 +1343,9 @@ p2 {
   #flextimenoti,
   #notworkingnoti {
     float: none;
-    -ms-grid-columns: 250px;
-        grid-template-columns: 250px;
     -ms-grid-rows: 45px;
         grid-template-rows: 45px;
-    margin-top: 0;
+    margin-top: 23px;
   }
   #allnotifications {
     margin-top: 15px;
@@ -1366,16 +1355,54 @@ p2 {
   }
 }
 
-@media (max-width: 425px) {
-  .modal {
-    width: 95%;
+@media (min-width: 320px) and (max-width: 410px) {
+  #companyaddress {
+    margin-top: 20px;
   }
-  #holidaysExtra {
-    -ms-grid-columns: 180px 160px;
-        grid-template-columns: 180px 160px;
+  #entreprisename,
+  #generalemail {
+    float: none;
   }
-  .cardbox3 h6 {
-    font-size: 10pt;
+  #entreprisename,
+  #companyaddress,
+  #generalemail,
+  #generalmobile,
+  #country {
+    -ms-grid-columns: 90px 145px;
+        grid-template-columns: 90px 145px;
+  }
+  #allnotifications,
+  #holidaysnoti,
+  #birthdaynoti,
+  #evaluationsnoti,
+  #flextimenoti,
+  #notworkingnoti {
+    float: none;
+    -ms-grid-columns: 175px 75px;
+        grid-template-columns: 175px 75px;
+    -ms-grid-rows: 45px;
+        grid-template-rows: 45px;
+    margin-top: 20px;
+  }
+  #allnotifications {
+    margin-top: 15px;
+  }
+  .cardboxsettings {
+    height: 98%;
+  }
+  #holidaysExtra,
+  #holidaysExtra4,
+  #holidaysExtra2 {
+    -ms-grid-columns: 90px 155px;
+        grid-template-columns: 90px 155px;
+  }
+  #holidaysExtra3 {
+    -ms-grid-columns: 105px 140px;
+        grid-template-columns: 105px 140px;
+  }
+  .bsettings2,
+  .bsettings {
+    width: 240px;
   }
 }
 

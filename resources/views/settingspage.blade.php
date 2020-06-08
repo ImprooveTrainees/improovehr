@@ -11,6 +11,11 @@ active
 @section('content')
 
 <div class="shadow p-1 bg-white cardboxsettings">
+    @if(session('msg'))
+<div class="alert alert-info alert-block">
+    <?php echo session('msg')  ?>
+</div>
+@endif
 
     <div class="container" id="settingstab">
         <!-- Nav tabs -->
@@ -29,8 +34,8 @@ active
           </li>
         </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
+<!-- Tab panes -->
+<div class="tab-content">
 
 
             {{-- GENERAL PAGE --}}
@@ -41,52 +46,52 @@ active
         <p>Company</p>
         <hr id="companyline">
 
-        <div id="entreprisename"> 
-            <strong><label>Company Name:</label></strong>
+        <div id="entreprisename">
+            <label>Company Name:</label>
             @if($officeUserLogged->description == null)
-            <input type="text" name="companyName" class="" placeholder="Insert your company name">
+            <input type="text" name="companyName" class="form-control" placeholder="Insert your company name">
             @else
-                <input type="text" name="companyName" class="" placeholder="Insert your company name" value={{$officeUserLogged->description}}>
+                <input type="text" name="companyName" class="form-control" placeholder="Insert your company name" value={{$officeUserLogged->description}}>
             @endif
         </div>
 
         <div id="companyaddress">
-            <strong><label>Address:</label></strong>
+            <label>Address:</label>
             @if($officeUserLogged->adress == null)
-              <textarea name="companyAdress" placeholder="Insert your company's address"></textarea>
+              <input type="text" name="companyAdress" placeholder="Insert your company's address">
             @else
-                <textarea name="companyAdress" style="height: 30px" placeholder="Insert your company's address">{{$officeUserLogged->adress}}</textarea>
+                <input type="text" name="companyAdress" class="form-control" style="height: 30px" placeholder="Insert your company's address" value="{{$officeUserLogged->adress}}">
             @endif
         </div>
 
         <div id="generalemail">
-            <strong><label>E-mail:</label></strong>
+            <label>E-mail:</label>
             @if($officeUserLogged->mail == null)
-              <input type="text" name="emailAdress" class="" placeholder="Insert your company's email">
+              <input type="text" name="emailAdress" class="form-control" placeholder="Insert your company's email">
             @else
-                <input type="text" name="emailAdress" class="" placeholder="Insert your company's email" value={{$officeUserLogged->mail}}>
+                <input type="text" name="emailAdress" class="form-control" placeholder="Insert your company's email" value={{$officeUserLogged->mail}}>
             @endif
         </div>
 
         <div id="generalmobile">
-            <strong><label>Contact:</label></strong>
+            <label>Contact:</label>
             @if($officeUserLogged->contact == null)
-              <input type="text" name="contact" class="" placeholder="Insert your company's phone number">
+              <input type="text" name="contact" class="form-control" placeholder="Insert your company's phone number">
             @else
-                <input type="text" name="contact" class="" placeholder="Insert your company's phone number" value={{$officeUserLogged->contact}}>
+                <input type="text" name="contact" class="form-control" placeholder="Insert your company's phone number" value={{$officeUserLogged->contact}}>
             @endif
         </div>
 
         <div id="country">
-            <strong><label>Country:</label></strong>
+            <label>Country:</label>
             @if($officeUserLogged->country == null)
-              <input type="text" name="country" class="" placeholder="Insert your company's country">
+              <input type="text" name="country" class="form-control" placeholder="Insert your company's country">
             @else
-                <input type="text" name="country" class="" placeholder="Insert your company's country" readonly value={{$officeUserLogged->country}}>
+                <input type="text" name="country" class="form-control" placeholder="Insert your company's country" readonly value={{$officeUserLogged->country}}>
             @endif
         </div>
 
-  
+
 
         <p>Alerts</p>
         <hr>
@@ -96,65 +101,65 @@ active
             <label class="custom-control-label" for="customSwitches">All Notifications</label>
         </div> --}}
 
-<div id="holidaysnoti" class="custom-control custom-switch">
+        <div id="holidaysnoti" >
         <label>Holidays Notifications</label>
-            <select name="holidaysAlert">
+            <select name="holidaysAlert" class="form-control">
                 @if($lastSettingsGeneral->alert_holidays == 1)
                 <option selected value="1">Yes</option>
                 <option value="0">No</option>
-                @else 
+                @else
                 <option value="1">Yes</option>
                 <option selected value="0">No</option>
                 @endif
             </select>
         </div>
 
-        <div id="birthdaynoti" class="custom-control custom-switch">
+        <div id="birthdaynoti" >
             <label>Birthdays Notifications</label>
-            <select name="BDaysAlert">
+            <select name="BDaysAlert"class="form-control">
                 @if($lastSettingsGeneral->alert_birthdays == 1)
                   <option selected value="1">Yes</option>
                   <option value="0">No</option>
-                @else 
+                @else
                   <option value="1">Yes</option>
                   <option selected value="0">No</option>
                 @endif
               </select>
         </div>
 
-        <div id="evaluationsnoti" class="custom-control custom-switch">
+        <div id="evaluationsnoti" >
             <label>Evaluations Notifications</label>
-            <select  name="evalsAlert">
+            <select  name="evalsAlert" class="form-control">
                 @if($lastSettingsGeneral->alert_evaluations == 1)
                   <option selected value="1">Yes</option>
                   <option value="0">No</option>
-                @else 
+                @else
                   <option value="1">Yes</option>
                   <option selected value="0">No</option>
                 @endif
               </select>
         </div>
 
-        <div id="flextimenoti" class="custom-control custom-switch">
+        <div id="flextimenoti" >
             <label>Flex-Time Notifications</label>
-            <select name="flexAlert">
+            <select name="flexAlert" class="form-control">
                 @if($lastSettingsGeneral->alert_flextime == 1)
                   <option selected value="1">Yes</option>
                   <option value="0">No</option>
-                @else 
+                @else
                   <option value="1">Yes</option>
                   <option selected value="0">No</option>
                 @endif
               </select>
         </div>
 
-        <div id="notworkingnoti" class="custom-control custom-switch">
+        <div id="notworkingnoti" >
             <label>Not Working Notifications</label>
-            <select name="notWorkingAlert">
+            <select name="notWorkingAlert" class="form-control">
                 @if($lastSettingsGeneral->alert_notworking == 1)
                   <option selected value="1">Yes</option>
                   <option value="0">No</option>
-                @else 
+                @else
                   <option value="1">Yes</option>
                   <option selected value="0">No</option>
                 @endif
@@ -167,46 +172,55 @@ active
         {{-- FLEX-TIME --}}
 
  <div id="flextime" class="container tab-pane fade">
-            Days:
-  <br>
-  <strong><label>Start</label></strong>
-  <select name="startDay">
-    @if($lastSettingsGeneral->flextime_startDay == 1)
-      <option selected value="1">Monday</option>
-    @elseif($lastSettingsGeneral->flextime_startDay == 2)
-      <option selected value="2">Tuesday</option>
-    @elseif($lastSettingsGeneral->flextime_startDay == 3)
-      <option selected value="3">Wednesday</option>
-    @elseif($lastSettingsGeneral->flextime_startDay == 4)
-      <option selected value="4">Thursday</option>
-    @elseif($lastSettingsGeneral->flextime_startDay == 5)
-      <option selected value="5">Friday</option>
-    @endif
-  </select>
+     <div id="daysettings">
+        <label>Days:</label>
+     </div>
 
-  <strong><label>End</label></strong>
-  <select name="endDay">
-    @if($lastSettingsGeneral->flextime_endDay == 1)
-      <option selected value="1">Monday</option>
-    @elseif($lastSettingsGeneral->flextime_endDay == 2)
-      <option selected value="2">Tuesday</option>
-    @elseif($lastSettingsGeneral->flextime_endDay == 3)
-      <option selected value="3">Wednesday</option>
-    @elseif($lastSettingsGeneral->flextime_endDay == 4)
-      <option selected value="4">Thursday</option>
-    @elseif($lastSettingsGeneral->flextime_endDay == 5)
-      <option selected value="5">Friday</option>
-    @endif
-  </select>
+     <div id="startFlexdays">
+        <label>Start:</label>
+        <select name="startDay" class="form-control">
+          @if($lastSettingsGeneral->flextime_startDay == 1)
+            <option selected value="1">Monday</option>
+          @elseif($lastSettingsGeneral->flextime_startDay == 2)
+            <option selected value="2">Tuesday</option>
+          @elseif($lastSettingsGeneral->flextime_startDay == 3)
+            <option selected value="3">Wednesday</option>
+          @elseif($lastSettingsGeneral->flextime_startDay == 4)
+            <option selected value="4">Thursday</option>
+          @elseif($lastSettingsGeneral->flextime_startDay == 5)
+            <option selected value="5">Friday</option>
+          @endif
+        </select>
+     </div>
 
-  <strong><label>Hours per day:</label></strong>
-  @if($lastSettingsGeneral->flextime_dailyHours == null)
-    <input type="number" name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
-  @else
-      <input type="number" value={{$lastSettingsGeneral->flextime_dailyHours}} name="hoursPerDay" class="" placeholder="Insert a number of work hours per day">
-  @endif
-  <br>
-  
+    <div id="endFlexdays">
+        <label>End:</label>
+        <select name="endDay" class="form-control">
+        @if($lastSettingsGeneral->flextime_endDay == 1)
+            <option selected value="1">Monday</option>
+        @elseif($lastSettingsGeneral->flextime_endDay == 2)
+            <option selected value="2">Tuesday</option>
+        @elseif($lastSettingsGeneral->flextime_endDay == 3)
+            <option selected value="3">Wednesday</option>
+        @elseif($lastSettingsGeneral->flextime_endDay == 4)
+            <option selected value="4">Thursday</option>
+        @elseif($lastSettingsGeneral->flextime_endDay == 5)
+            <option selected value="5">Friday</option>
+        @endif
+        </select>
+    </div>
+
+    <div id="hoursperdayFlex">
+        <label>Hours per day:</label>
+        @if($lastSettingsGeneral->flextime_dailyHours == null)
+          <input type="number" name="hoursPerDay" placeholder="Insert a number of work hours per day" class="form-control">
+        @else
+            <input type="number" value={{$lastSettingsGeneral->flextime_dailyHours}} name="hoursPerDay" class="form-control" placeholder="Insert a number of work hours per day">
+        @endif
+    </div>
+
+</div>
+
             {{-- <br>
             <div id="daysflextime">
                 <label for="">Days:</label>
@@ -248,7 +262,6 @@ active
                     <i type="button" class="fas fa-pen"></i>
                 </a>
             </div> --}}
-        </div>
 
            <!-- Modal Change Hours -->
         {{-- <div class="modal fade" id="editFlexHours" tabindex="-1" role="dialog" aria-labelledby="editEndDayLabel" aria-hidden="true">
@@ -275,35 +288,54 @@ active
             </div>
         </div> --}}
 
-        {{-- HOLIDAYS --}}
+
+    {{-- HOLIDAYS --}}
 
         <div id="holidays" class="container tab-pane fade">
             <br>
             <div id="holidaysExtra">
-                <strong><label>Extra Days:</label></strong>
-                <input type="date" id="dateSelected">
-                Description: <input type="text" id="descriptionExtraDay">
-                <button type="button" onclick="addDate()">Add date</button>
-                <br>
-            <ul id="dateList">
-              
-            </ul>
+                <label>Extra Days:</label>
+                <input type="date" id="dateSelected" class="form-control">
+
 
             </div>
 
-            Current dates: <br>
-            @foreach($extraDays as $days)
-              {{$days->extra_day}} {{$days->description}} <a href="/removeExtraDay/{{$days->id}}"><i class="fas fa-times"></i></a><br> 
-            @endforeach
+            <div id="holidaysExtra4">
+                <label for="">Description:</label>
+                <input type="text" id="descriptionExtraDay" class="form-control">
+            </div>
+
+            <div id="holidaysExtra5">
+                <button type="button" onclick="addDate()" class="form-group btn btn-outline-primary bsettings2">Add date</button>
+                <ul id="dateList">
+
+                </ul>
+            </div>
+
+                <label for="" id="currentDatesSettings">Current dates:</label>
+                <div id="holidaysExtra6">
+                @foreach($extraDays as $days)
+                    <p>{{$days->extra_day}}</p>
+                        @if ($days->description == null)
+                        <p style="display: none">{{$days->description}}</p>
+                        @else
+                        <p>{{$days->description}}</p>
+                        @endif
+                    <a href="/removeExtraDay/{{$days->id}}"><i class="fas fa-times"></i></a>
+                @endforeach
+            </div>
+
+
             <div id="holidaysExtra2">
                 <label for="">Holidays Limit:</label>
                 @if($lastSettingsGeneral->limit_vacations == null)
-                    <input type="number" name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+                    <input type="number" name="limitVacations" placeholder="Insert vacations limit (days)" class="form-control">
                 @else
-                    <input type="number" value={{$lastSettingsGeneral->limit_vacations}} name="limitVacations" class="" placeholder="Insert vacations limit (days)">
+                    <input type="number" value={{$lastSettingsGeneral->limit_vacations}} name="limitVacations" class="form-control" placeholder="Insert vacations limit (days)">
                 @endif
 
             </div>
+
             <div id="holidaysExtra3">
                 <label for="">Absence Justification:</label>
                 <select class="form-control" name="Absence" id="absenceJustificationForm">
@@ -313,105 +345,13 @@ active
             </div>
         </div>
 
-        <!-- Modal Add New Day -->
-        <div class="modal fade" id="modalNewDay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Extra Day</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="" method="POST" class="action">
-                        <div class="modal-body">
-                            @csrf
-                            <label for="start_date" >New Date </label>
-                            <input type="date" id="start_date" name="start_date">
-                            <input type="hidden" value=1 name="op">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Add New Day -->
-
-            <!-- Modal Limit Holidays -->
-            <div class="modal fade" id="editHolidaysLimit" tabindex="-1" role="dialog" aria-labelledby="editEndDayLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="editEndDayLabel">Holidays Limit Days</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-    
-                        <div class="modal-body2">
-                        @csrf
-                        <h5>New Limit:</h5>
-                        <input type="number">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                        
-                </div>
-                </div>
-            </div>
-            <!-- End Modal Limit Holidays -->
-
-
 
         </div>
     </div>
-
-    
     </form>
-
+    <button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
 </div>
-<button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
-
-@if(session('msg'))
-<div class="alert alert-info alert-block">
-    <?php echo session('msg')  ?>
-</div>
-@endif
 
 
-
-<script>
-    function addDate() {
-      var ul = document.getElementById("dateList");
-      var li = document.createElement("li");
-      li.appendChild(document.createTextNode(document.getElementById('dateSelected').value + " | " +  document.getElementById('descriptionExtraDay').value));
-      li.setAttribute("value", document.getElementById('dateSelected').value);
-      ul.appendChild(li);
-    
-      var form = document.getElementById('form');
-      var hiddenInput = document.createElement("input");
-      hiddenInput.setAttribute("type", "hidden");
-      hiddenInput.setAttribute("value",  document.getElementById('dateSelected').value);
-      hiddenInput.setAttribute("name",  "dateList[]");
-      form.appendChild(hiddenInput); //cria hidden inputs como array, com os valores das datas, para
-      //ser mais fácil transmitir para o php
-    
-      var hiddenInputDescription =  document.createElement("input");
-      hiddenInputDescription.setAttribute("type", "hidden");
-      hiddenInputDescription.setAttribute("value",  document.getElementById('descriptionExtraDay').value);
-      hiddenInputDescription.setAttribute("name",  "descriptionExtraDay[]");
-      form.appendChild(hiddenInputDescription);
-    
-    }
-
-    function execForm() {
-      document.getElementById('form').submit();
-    }
-</script>
 
 @endsection

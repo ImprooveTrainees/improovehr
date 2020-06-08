@@ -55,3 +55,32 @@ $('input[type="file"]').on('change', function () {
     var val = $(this).val();
     $(this).siblings('span').text(val);
 })
+
+
+//Settings Page
+function addDate() {
+    var ul = document.getElementById("dateList");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(document.getElementById('dateSelected').value + " | " +  document.getElementById('descriptionExtraDay').value));
+    li.setAttribute("value", document.getElementById('dateSelected').value);
+    ul.appendChild(li);
+
+    var form = document.getElementById('form');
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("value",  document.getElementById('dateSelected').value);
+    hiddenInput.setAttribute("name",  "dateList[]");
+    form.appendChild(hiddenInput); //cria hidden inputs como array, com os valores das datas, para
+    //ser mais fácil transmitir para o php
+
+    var hiddenInputDescription =  document.createElement("input");
+    hiddenInputDescription.setAttribute("type", "hidden");
+    hiddenInputDescription.setAttribute("value",  document.getElementById('descriptionExtraDay').value);
+    hiddenInputDescription.setAttribute("name",  "descriptionExtraDay[]");
+    form.appendChild(hiddenInputDescription);
+
+  }
+
+  function execForm() {
+    document.getElementById('form').submit();
+  }
