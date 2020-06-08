@@ -1647,6 +1647,17 @@ img {
   }
 }
 
+.cardbox0 {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+}
+
+.topSurv {
+  margin-top: 3%;
+}
+
 .gridTop {
   margin-top: 5%;
   display: -ms-grid;
@@ -1746,10 +1757,11 @@ img {
 .testgrid12 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 76px 100px 200px;
-      grid-template-columns: 76px 100px 200px;
+  -ms-grid-columns: 76px 100px 200px 200px;
+      grid-template-columns: 76px 100px 200px 200px;
   width: 400px;
   margin: auto;
+  grid-gap: 15px;
 }
 
 .testgrid13 {
@@ -1999,6 +2011,16 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.usersSurv {
+  text-align: center;
+  margin-top: 5%;
+  font-family: Helvetica;
+}
+
+.usersSurv h3 {
+  color: #dc5f5f;
 }
 
 .colors h2 {
