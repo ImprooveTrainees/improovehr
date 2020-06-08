@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\teams;
-use App\team_users;
+use App\teamUsers;
 use Auth;
 
 class teamsController extends Controller
@@ -54,11 +54,33 @@ class teamsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function showTeamDetails(Request $request)
+    public function addTeamMember(Request $request)
     {
+        $usersSelected = $request->input('usersTeam');
+        $teamID = $request->input('teamID');
+        $lastSelectedOptionJS = "<script>document.getElementById('selectTeamID').value = ".$teamID.";</script>";
+
+        foreach($usersSelected as $userTeamAdd) {
+            $newTeamUser = new teamUsers;
+            $newTeamUser->teamID = $teamID;
+            $newTeamUser->userID = $userTeamAdd;
+            $newTeamUser->save();
+        }
+
+        return redirect()->action('UserController@employees')
+        ->with('message', 'Users added successfully');
+        ;
+
+
         //
-        $teamID = $request->input('teamDetailsId');
+        // $teamID = $request->input('teamDetailsId');
+
+        // $selectedTeamMembers = teamUsers::where('teamID', $teamID)->get();
         
+
+
+
+        // return redirect()->action('UserController@employees');
 
     }
 

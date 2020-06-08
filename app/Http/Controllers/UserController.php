@@ -10,7 +10,7 @@ use App\contract;
 use App\users_deps;
 use App\contractType;
 use App\teams;
-use App\team_users;
+use App\teamUsers;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -48,7 +48,7 @@ class UserController extends Controller
         ;
     }
 
-    public function employees()
+    public function employees(Request $request)
     {
         //
         //$idAutenticado = Auth::User()->id;
@@ -140,9 +140,83 @@ class UserController extends Controller
 
         $departmentList = departments::All();
 
+        //Teams
+            $teamDetailsId = $request->input('teamDetailsId');
+            if(isset($teamDetailsId)){ //caso a variavel esteja definida, é porque foi executada a form
 
+            $selectedTeamMembers = teamUsers::where('teamID', $teamDetailsId)->get();
+            $selectedTeamMembersArray = [];
+            foreach($selectedTeamMembers as $selectedMember) {
+                $user = User::find($selectedMember->userID);
+                array_push($selectedTeamMembersArray, $user);
+            }
+                
+            return view('employees') //manda as vars da form para a mesma pag
+            ->with('msg', $msg)
+            ->with('departmentList', $departmentList)
+            ->with('userLogged', $userLogged)
+            ->with('contractTypes', $contractTypes)
+            ->with('departments', $departments)
+            ->with('userLeaders', $userLeaders)
+            ->with('allTeams', $allTeams)
+            ->with('selectedTeamMembersArray', $selectedTeamMembersArray)
+            ->with('teamDetailsId', $teamDetailsId)
+            ->with('users', $users);
+
+        }
+
+        $usersSelected = $request->input('usersTeam');
+        if(isset($usersSelected)) {
+            $teamID = $request->input('teamID');
+            $repeated = false;
+            $allUsersTeam = teamUsers::where('teamID', $teamID); //todas as pessoas da equipa
+            
+            foreach($usersSelected as $user) {
+                foreach($allUsersTeam as $teamUser) {
+                    if($user == $teamUser->userID) {
+                        $repeated = true;
+                        break;
+                    }
+                }
+            }
+            if($repeated) {
+                
+            return view('employees')
+            ->with('msg', $msg)
+            ->with('departmentList', $departmentList)
+            ->with('userLogged', $userLogged)
+            ->with('contractTypes', $contractTypes)
+            ->with('departments', $departments)
+            ->with('userLeaders', $userLeaders)
+            ->with('allTeams', $allTeams)         
+            ->with('message', 'Employee already in this team!');
+            }
+            else {
+                foreach($usersSelected as $userTeamAdd) {
+                    $newTeamUser = new teamUsers;
+                    $newTeamUser->teamID = $teamID;
+                    $newTeamUser->userID = $userTeamAdd;
+                    $newTeamUser->save();
+                }
+                return view('employees')
+                ->with('msg', $msg)
+                ->with('departmentList', $departmentList)
+                ->with('userLogged', $userLogged)
+                ->with('contractTypes', $contractTypes)
+                ->with('departments', $departments)
+                ->with('userLeaders', $userLeaders)
+                ->with('allTeams', $allTeams)       
+                ->with('message', 'Employees added successfully to this team!');
+            }
+    
+    
+
+
+        }
+
+
+        //End Teams
         
-
 
         return view('employees')
         ->with('msg', $msg)
@@ -151,7 +225,6 @@ class UserController extends Controller
         ->with('contractTypes', $contractTypes)
         ->with('departments', $departments)
         ->with('userLeaders', $userLeaders)
-        ->with('userLoggedIn', $userLoggedIn)
         ->with('allTeams', $allTeams)
         ;
     }
