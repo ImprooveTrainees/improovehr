@@ -98,21 +98,21 @@ class UserController extends Controller
             }
             if($userLogged->idusertype == 1) { // se for admin
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";  
-                
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
+
             }
             else if($userLogged->idusertype == 2) { // se for manager
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>"; 
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";   
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
                 }
-            }              
+            }
             $msg .= "</tr>";
 
 
@@ -121,7 +121,7 @@ class UserController extends Controller
         $departmentList = departments::All();
 
 
-        
+
 
 
         return view('employees')
@@ -145,7 +145,7 @@ class UserController extends Controller
         $employee = new User();
         $contractNewEmployee = new contract();
         $userDepartment = new users_deps();
-         
+
         $accountCreator = Auth::User();
 
         $name = $request->input('name');
@@ -156,12 +156,12 @@ class UserController extends Controller
         }
         else {
             $role = $request->input('role');
-        }      
+        }
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
         $department = $request->input('Department');
         $officeAdressCreator = $accountCreator->officeAdress; // caso haja mais offices no país
-        
+
         $employee->name = $name;
         $employee->email = $email;
         $employee->password = Hash::make($passwordAutomatica);
@@ -177,7 +177,7 @@ class UserController extends Controller
         $userDepartment->idDepartment = $department;
         $userDepartment->idUser = $employee->id;
         $userDepartment->save();
-        
+
         // $newNotification = new notifications; //guarda o aniv nas notificações
         // $newNotification->userID = $employee->id;
         // $newNotification->read = false;
@@ -218,11 +218,11 @@ class UserController extends Controller
             'fileUpload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
        ]);
        if ($files = $request->file('fileUpload')) {
-        
+
            $image = $request->file('fileUpload');
            $resize_image = Image::make($image->getRealPath());
 
-          
+
 
            $destinationPath = 'img/users'; // upload path
            $profileImage = strtolower($idNome). "." . $files->getClientOriginalExtension();
@@ -232,16 +232,16 @@ class UserController extends Controller
         //    })->save($destinationPath ."/".$profileImage); muda a resolução da imagem após upload
 
             $files->move($destinationPath, $profileImage);
-           
+
         }
         $query = DB::table('users')
         ->where('id', Auth::User()->id)
         ->update(['photo' => 'img/users/'.$profileImage]);
-        
+
         return Redirect::to("personal")
         ->withMessage('Profile image has been successfully changed.');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -349,7 +349,7 @@ class UserController extends Controller
         $userSelected->compPhone = $companyMobile;
         $userSelected->save();
 
-        
+
         return redirect()->action('UserController@employees')->with('message', 'Info saved successfully');
 
     }
