@@ -102,7 +102,7 @@ open
 
                     <div id="approval">
                     <h5>Approval</h5>
-                    <p><p class="dot"></p>{{$array_vacations[$i+3]}}</p>
+                    <p><p class="dot" style="background-color:#31DC59"></p>{{$array_vacations[$i+3]}}</p>
                 </div>
 
 
@@ -133,8 +133,10 @@ open
 
            <!-- ------------------------------------------------------ TAB - EMPLOYEES ON HOLIDAYS ------------------------------------------------------ -->
 
-        <div id="home2" class="container tab-pane fade"><br>
 
+
+        <div id="home2" class="container tab-pane fade"><br>
+        @if($roleuser <= 3)
         <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
 <!-- Dynamic Table with Export Buttons -->
@@ -148,10 +150,11 @@ open
         <thead>
             <tr>
                 <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
+                <th class="d-none d-sm-table-cell" style="width: 15%;">Name</th>
+                <th class="d-none d-sm-table-cell" style="width: 15%;">Department</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
-                <th style="width: 15%;">Status</th>
+                <th style="width: 10%;">Status</th>
                 <th style="width: 15%;">Actions</th>
             </tr>
         </thead>
@@ -168,7 +171,10 @@ open
                     {{$i}}
                 </td>
                 <td class="font-w600 font-size-sm">
-                    <a href="be_pages_generic_blank.html">{{$list->user_name}}</a>
+                    <a href="be_pages_generic_blank.html">{{$list->name}}</a>
+                </td>
+                <td class="font-w600 font-size-sm">
+                    <a href="be_pages_generic_blank.html">{{$list->depDescription}}</a>
                 </td>
                 <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
                     {{$list->start_date}}
@@ -213,14 +219,21 @@ open
                             <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
                         </div>
                     </div>
+
+                    @if($roleuser < 3)
                         <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
                             <i class="far fa-edit"></i></a>
                             <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
+                                <i type="button" id="{{$list->absencedId}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
                             </a>
                             <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                            <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
+                            <i type="button" id="{{$list->absencedId}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
                             </a>
+
+
+                    @endif
+
+
                         </span>
                     </td>
 
@@ -237,7 +250,10 @@ open
         </tbody>
     </table>
 </div>
+@endif
 </div>
+
+
 
     <!-- ------------------------------------------------------ TAB - ABSENCES ------------------------------------------------------ -->
 
@@ -299,7 +315,7 @@ open
 
             <div id="approvalab">
                         <h5>Approval</h5>
-                        <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
+                        <p><p class="dot" style="background-color:#31DC59"></p>{{$array_absences[$i+3]}}</p>
                     </div>
 
 
@@ -400,7 +416,7 @@ open
 
 
   <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
-
+  @if($roleuser <= 3)
       <!-- Dynamic Table with Export Buttons -->
       <div class="block-header">
           <h3 class="block-title text-center">Absences<small> - ALL Employees</small></h3>
@@ -411,12 +427,13 @@ open
               <thead>
                   <tr>
                       <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                      <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
+                      <th class="d-none d-sm-table-cell" style="width: 10%;">Name</th>
+                      <th class="d-none d-sm-table-cell" style="width: 5%;">Department</th>
                       <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
                       <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
                       <th style="width: 15%;">Attachment</th>
-                      <th style="width: 15%;">Type</th>
-                      <th style="width: 15%;">Status</th>
+                      <th style="width: 10%;">Type</th>
+                      <th style="width: 10%;">Status</th>
                       <th style="width: 15%;">Actions</th>
 
                   </tr>
@@ -436,7 +453,10 @@ open
                           {{$j}}
                       </td>
                       <td class="font-w600 font-size-sm">
-                          <a href="be_pages_generic_blank.html">{{$list2->user_name}}</a>
+                          <a href="be_pages_generic_blank.html">{{$list2->name}}</a>
+                      </td>
+                      <td class="font-w600 font-size-sm">
+                          <a href="be_pages_generic_blank.html">{{$list2->depDescription}}</a>
                       </td>
                       <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
                           {{$list2->start_date}}
@@ -486,14 +506,18 @@ open
                               <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
                           </div>
                       </div>
+
+                      @if($roleuser < 4)
                           <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
                               <i class="far fa-edit"></i></a>
                               <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                  <i type="button" id="{{$list2->id}}" onClick="reply_click7(this.id)" class="fas fa-check"></i>
+                                  <i type="button" id="{{$list2->absencedId}}" onClick="reply_click7(this.id)" class="fas fa-check"></i>
                               </a>
                               <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                              <i type="button" id="{{$list2->id}}" onClick="reply_click8(this.id)" class="fas fa-times"></i>
+                              <i type="button" id="{{$list2->absencedId}}" onClick="reply_click8(this.id)" class="fas fa-times"></i>
                               </a>
+
+                    @endif
                           </span>
                       </td>
 
@@ -510,6 +534,8 @@ open
               </tbody>
           </table>
       </div>
+
+      @endif
   <!-- END Dynamic Table with Export Buttons -->
 </div>
 </div>
