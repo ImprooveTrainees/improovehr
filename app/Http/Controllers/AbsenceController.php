@@ -170,6 +170,7 @@ class AbsenceController extends Controller
 
         $user = Auth::user();
         $userid = Auth::id();
+        $username = Auth::name();
 
         $vacation = new absence();
 
@@ -227,7 +228,7 @@ class AbsenceController extends Controller
                 $vacation->save();
 
                 $notifications->type="Vacations";
-                $notifications->description=NOMEDOUSER+" created vacations from "+STARTDATE+" to "+ENDDATE+".";
+                $notifications->description=$username." created vacations from ".$startDate." to ".$endDate." .";
 
                 $notifications->save();
 
