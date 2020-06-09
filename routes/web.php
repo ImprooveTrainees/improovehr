@@ -103,8 +103,10 @@ Route::group(['middleware' => ['auth']], function () {
         //
         //Teams
         Route::get('/newTeam', 'teamsController@create');
-        Route::post('/showTeam', 'UserController@employees'); //mostra a equipa no employees
-        Route::post('/addTeamMember', 'UserController@employees');
+        Route::get('/showTeam', 'UserController@employees'); //mostra a equipa no employees
+        Route::get('/addTeamMember', 'teamsController@addTeamMember');
+        Route::get('/remTeamMember/{idUserRem}', 'teamsController@remTeamMember');
+        
         //
 });
 

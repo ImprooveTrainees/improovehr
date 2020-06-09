@@ -17,6 +17,7 @@ class CreateTeamUsersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('teamID');
             $table->integer('userID');
+            $table->boolean('leader');
             $table->foreign('teamID')->references('id')->on('teams');
             $table->foreign('userID')->references('id')->on('users');
             $table->timestamps();

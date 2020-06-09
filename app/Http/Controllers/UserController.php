@@ -116,19 +116,19 @@ class UserController extends Controller
             }
             if($userLogged->idusertype == 1) { // se for admin
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";  
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";  
                 
             }
             else if($userLogged->idusertype == 2) { // se for manager
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>"; 
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>"; 
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";   
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";   
                 }
             }              
             $msg .= "</tr>";
@@ -146,10 +146,24 @@ class UserController extends Controller
 
             $selectedTeamMembers = teamUsers::where('teamID', $teamDetailsId)->get();
             $selectedTeamMembersArray = [];
+            $leaderArray = [];
+            $teamID = teamUsers::where('teamID', $teamDetailsId)->first()->teamID;
+            $teamName = teams::find($teamID)->description;
             foreach($selectedTeamMembers as $selectedMember) {
                 $user = User::find($selectedMember->userID);
                 array_push($selectedTeamMembersArray, $user);
+                if($selectedMember->leader == true) { //vê se o user é lider
+                    array_push($leaderArray, "Yes");
+                }
+                else {
+                    array_push($leaderArray, "No");
+                }
             }
+        
+
+            $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
+            
+
                 
             return view('employees') //manda as vars da form para a mesma pag
             ->with('msg', $msg)
@@ -161,60 +175,17 @@ class UserController extends Controller
             ->with('allTeams', $allTeams)
             ->with('selectedTeamMembersArray', $selectedTeamMembersArray)
             ->with('teamDetailsId', $teamDetailsId)
-            ->with('users', $users);
+            ->with('users', $users)
+            ->with('leaderArray', $leaderArray)
+            ->with('teamName', $teamName)
+            ->with('LoggedUserTeams',$LoggedUserTeams)
+            ;
 
         }
 
-        $usersSelected = $request->input('usersTeam');
-        if(isset($usersSelected)) {
-            $teamID = $request->input('teamID');
-            $repeated = false;
-            $allUsersTeam = teamUsers::where('teamID', $teamID); //todas as pessoas da equipa
-            
-            foreach($usersSelected as $user) {
-                foreach($allUsersTeam as $teamUser) {
-                    if($user == $teamUser->userID) {
-                        $repeated = true;
-                        break;
-                    }
-                }
-            }
-            if($repeated) {
-                
-            return view('employees')
-            ->with('msg', $msg)
-            ->with('departmentList', $departmentList)
-            ->with('userLogged', $userLogged)
-            ->with('contractTypes', $contractTypes)
-            ->with('departments', $departments)
-            ->with('userLeaders', $userLeaders)
-            ->with('allTeams', $allTeams)         
-            ->with('message', 'Employee already in this team!');
-            }
-            else {
-                foreach($usersSelected as $userTeamAdd) {
-                    $newTeamUser = new teamUsers;
-                    $newTeamUser->teamID = $teamID;
-                    $newTeamUser->userID = $userTeamAdd;
-                    $newTeamUser->save();
-                }
-                return view('employees')
-                ->with('msg', $msg)
-                ->with('departmentList', $departmentList)
-                ->with('userLogged', $userLogged)
-                ->with('contractTypes', $contractTypes)
-                ->with('departments', $departments)
-                ->with('userLeaders', $userLeaders)
-                ->with('allTeams', $allTeams)       
-                ->with('message', 'Employees added successfully to this team!');
-            }
-    
-    
+        $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
 
-
-        }
-
-
+        
         //End Teams
         
 
@@ -226,6 +197,7 @@ class UserController extends Controller
         ->with('departments', $departments)
         ->with('userLeaders', $userLeaders)
         ->with('allTeams', $allTeams)
+        ->with('LoggedUserTeams',$LoggedUserTeams)
         ;
     }
 

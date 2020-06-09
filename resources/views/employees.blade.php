@@ -42,7 +42,7 @@ active
 
             <h4>New Team</h4>
 
-            <form action="/newTeam">
+            <form method="get" action="/newTeam">
                 @csrf
             Insert team name: <input name="teamName" type="text">
             Select team leader: 
@@ -62,7 +62,7 @@ active
             </form>
 
             <h4>Team Management</h4>
-        <form method="post" action="/showTeam">
+        <form method="get" action="/showTeam">
             @csrf
             @if($allTeams->count() == 0)
                 There are no teams to manage!
@@ -85,17 +85,22 @@ active
         @if(isset($selectedTeamMembersArray)) <!-- Caso retorne as vars da form executada -->
             <strong>Add member(s):</strong> <br>
             
-            <form method="post" action="/addTeamMember">
+            <form method="get" action="/addTeamMember">
                 @csrf
                 <input type="hidden" name="teamID" value={{$teamDetailsId}}>
             @foreach($users as $user)
                     <input type="checkbox" name="usersTeam[]" value={{$user->id}}>
                     <label for={{$user->name}}>{{$user->name}}</label>
             @endforeach
+            <strong>Leader:</strong> 
+            <select name="leaderCheck">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
             <br>
             <button type="submit">Add members</button>
             </form>
-
+                <h4>Team Name: {{$teamName}}</h4>
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
                     <thead>
                         <tr>
@@ -106,10 +111,11 @@ active
                             <th style="width: 15%;">Department</th>
                             <th style="width: 15%;">Time</th>
                             <th style="width: 15%;">Staff Manager</th>
+                            <th style="width: 15%;">Leader</th>
                             @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
                                 <th>Edit</th>
                                 <th>Remove from team</th>
-                                <th>Remove</th>
+                                <th>Delete User</th>
                             @endif
                         </tr>
                     </thead>
@@ -150,22 +156,23 @@ active
                                @else
                                     <td>{{$selectedTeamMembersArray[$b]->managerDoUser($selectedTeamMembersArray[$b]->departments->first()->description, $selectedTeamMembersArray[$b]->country)}}</td>
                                @endif
+                                <td>{{$leaderArray[$b]}}</td>
                                @if($userLogged->idusertype == 1) 
                                     <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
-                                    <td>Remove from team</td>
-                                    <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class='fas fa-times'></i></a></td>
+                                    <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                 @elseif($userLogged->idusertype == 2) 
                                     @if($selectedTeamMembersArray[$b]->idusertype != 1 && $selectedTeamMembersArray[$b]->idusertype != 2) 
                                         <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
-                                        <td>Remove from team</td>
-                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class='fas fa-times'></i></a></td>
+                                        <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                     @endif
                                 
                                 @elseif($userLogged->idusertype == 3) 
                                     @if($selectedTeamMembersArray[$b]->idusertype != 1 && $selectedTeamMembersArray[$b]->idusertype != 2 && $selectedTeamMembersArray[$b]->idusertype != 3) 
                                         <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>~
-                                        <td>Remove from team</td>
-                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class='fas fa-times'></i></a></td>
+                                        <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                     @endif
                                 @endif 
                                     
@@ -179,7 +186,9 @@ active
 
 
             <h4>Your Team</h4>
-            
+            @foreach($LoggedUserTeams as $team)
+                <p>{{$team->teamID}}</p>
+            @endforeach
 
 
 
@@ -199,7 +208,7 @@ active
                     <th style="width: 15%;">Staff Manager</th>
                     @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
                         <th>Edit</th>
-                        <th>Remove</th>
+                        <th>Delete User</th>
                     @endif
                 </tr>
             </thead>
