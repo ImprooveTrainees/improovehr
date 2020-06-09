@@ -342,8 +342,22 @@ class AbsenceController extends Controller
             ->select('users.id')
             ->value('id');
 
+            $typeAbsence = DB::table('absences')
+            ->where('absences.id','=',$updValue)
+            ->select('absences.absencetype')
+            ->value('absencetype');
+
             $notification->type="Approval";
-            $notification->description=$username." approved one of your absences.";
+
+            if($typeAbsence > 1) {
+
+                $notification->description=$username." approved one of your vacations.";
+
+            } else {
+
+                $notification->description=$username." approved one of your absences.";
+
+            }
 
             $notification->save();
 
@@ -367,8 +381,22 @@ class AbsenceController extends Controller
             ->select('users.id')
             ->value('id');
 
+            $typeAbsence = DB::table('absences')
+            ->where('absences.id','=',$updValue)
+            ->select('absences.absencetype')
+            ->value('absencetype');
+
             $notification->type="Disapproval";
-            $notification->description=$username." disapproved one of your absences.";
+
+            if($typeAbsence > 1) {
+
+                $notification->description=$username." disapproved one of your vacations.";
+
+            } else {
+
+                $notification->description=$username." disapproved one of your absences.";
+
+            }
 
             $notification->save();
 
