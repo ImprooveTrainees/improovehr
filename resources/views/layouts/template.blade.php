@@ -434,9 +434,9 @@
                         <!-- END Open Search Section -->
 
                         <!-- Search Form (visible on larger screens) -->
-                        <form class="d-none d-sm-inline-block" method="POST">
+                        <form class="d-none d-sm-inline-block" method="POST" id="searchpp">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-alt" placeholder="Search.." id="page-header-search-input2" name="page-header-search-input2">
+                                <input type="text" class="form-control form-control-alt searchpp" placeholder="Search..." id="page-header-search-input2" name="page-header-search-input2">
                                 <div class="input-group-append">
                                     <span class="input-group-text bg-body border-0">
                                         <i class="si si-magnifier"></i>
