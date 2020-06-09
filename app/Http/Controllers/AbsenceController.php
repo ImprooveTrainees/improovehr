@@ -230,10 +230,6 @@ class AbsenceController extends Controller
 
                 $notification->save();
 
-                //$id_notif = DB::table('notifications')->select('notifications.id')->value('id')->orderBy('id','desc')->first();
-
-                //$listNotifications = DB::table('notifications')->select('notifications.created_at')->orderBy('created_at','DESC')->get();
-
                 $id_notif = notifications::orderBy('created_at','desc')->first()->id;
 
 
@@ -340,11 +336,49 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['status' => 'Approved']);
 
+            $idUserCreated = DB::table('users')
+            ->join('absences','absences.iduser','=','users.id')
+            ->where('absences.id','=',$updValue)
+            ->select('users.id')
+            ->value('id');
+
+            $notification->type="Approval";
+            $notification->description=$username." approved one of your absences.";
+
+            $notification->save();
+
+            $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+            $notif_user->notificationId=$id_notif;
+            $notif_user->createUserId=$userid;
+            $notif_user->receiveUserId=$idUserCreated;
+
+            $notif_user->save();
+
         } else if($op==8) {
 
             DB::table('absences')
             ->where('id', $updValue)
             ->update(['status' => 'Disapproved']);
+
+            $idUserCreated = DB::table('users')
+            ->join('absences','absences.iduser','=','users.id')
+            ->where('absences.id','=',$updValue)
+            ->select('users.id')
+            ->value('id');
+
+            $notification->type="Disapproval";
+            $notification->description=$username." disapproved one of your absences.";
+
+            $notification->save();
+
+            $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+            $notif_user->notificationId=$id_notif;
+            $notif_user->createUserId=$userid;
+            $notif_user->receiveUserId=$idUserCreated;
+
+            $notif_user->save();
 
         } else if($op==9) {
 
