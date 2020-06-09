@@ -1,3 +1,21 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\notifications;
+use App\NotificationsUsers;
+use Illuminate\Http\Request;
+use Auth;
+use DB;
+use App\User;
+
+    $listNotifications = NotificationsUsers::all();
+
+    $notificationMessages = notifications::all();
+
+    $id_user= Auth::user()->id;
+
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -466,6 +484,35 @@
                                     <h5 class="dropdown-header text-uppercase text-white">Notifications</h5>
                                 </div>
                                 <ul class="nav-items mb-0">
+
+                                @foreach($listNotifications as $listNot)
+
+                                @if($id_user==$listNot->receiveUserId)
+
+                                @foreach($notificationMessages as $msg)
+
+                                @if($listNot->notificationId==$msg->id)
+                                <li>
+                                            <a class="text-dark media py-2" href="javascript:void(0)">
+                                                <div class="mr-2 ml-3">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                                <div class="media-body pr-2">
+                                                    <small class="font-w600">{{$msg->description}}</small>
+                                                </div>
+                                            </a>
+                                        </li>
+
+
+                                @endif
+                                @endforeach
+
+
+
+                                @endif
+
+
+                                @endforeach
 
                                     {{-- @foreach($allNotificationsUser as $not) <!-- Notificacoes -->
                                         @if($settingsAlerts->alert_evaluations == 1 && $not->notificationType == "Evaluation" && $not->userID == Auth::user()->id)

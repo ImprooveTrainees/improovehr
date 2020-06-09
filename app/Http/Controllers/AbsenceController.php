@@ -54,9 +54,6 @@ class AbsenceController extends Controller
         ->where('users.id','=',$id_user)
         ->select('users.idusertype')->value('idusertype');
 
-        error_log($roleuser);
-
-
         $countryUser = DB::table('users')
         ->where('users.id','=',$id_user)
         ->select('users.country')
@@ -170,7 +167,19 @@ class AbsenceController extends Controller
 
         $user = Auth::user();
         $userid = Auth::id();
-        $username = Auth::name();
+
+        $username = DB::table('users')
+        ->where('users.id','=',$userid)
+        ->select('users.name')
+        ->value('name');
+
+        $countryUser = DB::table('users')
+        ->where('users.id','=',$userid)
+        ->select('users.country')
+        ->value('country');
+
+        $managerId = DB::table('users')->where('users.idusertype','=',2)->where('users.country','like',$countryUser)
+        ->select('users.id')->value('id');
 
         $vacation = new absence();
 
@@ -181,21 +190,6 @@ class AbsenceController extends Controller
         $notif_user = new NotificationsUsers();
 
         $op = request('op');
-
-        /* $present_date = Carbon::now();
-
-        $allAbsences = absence::All();
-
-        foreach($allAbsences as $ab) {
-
-            if($present_date>$ab->end_date && $ab->status=="Approved") {
-
-                $ab->status="Concluded";
-                $ab->save();
-
-            }
-
-        } */
 
         $available_days = request('vacationDays');
 
@@ -215,6 +209,10 @@ class AbsenceController extends Controller
 
                 return redirect('/holidays')->withErrors('You only have '.$available_days.' vacation days available. Please do not exceed your vacation days.');
 
+            } else if($to < $from) {
+
+                return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
+
             } else {
 
                 $vacation->iduser=$userid;
@@ -227,16 +225,21 @@ class AbsenceController extends Controller
 
                 $vacation->save();
 
-                $notifications->type="Vacations";
-                $notifications->description=$username." created vacations from ".$startDate." to ".$endDate." .";
+                $notification->type="Vacations";
+                $notification->description=$username." created vacations from ".$startDate." to ".$endDate." . Waiting for Approval.";
 
-                $notifications->save();
+                $notification->save();
 
-                $id_notif = DB::table('notifications')->select('notifications.id')->orderBy('created_at','desc')->first()->value('id');
+                //$id_notif = DB::table('notifications')->select('notifications.id')->value('id')->orderBy('id','desc')->first();
+
+                //$listNotifications = DB::table('notifications')->select('notifications.created_at')->orderBy('created_at','DESC')->get();
+
+                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
 
                 $notif_user->notificationId=$id_notif;
                 $notif_user->createUserId=$userid;
-                $notif_user->receiveUserId=IDMANAGER;
+                $notif_user->receiveUserId=$managerId;
 
                 $notif_user->save();
 
@@ -245,16 +248,42 @@ class AbsenceController extends Controller
 
         } else if($op==2) {
 
-            $absence->iduser=$userid;
-            $absence->absencetype=6;
-            $absence->attachment="";
-            $absence->status="Pending";
-            $absence->start_date = request('start_date');
-            $absence->end_date = request('end_date');
-            $absence->motive = "";
+            $startDate = request('start_date');
+            $endDate = request('end_date');
 
+            $from = Carbon::parse($startDate);
+            $to = Carbon::parse($endDate);
 
-            $absence->save();
+            if($to < $from) {
+
+                return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
+
+            } else {
+
+                $absence->iduser=$userid;
+                $absence->absencetype=6;
+                $absence->attachment="";
+                $absence->status="Pending";
+                $absence->start_date = request('start_date');
+                $absence->end_date = request('end_date');
+                $absence->motive = "";
+
+                $absence->save();
+
+                $notification->type="Absences";
+                $notification->description=$username." created an absence. Waiting for Approval.";
+
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
+
+                    $notif_user->save();
+
+            }
 
         } else if($op==3) {
 
