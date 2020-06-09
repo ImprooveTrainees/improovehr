@@ -65,6 +65,7 @@ class AbsenceController extends Controller
         ->join('users_deps','users_deps.idUser','=','users.id')
         ->join('departments','departments.id','=','users_deps.idDepartment')
         ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
         ->where('users.country','like', $countryUser)
         ->where('absence_types.id','=','1')->get();
 
@@ -74,6 +75,7 @@ class AbsenceController extends Controller
         ->join('users_deps','users_deps.idUser','=','users.id')
         ->join('departments','departments.id','=','users_deps.idDepartment')
         ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
         ->where('users.country','like', $countryUser)
         ->where('absence_types.id','>','1')->get();
 
