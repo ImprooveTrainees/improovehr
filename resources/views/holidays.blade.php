@@ -20,11 +20,9 @@ open
 </div>
 @endif
 
-
 <div id="table_hol">
 
-
-<div class="shadow p-1 bg-white cardbox1">
+<div id="cardbox4" class="shadow p-1 bg-white cardbox1">
     <div class="container">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -32,7 +30,13 @@ open
             <a class="nav-link active" data-toggle="tab" href="#home">Holidays</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#home2">Employees on Holidays</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#menu1">Absences</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu2">Employees with Absences</a>
           </li>
         </ul>
 
@@ -106,112 +110,129 @@ open
             </div>
         @endfor
 
-        <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%">
+        <div class="row" id="paginationholabs">
+        <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+        Page <strong>1</strong> of <strong>1</strong></div></div>
+        <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+        <ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+        <i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+        <li class="paginate_button page-item active">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+        <i class="fa fa-angle-right" aria-hidden="true"></i></a></li></ul></div></div></div>
 
-            <!-- Dynamic Table with Export Buttons -->
-            <div class="block-header">
-                <h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
-            </div>
+        </div>
 
-            <div class="block-content block-content-full">
-                <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-                <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-                    <thead>
-                        <tr>
-                            <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                            <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
-                            <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
-                            <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
-                            <th style="width: 15%;">Status</th>
-                            <th style="width: 15%;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @php
-                        $i = 1;
+            <!-- ------------------------------------------------------ TAB - EMPLOYEES ON HOLIDAYS ------------------------------------------------------ -->
 
-                    @endphp
+            <div id="home2" class="container tab-pane fade"><br>
 
-                    @foreach($listVacationsTotal as $list)
+<!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
-                        <tr>
-                            <td class="font-w600 font-size-sm">
-                                {{$i}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                                <a href="be_pages_generic_blank.html">{{$list->user_name}}</a>
-                            </td>
-                            <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
-                                {{$list->start_date}}
-                            </td>
-                            <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
-                                {{$list->end_date}}
-                            </td>
-                            <td class="font-size-sm">
-                                {{$list->status}}
-                            </td>
+<!-- Dynamic Table with Export Buttons -->
+<div class="block-header">
+<h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
+</div>
 
-                            @if($list->status=='Concluded')
+<div class="block-content block-content-full">
+<!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
+<table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+<thead>
+    <tr>
+        <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
+        <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
+        <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
+        <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
+        <th style="width: 15%;">Status</th>
+        <th style="width: 15%;">Actions</th>
+    </tr>
+</thead>
+<tbody>
+@php
+    $i = 1;
+@endphp
 
-                            <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-                            grid-auto-columns: max-content;">
-                                <span style="overflow: visible; position: relative;">
-                                <div class="dropdown" style="float: left;">
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
-                                        <i class="fas fa-cog"></i></a>
-                                <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
-                                </div>
-                            </div>
-                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
-                                        <i class="far fa-edit"></i></a>
+@foreach($listVacationsTotal as $list)
 
-                                </span>
-                            </td>
+    <tr>
+        <td class="font-w600 font-size-sm">
+            {{$i}}
+        </td>
+        <td class="font-w600 font-size-sm">
+            <a href="be_pages_generic_blank.html">{{$list->user_name}}</a>
+        </td>
+        <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+            {{$list->start_date}}
+        </td>
+        <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+            {{$list->end_date}}
+        </td>
+        <td class="font-size-sm">
+            {{$list->status}}
+        </td>
 
+        @if($list->status=='Concluded')
 
-
-                            @else
-                                <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-                                grid-auto-columns: max-content;">
-                                    <span style="overflow: visible; position: relative;">
-                                    <div class="dropdown" style="float: left;">
-                                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
-                                            <i class="fas fa-cog"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
-                                    </div>
-                                </div>
-                                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
-                                        <i class="far fa-edit"></i></a>
-                                        <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                            <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
-                                        </a>
-                                        <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                        <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
-                                        </a>
-                                    </span>
-                                </td>
-
-
-                            @endif
-
-                        </tr>
-
-                        @php
-                            $i++;
-                        @endphp
-
-                    @endforeach
-                    </tbody>
-                </table>
+        <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+        grid-auto-columns: max-content;">
+            <span style="overflow: visible; position: relative;">
+            <div class="dropdown" style="float: left;">
+                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                    <i class="fas fa-cog"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
             </div>
         </div>
-        <!-- END Dynamic Table with Export Buttons -->
+        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                    <i class="far fa-edit"></i></a>
+
+            </span>
+        </td>
 
 
+
+        @else
+            <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+            grid-auto-columns: max-content;">
+                <span style="overflow: visible; position: relative;">
+                <div class="dropdown" style="float: left;">
+                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                        <i class="fas fa-cog"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
+                </div>
+            </div>
+                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                    <i class="far fa-edit"></i></a>
+                    <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                        <i type="button" id="{{$list->id}}" onClick="reply_click5(this.id)" class="fas fa-check"></i>
+                    </a>
+                    <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                    <i type="button" id="{{$list->id}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
+                    </a>
+                </span>
+            </td>
+
+
+        @endif
+
+    </tr>
+
+    @php
+        $i++;
+    @endphp
+
+@endforeach
+</tbody>
+</table>
+</div>
+</div>
 
         {{-- TAB ABSENCES --}}
 
@@ -348,119 +369,137 @@ open
 
     @endfor
 
+    <div class="row" id="paginationholabs">
+        <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+        Page <strong>1</strong> of <strong>1</strong></div></div>
+        <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+        <ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">
+        <i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+        <li class="paginate_button page-item active">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+        <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">
+        <i class="fa fa-angle-right" aria-hidden="true"></i></a></li></ul></div></div></div>
 
-  <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%">
+    </div>
 
-      <!-- Dynamic Table with Export Buttons -->
-      <div class="block-header">
-          <h3 class="block-title text-center">Absences<small> - ALL Employees</small></h3>
-      </div>
-      <div class="block-content block-content-full">
-          <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-          <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-              <thead>
-                  <tr>
-                      <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                      <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
-                      <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
-                      <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
-                      <th style="width: 15%;">Attachment</th>
-                      <th style="width: 15%;">Type</th>
-                      <th style="width: 15%;">Status</th>
-                      <th style="width: 15%;">Actions</th>
+<!-- ------------------------------------------------------ TAB - ABSENCES WITH ABSENCES ------------------------------------------------------ -->
 
-                  </tr>
-              </thead>
-              <tbody>
+    <div id="menu2" class="container tab-pane fade"><br>
 
-              @php
-                        $j = 1;
+<!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
-              @endphp
+<!-- Dynamic Table with Export Buttons -->
+<div class="block-header">
+  <h3 class="block-title text-center">Absences<small> - ALL Employees</small></h3>
+</div>
+<div class="block-content block-content-full">
+  <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
+  <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+      <thead>
+          <tr>
+              <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
+              <th class="d-none d-sm-table-cell" style="width: 20%;">Name</th>
+              <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
+              <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
+              <th style="width: 15%;">Attachment</th>
+              <th style="width: 15%;">Type</th>
+              <th style="width: 15%;">Status</th>
+              <th style="width: 15%;">Actions</th>
 
-              @foreach($listAbsencesTotal as $list2)
+          </tr>
+      </thead>
+      <tbody>
+
+      @php
+                $j = 1;
+      @endphp
+
+      @foreach($listAbsencesTotal as $list2)
 
 
-                  <tr>
-                      <td class="font-w600 font-size-sm">
-                          {{$j}}
-                      </td>
-                      <td class="font-w600 font-size-sm">
-                          <a href="be_pages_generic_blank.html">{{$list2->user_name}}</a>
-                      </td>
-                      <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
-                          {{$list2->start_date}}
-                      </td>
-                      <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
-                         {{$list2->end_date}}
-                      </td>
-                      <td class="font-w600 font-size-sm">
-                        <a href="javascript:void(0)">{{$list2->attachment}}</a>
-                    </td>
-                    <td class="font-w600 font-size-sm">
-                        {{$list2->description}}
-                    </td>
-                    <td class="font-w600 font-size-sm">
-                        {{$list2->status}}
-                    </td>
+          <tr>
+              <td class="font-w600 font-size-sm">
+                  {{$j}}
+              </td>
+              <td class="font-w600 font-size-sm">
+                  <a href="be_pages_generic_blank.html">{{$list2->user_name}}</a>
+              </td>
+              <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+                  {{$list2->start_date}}
+              </td>
+              <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+                 {{$list2->end_date}}
+              </td>
+              <td class="font-w600 font-size-sm">
+                <a href="javascript:void(0)">{{$list2->attachment}}</a>
+            </td>
+            <td class="font-w600 font-size-sm">
+                {{$list2->description}}
+            </td>
+            <td class="font-w600 font-size-sm">
+                {{$list2->status}}
+            </td>
 
-                    @if($list2->status=='Concluded')
+            @if($list2->status=='Concluded')
 
-                    <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-                      grid-auto-columns: max-content;">
-                          <span style="overflow: visible; position: relative;">
-                          <div class="dropdown" style="float: left;">
-                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
-                                  <i class="fas fa-cog"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
-                              <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
-                              <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
-                          </div>
-                      </div>
-                          <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
-                              <i class="far fa-edit"></i></a>
+            <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+              grid-auto-columns: max-content;">
+                  <span style="overflow: visible; position: relative;">
+                  <div class="dropdown" style="float: left;">
+                      <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                          <i class="fas fa-cog"></i></a>
+                  <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
+                  </div>
+              </div>
+                  <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                      <i class="far fa-edit"></i></a>
 
-                          </span>
-                      </td>
+                  </span>
+              </td>
 
-                    @else
+            @else
 
-                    <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-                      grid-auto-columns: max-content;">
-                          <span style="overflow: visible; position: relative;">
-                          <div class="dropdown" style="float: left;">
-                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
-                                  <i class="fas fa-cog"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
-                              <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
-                              <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
-                          </div>
-                      </div>
-                          <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
-                              <i class="far fa-edit"></i></a>
-                              <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                                  <i type="button" id="{{$list2->id}}" onClick="reply_click7(this.id)" class="fas fa-check"></i>
-                              </a>
-                              <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
-                              <i type="button" id="{{$list2->id}}" onClick="reply_click8(this.id)" class="fas fa-times"></i>
-                              </a>
-                          </span>
-                      </td>
+            <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
+              grid-auto-columns: max-content;">
+                  <span style="overflow: visible; position: relative;">
+                  <div class="dropdown" style="float: left;">
+                      <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                          <i class="fas fa-cog"></i></a>
+                  <div class="dropdown-menu dropdown-menu-right">						    	<a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Details</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-leaf"></i> Update Status</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-print"></i> Generate Report</a>
+                  </div>
+              </div>
+                  <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit details">
+                      <i class="far fa-edit"></i></a>
+                      <a data-toggle="modal" data-target="#modalApproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                          <i type="button" id="{{$list2->id}}" onClick="reply_click7(this.id)" class="fas fa-check"></i>
+                      </a>
+                      <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
+                      <i type="button" id="{{$list2->id}}" onClick="reply_click8(this.id)" class="fas fa-times"></i>
+                      </a>
+                  </span>
+              </td>
 
-                    @endif
+            @endif
 
-                  </tr>
+          </tr>
 
-                @php
-                        $j++;
+        @php
+                $j++;
+        @endphp
 
-                @endphp
-
-                @endforeach
-              </tbody>
-          </table>
-      </div>
-  <!-- END Dynamic Table with Export Buttons -->
+        @endforeach
+      </tbody>
+  </table>
+</div>
+<!-- END Dynamic Table with Export Buttons -->
 </div>
 </div>
 </div>

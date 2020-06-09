@@ -439,9 +439,9 @@
                         <!-- END Open Search Section -->
 
                         <!-- Search Form (visible on larger screens) -->
-                        <form class="d-none d-sm-inline-block" method="POST">
+                        <form class="d-none d-sm-inline-block" method="POST" id="searchpp">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-alt" placeholder="Search.." id="page-header-search-input2" name="page-header-search-input2">
+                                <input type="text" class="form-control form-control-alt searchpp" placeholder="Search..." id="page-header-search-input2" name="page-header-search-input2">
                                 <div class="input-group-append">
                                     <span class="input-group-text bg-body border-0">
                                         <i class="si si-magnifier"></i>
@@ -451,7 +451,7 @@
                         </form>
                         <!-- END Search Form -->
                         <!-- Notifications Dropdown -->
-                        <?php 
+                        <?php
                             // use App\notifications;
                             // use App\settings_general;
                             // use App\sliderView;
@@ -489,7 +489,7 @@
                                     @endforeach --}}
 
                                     {{-- @foreach($notificationsBirthdays as $bday) <!-- Notificacoes -->
-                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name) 
+                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -513,7 +513,7 @@
                                                 </div>
                                             </a>
                                         </li>
-                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m')) 
+                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">
@@ -529,7 +529,7 @@
                                 @endforeach
 
                                 @foreach($notificationsHolidays as $holiday) <!-- Notificacoes -->
-                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date))) 
+                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date)))
                                         <li>
                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                 <div class="mr-2 ml-3">

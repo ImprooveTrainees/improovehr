@@ -147,9 +147,9 @@
         margin-right: 23px;
     }
 
-    a {
+    #addmotive {
         float: left;
-        margin-left: 13px;
+        margin-left: 16px;
     }
 }
 #type {
@@ -170,11 +170,16 @@
     p {
         float: left;
         margin-right: 15px;
+        margin-left: -10px;
     }
 
     a {
         float: left;
-        margin-left: 13px;
+        margin-left: 30px;
+    }
+
+    #addtype {
+        margin-left: -9px;
     }
 }
 
@@ -226,6 +231,7 @@
     grid-template-rows: 25px 25px;
     float: left;
     width: 17%;
+    margin-left: 25px;
 
     h5 {
         margin: auto;
@@ -292,6 +298,16 @@ p2 {
 #addabsence {
     margin-top: 0px;
     margin-left: 7px;
+}
+
+#cardbox4 {
+    height: 110%;
+}
+
+#paginationholabs {
+    margin-right: -1010px;
+    margin-left: 40px;
+    margin-top: 10px;
 }
 
 @import '../../../screens/components/holidays/_holidays';
