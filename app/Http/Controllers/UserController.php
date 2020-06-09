@@ -162,7 +162,19 @@ class UserController extends Controller
         
 
             $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
-            
+            $LoggedUserTeamsArrayUserId = [];
+            $LoggedUserTeamsArrayTeamId = [];
+            $tablesCount = teamUsers::where('userID', $userLogged->id)->get();
+    
+            foreach($LoggedUserTeams as $teamUserId) {
+                $teamMembersTeam = teamUsers::where('teamID', $teamUserId->teamID)->get();
+                foreach($teamMembersTeam as $teamMember) {
+                    array_push($LoggedUserTeamsArrayUserId,User::find($teamMember->userID));
+                    array_push($LoggedUserTeamsArrayTeamId,teams::find($teamUserId->teamID));
+                }
+    
+                
+            }
 
                 
             return view('employees') //manda as vars da form para a mesma pag
@@ -178,12 +190,27 @@ class UserController extends Controller
             ->with('users', $users)
             ->with('leaderArray', $leaderArray)
             ->with('teamName', $teamName)
-            ->with('LoggedUserTeams',$LoggedUserTeams)
+            ->with('LoggedUserTeamsArrayUserId',$LoggedUserTeamsArrayUserId)
+            ->with('LoggedUserTeamsArrayTeamId', $LoggedUserTeamsArrayTeamId)
+            ->with('tablesCount', $tablesCount)
             ;
 
         }
 
         $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
+        $LoggedUserTeamsArrayUserId = [];
+        $LoggedUserTeamsArrayTeamId = [];
+        $tablesCount = teamUsers::where('userID', $userLogged->id)->get();
+
+        foreach($LoggedUserTeams as $teamUserId) {
+            $teamMembersTeam = teamUsers::where('teamID', $teamUserId->teamID)->get();
+            foreach($teamMembersTeam as $teamMember) {
+                array_push($LoggedUserTeamsArrayUserId,User::find($teamMember->userID));
+                array_push($LoggedUserTeamsArrayTeamId,teams::find($teamUserId->teamID));
+            }
+
+            
+        }
 
         
         //End Teams
@@ -197,7 +224,9 @@ class UserController extends Controller
         ->with('departments', $departments)
         ->with('userLeaders', $userLeaders)
         ->with('allTeams', $allTeams)
-        ->with('LoggedUserTeams',$LoggedUserTeams)
+        ->with('LoggedUserTeamsArrayUserId',$LoggedUserTeamsArrayUserId)
+        ->with('LoggedUserTeamsArrayTeamId',$LoggedUserTeamsArrayTeamId)
+        ->with('tablesCount', $tablesCount)
         ;
     }
 
