@@ -15,13 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+        //Login
+Route::get('/', function () {
+      return view('auth.login');
+});
 
 Route::group(['middleware' => ['auth']], function () {
-        //Login
-        Route::get('/', function () {
-            return view('auth.login');
-        });
 
         //Dashboard
         Route::get('/admin', 'AbsenceController@show');
@@ -36,18 +35,24 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/personal', 'UserController@index');
         Route::get('/employeesTeste', 'UserController@employees');
-        Route::get('/holidays', 'AbsenceController@index')->middleware('roles');
-        Route::post('/holidays', 'AbsenceController@store')->middleware('roles');
+        Route::get('/holidays', 'AbsenceController@index');
+        Route::post('/holidays', 'AbsenceController@store');
         Route::get('/absencesCount', 'AbsenceController@show');
         Route::get('/testeSlider', 'SliderController@index');
-        Route::get('/newEmployee', 'UserController@newEmployeeView');
-        Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
+        Route::get('/newEmployee', 'UserController@newEmployeeView')->middleware('generalAdminsRole');
+        Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister')->middleware('generalAdminsRole');
         Route::post('/saveProfileImage', 'UserController@storeProfileImg');
         Route::get('/editar', 'UserController@edit');
         Route::get('/profEdit', 'ProfessionalInfoController@edit');
         Route::get('/testeCalendar', 'FullCalendarController@index');
-        Route::get('/employees', 'UserController@employees')->middleware('roles');
+        Route::get('/employees', 'UserController@employees');
         Route::get('/offices', 'OfficesDepsController@index');
+
+        //
+
+        //Admin, RH, Manager Routes 
+        Route::get('/editProfessionalInfo', 'UserController@editProfessionalInfo')->middleware('generalAdminsRole');
+        Route::get('/deleteEmployee/{id}', 'UserController@deleteEmployee')->middleware('generalAdminsRole');
         //
 
         //Harvest
@@ -55,28 +60,28 @@ Route::group(['middleware' => ['auth']], function () {
         //
 
         //Evaluations AdminRH Create Evaluation
-        Route::get('/evals', 'EvaluationsController@index')->middleware('roles');
-        Route::get('/createSurvey', 'EvaluationsController@createSurvey');
-        Route::get('/createArea', 'EvaluationsController@createArea');
-        Route::get('/newSubCat', 'EvaluationsController@newSubCat');
-        Route::get('/newQuestion', 'EvaluationsController@createQuestion');
-        Route::get('/remQuestion', 'EvaluationsController@removeQuestion');
-        Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
-        Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey');
-        Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
-        Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat');
-        Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea');
-        Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea');
-        Route::get('/assignUser', 'EvaluationsController@assignUser');
-        Route::get('/remUser', 'EvaluationsController@remUser');
-        Route::get('/showSurvey', 'EvaluationsController@show');
+        Route::get('/evals', 'EvaluationsController@index')->middleware('generalAdminsRole');
+        Route::get('/createSurvey', 'EvaluationsController@createSurvey')->middleware('generalAdminsRole');
+        Route::get('/createArea', 'EvaluationsController@createArea')->middleware('generalAdminsRole');
+        Route::get('/newSubCat', 'EvaluationsController@newSubCat')->middleware('generalAdminsRole');
+        Route::get('/newQuestion', 'EvaluationsController@createQuestion')->middleware('generalAdminsRole');
+        Route::get('/remQuestion', 'EvaluationsController@removeQuestion')->middleware('generalAdminsRole');
+        Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey')->middleware('generalAdminsRole');
+        Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey')->middleware('generalAdminsRole');
+        Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey')->middleware('generalAdminsRole');
+        Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat')->middleware('generalAdminsRole');
+        Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea')->middleware('generalAdminsRole');
+        Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea')->middleware('generalAdminsRole');
+        Route::get('/assignUser', 'EvaluationsController@assignUser')->middleware('generalAdminsRole');
+        Route::get('/remUser', 'EvaluationsController@remUser')->middleware('generalAdminsRole');
+        Route::get('/showSurvey', 'EvaluationsController@show')->middleware('generalAdminsRole');
         //
 
         //Evaluations AdminRH Evaluation Result
-        Route::get('/evalsResultsIndex', 'EvaluationsResults@index')->middleware('roles');
-        Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults')->middleware('roles');
-        Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys')->middleware('roles');
-        Route::post('/finalCalculus', 'EvaluationsResults@finalAverageAllSurveys')->middleware('roles');
+        Route::get('/evalsResultsIndex', 'EvaluationsResults@index')->middleware('generalAdminsRole');
+        Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults')->middleware('generalAdminsRole');
+        Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys')->middleware('generalAdminsRole');
+        Route::post('/finalCalculus', 'EvaluationsResults@finalAverageAllSurveys')->middleware('generalAdminsRole');
         //
 
         //Evaluations User Perspective
@@ -86,76 +91,21 @@ Route::group(['middleware' => ['auth']], function () {
         //
 
         //Settings
-        Route::get('/settings', 'SettingController@index')->middleware('roles');
-        Route::post('/saveSettings/{officeID}', 'SettingController@storeSettings')->middleware('roles');
-        Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('roles');
+        Route::get('/settings', 'SettingController@index')->middleware('generalAdminsRole');
+        Route::post('/saveSettings/{officeID}', 'SettingController@storeSettings')->middleware('generalAdminsRole');
+        Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('generalAdminsRole');
         //
+        //Reports
         Route::get('/reports', 'ReportController@index');
-        Route::get('/settingspage', 'SettingController@index')->middleware('roles');
+        Route::get('/settingspage', 'SettingController@index')->middleware('generalAdminsRole');
         Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
         Route::post('/reports', 'ReportController@store');
-
-
+        //
+        //Teams
+        Route::get('/newTeam', 'teamsController@create');
+        Route::get('/showTeam', 'teamsController@showTeamDetails');
+        //
 });
-Auth::routes();
-Route::get('/professional', 'ProfessionalInfoController@index');
-Route::POST('/storeimg', 'ProfessionalInfoController@store');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/personal', 'UserController@index');
-Route::get('/employeesTeste', 'UserController@employees');
-Route::get('/holidays', 'AbsenceController@index');
-Route::post('/holidays', 'AbsenceController@store');
-Route::get('/absencesCount', 'AbsenceController@show');
-Route::get('/testeSlider', 'SliderController@index');
-Route::get('/newEmployee', 'UserController@newEmployeeView');
-Route::post('/newEmployeeRegister', 'UserController@newEmployeeRegister');
-Route::post('/saveProfileImage', 'UserController@storeProfileImg');
-Route::get('/editar', 'UserController@edit');
-Route::get('/profEdit', 'ProfessionalInfoController@edit');
-Route::get('/testeCalendar', 'FullCalendarController@index');
-Route::get('/employees', 'UserController@employees');
-//
-
-//Harvest
-Route::get('/harvest', 'HarvestController@index');
-//
-
-//Evaluations AdminRH Create Evaluation
-Route::get('/evals', 'EvaluationsController@index');
-Route::get('/createSurvey', 'EvaluationsController@createSurvey');
-Route::get('/createArea', 'EvaluationsController@createArea');
-Route::get('/newSubCat', 'EvaluationsController@newSubCat');
-Route::get('/newQuestion', 'EvaluationsController@createQuestion');
-Route::get('/remQuestion', 'EvaluationsController@removeQuestion');
-Route::get('/areasPerSurveys', 'EvaluationsController@showAreasSurvey');
-Route::get('/addAreaToSurvey', 'EvaluationsController@addAreaToSurvey');
-Route::get('/deleteAreasSurvey', 'EvaluationsController@deleteAreasSurvey');
-Route::get('/surveysSubcat', 'EvaluationsController@surveysSubcat');
-Route::get('/addSubcatArea', 'EvaluationsController@addSubcatArea');
-Route::get('/remSubcatArea', 'EvaluationsController@removeSubcatArea');
-Route::get('/assignUser', 'EvaluationsController@assignUser');
-Route::get('/remUser', 'EvaluationsController@remUser');
-Route::get('/showSurvey', 'EvaluationsController@show');
-Route::get('/showSurvey', 'EvaluationsController@show');
-//
-
-//Evaluations AdminRH Evaluation Result
-Route::get('/evalsResultsIndex', 'EvaluationsResults@index');
-Route::get('/showResults/{idSurvey}/{idUser}', 'EvaluationsResults@showResults');
-Route::get('/finalAverageAllSurveys', 'EvaluationsResults@finalAverageAllSurveys');
-Route::post('/finalCalculus', 'EvaluationsResults@finalAverageAllSurveys');
-//
-
-//Evaluations User Perspective
-Route::get('/indexUserEvals', 'EvaluationsUserPerspective@index');
-Route::get('/showSurveyUser/{id}', 'EvaluationsUserPerspective@showSurvey');
-Route::get('/storeAnswers', 'EvaluationsUserPerspective@storeAnswers');
-//
-
-//Settings
-Route::get('/settings', 'SettingController@index');
-
-//
 
 
 Auth::routes();

@@ -1,4 +1,4 @@
-@media (min-width: 1300px) and (max-width: 1500px) {
+@media (min-width: 1250px) and (max-width: 1500px) {
 
     #box1{
         margin-left: 127px;
@@ -27,7 +27,8 @@
     }
 
     #calendar{
-        margin-right: -20px;
+        margin-right: -25px;
+        margin-top: 34%;
     }
 
     #ptotal {
@@ -62,5 +63,12 @@
     .controls-top {
         margin-left: 470px;
         margin-top: -19px;
+    }
+
+    #multi-item-example {
+        margin-top: 679px;
+        width: 450px;
+        margin-left: -263px;
+        position: absolute;
     }
 }

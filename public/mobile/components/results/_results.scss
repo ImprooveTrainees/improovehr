@@ -1,0 +1,134 @@
+.cardbox111{
+            height: 100%;
+            width: 90%;
+            margin: auto;
+            border-radius: 25px;
+
+}
+.surveyHeader{
+
+    margin-top: 2%;
+
+    h2{
+        font-family: Helvetica;
+        text-align: center;
+        color: rgb(133, 107, 106);
+
+    }
+
+    h4{
+        margin-top: 1%;
+        font-family: Helvetica;
+        text-align: center;
+        color: rosybrown;
+
+
+    }
+
+    h5{
+        margin-top: 1%;
+        font-family: Helvetica;
+        color: red;
+        text-align: center;
+
+    }
+
+}
+.centerBtn{
+    text-align: center;
+    margin-top: 3%;
+}
+
+#myChart {
+    max-width: 500px;
+    max-height: 900px;
+    background-color: red;
+}
+.chartStyle{
+    width: 400px;
+    margin: auto;
+    margin-top: 4%;
+}
+
+.numQuestions2{
+    margin-top: 3%;
+
+}
+.areaLi2{
+    background-color:#206e81;
+    font-size: 20px;
+    color: white;
+    font-family:Helvetica;
+    margin-top: 1%;
+
+}
+#areaLabel2{
+    margin-left: 1%;
+}
+.subLi2{
+    background-color: #8eb9c4;
+    color: white;
+    font-size: 17px;
+    font-family: Helvetica;
+    width: 300px;
+    margin-left: 15px;
+    margin-top: 2%;
+    text-align: center;
+}
+.pontencialQuest2{
+    color: blue;
+    font-family: Helvetica;
+    font-size: 18px;
+
+}
+.performanceQuest2{
+    font-family: Helvetica;
+    font-size: 18px;
+    margin-top: 1%;
+}
+#firstTable{
+    font-family:Helvetica;
+    width: 17%;
+    text-align: center;
+    margin-top: 2%;
+    th{
+        color: white;
+        background-color: grey;
+    }
+    td{
+        background-color: rgb(129, 202, 96);
+    }
+
+}
+#finalTable{
+    font-family:Helvetica;
+    width: 40%;
+    text-align: center;
+    margin-top: 2%;
+    margin-left: 55%;
+    th{
+        color: white;
+        background-color:#7f5a5a;
+    }
+    td{
+        background-color: #b1c3a8;
+    }
+
+}
+.emptySpace2{
+    font-family:Helvetica;
+    color: red;
+    margin-top: 1%;
+}
+.emptyForm{
+    font-family:Helvetica;
+    color: red;
+    text-align: center;
+}
+#openClass2{
+    text-align: center;
+    color: #cfa52a;
+}
+
+
+@import '../../../screens/components/results/_results.scss';

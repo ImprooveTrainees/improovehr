@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class contractType extends Model
+class teamUsers extends Model
 {
     //
-    protected $table = 'contract_types';
+    protected $table = 'team_users';
     protected $primaryKey = 'id';
 }

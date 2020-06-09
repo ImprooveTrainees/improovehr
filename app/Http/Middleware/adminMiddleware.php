@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class UserRoles
+class adminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class UserRoles
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::User()->idusertype != 1 && Auth::User()->idusertype != 2 && Auth::User()->idusertype != 3) {
+        if (Auth::User()->idusertype != 1) {
             abort(403, "You don't have the necessary permissions do access this page");
         }
 

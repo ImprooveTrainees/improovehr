@@ -8,6 +8,9 @@ use App\departments;
 use App\offices_deps;
 use App\contract;
 use App\users_deps;
+use App\contractType;
+use App\teams;
+use App\team_users;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -26,6 +29,7 @@ class UserController extends Controller
     public function index()
     {
         //
+
         $idAutenticado = Auth::User()->id;
         $users = User::where('id', $idAutenticado)->first();
         $actualYear = date("Y/m/d");
@@ -36,15 +40,32 @@ class UserController extends Controller
         $statusArray = ['Married', 'Single', 'Other'];
         $statusAcademic = ['Doctorate', 'Masters', 'Graduate', 'High School', 'Middle School', 'Elementary School'];
 
-        return view('personal_info')->with('users', $users)->with('age', $age)->with('statusArray', $statusArray)->with('statusAcademic', $statusAcademic);
+        return view('personal_info')
+        ->with('users', $users)
+        ->with('age', $age)
+        ->with('statusArray', $statusArray)
+        ->with('statusAcademic', $statusAcademic)
+        ;
     }
 
     public function employees()
     {
         //
         //$idAutenticado = Auth::User()->id;
+
+        $managerListNames = [];
+        $managerListIDs = [];
+        $userLeaders = User::All();
+        $userLoggedIn = Auth::user();
+
+        $allTeams = teams::All();
+        
+
         $users = User::all();
         $departments = departments::all();
+        $userLogged = Auth::user();
+
+        $contractTypes = contractType::All();
 
 
         $msg = "";
@@ -54,7 +75,8 @@ class UserController extends Controller
         // $diff=date_diff($date1,$date2);
         // $age = $diff->format("%Y%"); //formato anos
         for($i = 0; $i < count($users); $i++) {
-            $msg .= "<tr>";
+            if($userLogged->country == $users[$i]->country) { //só users do office do user logado
+                $msg .= "<tr>";
             if($users[$i]->photo == null) {
                 $msg .= "<td>No profile image</td>";
             }
@@ -91,8 +113,27 @@ class UserController extends Controller
             }
             else {
                 $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
-            }        
+            }
+            if($userLogged->idusertype == 1) { // se for admin
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
+
+            }
+            else if($userLogged->idusertype == 2) { // se for manager
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
+                }
+            }
+            else if($userLogged->idusertype == 3) { // se for RH
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
+                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-times'></i></a>"."</td>";
+                }
+            }
             $msg .= "</tr>";
+            }
+            
 
 
         }
@@ -100,10 +141,19 @@ class UserController extends Controller
         $departmentList = departments::All();
 
 
-        
 
 
-        return view('employees')->with('msg', $msg)->with('departmentList', $departmentList);
+
+        return view('employees')
+        ->with('msg', $msg)
+        ->with('departmentList', $departmentList)
+        ->with('userLogged', $userLogged)
+        ->with('contractTypes', $contractTypes)
+        ->with('departments', $departments)
+        ->with('userLeaders', $userLeaders)
+        ->with('userLoggedIn', $userLoggedIn)
+        ->with('allTeams', $allTeams)
+        ;
     }
 
     public function newEmployeeView()
@@ -118,7 +168,7 @@ class UserController extends Controller
         $employee = new User();
         $contractNewEmployee = new contract();
         $userDepartment = new users_deps();
-         
+
         $accountCreator = Auth::User();
 
         $name = $request->input('name');
@@ -129,12 +179,12 @@ class UserController extends Controller
         }
         else {
             $role = $request->input('role');
-        }      
+        }
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
         $department = $request->input('Department');
         $officeAdressCreator = $accountCreator->officeAdress; // caso haja mais offices no país
-        
+
         $employee->name = $name;
         $employee->email = $email;
         $employee->password = Hash::make($passwordAutomatica);
@@ -150,7 +200,7 @@ class UserController extends Controller
         $userDepartment->idDepartment = $department;
         $userDepartment->idUser = $employee->id;
         $userDepartment->save();
-        
+
         // $newNotification = new notifications; //guarda o aniv nas notificações
         // $newNotification->userID = $employee->id;
         // $newNotification->read = false;
@@ -158,7 +208,7 @@ class UserController extends Controller
         // $newNotification->save();
 
 
-        return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');;
+        return redirect()->action('UserController@employees')->with('message', 'Employee registered sucessfully');
 
 
 
@@ -191,11 +241,11 @@ class UserController extends Controller
             'fileUpload' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
        ]);
        if ($files = $request->file('fileUpload')) {
-        
+
            $image = $request->file('fileUpload');
            $resize_image = Image::make($image->getRealPath());
 
-          
+
 
            $destinationPath = 'img/users'; // upload path
            $profileImage = strtolower($idNome). "." . $files->getClientOriginalExtension();
@@ -205,16 +255,16 @@ class UserController extends Controller
         //    })->save($destinationPath ."/".$profileImage); muda a resolução da imagem após upload
 
             $files->move($destinationPath, $profileImage);
-           
+
         }
         $query = DB::table('users')
         ->where('id', Auth::User()->id)
         ->update(['photo' => 'img/users/'.$profileImage]);
-        
+
         return Redirect::to("personal")
         ->withMessage('Profile image has been successfully changed.');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -286,10 +336,44 @@ class UserController extends Controller
 
 
 
-        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');;
+        return redirect()->action('UserController@index')->with('message', 'Info saved successfully');
 
 
 
+
+    }
+
+    public function editProfessionalInfo(Request $request)
+    {
+        //
+        $userId = $request->input('idUser');
+        $newRole = $request->input('roleEditProf');
+        $contractTypeId = $request->input('contractTypeEdit');
+        $departmentId = $request->input('departmentTypeEdit');
+        $contractBegin = $request->input('dateBeginEditProf');
+        $contractEnd = $request->input('dateEndEditProf');
+        $companyMail = $request->input('companyMailProfInfo');
+        $companyMobile = $request->input('companyMobileProfInfo');
+
+        $editContractUser = contract::where('iduser', $userId)->first();
+        $editContractUser->position = $newRole;
+        $editContractUser->idcontracttype = $contractTypeId;
+
+        $editContractUser->start_date = $contractBegin;
+        $editContractUser->end_date = $contractEnd;
+        $editContractUser->save();
+
+        $userDep = users_deps::where('idUser', $userId)->first();
+        $userDep->idDepartment = $departmentId;
+        $userDep->save();
+
+        $userSelected = User::find($userId);
+        $userSelected->compMail = $companyMail;
+        $userSelected->compPhone = $companyMobile;
+        $userSelected->save();
+
+
+        return redirect()->action('UserController@employees')->with('message', 'Info saved successfully');
 
     }
 
@@ -311,8 +395,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteEmployee($id)
     {
         //
+        $userToRemove = User::find($id);
+        $userToRemove->delete();
+
+        $msg = "Employee removed succesfully";
+
+        return redirect()->action('UserController@employees')->with('message', $msg);
+
+
+
+
+
     }
 }

@@ -85,6 +85,22 @@ class User extends Authenticatable
 
         return $officeDescricao;
      }
+
+     public function officeID($id, $country) {
+        $officeID = DB::table('users')
+            ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
+            ->join('offices_deps', 'users_deps.idDepartment', '=', 'offices_deps.idDepartment')
+            ->join('offices', 'offices_deps.idOffice', '=', 'offices.id')
+            ->where('users.id','=',$id)
+            ->where('offices.country','=', $country)
+            ->select('offices.id')
+            ->value('id');
+
+        return $officeID;
+     }
+
+
+
       public function managerDoUser($depart, $country) {
 
 

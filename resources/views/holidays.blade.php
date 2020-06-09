@@ -100,7 +100,7 @@ open
 
                     <div id="approval">
                     <h5>Approval</h5>
-                    <p><p class="dot"></p>{{$array_vacations[$i+3]}}</p>
+                    <p><p class="dot" style="background-color:#31DC59"></p>{{$array_vacations[$i+3]}}</p>
                 </div>
 
 
@@ -291,7 +291,7 @@ open
 
             <div id="approvalab">
                         <h5>Approval</h5>
-                        <p><p class="dot"></p>{{$array_absences[$i+3]}}</p>
+                        <p><p class="dot" style="background-color:#31DC59"></p>{{$array_absences[$i+3]}}</p>
                     </div>
 
 
@@ -305,7 +305,7 @@ open
 
             <div class="attachContainer">
             <p class="attachamentText">{{$array_absences[$i+4]}}</p>
-            <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
+            <a id="addattachment" type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
                   <i class="fas fa-pen iconSize"></i>
               </a>
               </div>
@@ -329,8 +329,8 @@ open
         @if($array_absences[$i+6]==6)
 
             <div class="shadow p-1 bg-white cardboxjust1">
-                <a type="button" id="{{$array_absences[$i]}}" onClick="reply_click10(this.id)" data-toggle="modal" data-target="#typeModal">
-                    <p>Add</p>
+                <a id="addmotive" type="button" id="{{$array_absences[$i]}}" onClick="reply_click10(this.id)" data-toggle="modal" data-target="#typeModal">
+                    <p id="addtype">Add</p>
                     <i class="fas fa-plus"></i>
             </a>
             </div>

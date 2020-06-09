@@ -86,15 +86,21 @@ class EvaluationsController extends Controller
         $areas->description = $areaName;
         $areas->save();
 
+
         $areaSuccess =
-                        "<script>
+                    "<script>
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Area created successfully!',
                                 showConfirmButton: false,
                                 timer: 1500
                                 })
-                        </script>";
+                    </script>";
+
+
+
+
+
 
          $areaSuccess .= "<script>";
          $areaSuccess .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
@@ -532,10 +538,10 @@ class EvaluationsController extends Controller
         $countPerformance = 0;
         $countPotential = 0;
         foreach($allQuestionsSurvey as $question) {
-            if($question->questions->idPP == 1) {
+            if($question->questions->idPP == 1 && $question->questions->idSubcat != null) {
                 $countPerformance++;
             }
-            else if($question->questions->idPP == 2){
+            else if($question->questions->idPP == 2 && $question->questions->idSubcat != null){
                 $countPotential++;
             }
         }//o nr de questões performance e potencial tem de ser igual
@@ -611,7 +617,7 @@ class EvaluationsController extends Controller
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
 
-          
+
             if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
                 $newAlertEval = new notifications;
                 $newAlertEval->userID = $user;
@@ -620,7 +626,7 @@ class EvaluationsController extends Controller
                 $newAlertEval->notificationType = "Evaluation";
                 $newAlertEval->save();
             }
-    
+
 
         }
 

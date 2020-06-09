@@ -2,71 +2,54 @@
     display: grid;
     align-items: center;
     grid-template-columns: 140px 220px;
-    grid-template-rows: auto;
+    grid-template-rows: 45px;
     float: none;
     font-size: 11pt;
 }
 
 @mixin notifications {
-    width: 30%;
     display: grid;
-    float: left;
-    margin-top: 15px;
+    margin-top: 20px;
+    grid-template-columns: 210px 75px;
 }
 
-#holidaysExtra {
+@mixin flextimesettings {
     display: grid;
-    align-items: center;
-    grid-template-columns: 180px 190px;
-    grid-template-rows: 30px 55px;
-
-    .cardbox2 {
-        height: 50px;
-        width: 90%;
-        border-radius: 25px;
-        margin: unset;
-        grid-column-start: 2;
-        grid-row-start: 2;
-    }
-
-    .cardbox3 {
-        grid-template-columns: 45px 105px;
-        margin-top: 0;
-
-    }
-
-    p {
-        grid-row-start: 1;
-        grid-column-start: 2;
-        margin: 0;
-    }
-
-    label {
-        margin: 0;
-        text-align: -webkit-center;
-    }
+    grid-template-columns: 120px 120px;
+    margin-top: 20px;
 }
 
+#startFlexdays,
+#endFlexdays,
+#hoursperdayFlex {
+    @include flextimesettings();
+}
+
+#daysettings {
+    margin-top: 20px;
+}
+
+#holidaysExtra,
+#holidaysExtra4,
 #holidaysExtra2 {
     display: grid;
-    grid-template-columns: 180px 75px 25px;
+    align-items: center;
+    grid-template-columns: 120px 190px;
     grid-template-rows: 30px;
     margin-top: 30px;
-
-    label {
-        text-align: -webkit-center;
-    }
 }
 
-#holidaysExtra3 {
+#holidaysExtra3{
     display: grid;
-    grid-template-columns: 180px 80px;
+    align-items: center;
+    grid-template-columns: 170px 140px;
     grid-template-rows: 30px;
     margin-top: 30px;
+}
 
-    label {
-        text-align: start;
-    }
+#holidaysExtra6 {
+    display: grid;
+    grid-template-columns: 100px 20px;
 }
 
 #evaluations1 {
@@ -78,6 +61,7 @@
     display: grid;
     grid-template-columns: 140px 80px 50px;
     margin-top: 35px;
+
     p {
         text-align: center;
     }
@@ -102,7 +86,8 @@
     display: grid;
     grid-template-columns: 140px 135px 20px;
     grid-template-rows: 50px;
-    label{
+
+    label {
         text-align: center;
         margin-left: 55px;
     }
@@ -137,6 +122,13 @@
 #notworkingnoti {
     @include notifications();
 }
+
+#holidaysnoti,
+#evaluationsnoti {
+    float: left;
+    margin-right: 40px;
+}
+
 
 #settingstab {
     margin: 0;
@@ -174,8 +166,14 @@
 }
 
 .bsettings {
-    width: 25%;
+    width: 260px;
+    margin-top: 45px;
+    margin-left: 30px;
+}
+
+.bsettings2 {
     margin-top: 20px;
+    width: 260px;
 }
 
 @import '../../../screens/components/settings/_settings';
