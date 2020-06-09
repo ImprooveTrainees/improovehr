@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\absence;
+use App\notifications;
+use App\NotificationsUsers;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
@@ -173,6 +175,10 @@ class AbsenceController extends Controller
 
         $absence = new absence();
 
+        $notification = new notifications();
+
+        $notif_user = new NotificationsUsers();
+
         $op = request('op');
 
         /* $present_date = Carbon::now();
@@ -219,6 +225,19 @@ class AbsenceController extends Controller
                 $vacation->motive = "";
 
                 $vacation->save();
+
+                $notifications->type="Vacations";
+                $notifications->description=NOMEDOUSER+" created vacations from "+STARTDATE+" to "+ENDDATE+".";
+
+                $notifications->save();
+
+                $id_notif = DB::table('notifications')->select('notifications.id')->orderBy('created_at','desc')->first()->value('id');
+
+                $notif_user->notificationId=$id_notif;
+                $notif_user->createUserId=$userid;
+                $notif_user->receiveUserId=IDMANAGER;
+
+                $notif_user->save();
 
             }
 
