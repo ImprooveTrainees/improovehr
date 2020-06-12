@@ -183,6 +183,10 @@ class AbsenceController extends Controller
         $managerId = DB::table('users')->where('users.idusertype','=',2)->where('users.country','like',$countryUser)
         ->select('users.id')->value('id');
 
+        $roleuser = DB::table('users')
+        ->where('users.id','=',$userid)
+        ->select('users.idusertype')->value('idusertype');
+
         $vacation = new absence();
 
         $absence = new absence();
@@ -227,19 +231,23 @@ class AbsenceController extends Controller
 
                 $vacation->save();
 
-                $notification->type="Vacations";
-                $notification->description=$username." created vacations from ".$startDate." to ".$endDate." . Waiting for Approval.";
+                if($roleuser>2) {
 
-                $notification->save();
+                    $notification->type="Vacations";
+                    $notification->description=$username." created vacations from ".$startDate." to ".$endDate." . Waiting for Approval.";
 
-                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
 
 
-                $notif_user->notificationId=$id_notif;
-                $notif_user->createUserId=$userid;
-                $notif_user->receiveUserId=$managerId;
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
 
-                $notif_user->save();
+                    $notif_user->save();
+
+                }
 
             }
 
@@ -268,7 +276,9 @@ class AbsenceController extends Controller
 
                 $absence->save();
 
-                $notification->type="Absences";
+                if($roleuser>2) {
+
+                    $notification->type="Absences";
                 $notification->description=$username." created an absence. Waiting for Approval.";
 
                     $notification->save();
@@ -280,6 +290,8 @@ class AbsenceController extends Controller
                     $notif_user->receiveUserId=$managerId;
 
                     $notif_user->save();
+
+                }
 
             }
 
@@ -295,6 +307,23 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['status' => 'Pending']);
 
+            if($roleuser>2) {
+
+                $notification->type="Vacations";
+                $notification->description=$username." updated start date of created vacations. Waiting for Approval.";
+
+                $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
+
+                    $notif_user->save();
+
+            }
 
         } else if($op==4) {
 
@@ -308,6 +337,24 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['status' => 'Pending']);
 
+            if($roleuser>2) {
+
+                $notification->type="Vacations";
+                $notification->description=$username." updated end date of created vacations. Waiting for Approval.";
+
+                $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
+
+                    $notif_user->save();
+
+            }
+
         } else if($op==5) {
 
             $start_datetime = request('upd_start_datetime');
@@ -320,6 +367,24 @@ class AbsenceController extends Controller
             ->where('id', $updValue)
             ->update(['status' => 'Pending']);
 
+            if($roleuser>2) {
+
+                $notification->type="Vacations";
+                $notification->description=$username." updated start date of created absences. Waiting for Approval.";
+
+                $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
+
+                    $notif_user->save();
+
+            }
+
         } else if($op==6) {
 
             $end_datetime = request('upd_end_datetime');
@@ -331,6 +396,24 @@ class AbsenceController extends Controller
             DB::table('absences')
             ->where('id', $updValue)
             ->update(['status' => 'Pending']);
+
+            if($roleuser>2) {
+
+                $notification->type="Vacations";
+                $notification->description=$username." updated end date of created absences. Waiting for Approval.";
+
+                $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->createUserId=$userid;
+                    $notif_user->receiveUserId=$managerId;
+
+                    $notif_user->save();
+
+            }
 
         } else if($op==7) {
 
