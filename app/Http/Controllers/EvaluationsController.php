@@ -16,8 +16,10 @@ use App\questSurvey;
 use App\User;
 use App\surveyUsers;
 
+use Auth;
 use App\settings_general;
 use App\notifications;
+use App\NotificationsUsers;
 
 class EvaluationsController extends Controller
 {
@@ -583,7 +585,6 @@ class EvaluationsController extends Controller
                     })
                 </script>";
         $allSurveyUsers = surveyUsers::All();
-        $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
 
         foreach($usersSelected as $user) {
             foreach($allSurveyUsers as $all) {
@@ -613,16 +614,17 @@ class EvaluationsController extends Controller
             }
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
+            $newNotification = new notifications; //nova notificacao
+            $newNotificationUser = new NotificationsUsers;
+            $newNotification->type = "EvaluationAssigned";
+            $newNotification->description = "You have a new evaluation to complete from ".Auth::user()->name;
+            $newNotification->save();
+            
+            $newNotificationUser->notificationId = $newNotification->id;
+            $newNotificationUser->createUserId = Auth::user()->id;
+            $newNotificationUser->receiveUserId = $user;
+            $newNotificationUser->save();
 
-
-            if($settingsAlerts->alert_evaluations == 1) { //cria uma nova notificação
-                $newAlertEval = new notifications;
-                $newAlertEval->userID = $user;
-                $newAlertEval->read = false;
-                $newAlertEval->description = "You have a new survey to complete.";
-                $newAlertEval->notificationType = "Evaluation";
-                $newAlertEval->save();
-            }
 
 
         }
@@ -630,6 +632,11 @@ class EvaluationsController extends Controller
 
 
     }
+
+
+
+
+
         $msg .= "<script>";
         $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
         $msg .= "</script>";
