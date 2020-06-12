@@ -1,0 +1,309 @@
+@media (min-width: 320px) and (max-width: 1024px) {
+
+    .surveyname{
+                display: grid;
+                align-items: center;
+                grid-template-rows: 50px 40px;
+                grid-template-columns: 263px 0;
+                float: left;
+                font-size: 11pt;
+                label{
+                    text-align: center;
+                }
+
+                input{
+                    grid-column-start: 1;
+                }
+    }
+    .answerlimit{
+                display: grid;
+                align-items: center;
+                grid-template-rows: 50px 40px;
+                grid-template-columns: 263px 0;
+                float: left;
+                font-size: 11pt;
+                label{
+                    text-align: center;
+                }
+
+                input{
+                    grid-column-start: 1;
+                }
+
+    }
+    .surveytype{
+                grid-template-rows: 50px 40px;
+                grid-template-columns: 263px 0;
+                label{
+                    text-align: center;
+                }
+
+                select{
+                    grid-column-start: 1;
+                }
+
+    }
+    .creatSurvey{
+                width: 50%;
+                margin-left: 26%;
+    }
+    .showSurveyForm{
+                display: grid;
+                align-items: center;
+                grid-template-rows: 50px 40px;
+                grid-template-columns: 263px 0;
+                float: left;
+                font-size: 11pt;
+                margin-left: 0px;
+
+                button{
+                    grid-column-start: 1;
+                    width: 70px;
+                    margin-left: 35%;
+                }
+    }
+
+    .alignbtn{
+        display: grid;
+        grid-auto-columns: 240px;
+        grid-gap: 5%;
+        margin-bottom: 20%;
+    }
+    .showSurveyForm2{
+                        input{
+                                grid-column-start: 1;
+                                width: 230px;
+                        }
+                        button{
+                                grid-column-start: 1;
+                                width: 150px;
+                        }
+                        label{
+                            text-align: center;
+                        }
+                        select{
+                                grid-column-start: 1;
+                                width: 250px;
+                        }
+    }
+
+    .testgrid2{
+                margin-top: 25%;
+                grid-template-columns: 240px 100px 70px;
+                text-align: center;
+                grid-gap: 5%;
+
+                select{
+                        grid-column-start: 1;
+                }
+                button{
+                    grid-column-start: 1;
+                    width: 50%;
+                    margin: auto;
+                }
+                strong{
+                        grid-column-start: 1;
+                }
+
+    }
+
+    .testgrid3{
+                grid-template-columns: 240px 100px 70px;
+                text-align: center;
+
+                input{
+                    grid-column-start: 1;
+                }
+
+                button{
+                    grid-column-start: 1;
+                    width: 75%;
+                    margin: auto;
+                }
+    }
+    .showSurveyForm5{
+                        margin-top: 30%;
+    }
+
+    .testgrid33{
+                grid-template-columns: 250px 100px 70px;
+                text-align: center;
+                grid-gap: 10%;
+
+                select{
+                        grid-column-start: 1;
+                }
+                button{
+                        grid-column-start: 1;
+                        width: 75%;
+                        margin: auto;
+                }
+
+    }
+    .topSurv{
+                margin-top: 30%;
+    }
+
+    .showSurv2{
+                grid-gap: 10px;
+    }
+
+    .showSurv6{
+                        input[type=radio]{
+                            width: 15%;
+                            margin-left: 10%;
+                        }
+                        display: grid;
+                        grid-template-columns: 100px 100px 100px;
+
+                        #start2{
+                                grid-column-start: 2;
+                        }
+
+    }
+    .testgrid7{
+                grid-template-columns: 250px 30px 30px;
+                grid-gap: 12px;
+
+                    select{
+                        grid-column-start: 1;
+                    }
+                    button{
+                        grid-column-start: 1;
+                        margin: auto;
+                        width: 100px;
+                    }
+                    label{
+                        text-align: center;
+                    }
+
+    }
+    .testgrid5{
+                text-align: center;
+                grid-template-columns: 240px 1100px;
+
+                input{
+                        grid-column-start: 1;
+                        }
+
+
+    }
+    .testgrid6{
+                text-align: center;
+                margin-top: 30px;
+                grid-gap: 15px;
+                grid-template-columns: 240px 100px 100px;
+                select{
+                    grid-column-start: 1;
+                }
+                button{
+                    grid-column-start: 1;
+                    width: 100px;
+                    margin: auto;
+                }
+    }
+    .testgrid8{
+                text-align: center;
+                grid-template-columns: 240px 100px 100px;
+                input{
+                        width: 65px;
+                        text-align: center;
+                        margin: auto;
+                        grid-column-start: 1;
+                }
+                b{
+                    grid-column-start: 1;
+                }
+    }
+    #params{
+                display: grid;
+                margin-top: 40px;
+                grid-template-columns: 100px 45px 100px;
+    }
+    .showSurv66{
+                display: grid;
+                grid-template-columns: 45px 59px;
+                grid-column-start: 2;
+                input[type=radio]{
+                    width: 25px;
+
+                }
+    }
+    .testgrid10{
+                text-align: center;
+                grid-template-columns: 250px 550px 40px;
+                grid-gap: 10px;
+                select{
+                    grid-column-start: 1;
+                }
+                button{
+                    grid-column-start: 1;
+                    width: 75px;
+                    margin: auto;
+                }
+    }
+
+    .testgrid12{
+                grid-template-columns: 30px 200px 200px;
+                text-align: center;
+                margin-top: 30px;
+                margin-bottom: 20px;
+                input{
+                        width: 70px;
+                        height: 18px;
+                }
+                select{
+                        grid-column-start: 2;
+                        width: 200px;
+                }
+                .secondSelect{
+                    display: inline;
+                    grid-column-start: 2;
+                }
+    }
+
+    .testgrid13{
+                text-align: center;
+                margin-top: 50px;
+                grid-template-columns: 240px 150px 150px;
+
+                input[type=date]{
+                        grid-column-start: 1;
+                }
+                button{
+                        grid-column-start: 1;
+                }
+
+    }
+    .testgrid14{
+                margin-top: 40px;
+                font-size: large;
+                width: 400px;
+                margin: auto;
+                grid-gap: 2%;
+                margin-top: 40px;
+                color: grey;
+                font-family: Helvetica;
+                display: grid;
+                grid-template-columns: 82px 130px 131px 100px;
+                button{
+                        grid-column-start: 2;
+                        width: 133px;
+                        margin: auto;
+                }
+                input[type=checkbox]{
+                                grid-column-start: 1;
+                                width: 100px;
+                                height: 20px;
+                }
+
+
+    }
+
+}
+
+
+
+
+
+
