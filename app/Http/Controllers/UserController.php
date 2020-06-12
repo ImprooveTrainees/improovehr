@@ -164,13 +164,23 @@ class UserController extends Controller
             $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
             $LoggedUserTeamsArrayUserId = [];
             $LoggedUserTeamsArrayTeamId = [];
+            $LoggedUserTeamsArrayTeamName = [];
+            $LoggedUserTeamsArrayTeamLeaders = [];
             $tablesCount = teamUsers::where('userID', $userLogged->id)->get();
     
             foreach($LoggedUserTeams as $teamUserId) {
+                array_push($LoggedUserTeamsArrayTeamName,teams::find($teamUserId->teamID));
                 $teamMembersTeam = teamUsers::where('teamID', $teamUserId->teamID)->get();
                 foreach($teamMembersTeam as $teamMember) {
                     array_push($LoggedUserTeamsArrayUserId,User::find($teamMember->userID));
                     array_push($LoggedUserTeamsArrayTeamId,teams::find($teamUserId->teamID));
+                    if($teamMember->leader == true) { //vê se o user é lider
+                        array_push($LoggedUserTeamsArrayTeamLeaders, "Yes");
+                    }
+                    else {
+                        array_push($LoggedUserTeamsArrayTeamLeaders, "No");
+                    }
+
                 }
     
                 
@@ -193,6 +203,8 @@ class UserController extends Controller
             ->with('LoggedUserTeamsArrayUserId',$LoggedUserTeamsArrayUserId)
             ->with('LoggedUserTeamsArrayTeamId', $LoggedUserTeamsArrayTeamId)
             ->with('tablesCount', $tablesCount)
+            ->with('LoggedUserTeamsArrayTeamName', $LoggedUserTeamsArrayTeamName)
+            ->with('LoggedUserTeamsArrayTeamLeaders', $LoggedUserTeamsArrayTeamLeaders)
             ;
 
         }
@@ -200,13 +212,22 @@ class UserController extends Controller
         $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
         $LoggedUserTeamsArrayUserId = [];
         $LoggedUserTeamsArrayTeamId = [];
+        $LoggedUserTeamsArrayTeamName = [];
+        $LoggedUserTeamsArrayTeamLeaders = [];
         $tablesCount = teamUsers::where('userID', $userLogged->id)->get();
 
         foreach($LoggedUserTeams as $teamUserId) {
+            array_push($LoggedUserTeamsArrayTeamName,teams::find($teamUserId->teamID));
             $teamMembersTeam = teamUsers::where('teamID', $teamUserId->teamID)->get();
             foreach($teamMembersTeam as $teamMember) {
                 array_push($LoggedUserTeamsArrayUserId,User::find($teamMember->userID));
                 array_push($LoggedUserTeamsArrayTeamId,teams::find($teamUserId->teamID));
+                if($teamMember->leader == true) { //vê se o user é lider
+                    array_push($LoggedUserTeamsArrayTeamLeaders, "Yes");
+                }
+                else {
+                    array_push($LoggedUserTeamsArrayTeamLeaders, "No");
+                }
             }
 
             
@@ -227,6 +248,8 @@ class UserController extends Controller
         ->with('LoggedUserTeamsArrayUserId',$LoggedUserTeamsArrayUserId)
         ->with('LoggedUserTeamsArrayTeamId',$LoggedUserTeamsArrayTeamId)
         ->with('tablesCount', $tablesCount)
+        ->with('LoggedUserTeamsArrayTeamName', $LoggedUserTeamsArrayTeamName)
+        ->with('LoggedUserTeamsArrayTeamLeaders', $LoggedUserTeamsArrayTeamLeaders)
         ;
     }
 

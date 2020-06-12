@@ -44,7 +44,7 @@ active
 
             <form method="get" action="/newTeam">
                 @csrf
-            Insert team name: <input name="teamName" type="text">
+            Insert team name: <input name="teamName" type="text" required>
             Select team leader: 
             <select name="teamLeader">
                 @foreach($userLeaders as $leader)
@@ -170,7 +170,7 @@ active
                                 
                                 @elseif($userLogged->idusertype == 3) 
                                     @if($selectedTeamMembersArray[$b]->idusertype != 1 && $selectedTeamMembersArray[$b]->idusertype != 2 && $selectedTeamMembersArray[$b]->idusertype != 3) 
-                                        <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>~
+                                        <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
                                         <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
                                         <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                     @endif
@@ -184,8 +184,9 @@ active
 
         @endif
        
-
+        <h4>My teams:</h4> 
         @for($v = 0; $v < $tablesCount->count(); $v++)
+        <h3>{{$LoggedUserTeamsArrayTeamName[$v]->description}}</h3>
         <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
             <thead>
                 <tr>
@@ -242,33 +243,35 @@ active
                             @else
                                 <td>{{$LoggedUserTeamsArrayUserId[$c]->managerDoUser($LoggedUserTeamsArrayUserId[$c]->departments->first()->description, $LoggedUserTeamsArrayUserId[$c]->country)}}</td>
                             @endif
-                            {{-- <td>{{$leaderArray[$b]}}</td> --}}~
-                            <td>Lider?</td>
+                            {{-- <td>{{$leaderArray[$b]}}</td> --}}
+                            <td>{{$LoggedUserTeamsArrayTeamLeaders[$c]}}</td>
                             @if($userLogged->idusertype == 1) 
                                 <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
                                 <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
                                 <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
                             @elseif($userLogged->idusertype == 2) 
-                                @if($LoggedUserTeamsArrayTeamId[$c]->idusertype != 1 && $LoggedUserTeamsArrayTeamId[$c]->idusertype != 2) 
-                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayTeamId[$c]->id}})' value={{$LoggedUserTeamsArrayTeamId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
-                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayTeamId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
-                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayTeamId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                @if($LoggedUserTeamsArrayUserId[$c]->idusertype != 1 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 2) 
+                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                 @endif
                             
                             @elseif($userLogged->idusertype == 3) 
-                                @if($LoggedUserTeamsArrayTeamId[$c]->idusertype != 1 && $LoggedUserTeamsArrayTeamId[$c]->idusertype != 2 && $LoggedUserTeamsArrayTeamId[$c]->idusertype != 3) 
-                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayTeamId[$c]->id}})' value={{$LoggedUserTeamsArrayTeamId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>~
-                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayTeamId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
-                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayTeamId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                @if($LoggedUserTeamsArrayUserId[$c]->idusertype != 1 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 2 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 3) 
+                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
                                 @endif
                             @endif 
                                         {{-- <p>{{$LoggedUserTeamsArrayTeamId[$c]->id}}</p> --}}
                                 
                         @endif
+                    </tr>
                     @endfor
-                </tr>
+                
                 </tbody>
                      </table>
+    
         @endfor
     
 
