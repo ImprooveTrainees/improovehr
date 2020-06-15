@@ -471,7 +471,7 @@ class AbsenceController extends Controller
             ->select('absences.absencetype')
             ->value('absencetype');
 
-            $notification->type="Disapproval";
+            $notification->type="Approval";
 
             if($typeAbsence > 1) {
 

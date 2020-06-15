@@ -476,7 +476,37 @@
                         <div class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="si si-bell"></i>
-                                <span class="badge badge-primary badge-pill">A definir</span>
+
+                                <?php
+
+                                $countNotif=0;
+
+                                foreach($notificationMessages as $listNotif) {
+
+                                    if($listNotif->read_at=='') {
+
+                                        foreach($listNotifications as $notif) {
+
+                                            if($notif->notificationId == $listNotif->id) {
+
+                                                if($notif->receiveUserId == $id_user) {
+
+                                                    $countNotif++;
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+
+
+                                ?>
+                                <span class="badge badge-primary badge-pill">{{$countNotif}}</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="p-2 bg-primary text-center">
@@ -557,7 +587,7 @@
 
                                 @if($listNot->notificationId==$msg->id)
                                 <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
+                                            <a class="text-dark media py-2" href="/holidays">
                                                 <div class="mr-2 ml-3">
                                                     <i class="fas fa-birthday-cake"></i>
                                                 </div>
