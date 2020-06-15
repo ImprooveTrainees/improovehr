@@ -1,4 +1,4 @@
-@media (min-width: 425px) and (max-width: 1024px) {
+@media (min-width: 320px) and (max-width: 1024px) {
     #companyaddress {
         margin-top: 20px;
     }
@@ -23,31 +23,76 @@
     #flextimenoti,
     #notworkingnoti {
         float: none;
-        grid-template-columns: 250px;
         grid-template-rows: 45px;
-        margin-top: 0;
+        margin-top: 23px;
     }
 
     #allnotifications {
         margin-top: 15px;
     }
 
-    .cardboxsettings{
+    .cardboxsettings {
         height: 98%;
     }
 }
 
-@media (max-width: 425px) {
-    .modal{
-        width: 95%;
-    }
-    #holidaysExtra {
-        grid-template-columns: 180px 160px;
+@media (min-width: 320px) and (max-width: 410px) {
+
+    // .modal{
+    //     width: 95%;
+    // }
+    // #holidaysExtra {
+    //     grid-template-columns: 180px 160px;
+    // }
+    #companyaddress {
+        margin-top: 20px;
     }
 
-    .cardbox3 {
-        h6 {
-            font-size: 10pt;
-        }
+    #entreprisename,
+    #generalemail {
+        float: none;
+    }
+
+    #entreprisename,
+    #companyaddress,
+    #generalemail,
+    #generalmobile,
+    #country {
+        grid-template-columns: 90px 145px;
+    }
+
+    #allnotifications,
+    #holidaysnoti,
+    #birthdaynoti,
+    #evaluationsnoti,
+    #flextimenoti,
+    #notworkingnoti {
+        float: none;
+        grid-template-columns: 175px 75px;
+        grid-template-rows: 45px;
+        margin-top: 20px;
+    }
+
+    #allnotifications {
+        margin-top: 15px;
+    }
+
+    .cardboxsettings {
+        height: 98%;
+    }
+
+    #holidaysExtra,
+    #holidaysExtra4,
+    #holidaysExtra2 {
+        grid-template-columns: 90px 155px;
+    }
+
+    #holidaysExtra3 {
+        grid-template-columns: 105px 140px;
+    }
+
+    .bsettings2,
+    .bsettings {
+        width: 240px;
     }
 }

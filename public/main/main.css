@@ -10,6 +10,7 @@
 
 #login_first {
   width: 100%;
+  top: 0;
   right: 0;
   top: 0;
   height: auto;
@@ -382,15 +383,18 @@ body {
 #profile {
   border-radius: 30%;
   width: 250px;
-  height: auto;
   height: 250px;
-  margin-bottom: 3%;
   position: absolute;
 }
 
+#imageProfile,
+#changeImageProfile {
+  margin-left: 30px;
+}
+
 .box1 {
-  margin-left: 4%;
-  margin-top: 3%;
+  margin-left: 30px;
+  margin-top: 200px;
 }
 
 .box1 p {
@@ -494,6 +498,10 @@ body {
           align-items: baseline;
 }
 
+#searchpp {
+  margin-bottom: 0px;
+}
+
 @media screen and (min-width: 768px) {
   .username,
   .academic,
@@ -549,13 +557,33 @@ body {
   .soscontact,
   .sosusername,
   .linkedin {
-    -ms-grid-columns: 86px 140px 40px;
-        grid-template-columns: 86px 140px 40px;
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
   .cardbox1 {
     margin-top: 3%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .birthday,
+  .academic,
+  .status,
+  .username,
+  .age,
+  .mobile,
+  .emailprofile,
+  .nif,
+  .address,
+  .city,
+  .zipcode,
+  .soscontact,
+  .sosusername,
+  .linkedin {
+    -ms-grid-columns: 70px 135px;
+        grid-template-columns: 70px 135px;
   }
 }
 
@@ -565,16 +593,6 @@ body {
   height: auto;
   height: 250px;
   margin-bottom: 3%;
-}
-
-.bprofile2 {
-  width: 24%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 .role,
@@ -842,7 +860,7 @@ body {
 #type p {
   float: left;
   margin-right: 15px;
-  margin-left: 20px;
+  margin-left: -10px;
 }
 
 #type a {
@@ -1119,74 +1137,53 @@ p2 {
   }
 }
 
-#holidaysExtra {
+#startFlexdays,
+#endFlexdays,
+#hoursperdayFlex {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 120px 120px;
+      grid-template-columns: 120px 120px;
+  margin-top: 20px;
+}
+
+#daysettings {
+  margin-top: 20px;
+}
+
+#holidaysExtra,
+#holidaysExtra4,
+#holidaysExtra2 {
   display: -ms-grid;
   display: grid;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-grid-columns: 180px 190px;
-      grid-template-columns: 180px 190px;
-  -ms-grid-rows: 30px 55px;
-      grid-template-rows: 30px 55px;
-}
-
-#holidaysExtra .cardbox2 {
-  height: 50px;
-  width: 90%;
-  border-radius: 25px;
-  margin: unset;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  -ms-grid-row: 2;
-      grid-row-start: 2;
-}
-
-#holidaysExtra .cardbox3 {
-  -ms-grid-columns: 45px 105px;
-      grid-template-columns: 45px 105px;
-  margin-top: 0;
-}
-
-#holidaysExtra p {
-  -ms-grid-row: 1;
-      grid-row-start: 1;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  margin: 0;
-}
-
-#holidaysExtra label {
-  margin: 0;
-  text-align: -webkit-center;
-}
-
-#holidaysExtra2 {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 180px 75px 25px;
-      grid-template-columns: 180px 75px 25px;
+  -ms-grid-columns: 120px 190px;
+      grid-template-columns: 120px 190px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
-}
-
-#holidaysExtra2 label {
-  text-align: -webkit-center;
 }
 
 #holidaysExtra3 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 180px 80px;
-      grid-template-columns: 180px 80px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 170px 140px;
+      grid-template-columns: 170px 140px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
 }
 
-#holidaysExtra3 label {
-  text-align: start;
+#holidaysExtra6 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 20px;
+      grid-template-columns: 100px 20px;
 }
 
 #evaluations1 {
@@ -1272,11 +1269,17 @@ p2 {
 #evaluationsnoti,
 #flextimenoti,
 #notworkingnoti {
-  width: 30%;
   display: -ms-grid;
   display: grid;
+  margin-top: 20px;
+  -ms-grid-columns: 210px 75px;
+      grid-template-columns: 210px 75px;
+}
+
+#holidaysnoti,
+#evaluationsnoti {
   float: left;
-  margin-top: 15px;
+  margin-right: 40px;
 }
 
 #settingstab {
@@ -1302,8 +1305,8 @@ p2 {
           align-items: center;
   -ms-grid-columns: 140px 220px;
       grid-template-columns: 140px 220px;
-  -ms-grid-rows: auto;
-      grid-template-rows: auto;
+  -ms-grid-rows: 45px;
+      grid-template-rows: 45px;
   float: none;
   font-size: 11pt;
 }
@@ -1325,11 +1328,17 @@ p2 {
 }
 
 .bsettings {
-  width: 25%;
-  margin-top: 20px;
+  width: 260px;
+  margin-top: 45px;
+  margin-left: 30px;
 }
 
-@media (min-width: 425px) and (max-width: 1024px) {
+.bsettings2 {
+  margin-top: 20px;
+  width: 260px;
+}
+
+@media (min-width: 320px) and (max-width: 1024px) {
   #companyaddress {
     margin-top: 20px;
   }
@@ -1352,11 +1361,9 @@ p2 {
   #flextimenoti,
   #notworkingnoti {
     float: none;
-    -ms-grid-columns: 250px;
-        grid-template-columns: 250px;
     -ms-grid-rows: 45px;
         grid-template-rows: 45px;
-    margin-top: 0;
+    margin-top: 23px;
   }
   #allnotifications {
     margin-top: 15px;
@@ -1366,16 +1373,54 @@ p2 {
   }
 }
 
-@media (max-width: 425px) {
-  .modal {
-    width: 95%;
+@media (min-width: 320px) and (max-width: 410px) {
+  #companyaddress {
+    margin-top: 20px;
   }
-  #holidaysExtra {
-    -ms-grid-columns: 180px 160px;
-        grid-template-columns: 180px 160px;
+  #entreprisename,
+  #generalemail {
+    float: none;
   }
-  .cardbox3 h6 {
-    font-size: 10pt;
+  #entreprisename,
+  #companyaddress,
+  #generalemail,
+  #generalmobile,
+  #country {
+    -ms-grid-columns: 90px 145px;
+        grid-template-columns: 90px 145px;
+  }
+  #allnotifications,
+  #holidaysnoti,
+  #birthdaynoti,
+  #evaluationsnoti,
+  #flextimenoti,
+  #notworkingnoti {
+    float: none;
+    -ms-grid-columns: 175px 75px;
+        grid-template-columns: 175px 75px;
+    -ms-grid-rows: 45px;
+        grid-template-rows: 45px;
+    margin-top: 20px;
+  }
+  #allnotifications {
+    margin-top: 15px;
+  }
+  .cardboxsettings {
+    height: 98%;
+  }
+  #holidaysExtra,
+  #holidaysExtra4,
+  #holidaysExtra2 {
+    -ms-grid-columns: 90px 155px;
+        grid-template-columns: 90px 155px;
+  }
+  #holidaysExtra3 {
+    -ms-grid-columns: 105px 140px;
+        grid-template-columns: 105px 140px;
+  }
+  .bsettings2,
+  .bsettings {
+    width: 240px;
   }
 }
 
@@ -1466,97 +1511,6 @@ td {
   margin-top: 80px;
 }
 
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.mySlides1,
-.mySlides2 {
-  display: none;
-}
-
-img {
-  vertical-align: middle;
-}
-
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
-
-/* Next & previous buttons */
-.prev,
-.next {
-  color: white;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  font-weight: bold;
-  font-size: 18px;
-  -webkit-transition: 0.6s ease;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  -webkit-transition: background-color 0.6s ease;
-  transition: background-color 0.6s ease;
-}
-
-.dot .active {
-  background-color: #717171;
-}
-
 @media screen and (min-width: 320px) and (max-width: 425px) {
   .flexstyle {
     margin-top: 20px;
@@ -1645,6 +1599,17 @@ img {
   .block-content table {
     width: 320px;
   }
+}
+
+.cardbox0 {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+}
+
+.topSurv {
+  margin-top: 3%;
 }
 
 .gridTop {
@@ -1746,10 +1711,11 @@ img {
 .testgrid12 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 76px 100px 200px;
-      grid-template-columns: 76px 100px 200px;
+  -ms-grid-columns: 76px 100px 200px 200px;
+      grid-template-columns: 76px 100px 200px 200px;
   width: 400px;
   margin: auto;
+  grid-gap: 15px;
 }
 
 .testgrid13 {
@@ -1999,6 +1965,351 @@ input[type=radio] {
   transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.usersSurv {
+  text-align: center;
+  margin-top: 5%;
+  font-family: Helvetica;
+}
+
+.usersSurv h3 {
+  color: #dc5f5f;
+}
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  .surveyname {
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-rows: 50px 40px;
+        grid-template-rows: 50px 40px;
+    -ms-grid-columns: 263px 0;
+        grid-template-columns: 263px 0;
+    float: left;
+    font-size: 11pt;
+  }
+  .surveyname label {
+    text-align: center;
+  }
+  .surveyname input {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .answerlimit {
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-rows: 50px 40px;
+        grid-template-rows: 50px 40px;
+    -ms-grid-columns: 263px 0;
+        grid-template-columns: 263px 0;
+    float: left;
+    font-size: 11pt;
+  }
+  .answerlimit label {
+    text-align: center;
+  }
+  .answerlimit input {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .surveytype {
+    -ms-grid-rows: 50px 40px;
+        grid-template-rows: 50px 40px;
+    -ms-grid-columns: 263px 0;
+        grid-template-columns: 263px 0;
+  }
+  .surveytype label {
+    text-align: center;
+  }
+  .surveytype select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .creatSurvey {
+    width: 50%;
+    margin-left: 26%;
+  }
+  .showSurveyForm {
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-rows: 50px 40px;
+        grid-template-rows: 50px 40px;
+    -ms-grid-columns: 263px 0;
+        grid-template-columns: 263px 0;
+    float: left;
+    font-size: 11pt;
+    margin-left: 0px;
+  }
+  .showSurveyForm button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 70px;
+    margin-left: 35%;
+  }
+  .alignbtn {
+    display: -ms-grid;
+    display: grid;
+    grid-auto-columns: 240px;
+    grid-gap: 5%;
+    margin-bottom: 20%;
+  }
+  .showSurveyForm2 input {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 230px;
+  }
+  .showSurveyForm2 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 150px;
+  }
+  .showSurveyForm2 label {
+    text-align: center;
+  }
+  .showSurveyForm2 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 250px;
+  }
+  .testgrid2 {
+    margin-top: 25%;
+    -ms-grid-columns: 240px 100px 70px;
+        grid-template-columns: 240px 100px 70px;
+    text-align: center;
+    grid-gap: 5%;
+  }
+  .testgrid2 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid2 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 50%;
+    margin: auto;
+  }
+  .testgrid2 strong {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid3 {
+    -ms-grid-columns: 240px 100px 70px;
+        grid-template-columns: 240px 100px 70px;
+    text-align: center;
+  }
+  .testgrid3 input {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid3 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 75%;
+    margin: auto;
+  }
+  .showSurveyForm5 {
+    margin-top: 30%;
+  }
+  .testgrid33 {
+    -ms-grid-columns: 250px 100px 70px;
+        grid-template-columns: 250px 100px 70px;
+    text-align: center;
+    grid-gap: 10%;
+  }
+  .testgrid33 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid33 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 75%;
+    margin: auto;
+  }
+  .topSurv {
+    margin-top: 30%;
+  }
+  .showSurv2 {
+    grid-gap: 10px;
+  }
+  .showSurv6 {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 100px 100px 100px;
+        grid-template-columns: 100px 100px 100px;
+  }
+  .showSurv6 input[type=radio] {
+    width: 15%;
+    margin-left: 10%;
+  }
+  .showSurv6 #start2 {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .testgrid7 {
+    -ms-grid-columns: 250px 30px 30px;
+        grid-template-columns: 250px 30px 30px;
+    grid-gap: 12px;
+  }
+  .testgrid7 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid7 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    margin: auto;
+    width: 100px;
+  }
+  .testgrid7 label {
+    text-align: center;
+  }
+  .testgrid5 {
+    text-align: center;
+    -ms-grid-columns: 240px 1100px;
+        grid-template-columns: 240px 1100px;
+  }
+  .testgrid5 input {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid6 {
+    text-align: center;
+    margin-top: 30px;
+    grid-gap: 15px;
+    -ms-grid-columns: 240px 100px 100px;
+        grid-template-columns: 240px 100px 100px;
+  }
+  .testgrid6 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid6 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 100px;
+    margin: auto;
+  }
+  .testgrid8 {
+    text-align: center;
+    -ms-grid-columns: 240px 100px 100px;
+        grid-template-columns: 240px 100px 100px;
+  }
+  .testgrid8 input {
+    width: 65px;
+    text-align: center;
+    margin: auto;
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid8 b {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  #params {
+    display: -ms-grid;
+    display: grid;
+    margin-top: 40px;
+    -ms-grid-columns: 100px 45px 100px;
+        grid-template-columns: 100px 45px 100px;
+  }
+  .showSurv66 {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 45px 59px;
+        grid-template-columns: 45px 59px;
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .showSurv66 input[type=radio] {
+    width: 25px;
+  }
+  .testgrid10 {
+    text-align: center;
+    -ms-grid-columns: 250px 550px 40px;
+        grid-template-columns: 250px 550px 40px;
+    grid-gap: 10px;
+  }
+  .testgrid10 select {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid10 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 75px;
+    margin: auto;
+  }
+  .testgrid12 {
+    -ms-grid-columns: 30px 200px 200px;
+        grid-template-columns: 30px 200px 200px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .testgrid12 input {
+    width: 70px;
+    height: 18px;
+  }
+  .testgrid12 select {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+    width: 200px;
+  }
+  .testgrid12 .secondSelect {
+    display: inline;
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .testgrid13 {
+    text-align: center;
+    margin-top: 50px;
+    -ms-grid-columns: 240px 150px 150px;
+        grid-template-columns: 240px 150px 150px;
+  }
+  .testgrid13 input[type=date] {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid13 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+  }
+  .testgrid14 {
+    margin-top: 40px;
+    font-size: large;
+    width: 400px;
+    margin: auto;
+    grid-gap: 2%;
+    margin-top: 40px;
+    color: grey;
+    font-family: Helvetica;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 82px 130px 131px 100px;
+        grid-template-columns: 82px 130px 131px 100px;
+  }
+  .testgrid14 button {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+    width: 133px;
+    margin: auto;
+  }
+  .testgrid14 input[type=checkbox] {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 100px;
+    height: 20px;
+  }
 }
 
 .colors h2 {
@@ -2261,5 +2572,142 @@ input[type=radio] {
 .createTableReport {
   font-size: 20px;
   font-weight: bold;
+}
+
+.cardbox111 {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  border-radius: 25px;
+}
+
+.surveyHeader {
+  margin-top: 2%;
+}
+
+.surveyHeader h2 {
+  font-family: Helvetica;
+  text-align: center;
+  color: #856b6a;
+}
+
+.surveyHeader h4 {
+  margin-top: 1%;
+  font-family: Helvetica;
+  text-align: center;
+  color: rosybrown;
+}
+
+.surveyHeader h5 {
+  margin-top: 1%;
+  font-family: Helvetica;
+  color: red;
+  text-align: center;
+}
+
+.centerBtn {
+  text-align: center;
+  margin-top: 3%;
+}
+
+#myChart {
+  max-width: 500px;
+  max-height: 900px;
+  background-color: red;
+}
+
+.chartStyle {
+  width: 400px;
+  margin: auto;
+  margin-top: 4%;
+}
+
+.numQuestions2 {
+  margin-top: 3%;
+}
+
+.areaLi2 {
+  background-color: #206e81;
+  font-size: 20px;
+  color: white;
+  font-family: Helvetica;
+  margin-top: 1%;
+}
+
+#areaLabel2 {
+  margin-left: 1%;
+}
+
+.subLi2 {
+  background-color: #8eb9c4;
+  color: white;
+  font-size: 17px;
+  font-family: Helvetica;
+  width: 300px;
+  margin-left: 15px;
+  margin-top: 2%;
+  text-align: center;
+}
+
+.pontencialQuest2 {
+  color: blue;
+  font-family: Helvetica;
+  font-size: 18px;
+}
+
+.performanceQuest2 {
+  font-family: Helvetica;
+  font-size: 18px;
+  margin-top: 1%;
+}
+
+#firstTable {
+  font-family: Helvetica;
+  width: 17%;
+  text-align: center;
+  margin-top: 2%;
+}
+
+#firstTable th {
+  color: white;
+  background-color: grey;
+}
+
+#firstTable td {
+  background-color: #81ca60;
+}
+
+#finalTable {
+  font-family: Helvetica;
+  width: 40%;
+  text-align: center;
+  margin-top: 2%;
+  margin-left: 55%;
+}
+
+#finalTable th {
+  color: white;
+  background-color: #7f5a5a;
+}
+
+#finalTable td {
+  background-color: #b1c3a8;
+}
+
+.emptySpace2 {
+  font-family: Helvetica;
+  color: red;
+  margin-top: 1%;
+}
+
+.emptyForm {
+  font-family: Helvetica;
+  color: red;
+  text-align: center;
+}
+
+#openClass2 {
+  text-align: center;
+  color: #cfa52a;
 }
 /*# sourceMappingURL=main.css.map */

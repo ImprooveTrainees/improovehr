@@ -22,6 +22,8 @@ open
                 {{ session()->get('pop') }}
             </div>
         @endif
+
+    <br><br><br>
     <p>Professional Data</p>
     <hr><br>
 
@@ -102,7 +104,7 @@ open
                 @endif
             </div>
                 @endforeach  {{--END For Para Form --}}
-            <button type="submit" class="form-group btn btn-outline-primary bprofile2">Save</button>
+            <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
             <br><br>
         </form>
         {{--------------------------- FIM Form PARA ALTERAR Phone and Email  -------------------------------------------}}

@@ -56,11 +56,32 @@
     .soscontact,
     .sosusername,
     .linkedin {
-        grid-template-columns: 86px 140px 40px;
+        grid-template-columns: 86px 140px;
         grid-template-rows: auto;
     }
 
     .cardbox1{
         margin-top: 3%;
+    }
+}
+
+
+
+@media screen and (max-width: 320px){
+    .birthday,
+    .academic,
+    .status,
+    .username,
+    .age,
+    .mobile,
+    .emailprofile,
+    .nif,
+    .address,
+    .city,
+    .zipcode,
+    .soscontact,
+    .sosusername,
+    .linkedin {
+        grid-template-columns: 70px 135px;
     }
 }

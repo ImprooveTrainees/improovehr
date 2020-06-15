@@ -45,7 +45,7 @@
 
         <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
         <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-        <link rel="stylesheet" href="{{asset ('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous') }}">
+        {{-- <link rel="stylesheet" href="{{asset ('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous') }}"> --}}
         <link rel="stylesheet" href="{{asset ('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css') }}" />
          <!-- Calendar -->
         <link href="{{asset ('assets/fullcalendar/core/main.css') }}" rel='stylesheet' />
@@ -59,12 +59,7 @@
         <script src="{{asset('assets/fullcalendar/interaction/main.js') }}"></script>
         <script src="{{asset('assets/fullcalendar/list/main.js') }}"></script>
         <script src="{{asset('https://kit.fontawesome.com/041a9ee086.js') }}" crossorigin="anonymous"></script>
-        <script
-
-        src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous">
-        </script>
+        <script src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
     </head>
     <body>
@@ -335,7 +330,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-main-item">
-                                            <a class="nav-main-link @yield('showOther')" href="/indexUserEvals">
+                                            <a class="nav-main-link @yield('showOther')" href="">
                                                 <span class="nav-main-link-name">Results</span>
                                             </a>
                                         </li>
@@ -456,9 +451,9 @@
                         <!-- END Open Search Section -->
 
                         <!-- Search Form (visible on larger screens) -->
-                        <form class="d-none d-sm-inline-block" method="POST">
+                        <form class="d-none d-sm-inline-block" method="POST" id="searchpp">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-alt" placeholder="Search.." id="page-header-search-input2" name="page-header-search-input2">
+                                <input type="text" class="form-control form-control-alt searchpp" placeholder="Search..." id="page-header-search-input2" name="page-header-search-input2">
                                 <div class="input-group-append">
                                     <span class="input-group-text bg-body border-0">
                                         <i class="si si-magnifier"></i>

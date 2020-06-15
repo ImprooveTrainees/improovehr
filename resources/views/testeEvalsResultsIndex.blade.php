@@ -25,7 +25,7 @@ active
 
     </div>
 
-    <div class="block-content block-content-full">
+    <div class="table-responsive">
         <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
         <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
             <thead>

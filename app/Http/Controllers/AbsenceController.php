@@ -46,10 +46,38 @@ class AbsenceController extends Controller
 
         }
 
+        // ROLE OF AUTHENTICATED USER
 
-        $listVacationsTotal = $user->listVacations(); // LIST VACATIONS ALL USERS
+        $roleuser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.idusertype')->value('idusertype');
 
-        $listAbsencesTotal = $user->listAbsences(); // LIST ABSENCES ALL USERS
+        error_log($roleuser);
+
+
+        $countryUser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.country')
+        ->value('country');
+
+
+        $listVacationsTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','=','1')->get();
+
+
+        $listAbsencesTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','>','1')->get();
+
 
         $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->orderBy('start_date','desc')->get();
 
@@ -113,7 +141,7 @@ class AbsenceController extends Controller
 
         $vacation_days_available = $request->session()->get('vacationDays');
 
-        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal', 'vacation_days_available'));
+        return view('holidays',compact('user','array_vacations','array_absences','listVacationsTotal','listAbsencesTotal', 'vacation_days_available','roleuser'));
     }
 
 
@@ -181,8 +209,6 @@ class AbsenceController extends Controller
                 return redirect('/holidays')->withErrors('You only have '.$available_days.' vacation days available. Please do not exceed your vacation days.');
 
             } else {
-
-                error_log($days);
 
                 $vacation->iduser=$userid;
                 $vacation->absencetype=1;

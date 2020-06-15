@@ -90,14 +90,17 @@ class EvaluationsController extends Controller
 
 
         $areaSuccess =
-        "<script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Area created successfully!',
-                showConfirmButton: false,
-                timer: 1500
-                })
-        </script>";
+                    "<script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Area created successfully!',
+                                showConfirmButton: false,
+                                timer: 1500
+                                })
+                    </script>";
+
+
+
 
 
 
