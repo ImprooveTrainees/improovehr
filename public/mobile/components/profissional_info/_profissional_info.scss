@@ -1,4 +1,4 @@
-#profile2{
+#profile2 {
     border-radius: 30%;
     width: 250px;
     height: auto;
@@ -14,11 +14,11 @@
     font-size: 11pt;
 }
 
-// .bprofile2{
-//     width: 24%;
-//     display: flex;
-//     justify-content: center;
-// }
+//  .bprofile2{
+//      width: 24%;
+//      display: flex;
+//      justify-content: center;
+//  }
 
 .role,
 .admissiondate,
@@ -27,9 +27,23 @@
 .companymobile,
 .companyemail,
 .department,
-.departmentmanager{
+.departmentmanager {
     @include gridBox2();
 }
+
+.role,
+.typeofcontract,
+.department,
+.companyemail {
+    float: left;
+}
+
+.admissiondate label,
+    .endofcontract label,
+    .departmentmanager label,
+    .companymobile label{
+        margin-left: 20px;
+    }
 
 .role p,
 .admissiondate p,
@@ -38,12 +52,28 @@
 .companymobile input,
 .companyemail input,
 .department p,
-.departmentmanager p{
+.departmentmanager p {
     margin-left: 40px;
 }
 
 #inputdoc {
-    width: 25%;
+    width: 347px;
 }
 
-@import '../../../screens/components/profissional_info/_profissional_info';
+.box2 {
+    margin-left: 30px;
+
+    p {
+        margin: auto;
+        color: rgba(128, 128, 128, 0.692);
+        font-size: 10pt;
+    }
+
+    hr {
+        width: 20%;
+        display: inline-block;
+        margin-top: 5px;
+    }
+}
+
+@import "../../../screens/components/profissional_info/_profissional_info";

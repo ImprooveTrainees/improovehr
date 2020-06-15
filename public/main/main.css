@@ -350,7 +350,7 @@ body {
 }
 
 .bprofile {
-  width: 25%;
+  width: 347px;
 }
 
 .birthday,
@@ -615,6 +615,20 @@ body {
   font-size: 11pt;
 }
 
+.role,
+.typeofcontract,
+.department,
+.companyemail {
+  float: left;
+}
+
+.admissiondate label,
+.endofcontract label,
+.departmentmanager label,
+.companymobile label {
+  margin-left: 20px;
+}
+
 .role p,
 .admissiondate p,
 .typeofcontract p,
@@ -627,25 +641,26 @@ body {
 }
 
 #inputdoc {
-  width: 25%;
+  width: 347px;
 }
 
-@media screen and (min-width: 768px) {
-  .role,
-  .typeofcontract,
-  .department,
-  .companyemail {
-    float: left;
-  }
-  .admissiondate label,
-  .endofcontract label,
-  .departmentmanager label,
-  .companymobile label {
-    margin-left: 20px;
-  }
+.box2 {
+  margin-left: 30px;
 }
 
-@media (min-width: 425px) and (max-width: 1024px) {
+.box2 p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.box2 hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
   .role,
   .typeofcontract,
   .companymobile,
@@ -674,6 +689,18 @@ body {
         grid-template-columns: 86px 140px 40px;
     -ms-grid-rows: auto;
         grid-template-rows: auto;
+  }
+  .role,
+  .typeofcontract,
+  .department,
+  .companyemail {
+    float: none;
+  }
+  .admissiondate label,
+  .endofcontract label,
+  .departmentmanager label,
+  .companymobile label {
+    margin-left: 0;
   }
 }
 
@@ -1001,9 +1028,13 @@ p2 {
 }
 
 #paginationholabs {
-  margin-right: -1010px;
   margin-left: 40px;
   margin-top: 10px;
+}
+
+.scrollnumbers {
+  float: right;
+  margin-right: 50px;
 }
 
 @media screen and (min-width: 768px) {
