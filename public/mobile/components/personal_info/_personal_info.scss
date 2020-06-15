@@ -31,14 +31,17 @@
 #profile {
     border-radius: 30%;
     width: 250px;
-    height: auto;
     height: 250px;
-    margin-bottom: 3%;
     position: absolute;
+}
+#imageProfile,
+#changeImageProfile{
+    margin-left: 30px;
 }
 
 .box1 {
     margin-left: 30px;
+    margin-top: 200px;
 
     p {
         margin: auto;
@@ -122,7 +125,7 @@
     }
 }
 
-.cardbox4{
+.cardbox4 {
     height: 40px;
     width: 40px;
     margin: auto;

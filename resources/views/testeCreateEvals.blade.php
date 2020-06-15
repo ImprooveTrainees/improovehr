@@ -21,7 +21,7 @@ open
 
         <form class="form group createsurveyform" action="/createSurvey">
             <div class="form-group surveyname">
-            @csrf
+                @csrf
                 <label for="">Name:</label>
                 <input class="form-control" type="text" name="surveyName">
             </div>
@@ -74,7 +74,6 @@ open
 
         <!-- //Button Area   -->
         <div style='display: none;' id='hideArea'>
-
             <div class="gridTop">
 
                     <form class="form group showSurveyForm2"  action="/createArea">
@@ -192,12 +191,13 @@ open
         <div class="form-group showSurv6">
             <label  for="">Type: </label>
                 @foreach($questionTypes as $type)
-                    <label  >{{$type->description}}&nbsp;</label>
+                    <label id="start2" >{{$type->description}}&nbsp;</label>
                         @if($type->description == "Open")
                             <input class="form-group" onchange="hideParam()"  id="openQuestion"  type="radio" name="questionType" value={{$type->id}}>
                         @else
                             <input class="form-group" onchange="hideParam()"  type="radio" name="questionType" value={{$type->id}}>
                         @endif
+
                 @endforeach
         </div>
 
@@ -210,8 +210,8 @@ open
                 <span id="weight">
                     <div class="testgrid8">
                         <label for="">Weight:</label>
-                        <input class="form-control" type="number" step="0.01" min="0" name="weight">
-                        <b><label for="">%</label></b>
+                        <input class="form-control" type="number" step="0.01" min="0" name="weight" placeholder="%">
+                        <b><label for=""></label></b>
                     </div>
                 </span>
 {{---------------------------------------------- FALTA ALINHAR  ----------------------------------------------------------------------------------------------}}
@@ -299,7 +299,7 @@ open
                             <option value="0">...will evalue</option>
                         </select>
 
-                    <select  class="form-control" style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
+                    <select  class="form-control secondSelect" style='display: none;' id='showEvaluatedSelection{{$user->id}}' name='evaluatorChoice{{$user->id}}'>
                         @foreach($users as $toBeEval)
                             <option value={{$toBeEval->id}}>{{$toBeEval->name}}</option>
                         @endforeach

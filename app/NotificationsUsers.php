@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class notifications extends Model
+class NotificationsUsers extends Model
 {
     //
-    protected $table = 'notifications';
+    protected $table = 'notifications_users';
     protected $primaryKey = 'id';
-
 }
