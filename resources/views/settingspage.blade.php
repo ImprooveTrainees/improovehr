@@ -42,7 +42,7 @@ active
 <div id="general" class="container tab-pane active">
 
     <form action="/saveSettings/{{$officeUserLogged->id}}" method="post" id="form">
-
+        @csrf
         <p>Company</p>
         <hr id="companyline">
 
