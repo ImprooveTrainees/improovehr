@@ -1,3 +1,20 @@
+<?php
+        namespace App\Http\Controllers;
+        use App\notifications;
+        use App\NotificationsUsers;
+        use Illuminate\Http\Request;
+        use Auth;
+        use DB;
+        use App\User;
+        $listNotifications = NotificationsUsers::all();
+        $notificationMessages = notifications::all();
+        $id_user = Auth::user()->id;
+
+        use App\sliderView;
+        use App\settings_general;
+        $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
+        $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -466,6 +483,71 @@
                                     <h5 class="dropdown-header text-uppercase text-white">Notifications</h5>
                                 </div>
                                 <ul class="nav-items mb-0">
+                                    @foreach($listNotifications as $notUser) <!-- Notificacoes -->
+                                        @if($id_user == $notUser->receiveUserId)
+                                            <?php $notification = notifications::find($notUser->notificationId); ?>
+                                                @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
+                                                    @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
+                                                        <li>
+                                                            <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                        @endif
+                           
+                                    @endforeach
+                                    @foreach($notificationsBirthdays as $bday)
+                                        @if($settingsAlerts->alert_evaluations == 1)
+                                            @if(date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
+                                                <li>
+                                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                                        <div class="mr-2 ml-3">
+                                                            <i class="fas fa-birthday-cake"></i>
+                                                        </div>
+                                                        <div class="media-body pr-2">
+                                                        <div class="font-w600">Happy birthday {{$bday->Name}}!</div>
+                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            @elseif(date('d-m',strtotime($bday->Date)) == date('d-m'))
+                                                <li>
+                                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                                        <div class="mr-2 ml-3">
+                                                            <i class="fas fa-birthday-cake"></i>
+                                                        </div>
+                                                        <div class="media-body pr-2">
+                                                        <div class="font-w600">Today is {{$bday->Name}}'s birthday!</div>
+                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
+                                                <li>
+                                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                                        <div class="mr-2 ml-3">
+                                                            <i class="fas fa-birthday-cake"></i>
+                                                        </div>
+                                                        <div class="media-body pr-2">
+                                                        <div class="font-w600">Tomorrow will be {{$bday->Name}}'s birthday!</div>
+                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                                        
+                                        @endif
+                                    @endforeach
+                                    
+
 
                                     {{-- @foreach($allNotificationsUser as $not) <!-- Notificacoes -->
                                         @if($settingsAlerts->alert_evaluations == 1 && $not->notificationType == "Evaluation" && $not->userID == Auth::user()->id)

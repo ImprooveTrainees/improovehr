@@ -16,10 +16,8 @@ class CreateTeamsTable extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('officeID');
-            $table->integer('userIDLeader');
             $table->string('description');
             $table->foreign('officeID')->references('id')->on('offices');
-            $table->foreign('userIDLeader')->references('id')->on('users');
             $table->timestamps();
         });
     }

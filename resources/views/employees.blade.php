@@ -42,16 +42,16 @@ active
 
             <h4>New Team</h4>
 
-            <form action="/newTeam">
+            <form method="get" action="/newTeam">
                 @csrf
-            Insert team name: <input name="teamName" type="text">
+            Insert team name: <input name="teamName" type="text" required>
             Select team leader: 
             <select name="teamLeader">
                 @foreach($userLeaders as $leader)
-                    @if($userLoggedIn->idusertype == 1)
+                    @if($userLogged->idusertype == 1)
                         <option value={{$leader->id}}>{{$leader->name}}</option>
                     @else 
-                        @if($userLoggedIn->country == $leader->country)
+                        @if($userLogged->country == $leader->country)
                             <option value={{$leader->id}}>{{$leader->name}}</option>
                         @endif
                     @endif
@@ -62,24 +62,230 @@ active
             </form>
 
             <h4>Team Management</h4>
-            <form action="/showTeamDetails">
+        <form method="get" action="/showTeam">
+            @csrf
             @if($allTeams->count() == 0)
                 There are no teams to manage!
             @else
-            Select team:
-            <select name="teamDetailsId">
+            <strong>Select team:</strong>
+            <select id="selectTeamID" name="teamDetailsId">
                 @foreach($allTeams as $team)
                     <option value={{$team->id}}>{{$team->description}}<i class="fas fa-times"></i></option>
                 @endforeach
             </select>
             @endif
             <button type="submit">Show team details</button>
-            </form>
+        </form>
 
+            {{-- @if($bla == true)
+              asdasd
+                 
 
-            <h4>Your Team</h4>
+            @endif --}}
+        @if(isset($selectedTeamMembersArray)) <!-- Caso retorne as vars da form executada -->
+            <strong>Add member(s):</strong> <br>
             
+            <form method="get" action="/addTeamMember">
+                @csrf
+                <input type="hidden" name="teamID" value={{$teamDetailsId}}>
+            @foreach($users as $user)
+                    <input type="checkbox" name="usersTeam[]" value={{$user->id}}>
+                    <label for={{$user->name}}>{{$user->name}}</label>
+            @endforeach
+            <strong>Leader:</strong> 
+            <select name="leaderCheck">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            <br>
+            <button type="submit">Add members</button>
+            </form>
+                <h4>Team Name: {{$teamName}}</h4>
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 80px;">Photo</th>
+                            <th>Name</th>
+                            <th class="d-none d-sm-table-cell" style="width: 30%;">Company</th>
+                            <th class="d-none d-sm-table-cell" style="width: 15%;">Role</th>
+                            <th style="width: 15%;">Department</th>
+                            <th style="width: 15%;">Time</th>
+                            <th style="width: 15%;">Staff Manager</th>
+                            <th style="width: 15%;">Leader</th>
+                            @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
+                                <th>Edit</th>
+                                <th>Remove from team</th>
+                                <th>Delete User</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for($b = 0; $b < count($selectedTeamMembersArray); $b++)
+                        <tr>
+                                @if($selectedTeamMembersArray[$b]->photo == null) 
+                                     <td>No profile image</td>
+                                @else 
+                                    <td><img class='sliderResize' src={{$selectedTeamMembersArray[$b]->photo}}></td>
+                                @endif
+                                <td>{{$selectedTeamMembersArray[$b]->name}}</td>
+                                @if($selectedTeamMembersArray[$b]->officeDescricao($selectedTeamMembersArray[$b]->id,$selectedTeamMembersArray[$b]->country) == null) 
+                                    <td>Por definir</td>
+                                @else 
+                                    <td>{{$selectedTeamMembersArray[$b]->officeDescricao($selectedTeamMembersArray[$b]->id,$selectedTeamMembersArray[$b]->country)}}</td>
+                                @endif
+                                <td>{{$selectedTeamMembersArray[$b]->contractUser->position}}</td>
+                                <?php $depart = true; ?>
+                                @if($selectedTeamMembersArray[$b]->departments->first() == null) 
+                                    <td>Por definir</td>
+                                    <?php $depart = false; ?>
+                                @else 
+                                    <td>{{$selectedTeamMembersArray[$b]->departments->first()->description}}</td>
+                                @endif
+                               <?php
+                                 $actualYear = date("Y/m/d");
+                                 $date1=date_create($selectedTeamMembersArray[$b]->contractUser->start_date);
+                                 $date2=date_create($actualYear);
+                                 $diff=date_diff($date1,$date2);
+                                 $tempoEmpresaTeam = $diff->format("%Y%")." years";
+                               ?>
+                               <td>{{$tempoEmpresaTeam}}</td>
+                               @if(!$depart) 
+                                    <td>Por definir</td>
+                               @elseif($selectedTeamMembersArray[$b]->name == $selectedTeamMembersArray[$b]->managerDoUser($selectedTeamMembersArray[$b]->departments->first()->description, $selectedTeamMembersArray[$b]->country)) 
+                                    <td> ------- </td>
+                               @else
+                                    <td>{{$selectedTeamMembersArray[$b]->managerDoUser($selectedTeamMembersArray[$b]->departments->first()->description, $selectedTeamMembersArray[$b]->country)}}</td>
+                               @endif
+                                <td>{{$leaderArray[$b]}}</td>
+                               @if($userLogged->idusertype == 1) 
+                                    <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                    <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                @elseif($userLogged->idusertype == 2) 
+                                    @if($selectedTeamMembersArray[$b]->idusertype != 1 && $selectedTeamMembersArray[$b]->idusertype != 2) 
+                                        <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                        <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                    @endif
+                                
+                                @elseif($userLogged->idusertype == 3) 
+                                    @if($selectedTeamMembersArray[$b]->idusertype != 1 && $selectedTeamMembersArray[$b]->idusertype != 2 && $selectedTeamMembersArray[$b]->idusertype != 3) 
+                                        <td><button onclick='modalOpen({{$selectedTeamMembersArray[$b]->id}})' value={{$selectedTeamMembersArray[$b]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                        <td><a href="/remTeamMember/{{$selectedTeamMembersArray[$b]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                        <td><a href='/deleteEmployee/{{$selectedTeamMembersArray[$b]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                    @endif
+                                @endif 
+                                    
+                        </tr>
+                        @endfor
+                    </tbody>
+                </table>
 
+
+        @endif
+       
+        <h4>My teams:</h4> 
+        @for($v = 0; $v < $tablesCount->count(); $v++)
+        <h3>{{$LoggedUserTeamsArrayTeamName[$v]->description}}</h3>
+        <table class="table table-bordered table-striped table-vcenter js-dataTable-full">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 80px;">Photo</th>
+                    <th>Name</th>
+                    <th class="d-none d-sm-table-cell" style="width: 30%;">Company</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Role</th>
+                    <th style="width: 15%;">Department</th>
+                    <th style="width: 15%;">Time</th>
+                    <th style="width: 15%;">Staff Manager</th>
+                    <th style="width: 15%;">Leader</th>
+                    @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
+                        <th>Edit</th>
+                        <th>Remove from team</th>
+                        <th>Delete User</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+            @for($c = 0; $c < count($LoggedUserTeamsArrayUserId); $c++)
+                    @if($LoggedUserTeamsArrayTeamId[$c]->id == $tablesCount[$v]->teamID) <!-- Enquanto a team for a mesma, ele adiciona os membros á table -->
+                            @if($LoggedUserTeamsArrayUserId[$c]->photo == null) 
+                                    <td>No profile image</td>
+                            @else 
+                                <td><img class='sliderResize' src={{$LoggedUserTeamsArrayUserId[$c]->photo}}></td>
+                            @endif
+                            <td>{{$LoggedUserTeamsArrayUserId[$c]->name}}</td>
+                            @if($LoggedUserTeamsArrayUserId[$c]->officeDescricao($LoggedUserTeamsArrayUserId[$c]->id,$LoggedUserTeamsArrayUserId[$c]->country) == null) 
+                                <td>Por definir</td>
+                            @else 
+                                <td>{{$LoggedUserTeamsArrayUserId[$c]->officeDescricao($LoggedUserTeamsArrayUserId[$c]->id,$LoggedUserTeamsArrayUserId[$c]->country)}}</td>
+                            @endif
+                            <td>{{$LoggedUserTeamsArrayUserId[$c]->contractUser->position}}</td>
+                            <?php $departTeamLoggedIn = true; ?>
+                            @if($LoggedUserTeamsArrayUserId[$c]->departments->first() == null) 
+                                <td>Por definir</td>
+                                <?php $departTeamLoggedIn = false; ?>
+                            @else 
+                                <td>{{$LoggedUserTeamsArrayUserId[$c]->departments->first()->description}}</td>
+                            @endif
+                            <?php
+                                $actualYear = date("Y/m/d");
+                                $date1=date_create($LoggedUserTeamsArrayUserId[$c]->contractUser->start_date);
+                                $date2=date_create($actualYear);
+                                $diff=date_diff($date1,$date2);
+                                $tempoEmpresaTeamLoggedIn = $diff->format("%Y%")." years";
+                            ?>
+                            <td>{{$tempoEmpresaTeamLoggedIn}}</td>
+                            @if(!$departTeamLoggedIn) 
+                                <td>Por definir</td>
+                            @elseif($LoggedUserTeamsArrayUserId[$c]->name == $LoggedUserTeamsArrayUserId[$c]->managerDoUser($LoggedUserTeamsArrayUserId[$c]->departments->first()->description, $LoggedUserTeamsArrayUserId[$c]->country)) 
+                                <td> ------- </td>
+                            @else
+                                <td>{{$LoggedUserTeamsArrayUserId[$c]->managerDoUser($LoggedUserTeamsArrayUserId[$c]->departments->first()->description, $LoggedUserTeamsArrayUserId[$c]->country)}}</td>
+                            @endif
+                            {{-- <td>{{$leaderArray[$b]}}</td> --}}
+                            <td>{{$LoggedUserTeamsArrayTeamLeaders[$c]}}</td>
+                            @if($userLogged->idusertype == 1) 
+                                <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                            @elseif($userLogged->idusertype == 2) 
+                                @if($LoggedUserTeamsArrayUserId[$c]->idusertype != 1 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 2) 
+                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                @endif
+                            
+                            @elseif($userLogged->idusertype == 3) 
+                                @if($LoggedUserTeamsArrayUserId[$c]->idusertype != 1 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 2 && $LoggedUserTeamsArrayUserId[$c]->idusertype != 3) 
+                                    <td><button onclick='modalOpen({{$LoggedUserTeamsArrayUserId[$c]->id}})' value={{$LoggedUserTeamsArrayUserId[$c]->id}}><i class='fas fa-user-edit'></i></button></td>
+                                    <td><a href="/remTeamMember/{{$LoggedUserTeamsArrayUserId[$c]->id}}"><i class="fas fa-user-minus"></i></a></td>
+                                    <td><a href='/deleteEmployee/{{$LoggedUserTeamsArrayUserId[$c]->id}}'><i class="fas fa-user-slash"></i></a></td>
+                                @endif
+                            @endif 
+                                        {{-- <p>{{$LoggedUserTeamsArrayTeamId[$c]->id}}</p> --}}
+                                
+                        @endif
+                    </tr>
+                    @endfor
+                
+                </tbody>
+                     </table>
+    
+        @endfor
+    
+
+        {{-- @for($v = 0; $v < $tablesCount->count(); $v++)
+        <p>table</p>
+            @for($c = 0; $c < count($LoggedUserTeamsArrayUserId); $c++)
+                    @if($LoggedUserTeamsArrayTeamId[$c]->id == $tablesCoun[$v]->teamID) 
+                        <p>{{$LoggedUserTeamsArrayUserId[$c]->id}}</p>
+                       
+                 
+                    @endif
+            @endfor
+          <p> end table</p>
+       @endfor --}}
 
 
         <!-- Teams -->
@@ -98,7 +304,7 @@ active
                     <th style="width: 15%;">Staff Manager</th>
                     @if($userLogged->idusertype == 1 || $userLogged->idusertype == 2 || $userLogged->idusertype == 3) <!-- se forem users com previlegios -->
                         <th>Edit</th>
-                        <th>Remove</th>
+                        <th>Delete User</th>
                     @endif
                 </tr>
             </thead>
