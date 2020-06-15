@@ -305,9 +305,13 @@ p2 {
 }
 
 #paginationholabs {
-    margin-right: -1010px;
     margin-left: 40px;
     margin-top: 10px;
+}
+
+.scrollnumbers {
+    float: right;
+    margin-right: 50px;
 }
 
 @import '../../../screens/components/holidays/_holidays';

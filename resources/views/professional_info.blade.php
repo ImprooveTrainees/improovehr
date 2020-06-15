@@ -14,8 +14,14 @@ open
 
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
-    <div class="box1">
+
+        <div id="imageProfile">
     <img src="{{$userPhoto}}" alt="img" id="profile2">
+        </div>
+
+        <div class="box2">
+        <p>Professional Data</p>
+        <hr><br>
 
         @if(session()->has('pop'))
             <div class="alert alert-success">
@@ -23,9 +29,6 @@ open
             </div>
         @endif
 
-    <br><br><br>
-    <p>Professional Data</p>
-    <hr><br>
 
 @foreach ($profInfo as $row) {{-- Data from controller querys --}}
     <div class="form-group role">

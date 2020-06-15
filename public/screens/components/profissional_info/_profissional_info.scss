@@ -1,23 +1,4 @@
-//WINDOW 768PX UP
-@media screen and (min-width: 768px) {
-
-    .role,
-    .typeofcontract,
-    .department,
-    .companyemail {
-        float: left;
-    }
-
-    .admissiondate label,
-    .endofcontract label,
-    .departmentmanager label,
-    .companymobile label{
-        margin-left: 20px;
-    }
-
-}
-
-@media (min-width: 425px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1440px) {
     .role,
     .typeofcontract,
     .companymobile,
@@ -43,5 +24,17 @@
         grid-template-columns: 86px 140px 40px;
         grid-template-rows: auto;
     }
+    .role,
+    .typeofcontract,
+    .department,
+    .companyemail {
+        float: none;
+    }
 
+    .admissiondate label,
+    .endofcontract label,
+    .departmentmanager label,
+    .companymobile label{
+        margin-left: 0;
+    }
 }
