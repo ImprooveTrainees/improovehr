@@ -6,6 +6,7 @@ use App\absence;
 use App\notifications;
 use App\NotificationsUsers;
 use App\User;
+use App\notifications_reminders;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -1024,6 +1025,76 @@ for($l = 0; $l < $blocksNum; $l++) {
 
         //session(['vacationDays' => $vacationDaysAvailable]);
 
+
+
+        //Notifications
+            $listNotificationsEvals = notifications::where('type', 'EvaluationAssigned')->orderBy('created_at', 'desc')->get();
+            $notfsUsers = NotificationsUsers::All();
+            $AllReminders = notifications_reminders::All();
+            
+            //notifications Evals
+            foreach($listNotificationsEvals as $notfEval) { //reminders
+                $notfUser = NotificationsUsers::where('notificationId', $notfEval->id)->get();
+                foreach($notfUser as $userNotf) {
+                    if(date('Y-m-d') == date('Y-m-d',strtotime($userNotf->date_limit_evals . "-5 days"))) {
+                        $reminderDescription = "You have 5 days remaining to complete your survey from ". User::find($userNotf->createUserId)->name;
+                        $reminderAlreadyExists = false;
+                        foreach($AllReminders as $reminder) {
+                            if($reminder->notifications_users_id == $userNotf->id && $reminder->description == $reminderDescription){
+                                $reminderAlreadyExists = true; // se o reminder existe associado a esta notf, com a mesma descrição, não vai aparecer
+                            }
+                        }
+                        if(!$reminderAlreadyExists) {
+                            $newReminder = new notifications_reminders; //nova notificacao
+                            $newReminder->notifications_users_id = $userNotf->id;
+                            $newReminder->description = $reminderDescription;
+                            $newReminder->save();
+                        }
+       
+
+                    }
+                    else if(date('Y-m-d') == date('Y-m-d',strtotime($userNotf->date_limit_evals . "-1 days"))) {
+                        $reminderDescription = "You have 1 day remaining to complete your survey from ". User::find($userNotf->createUserId)->name;
+                        $reminderAlreadyExists = false;
+                        foreach($AllReminders as $reminder) {
+                        if($reminder->notifications_users_id == $userNotf->id && $reminder->description == $reminderDescription){
+                                $reminderAlreadyExists = true; // se o reminder existe associado a esta notf, com a mesma descrição, não vai aparecer
+                            }
+                        }
+                        if(!$reminderAlreadyExists) {
+                            $newReminder = new notifications_reminders; //nova notificacao
+                            $newReminder->notifications_users_id = $userNotf->id;
+                            $newReminder->description = $reminderDescription;
+                            $newReminder->save();
+                        }
+
+                    }
+                }
+
+            }
+            //notification evals end
+
+            //notifications birthdays
+            // $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
+            //  foreach($notificationsBirthdays as $bday) {
+            //         $newNotification = new notifications;
+            //         $newNotification->type = "Birthday";
+            //         if(date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name) {
+            //             $newNotification->description = "Happy birthday ".$bday->Name;
+            //         }
+            //         if(date('d-m',strtotime($bday->Date)) == date('d-m')) {
+            //             $newNotification->description = "Today is ".$bday->Name."'s birthday";
+            //         }
+            //         if(date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m')) {
+            //             $newNotification->description = "Tomorrow will be ".$bday->Name."'s birthday!";
+            //         }
+                
+            //  }
+             //notifications Birthdays end
+
+
+
+        //Notifications end
 
 
         return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
