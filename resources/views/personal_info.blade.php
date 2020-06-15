@@ -14,24 +14,25 @@ open
 
 @section('content')
 <div class="shadow p-1 bg-white cardbox1">
-    <div class="box1">
-      @if($users->photo == null)
-        <h5>Insert a profile image</h5>
-        @else
-        <img src="{{$users->photo}}" alt="img" id="profile">
-      @endif
 
-    <form id="file-upload-form" class="element" action="/saveProfileImage" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-      @csrf
-      <div class="shadow p-1 bg-white cardbox4">
-            <i class="fa fa-camera" id="imagefile"></i>
-              <input id="file-upload" type="file" name="fileUpload" accept="image/*" onchange="insertImage()">
-              <img id="file-image" src="#" alt="" class="hidden">
+        <div id="imageProfile">
+            @if($users->photo == null)
+                <h5>Insert a profile image</h5>
+                @else
+                <img src="{{$users->photo}}" alt="img" id="profile">
+            @endif
         </div>
-      </form>
-
-
-
+        <div id="changeImageProfile">
+            <form id="file-upload-form" class="element" action="/saveProfileImage" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+            @csrf
+            <div class="shadow p-1 bg-white cardbox4">
+                    <i class="fa fa-camera" id="imagefile"></i>
+                    <input id="file-upload" type="file" name="fileUpload" accept="image/*" onchange="insertImage()">
+                    <img id="file-image" src="#" alt="" class="hidden">
+                </div>
+            </form>
+        </div>
+        <div class="box1">
 <form class="form-group profileform" action="/editar">
 
 @if(session()->has('message'))
