@@ -115,7 +115,7 @@ active
 <div class="shadow p-1 bg-white" id="box3">
 <div class="row">
     <div class="col">
-    <p id="timeaccomplished">  of 40 hours</p>
+    <p id="timeaccomplished">{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours</p>
     </div>
   </div>
 </div>
