@@ -10,6 +10,71 @@
     #size{
             width: 35%;
     }
+    #margTop{
+            margin-top: 15px;
+    }
+    .subLi2{
+            width: 240px;
+            margin-left: 0px;
+
+            margin-top: -5%;
+    }
+    .performanceQuest2{
+            margin-top: 4px;
+    }
+    .potencialQuest2{
+            margin-top: -30px;
+    }
+    #finalTable{
+            margin-left: -3%;
+    }
+    .areaLi2{
+            margin-top: 15px;
+    }
+    #tableFormat{
+            margin-top: 20px;
+    }
+    #mychart{
+        margin-top: 40px;
+    }
+
+
+}
+@media (min-width: 374px) and (max-width: 425px) {
+    .subLi2{
+        margin-top: 15px;
+    }
+    #finalTable{
+        margin-left: 5px;
+    }
+}
+@media (min-width: 426px) and (max-width: 500px) {
+    .subLi2{
+        margin-top: 5px;
+    }
+    #finalTable{
+        margin-left: 5px;
+    }
+
+
+}
+@media (min-width: 501px) and (max-width: 537px) {
+        #margTop{
+            margin-top: 10px;
+
+        }
+        #mychart{
+            margin-top: 40px;
+        }
+
+
+}
+@media (min-width: 570px) and (max-width: 1921px) {
+    #myChart {
+        width: 400px;
+        margin: auto;
+        margin-top: 4%;
+    }
 }
 @media (min-width: 501px) and (max-width: 624px) {
 
@@ -32,6 +97,12 @@
     #areaText{
             width: 425px;
             margin: auto;
+    }
+
+}
+@media (min-width: 320px) and (max-width: 1930px) {
+    #tableFormat{
+
     }
 
 }

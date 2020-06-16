@@ -31,9 +31,9 @@ active
 
 
     <div class="centerBtn">
-        <button class="btn btn-info" onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
-        <button class="btn btn-info" onclick="finalResults()">Final Results</button>
-        <button class="btn btn-info" onclick="graph()">Graph</button>
+        <button id="margTop" class="btn btn-info" onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
+        <button id="margTop" class="btn btn-info" onclick="finalResults()">Final Results</button>
+        <button id="margTop" class="btn btn-info" onclick="graph()">Graph</button>
     </div>
 
     <div id="avgPPArea" style="display: none">
@@ -231,9 +231,11 @@ active
     </div>
 </div>
 
-<div class="chartStyle" style="display: none" id="graph">
+<div  style="display: none" id="graph">
 
-    <div id="myChart"></div>
+    <div id="myChart"  {{-- class="chartStyle"--}}>
+
+    </div>
 
 
 </div>
@@ -285,9 +287,9 @@ active
                 { x: {{$finalAvgPotential}}, y: {{$finalAvgPerformance}} },
             ]
         }]
-    });
-    chart.render();
 
+    });
+        chart.render();
     }
 
     function hideAvgPPArea() {
