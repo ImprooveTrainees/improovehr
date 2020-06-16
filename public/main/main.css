@@ -2787,4 +2787,38 @@ input[type=radio] {
   text-align: center;
   color: #cfa52a;
 }
+
+@media (min-width: 320px) and (max-width: 500px) {
+  #areaText {
+    width: 200px;
+    margin: auto;
+  }
+  .subLi {
+    width: 225px;
+  }
+  #size {
+    width: 35%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 624px) {
+  #areaText {
+    width: 365px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 625px) and (max-width: 700px) {
+  #areaText {
+    width: 470px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 698px) and (max-width: 800px) {
+  #areaText {
+    width: 425px;
+    margin: auto;
+  }
+}
 /*# sourceMappingURL=main.css.map */
