@@ -1092,13 +1092,6 @@ p2 {
   display: grid;
 }
 
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  /* Force table to not be like tables anymore */
-  /*
-	Label the data
-	*/
-}
-
 @media screen and (device-width: 320px) {
   .email,
   .roleregister,
@@ -2682,5 +2675,39 @@ input[type=radio] {
 #openClass2 {
   text-align: center;
   color: #cfa52a;
+}
+
+@media (min-width: 320px) and (max-width: 500px) {
+  #areaText {
+    width: 200px;
+    margin: auto;
+  }
+  .subLi {
+    width: 225px;
+  }
+  #size {
+    width: 35%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 624px) {
+  #areaText {
+    width: 365px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 625px) and (max-width: 700px) {
+  #areaText {
+    width: 470px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 698px) and (max-width: 800px) {
+  #areaText {
+    width: 425px;
+    margin: auto;
+  }
 }
 /*# sourceMappingURL=main.css.map */
