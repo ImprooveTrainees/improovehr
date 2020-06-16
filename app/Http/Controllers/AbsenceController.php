@@ -35,6 +35,8 @@ class AbsenceController extends Controller
 
         $allNotifications = notifications::all();
 
+        $allNotificationUsers = NotificationsUsers::all();
+
         //$listAbsencesConcluded = $user->userAbsence();
 
         //DB::table('absences')->where(['status','=','Approved'],['end_date','<',$present_date])->update(['status' => 'Concluded']);
@@ -107,7 +109,22 @@ class AbsenceController extends Controller
 
                             if($notifList->description == $descricao) {
 
-                               $noNotification = true;
+                                $idTemp = $notifList->id;
+
+
+                                foreach($allNotificationUsers as $list) {
+
+                                    if($list->notificationId == $idTemp) {
+
+                                        if($list->receiveUserId == $id_user) {
+
+                                            $noNotification = true;
+
+                                        }
+
+                                    }
+
+                                }
 
                             }
 
@@ -115,7 +132,7 @@ class AbsenceController extends Controller
 
                         if($noNotification == false) {
 
-                            $notification->type="Vacations";
+                            $notification->type="Absences";
                             $notification->description=$descricao;
 
                             $notification->save();
@@ -156,17 +173,32 @@ class AbsenceController extends Controller
 
                     if($roleuser>1 && $roleuser<=3) {
 
-                        $descricao = $list->name." will be on vacations starting tomorrow from ".$list->start_date." to ".$list->end_date." .";
+                        $descricao = $list->name." will be on vacations tomorrow from ".$list->start_date." to ".$list->end_date." .";
 
                         foreach($allNotifications as $notifList) {
 
-                        if($notifList->description == $descricao) {
+                            if($notifList->description == $descricao) {
 
-                           $noNotification = true;
+                                $idTemp = $notifList->id;
+
+
+                                foreach($allNotificationUsers as $list) {
+
+                                    if($list->notificationId == $idTemp) {
+
+                                        if($list->receiveUserId == $id_user) {
+
+                                            $noNotification = true;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
 
                         }
-
-                    }
 
                     if($noNotification == false) {
 
