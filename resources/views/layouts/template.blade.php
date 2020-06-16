@@ -503,6 +503,21 @@
                                                         </li>
                                                     @endif
                                                 @endif
+                                                @if($settingsAlerts->alert_birthdays == 1)
+                                                    @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
+                                                        <li>
+                                                            <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
                                         @endif
 
                                     @endforeach

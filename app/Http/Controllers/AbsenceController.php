@@ -1075,21 +1075,59 @@ for($l = 0; $l < $blocksNum; $l++) {
             //notification evals end
 
             //notifications birthdays
-            // $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
-            //  foreach($notificationsBirthdays as $bday) {
-            //         $newNotification = new notifications;
-            //         $newNotification->type = "Birthday";
-            //         if(date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name) {
-            //             $newNotification->description = "Happy birthday ".$bday->Name;
-            //         }
-            //         if(date('d-m',strtotime($bday->Date)) == date('d-m')) {
-            //             $newNotification->description = "Today is ".$bday->Name."'s birthday";
-            //         }
-            //         if(date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m')) {
-            //             $newNotification->description = "Tomorrow will be ".$bday->Name."'s birthday!";
-            //         }
+            $userBdays= User::All();
+            $notificationsUserBirthdays = NotificationsUsers::All();
+            
+             foreach($userBdays as $bday) {
+                $notfExists = false;
+                 foreach($notificationsUserBirthdays as $notfsUser) {
+                     $notification = notifications::find($notfsUser->notificationId);
+                     if($notfsUser->receiveUserId == Auth::User()->id && $notification->type == "Birthday" && date('Y-m',strtotime($notfsUser->created_at)) == date('Y-m')) {
+                        $notfExists = true;
+                        break;
+                     }
+                 }
+                 if(!$notfExists) {
+                    if(date('d-m',strtotime($bday->birthDate)) == date('d-m') && Auth::user()->id == $bday->id) {
+                        $newNotification = new notifications;
+                        $newNotification->type = "Birthday";
+                        $newNotificationUser = new NotificationsUsers;
+                        $newNotification->description = "Happy birthday ".$bday->name."!";
+                        $newNotification->save();
+                        $newNotificationUser->notificationId = $newNotification->id;
+                        $newNotificationUser->receiveUserId = Auth::user()->id;
+                        $newNotificationUser->save();
+                    }
+                    else if(date('d-m',strtotime($bday->birthDate)) == date('d-m')) {
+                            $newNotification = new notifications;
+                            $newNotification->type = "Birthday";
+                            $newNotificationUser = new NotificationsUsers;
+                            $newNotification->description = "Today is ".$bday->name."'s birthday";
+                            $newNotification->save();
+                            $newNotificationUser->notificationId = $newNotification->id;
+                            $newNotificationUser->receiveUserId = Auth::User()->id;
+                            $newNotificationUser->save();
+                        
+    
+                    }
+                    else if(date('d-m-Y',strtotime($bday->birthDate . "-1 days")) == date('d-m-Y')) {
+                            $newNotification = new notifications;
+                            $newNotification->type = "Birthday";
+                            $newNotificationUser = new NotificationsUsers;
+                            $newNotification->description = "Tomorrow will be ".$bday->name."'s birthday!";
+                            $newNotification->save();
+                            $newNotificationUser->notificationId = $newNotification->id;
+                            $newNotificationUser->receiveUserId = Auth::User()->id;
+                            $newNotificationUser->save();
+                        
+                    }
+                }
+                   
+                    
+                 
+                   
                 
-            //  }
+             }
              //notifications Birthdays end
 
 
