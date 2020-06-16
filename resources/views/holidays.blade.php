@@ -57,14 +57,14 @@ open
             <div class="shadow p-1 bg-white cardbox2" id="holbox">
                 <div id="startday">
                     <h5>Start Day</h5>
-                    <p1 class="holidayDates">{{$array_vacations[$i+1]}}</p1>
+                    <p class="holidayDates">{{$array_vacations[$i+1]}}</p>
                     <a class="editstart" data-toggle="modal" data-target="#editStartDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="endday">
                     <h5>End Day</h5>
-                    <p2 class="holidayDates">{{$array_vacations[$i+2]}}</p2>
+                    <p class="holidayDates">{{$array_vacations[$i+2]}}</p>
                     <a class="editend" data-toggle="modal" data-target="#editEndDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click2(this.id)" class="fas fa-pen"></i>
                     </a>
@@ -138,10 +138,10 @@ open
 <h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
 </div>
 
-<div class="block-content block-content-full">
+<div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-<thead>
+<table class="table table-bordered js-dataTable-buttons table-responsive">
+<thead class="thead-dark">
     <tr>
     <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">Name</th>
@@ -405,10 +405,10 @@ open
 <div class="block-header">
   <h3 class="block-title text-center">Absences<small> - ALL Employees</small></h3>
 </div>
-<div class="block-content block-content-full">
+<div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-  <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-      <thead>
+  <table class="table table-bordered js-dataTable-buttons table-responsive">
+      <thead class="thead-dark">
           <tr>
           <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
                       <th class="d-none d-sm-table-cell" style="width: 10%;">Name</th>
