@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-// Employees Role
+// Employees Other Role - Hide/Show
 $("#exampleRole").change(function(){
     if($(this).val()=="other")
     {
@@ -34,6 +34,19 @@ $("#exampleRole").change(function(){
      else
      {
          $("div#rolenew").hide();
+     }
+ });
+
+// Employees Other Role2 - Hide/Show
+$("#exampleRole2").change(function(){
+    if($(this).val()=="other")
+    {
+        $("div#rolenew2").css('display', 'grid');
+        // $("div#rolenew").show(); - Apenas para Display Block
+    }
+     else
+     {
+         $("div#rolenew2").hide();
      }
  });
 
@@ -84,3 +97,40 @@ function addDate() {
   function execForm() {
     document.getElementById('form').submit();
   }
+
+
+//Employees MODAL
+function modalOpen(idUser) {
+    var modal = document.getElementById("editProfessionaInfoModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("editUserModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+
+    modal.style.display = "block";
+
+    var form = document.getElementById('professionalEditForm');
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("value",  idUser);
+    hiddenInput.setAttribute("id",  "idUser");
+    hiddenInput.setAttribute("name",  "idUser");
+    form.appendChild(hiddenInput); //cria hidden input com o id do user, que vem do argumento da funcao
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        document.getElementById("idUser").remove(); //remove o hidden value do user quando fecha
+        }
+    }
+}

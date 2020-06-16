@@ -617,15 +617,17 @@ class EvaluationsController extends Controller
             }
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
+
             $newNotification = new notifications; //nova notificacao
             $newNotificationUser = new NotificationsUsers;
             $newNotification->type = "EvaluationAssigned";
-            $newNotification->description = "You have a new evaluation to complete from ".Auth::user()->name;
+            $newNotification->description = "You have a new evaluation (".Survey::find($survey)->name.") to complete from ".Auth::user()->name;
             $newNotification->save();
             
             $newNotificationUser->notificationId = $newNotification->id;
             $newNotificationUser->createUserId = Auth::user()->id;
             $newNotificationUser->receiveUserId = $user;
+            $newNotificationUser->date_limit_evals = $dateLimit;
             $newNotificationUser->save();
 
 
