@@ -43,8 +43,6 @@ class AbsenceController extends Controller
 
         $present_date = Carbon::now();
 
-        $noNotification = false;
-
         $allAbsences = absence::All();
 
         foreach($allAbsences as $ab) {
@@ -88,145 +86,6 @@ class AbsenceController extends Controller
         ->where('users.id','!=','1')
         ->where('users.country','like', $countryUser)
         ->where('absence_types.id','>','1')->get();
-
-        foreach($listAbsencesTotal as $list) {
-
-            $dayBefore = Carbon::now()->subDays(1);
-
-            $startDate = Carbon::parse($list->start_date);
-
-            $difference = $dayBefore->diffInDays($startDate);
-
-            if($difference <= 1) {
-
-                if($list->status == "Approved") {
-
-                    if($roleuser>1 && $roleuser<=3) {
-
-                        $descricao = $list->name." will be absent tomorrow from ".$list->start_date." to ".$list->end_date." .";
-
-                        foreach($allNotifications as $notifList) {
-
-                            if($notifList->description == $descricao) {
-
-                                $idTemp = $notifList->id;
-
-
-                                foreach($allNotificationUsers as $list) {
-
-                                    if($list->notificationId == $idTemp) {
-
-                                        if($list->receiveUserId == $id_user) {
-
-                                            $noNotification = true;
-
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                        if($noNotification == false) {
-
-                            $notification->type="Absences";
-                            $notification->description=$descricao;
-
-                            $notification->save();
-
-                            $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                            $notif_user->notificationId=$id_notif;
-                            $notif_user->receiveUserId=$id_user;
-
-                            $notif_user->save();
-
-
-                        }
-
-                    }
-
-
-                }
-
-            }
-        }
-
-        $noNotification = false;
-
-        foreach($listVacationsTotal as $list) {
-
-
-            $dayBefore = Carbon::now()->subDays(1);
-
-            $startDate = Carbon::parse($list->start_date);
-
-            $difference = $dayBefore->diffInDays($startDate);
-
-            if($difference <= 1) {
-
-                if($list->status == "Approved") {
-
-                    if($roleuser>1 && $roleuser<=3) {
-
-                        $descricao = $list->name." will be on vacations tomorrow from ".$list->start_date." to ".$list->end_date." .";
-
-                        foreach($allNotifications as $notifList) {
-
-                            if($notifList->description == $descricao) {
-
-                                $idTemp = $notifList->id;
-
-
-                                foreach($allNotificationUsers as $list) {
-
-                                    if($list->notificationId == $idTemp) {
-
-                                        if($list->receiveUserId == $id_user) {
-
-                                            $noNotification = true;
-
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    if($noNotification == false) {
-
-                        $notification->type="Vacations";
-                        $notification->description=$descricao;
-
-                        $notification->save();
-
-                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                        $notif_user->notificationId=$id_notif;
-                        $notif_user->receiveUserId=$id_user;
-
-                        $notif_user->save();
-
-
-                    }
-
-                }
-
-
-                }
-
-            }
-
-        }
-
 
         $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->orderBy('start_date','desc')->get();
 
@@ -684,6 +543,44 @@ class AbsenceController extends Controller
 
         $id_user = Auth::user()->id;
 
+        $notification = new notifications();
+
+        $notif_user = new NotificationsUsers();
+
+        $allNotifications = notifications::all();
+
+        $allNotificationUsers = NotificationsUsers::all();
+
+        $countryUser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.country')
+        ->value('country');
+
+        $roleuser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.idusertype')->value('idusertype');
+
+        $noNotification = false;
+
+        $listVacationsTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','=','1')->get();
+
+
+        $listAbsencesTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','>','1')->get();
+
         // DATE CALCULATION
 
         $contractDate = $user->contractUser->start_date;
@@ -1098,6 +995,146 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
  }
+
+ // NOTIFICATIONS FOR ABSENCES / VACATIONS
+
+ foreach($listAbsencesTotal as $list) {
+
+    $dayBefore = Carbon::now()->subDays(1);
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference = $dayBefore->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($list->status == "Approved") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                $descricao = $list->name." will be absent tomorrow from ".$list->start_date." to ".$list->end_date." .";
+
+                foreach($allNotifications as $notifList) {
+
+                    if($notifList->description == $descricao) {
+
+                        $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification = true;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if($noNotification == false) {
+
+                    $notification->type="Absences";
+                    $notification->description=$descricao;
+
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->receiveUserId=$id_user;
+
+                    $notif_user->save();
+
+
+                }
+
+            }
+
+
+        }
+
+    }
+}
+
+$noNotification = false;
+
+foreach($listVacationsTotal as $list) {
+
+
+    $dayBefore = Carbon::now()->subDays(1);
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference = $dayBefore->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($list->status == "Approved") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                $descricao = $list->name." will be on vacations tomorrow from ".$list->start_date." to ".$list->end_date." .";
+
+                foreach($allNotifications as $notifList) {
+
+                    if($notifList->description == $descricao) {
+
+                        $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification = true;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            if($noNotification == false) {
+
+                $notification->type="Vacations";
+                $notification->description=$descricao;
+
+                $notification->save();
+
+                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                $notif_user->notificationId=$id_notif;
+                $notif_user->receiveUserId=$id_user;
+
+                $notif_user->save();
+
+
+            }
+
+        }
+
+
+        }
+
+    }
+
+}
 
 // Slider End
 
