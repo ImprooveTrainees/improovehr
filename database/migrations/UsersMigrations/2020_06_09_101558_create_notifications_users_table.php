@@ -17,7 +17,7 @@ class CreateNotificationsUsersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('notificationId');
             $table->foreign('notificationId')->references('id')->on('notifications');
-            $table->integer('createUserId');
+            $table->integer('createUserId')->nullable();
             $table->foreign('createUserId')->references('id')->on('users');
             $table->integer('receiveUserId');
             $table->foreign('receiveUserId')->references('id')->on('users');
