@@ -996,7 +996,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
  }
 
- // NOTIFICATIONS FOR ABSENCES / VACATIONS
+ // NOTIFICATIONS FOR ABSENCES / VACATIONS TOMORROW (FOR RH AND MANAGER)
 
  foreach($listAbsencesTotal as $list) {
 
@@ -1135,6 +1135,156 @@ foreach($listVacationsTotal as $list) {
     }
 
 }
+
+// END NOTIFICATIONS FOR ABSENCES / VACATIONS TOMORROW (FOR RH AND MANAGER)
+
+// NOTIFICATIONS FOR ABSENCES / VACATIONS STARTING TOMORROR THAT STATUS IS PENDING (FOR RH AND MANAGER)
+
+$noNotification2 = false;
+
+foreach($listAbsencesTotal as $listAb) {
+
+    $dayBefore = Carbon::now()->subDays(1);
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference = $dayBefore->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($listAb->status == "Pending") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                    $descricao2 = "You have an Absence from ".$listAb->name." due to tomorrow waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
+
+                    foreach($allNotifications as $notifList) {
+
+                        if($notifList->description == $descricao2) {
+
+                            $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification2 = true;
+
+                                }
+
+                            }
+
+                        }
+
+                        }
+
+
+                    }
+
+                    if($noNotification2 == false) {
+
+                        $notification->type="Approval";
+                        $notification->description=$descricao2;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
+            }
+
+        }
+
+    }
+
+
+}
+
+$noNotification2 = false;
+
+
+foreach($listVacationsTotal as $listVac) {
+
+    $dayBefore = Carbon::now()->subDays(1);
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference = $dayBefore->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($listVac->status == "Pending") {
+
+            if($roleuser==2) {
+
+                    $descricao2 = "You have Vacations from ".$listVac->name." due to tomorrow waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
+
+                    foreach($allNotifications as $notifList) {
+
+                        if($notifList->description == $descricao2) {
+
+                            $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification2 = true;
+
+                                }
+
+                            }
+
+                        }
+
+                        }
+
+
+                    }
+
+                    if($noNotification2 == false) {
+
+                        $notification->type="Approval";
+                        $notification->description=$descricao2;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
+            }
+
+        }
+
+    }
+
+
+}
+
 
 // Slider End
 
