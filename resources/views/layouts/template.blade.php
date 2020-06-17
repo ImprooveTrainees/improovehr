@@ -493,6 +493,16 @@
 
                                                 if($notif->receiveUserId == $id_user) {
 
+                                                    foreach($allReminders as $rem) {
+
+                                                        if($rem->notifications_users_id == $notif->id) {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
                                                     $countNotif++;
 
                                                 }
@@ -518,9 +528,14 @@
                                     @foreach($listNotifications as $notUser) <!-- Notificacoes -->
                                         @if($id_user == $notUser->receiveUserId)
                                             <?php $notification = notifications::find($notUser->notificationId); ?>
+                                            @if($notification->read_at=='')
+                                            <li style="background-color: lightgrey">
+                                            @else
+
+                                            <li>
+                                            @endif
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
-                                                        <li>
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-pencil-alt"></i>
@@ -535,10 +550,9 @@
                                                 @endif
                                                 @if($settingsAlerts->alert_birthdays == 1)
                                                     @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
-                                                        <li>
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
-                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                    <i class="fas fa-birthday-cake"></i>
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <div class="font-w600">{{$notification->description}}</div>
@@ -556,7 +570,13 @@
                                     <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
                                         @if($notificationUser->receiveUserId == $id_user)
                                             @if($settingsAlerts->alert_evaluations == 1)
-                                                <li>
+
+                                            @if($reminder->read_at=='')
+                                             <li style="background-color: lightgrey">
+                                            @else
+
+                                            <li>
+                                            @endif
                                                     <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                         <div class="mr-2 ml-3">
                                                             <i class="fas fa-pencil-alt"></i>
@@ -624,18 +644,42 @@
 
                                 @if($listNot->notificationId==$msg->id)
 
-                                @if($msg->type == "Vacations" || $msg->type == "Absences" || $msg->type == "Approval")
+                                @if($msg->type == "Vacations" || $msg->type == "Absences")
+
+                                @if($msg->read_at=='')
+                                <li style="background-color: lightgrey">
+                                @else
 
                                 <li>
+                                @endif
                                             <a class="text-dark media py-2" href="/holidays">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
+                                                <div class="mr-2 ml-3" >
+                                                    <i class="fas fa-clock"></i>
                                                 </div>
                                                 <div class="media-body pr-2">
                                                     <small class="font-w600">{{$msg->description}}</small>
                                                 </div>
                                             </a>
                                 </li>
+
+                                @elseif($msg->type == "Approval")
+
+                                @if($msg->read_at=='')
+                                <li style="background-color: lightgrey">
+                                @else
+
+                                <li>
+                                @endif
+                                            <a class="text-dark media py-2" href="/holidays">
+                                                <div class="mr-2 ml-3">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </div>
+                                                <div class="media-body pr-2">
+                                                    <small class="font-w600">{{$msg->description}}</small>
+                                                </div>
+                                            </a>
+                                </li>
+
 
                                 @endif
 

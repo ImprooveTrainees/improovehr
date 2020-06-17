@@ -444,11 +444,11 @@ class AbsenceController extends Controller
 
             if($typeAbsence > 1) {
 
-                $notification->description=$username." approved one of your vacations.";
+                $notification->description=$username." approved one of your absences.";
 
             } else {
 
-                $notification->description=$username." approved one of your absences.";
+                $notification->description=$username." approved one of your vacations.";
 
             }
 
@@ -1366,7 +1366,7 @@ foreach($listVacationsTotal as $listVac) {
             $listNotificationsEvals = notifications::where('type', 'EvaluationAssigned')->orderBy('created_at', 'desc')->get();
             $notfsUsers = NotificationsUsers::All();
             $AllReminders = notifications_reminders::All();
-            
+
             //notifications Evals
             foreach($listNotificationsEvals as $notfEval) { //reminders
                 $notfUser = NotificationsUsers::where('notificationId', $notfEval->id)->get();
@@ -1385,7 +1385,7 @@ foreach($listVacationsTotal as $listVac) {
                             $newReminder->description = $reminderDescription;
                             $newReminder->save();
                         }
-       
+
 
                     }
                     else if(date('Y-m-d') == date('Y-m-d',strtotime($userNotf->date_limit_evals . "-1 days"))) {
@@ -1412,7 +1412,7 @@ foreach($listVacationsTotal as $listVac) {
             //notifications birthdays
             $userBdays= User::All();
             $notificationsUserBirthdays = NotificationsUsers::All();
-            
+
              foreach($userBdays as $bday) {
                 $notfExists = false;
                  foreach($notificationsUserBirthdays as $notfsUser) {
@@ -1442,8 +1442,8 @@ foreach($listVacationsTotal as $listVac) {
                             $newNotificationUser->notificationId = $newNotification->id;
                             $newNotificationUser->receiveUserId = Auth::User()->id;
                             $newNotificationUser->save();
-                        
-    
+
+
                     }
                     else if(date('d-m-Y',strtotime($bday->birthDate . "-1 days")) == date('d-m-Y')) {
                             $newNotification = new notifications;
@@ -1454,14 +1454,14 @@ foreach($listVacationsTotal as $listVac) {
                             $newNotificationUser->notificationId = $newNotification->id;
                             $newNotificationUser->receiveUserId = Auth::User()->id;
                             $newNotificationUser->save();
-                        
+
                     }
                 }
-                   
-                    
-                 
-                   
-                
+
+
+
+
+
              }
              //notifications Birthdays end
 
