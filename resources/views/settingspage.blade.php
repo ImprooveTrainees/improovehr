@@ -179,8 +179,19 @@ active
      <div id="startFlexdays">
         <label>Start:</label>
         <select name="startDay" class="form-control">
-          @if($lastSettingsGeneral->flextime_startDay == 1)
+            @for($i = 0; $i < count($weekDays); $i++)
+                @if($lastSettingsGeneral->flextime_startDay == $i+1)
+                    <option selected value={{$i+1}}>{{$weekDays[$i]}}</option>
+                @else 
+                    <option value={{$i+1}}>{{$weekDays[$i]}}</option>
+                @endif
+            @endfor
+          {{-- @if($lastSettingsGeneral->flextime_startDay == 1)
             <option selected value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
           @elseif($lastSettingsGeneral->flextime_startDay == 2)
             <option selected value="2">Tuesday</option>
           @elseif($lastSettingsGeneral->flextime_startDay == 3)
@@ -189,14 +200,21 @@ active
             <option selected value="4">Thursday</option>
           @elseif($lastSettingsGeneral->flextime_startDay == 5)
             <option selected value="5">Friday</option>
-          @endif
+          @endif --}}
         </select>
      </div>
 
     <div id="endFlexdays">
         <label>End:</label>
         <select name="endDay" class="form-control">
-        @if($lastSettingsGeneral->flextime_endDay == 1)
+            @for($b = 0; $b < count($weekDays); $b++)
+            @if($lastSettingsGeneral->flextime_endDay == $b+1)
+                <option selected value={{$b+1}}>{{$weekDays[$b]}}</option>
+            @else 
+                <option value={{$b+1}}>{{$weekDays[$b]}}</option>
+            @endif
+        @endfor
+        {{-- @if($lastSettingsGeneral->flextime_endDay == 1)
             <option selected value="1">Monday</option>
         @elseif($lastSettingsGeneral->flextime_endDay == 2)
             <option selected value="2">Tuesday</option>
@@ -206,7 +224,7 @@ active
             <option selected value="4">Thursday</option>
         @elseif($lastSettingsGeneral->flextime_endDay == 5)
             <option selected value="5">Friday</option>
-        @endif
+        @endif --}}
         </select>
     </div>
 

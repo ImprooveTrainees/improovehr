@@ -1116,17 +1116,35 @@ foreach ($dateRangeCurrentWeek as $key => $value) {
         }
     
 }
-
+//Notifications Harvest
+$allNotiticationsHarvest = NotificationsUsers::All();
+$notfExists = false;
 if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurrentWeek) {
+
+    foreach($allNotiticationsHarvest as $notfHarvest) {
+        $notification = notifications::find($notfHarvest->notificationId);
+        if($notification->type == 'Flextime') {
+            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == Auth::user()->id) {
+                $notfExists = true;
+            } 
+        }
+    
+    }
+
+if(!$notfExists) {
     $newNotification = new notifications;
     $newNotification->type = "Flextime";
     $newNotification->description = "You must report more ".($totalHoursTodoCurrentWeek - $totalHours)." hours this week.";
-    //$newNotification->save();
+    $newNotification->save();
     $newNotfUser = new NotificationsUsers;
     $newNotfUser->notificationId = $newNotification->id;
     $newNotfUser->receiveUserId = Auth::user()->id;
+    $newNotfUser->save();
+}
+
 
 }
+//Notifications harvest
 
 //endcurrentweek
 
