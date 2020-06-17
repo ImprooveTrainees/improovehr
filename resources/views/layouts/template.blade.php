@@ -493,6 +493,49 @@
 
                                                 if($notif->receiveUserId == $id_user) {
 
+                                                    if($settingsAlerts->alert_evaluations == 1) {
+
+                                                        if($listNotif->type == "EvaluationAssigned") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_birthdays == 1) {
+
+                                                        if($listNotif->type == "Birthday") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_flextime == 1) {
+
+                                                        if($listNotif->type == "Flextime") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_holidays == 1) {
+
+                                                        if($listNotif->type == "Vacations" || $listNotif->type == "Absences" || $listNotif->type == "Approval") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
                                                     foreach($allReminders as $rem) {
 
                                                         if($rem->notifications_users_id == $notif->id) {
@@ -502,8 +545,6 @@
                                                         }
 
                                                     }
-
-                                                    $countNotif++;
 
                                                 }
 
@@ -536,7 +577,7 @@
                                             @endif
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
-                                                        
+
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-pencil-alt"></i>
@@ -551,7 +592,7 @@
                                                 @endif
                                                 @if($settingsAlerts->alert_birthdays == 1)
                                                     @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
-                                                        
+
                                                             <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-birthday-cake"></i>
@@ -566,7 +607,7 @@
                                                 @endif
                                                 @if($settingsAlerts->alert_flextime == 1)
                                                     @if($notification->type == "Flextime") <!-- Notificacoes avaliacoes -->
-                                                        
+
                                                             <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-user-clock"></i>
@@ -633,7 +674,7 @@
                                         @endif
                                     @endforeach
 
-                                   
+
 
 
 
