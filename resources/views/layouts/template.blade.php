@@ -535,8 +535,8 @@
                                             <li>
                                             @endif
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
-                                                    @if($notification->type == "EvaluationAssigned" && $notification->read_at == null) <!-- Notificacoes avaliacoes -->
-                                                        <li>
+                                                    @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
+                                                        
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-pencil-alt"></i>
@@ -550,8 +550,8 @@
                                                     @endif
                                                 @endif
                                                 @if($settingsAlerts->alert_birthdays == 1)
-                                                    @if($notification->type == "Birthday" && $notification->read_at == null) <!-- Notificacoes avaliacoes -->
-                                                        <li>
+                                                    @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
+                                                        
                                                             <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-birthday-cake"></i>
@@ -565,8 +565,8 @@
                                                     @endif
                                                 @endif
                                                 @if($settingsAlerts->alert_flextime == 1)
-                                                    @if($notification->type == "Flextime" && $notification->read_at == null) <!-- Notificacoes avaliacoes -->
-                                                        <li>
+                                                    @if($notification->type == "Flextime") <!-- Notificacoes avaliacoes -->
+                                                        
                                                             <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-user-clock"></i>
@@ -579,6 +579,31 @@
                                                         </li>
                                                     @endif
                                             @endif
+                                                @if($settingsAlerts->alert_holidays == 1)
+                                                    @if($notification->type == "Vacations" || $notification->type == "Absences")
+                                                        <a class="text-dark media py-2" href="/holidays">
+                                                            <div class="mr-2 ml-3" >
+                                                                <i class="fas fa-clock"></i>
+                                                            </div>
+                                                            <div class="media-body pr-2">
+                                                                <small class="font-w600">{{$notification->description}}</small>
+                                                                <small class="text-muted">{{$notification->created_at}}</small>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    @elseif($notification->type == "Approval")
+                                                            <a class="text-dark media py-2" href="/holidays">
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <small class="font-w600">{{$notification->description}}</small>
+                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
                                         @endif
 
                                     @endforeach
@@ -608,52 +633,11 @@
                                         @endif
                                     @endforeach
 
-                                    {{-- @foreach($notificationsBirthdays as $bday)
-                                        @if($settingsAlerts->alert_birthdays == 1)
-                                            @if(date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Happy birthday {{$bday->Name}}!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @elseif(date('d-m',strtotime($bday->Date)) == date('d-m'))
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Today is {{$bday->Name}}'s birthday!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @elseif(date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Tomorrow will be {{$bday->Name}}'s birthday!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @endif
-
-                                        @endif
-                                    @endforeach --}}
+                                   
 
 
 
-                                @foreach($listNotifications as $listNot)
+                                {{-- @foreach($listNotifications as $listNot)
 
                                 @if($id_user==$listNot->receiveUserId)
 
@@ -708,7 +692,7 @@
                                 @endif
 
 
-                                @endforeach
+                                @endforeach --}}
 
 
 
