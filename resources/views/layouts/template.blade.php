@@ -493,6 +493,16 @@
 
                                                 if($notif->receiveUserId == $id_user) {
 
+                                                    foreach($allReminders as $rem) {
+
+                                                        if($rem->notifications_users_id == $notif->id) {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
                                                     $countNotif++;
 
                                                 }
