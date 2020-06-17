@@ -38,8 +38,8 @@ class HarvestController extends Controller
         
         
         $headers = array();
-        $headers[] = 'Harvest-Account-Id: 1287235';
-        $headers[] = 'Authorization: Bearer 2303952.pt.xaKulkdplacNlAb2W77kLcNyen2H3RUsxQgzVgndlSypJP0bE8EUcHw-bWeq6AYqWVL4l0-uwd9J1VGi5A32bw';
+        $headers[] = 'Harvest-Account-Id: 1309110';
+        $headers[] = 'Authorization: Bearer 2342863.pt.D9pe8kGLDpagqouCRGH5xB7QIlwQm46vbyUspFIr9PVq5C6BRnJ_oyi1Pz5-MLE071ak7EFN_D0zl0IaknazTQ';
         $headers[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         
@@ -63,8 +63,8 @@ class HarvestController extends Controller
 
 
         $headers = array();
-        $headers[] = 'Harvest-Account-Id: 1287235';
-        $headers[] = 'Authorization: Bearer 2303952.pt.xaKulkdplacNlAb2W77kLcNyen2H3RUsxQgzVgndlSypJP0bE8EUcHw-bWeq6AYqWVL4l0-uwd9J1VGi5A32bw';
+        $headers[] = 'Harvest-Account-Id: 1309110';
+        $headers[] = 'Authorization: Bearer 2342863.pt.D9pe8kGLDpagqouCRGH5xB7QIlwQm46vbyUspFIr9PVq5C6BRnJ_oyi1Pz5-MLE071ak7EFN_D0zl0IaknazTQ';
         $headers[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
