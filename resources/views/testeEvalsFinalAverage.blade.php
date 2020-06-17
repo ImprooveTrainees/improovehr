@@ -12,24 +12,63 @@ active
     open
 @endsection
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+      $(document).ready( function() {
+        $('#deletesuccess').delay(3000).fadeOut();
+      });
+
+
+    </script>
 @section('content')
 
 
 <div class="shadow p-1 bg-white cardbox1">
-    <div class="centerStyle">
-        <h4>Select a user to see his final average results of a chosen year</h4>
-    </div>
-    <div class="">
+
+    @if(session('msgError'))
+
+        <div class="centerStyle">
+            <h4>Select a user to see his final average results of a chosen year</h4>
+        </div>
+
+            <form class="form-group finalAverage" action="/finalCalculus" method="post">
+                @csrf
+
+                    <div class="showFinalAverageGrid">
+                        <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
+                            @foreach ($allUsers as $user)
+                                <option value={{$user->id}}>{{$user->name}}</option>
+                            @endforeach
+                        </select>
+                        <select class="form-control secondSelect" id="exampleFormControlSelect2" name="chosenYear">
+                            @foreach ($yearsArray as $year)
+                                <option value={{$year}}>{{$year}}</option>
+                            @endforeach
+                        </select>
+                            <button class="btn btn-outline-success" type="submit">Show</button>
+                    </div>
+
+            </form>
+
+            <div id="deletesuccess" class="alert alert-warning alert-block">
+                <?php echo session('msgError')  ?>
+            </div>
+    @else
+
+        <div class="centerStyle">
+            <h4>Select a user to see his final average results of a chosen year</h4>
+        </div>
+
         <form class="form-group finalAverage" action="/finalCalculus" method="post">
             @csrf
 
                 <div class="showFinalAverageGrid">
-                    <select class="form-control" id="exampleFormControlSelect2" name="idUser">
+                    <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
                         @foreach ($allUsers as $user)
                             <option value={{$user->id}}>{{$user->name}}</option>
                         @endforeach
                     </select>
-                    <select class="form-control" id="exampleFormControlSelect2" name="chosenYear">
+                    <select class="form-control secondSelect" id="exampleFormControlSelect2" name="chosenYear">
                         @foreach ($yearsArray as $year)
                             <option value={{$year}}>{{$year}}</option>
                         @endforeach
@@ -38,35 +77,35 @@ active
                 </div>
 
         </form>
-    </div>
-
 
     @if(count($arrayAveragesTable) != 0)
-            <table id="tableFormat" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th id="tableStyle" class="bg-info" scope="col"><b>Total Potencial</b></th>
-                    <th class="table-dark" scope="col"><b>Total Performance</b></th>
-                </tr>
-                </thead>
-                <tbody>
-                    @for($i = 0; $i < count($arrayAveragesTable); $i+=3)
-                        <tr>
-                            <th scope="row">{{$arrayAveragesTable[$i]}}</th>
-                            <td class="table-info">{{$arrayAveragesTable[$i+1]}}</td>
-                            <td class="table-secondary">{{$arrayAveragesTable[$i+2]}}</td>
-                        </tr>
-                        @endfor
-                        <tr class="table-Success">
-                            <th class="" scope="row">Average Results</th>
-                            <td class=""><b>{{$resultPotential}}</b></td>
-                            <td class=""><b>{{$resultPerformance}}</b></td>
-                        </tr>
-                </tbody>
-            </table>
+    <div class="table-responsive">
+        <table id="tableFormat" class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th id="tableStyle" class="bg-info" scope="col"><b>Total Potencial</b></th>
+                <th class="table-dark" scope="col"><b>Total Performance</b></th>
+            </tr>
+            </thead>
+            <tbody>
+                @for($i = 0; $i < count($arrayAveragesTable); $i+=3)
+                    <tr>
+                        <th scope="row">{{$arrayAveragesTable[$i]}}</th>
+                        <td class="table-info">{{$arrayAveragesTable[$i+1]}}</td>
+                        <td class="table-secondary">{{$arrayAveragesTable[$i+2]}}</td>
+                    </tr>
+                    @endfor
+                    <tr class="table-Success">
+                        <th class="" scope="row">Average Results</th>
+                        <td class=""><b>{{$resultPotential}}</b></td>
+                        <td class=""><b>{{$resultPerformance}}</b></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="chartStyle">
+        <div {{-- class="chartStyle"--}}>
             <div id="myChart"></div>
         </div>
 
@@ -114,12 +153,9 @@ active
         }
         </script>
     @endif
-
-    @if(Session::has('msgError'))
-
-        <p id="errorMsg" class="alert {{ Session::get('alert-class', 'alert-warning') }}">{{ Session::get('msgError') }}</p>
-
     @endif
+
+
 
 </div>
     @endsection
