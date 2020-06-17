@@ -475,9 +475,10 @@
                             // $notificationsHolidays = sliderview::where('Type', 'Absence')->where('Absence Type', 1)->get();
 
                         ?>
-                        <div class="dropdown d-inline-block ml-2">
+                        <div onclick="readNotifications()" class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="si si-bell"></i>
+                                <span id="txtHint">  </span>
 
                                 <?php
 
@@ -517,7 +518,7 @@
 
                                 ?>
                                 @if($countNotif>0)
-                                    <span class="badge badge-primary badge-pill">{{$countNotif}}</span>
+                                    <span id="countNotifIdAjax" class="badge badge-primary badge-pill">{{$countNotif}}</span>
                                 @endif
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-notifications-dropdown">
@@ -525,6 +526,9 @@
                                     <h5 class="dropdown-header text-uppercase text-white">Notifications</h5>
                                 </div>
                                 <ul class="nav-items mb-0">
+
+                                    <form method="GET" id="notificationsReadForm"> <!-- a form tem de estar fora para apanhar todos os values para o ajax, para fazer tudo parte de uma só form -->
+                                        @csrf
                                     @foreach($listNotifications as $notUser) <!-- Notificacoes -->
                                         @if($id_user == $notUser->receiveUserId)
                                             <?php $notification = notifications::find($notUser->notificationId); ?>
@@ -534,9 +538,10 @@
 
                                             <li>
                                             @endif
+                 
+                                                <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
-                                                        
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-pencil-alt"></i>
@@ -551,7 +556,6 @@
                                                 @endif
                                                 @if($settingsAlerts->alert_birthdays == 1)
                                                     @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
-                                                        
                                                             <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-birthday-cake"></i>
@@ -566,8 +570,7 @@
                                                 @endif
                                                 @if($settingsAlerts->alert_flextime == 1)
                                                     @if($notification->type == "Flextime") <!-- Notificacoes avaliacoes -->
-                                                        
-                                                            <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
+                                                            <a class="text-dark media py-2" href="/harvest"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-user-clock"></i>
                                                                 </div>
@@ -578,7 +581,7 @@
                                                             </a>
                                                         </li>
                                                     @endif
-                                            @endif
+                                             @endif
                                                 @if($settingsAlerts->alert_holidays == 1)
                                                     @if($notification->type == "Vacations" || $notification->type == "Absences")
                                                         <a class="text-dark media py-2" href="/holidays">
@@ -604,9 +607,11 @@
                                                         </li>
                                                     @endif
                                                 @endif
+                                           
                                         @endif
 
                                     @endforeach
+                                </form>
 
                                     @foreach($allReminders as $reminder) <!-- Reminders -->
                                     <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
@@ -756,7 +761,7 @@
             <main id="main-container">
 
                 @yield('content')
-
+                
             </main>
             <!-- END Main Container -->
 
@@ -776,7 +781,38 @@
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
+        <script>
+            function readNotifications() {
+                // var xmlhttp = new XMLHttpRequest();
+                // xmlhttp.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //      document.getElementById("txtHint").innerHTML = this.responseText;
+                // }
+                // };
+                // xmlhttp.open("GET", "/readNotification", true);
+                // xmlhttp.send();
 
+
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/readNotification') }}",
+                  method: 'get',
+                  data: $("#notificationsReadForm").serialize(), //apanha todos os valores da form
+                  success: function(result){
+                     document.getElementById("txtHint").innerHTML = result;
+                     document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
+                  }});
+            //  document.getElementById('notificationsReadForm').submit();
+           
+
+
+            }
+            
+        </script>
         <!-- OneUI JS -->
         <script src="{{ asset ('assets/js/oneui.core.min.js') }}"></script>
         <script src="{{ asset ('assets/js/oneui.app.min.js') }} "></script>

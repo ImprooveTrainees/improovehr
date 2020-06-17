@@ -106,7 +106,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/showTeam', 'UserController@employees'); //mostra a equipa no employees
         Route::get('/addTeamMember', 'teamsController@addTeamMember');
         Route::get('/remTeamMember/{idUserRem}', 'teamsController@remTeamMember');
-        
+        //
+        //Notifications
+        Route::get('/readNotification', 'NotificationsUsersController@readNotification');
         //
 });
 

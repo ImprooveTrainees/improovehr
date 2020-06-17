@@ -293,7 +293,7 @@ active
                 </div>
             </form>
         </div>
-
+        <!-- Logged User Teams -->
         <div id="yourTeams">
                 <h4>{{$teamName}}</h4>
                 <table class="table js-dataTable-full table-responsive">
@@ -377,6 +377,7 @@ active
                 </table>
         @endif
         </div>
+        <!-- End Logged User Teams -->
 
         {{-- END REGISTER TEAM TAB --}}
     </div>
