@@ -2464,16 +2464,51 @@ input[type=radio] {
   margin-top: 4%;
 }
 
-#myChart {
-  max-width: 500px;
-  max-height: 900px;
-  background-color: red;
-}
-
 .chartStyle {
   width: 400px;
   margin: auto;
   margin-top: 4%;
+}
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  .showFinalAverageGrid {
+    -ms-grid-columns: 20px 220px 50px;
+        grid-template-columns: 20px 220px 50px;
+    width: auto;
+  }
+  .showFinalAverageGrid select {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .showFinalAverageGrid button {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 376px) {
+  .showFinalAverageGrid {
+    -ms-grid-columns: 40px 220px 50px;
+        grid-template-columns: 40px 220px 50px;
+    width: auto;
+  }
+}
+
+@media (min-width: 377px) and (max-width: 426px) {
+  .showFinalAverageGrid {
+    -ms-grid-columns: 60px 220px 50px;
+        grid-template-columns: 60px 220px 50px;
+    width: auto;
+  }
+}
+
+@media (min-width: 427px) and (max-width: 768px) {
+  .showFinalAverageGrid {
+    -ms-grid-columns: 70px 220px 70px;
+        grid-template-columns: 70px 220px 70px;
+    width: 400px;
+    margin: auto;
+  }
 }
 
 .cardbox11 {
