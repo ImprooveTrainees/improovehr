@@ -54,12 +54,14 @@
 }
 
 #myChart {
-    max-width: 500px;
-    max-height: 900px;
-    background-color: red;
+    // max-width: 500px;
+    // max-height: 900px;
+    // background-color: red;
 }
 .chartStyle{
     width: 400px;
     margin: auto;
     margin-top: 4%;
 }
+
+@import '../../../screens/components/finalAverage/_finalAverage.scss';

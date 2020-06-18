@@ -24,6 +24,7 @@
         "../mobile/components/showResults/_showResults.scss",
         "../screens/components/showResults/_showResults.scss",
         "../mobile/components/finalAverage/_finalAverage.scss",
+        "../screens/components/finalAverage/_finalAverage.scss",
         "../mobile/components/SurveyPage/_SurveyPage.scss",
         "../mobile/components/reports/_reports.scss",
         "../screens/components/reports/_reports.scss",

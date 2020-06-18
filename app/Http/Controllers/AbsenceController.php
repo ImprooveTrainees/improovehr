@@ -6,6 +6,11 @@ use App\absence;
 use App\notifications;
 use App\NotificationsUsers;
 use App\User;
+use App\notifications_reminders;
+use App\settings_general;
+use DateTime;
+use DatePeriod;
+use DateInterval;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -28,6 +33,14 @@ class AbsenceController extends Controller
         $id_user= Auth::user()->id;
 
         $id_typeuser = $user->roles->id;
+
+        $notification = new notifications();
+
+        $notif_user = new NotificationsUsers();
+
+        $allNotifications = notifications::all();
+
+        $allNotificationUsers = NotificationsUsers::all();
 
         //$listAbsencesConcluded = $user->userAbsence();
 
@@ -64,7 +77,7 @@ class AbsenceController extends Controller
         ->join('absence_types','absence_types.id','=','absences.absencetype')
         ->join('users_deps','users_deps.idUser','=','users.id')
         ->join('departments','departments.id','=','users_deps.idDepartment')
-        ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
         ->where('users.id','!=','1')
         ->where('users.country','like', $countryUser)
         ->where('absence_types.id','=','1')->get();
@@ -74,11 +87,10 @@ class AbsenceController extends Controller
         ->join('absence_types','absence_types.id','=','absences.absencetype')
         ->join('users_deps','users_deps.idUser','=','users.id')
         ->join('departments','departments.id','=','users_deps.idDepartment')
-        ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date','absences.end_date','departments.description as depDescription')
+        ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
         ->where('users.id','!=','1')
         ->where('users.country','like', $countryUser)
         ->where('absence_types.id','>','1')->get();
-
 
         $absence = absence::select('id','absencetype','status','end_date','start_date','motive','attachment')->where('iduser', $id_user)->orderBy('start_date','desc')->get();
 
@@ -369,7 +381,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated start date of created absences. Waiting for Approval.";
 
                 $notification->save();
@@ -399,7 +411,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated end date of created absences. Waiting for Approval.";
 
                 $notification->save();
@@ -436,11 +448,11 @@ class AbsenceController extends Controller
 
             if($typeAbsence > 1) {
 
-                $notification->description=$username." approved one of your vacations.";
+                $notification->description=$username." approved one of your absences.";
 
             } else {
 
-                $notification->description=$username." approved one of your absences.";
+                $notification->description=$username." approved one of your vacations.";
 
             }
 
@@ -471,7 +483,7 @@ class AbsenceController extends Controller
             ->select('absences.absencetype')
             ->value('absencetype');
 
-            $notification->type="Disapproval";
+            $notification->type="Approval";
 
             if($typeAbsence > 1) {
 
@@ -536,6 +548,44 @@ class AbsenceController extends Controller
 
         $id_user = Auth::user()->id;
 
+        $notification = new notifications();
+
+        $notif_user = new NotificationsUsers();
+
+        $allNotifications = notifications::all();
+
+        $allNotificationUsers = NotificationsUsers::all();
+
+        $countryUser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.country')
+        ->value('country');
+
+        $roleuser = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.idusertype')->value('idusertype');
+
+        $noNotification = false;
+
+        $listVacationsTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.id','users.name','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','=','1')->get();
+
+
+        $listAbsencesTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
+        ->join('absence_types','absence_types.id','=','absences.absencetype')
+        ->join('users_deps','users_deps.idUser','=','users.id')
+        ->join('departments','departments.id','=','users_deps.idDepartment')
+        ->select('users.*','absence_types.description','absences.id as absencedId','absences.status','absences.attachment','absences.start_date as start_date','absences.end_date as end_date','departments.description as depDescription')
+        ->where('users.id','!=','1')
+        ->where('users.country','like', $countryUser)
+        ->where('absence_types.id','>','1')->get();
+
         // DATE CALCULATION
 
         $contractDate = $user->contractUser->start_date;
@@ -597,7 +647,7 @@ class AbsenceController extends Controller
             Carbon::create(2020, 12, 8),
             Carbon::create(2020, 12, 24),
             Carbon::create(2020, 12, 25),
-            Carbon::create(2020, 12, 31)
+            Carbon::create(2020, 12, 31),
 
 
         ];
@@ -951,67 +1001,511 @@ for($l = 0; $l < $blocksNum; $l++) {
 
  }
 
+ // NOTIFICATIONS FOR ABSENCES / VACATIONS TOMORROW (FOR RH AND MANAGER)
+
+ foreach($listAbsencesTotal as $list) {
+
+    $today = Carbon::now();
+
+    $startDate = Carbon::parse($list->start_date);
+
+    //$difference = $today->diffInDays($startDate);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    if($difference <= 1) {
+
+        if($list->status == "Approved") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
+
+                foreach($allNotifications as $notifList) {
+
+                    if($notifList->description == $descricao) {
+
+                        $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification = true;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if($noNotification == false) {
+
+                    $notification->type="Absences";
+                    $notification->description=$descricao;
+
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->receiveUserId=$id_user;
+
+                    $notif_user->save();
+
+
+                }
+
+            }
+
+
+        }
+
+    }
+}
+
+$noNotification = false;
+
+foreach($listVacationsTotal as $list) {
+
+
+    $today = Carbon::now();
+
+    $startDate = Carbon::parse($list->start_date);
+
+    //$difference = $today->diffInDays($startDate);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    if($difference <= 1) {
+
+        if($list->status == "Approved") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
+
+                foreach($allNotifications as $notifList) {
+
+                    if($notifList->description == $descricao) {
+
+                        $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification = true;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            if($noNotification == false) {
+
+                $notification->type="Vacations";
+                $notification->description=$descricao;
+
+                $notification->save();
+
+                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                $notif_user->notificationId=$id_notif;
+                $notif_user->receiveUserId=$id_user;
+
+                $notif_user->save();
+
+
+            }
+
+        }
+
+
+        }
+
+    }
+
+}
+
+// END NOTIFICATIONS FOR ABSENCES / VACATIONS TOMORROW (FOR RH AND MANAGER)
+
+// NOTIFICATIONS FOR ABSENCES / VACATIONS STARTING TOMORROR THAT STATUS IS PENDING (FOR RH AND MANAGER)
+
+$noNotification2 = false;
+
+foreach($listAbsencesTotal as $listAb) {
+
+    $today = Carbon::now();
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    //$difference = $today->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($listAb->status == "Pending") {
+
+            if($roleuser>1 && $roleuser<=3) {
+
+                    $descricao2 = "You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
+
+                    foreach($allNotifications as $notifList) {
+
+                        if($notifList->description == $descricao2) {
+
+                            $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification2 = true;
+
+                                }
+
+                            }
+
+                        }
+
+                        }
+
+
+                    }
+
+                    if($noNotification2 == false) {
+
+                        $notification->type="Approval";
+                        $notification->description=$descricao2;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
+            }
+
+        }
+
+    }
+
+
+}
+
+$noNotification2 = false;
+
+
+foreach($listVacationsTotal as $listVac) {
+
+    $today = Carbon::now();
+
+    $startDate = Carbon::parse($list->start_date);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    //$difference = $today->diffInDays($startDate);
+
+    if($difference <= 1) {
+
+        if($listVac->status == "Pending") {
+
+            if($roleuser==2) {
+
+                    $descricao2 = "You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
+
+                    foreach($allNotifications as $notifList) {
+
+                        if($notifList->description == $descricao2) {
+
+                            $idTemp = $notifList->id;
+
+
+                        foreach($allNotificationUsers as $list) {
+
+                            if($list->notificationId == $idTemp) {
+
+                                if($list->receiveUserId == $id_user) {
+
+                                    $noNotification2 = true;
+
+                                }
+
+                            }
+
+                        }
+
+                        }
+
+
+                    }
+
+                    if($noNotification2 == false) {
+
+                        $notification->type="Approval";
+                        $notification->description=$descricao2;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
+            }
+
+        }
+
+    }
+
+
+}
+
+
 // Slider End
 
 
 //Flextime begin
-/* $ch2 = curl_init();
+        $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
+        $workHoursSettings = settings_general::orderBy('created_at', 'desc')->first();
+        //Time entries Harvest API
+        $ch = curl_init();
 
-        curl_setopt($ch2, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
-        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 
-        $headers2 = array();
-        $headers2[] = 'Harvest-Account-Id: 1287235';
-        $headers2[] = 'Authorization: Bearer 2303952.pt.xaKulkdplacNlAb2W77kLcNyen2H3RUsxQgzVgndlSypJP0bE8EUcHw-bWeq6AYqWVL4l0-uwd9J1VGi5A32bw';
-        $headers2[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
-        curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers2);
+        $headers = array();
+        $headers[] = 'Harvest-Account-Id: 1309110';
+        $headers[] = 'Authorization: Bearer 2342863.pt.D9pe8kGLDpagqouCRGH5xB7QIlwQm46vbyUspFIr9PVq5C6BRnJ_oyi1Pz5-MLE071ak7EFN_D0zl0IaknazTQ';
+        $headers[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        $result2 = curl_exec($ch2);
-        if (curl_errno($ch2)) {
-            echo 'Error:' . curl_error($ch2);
+        $result2 = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
         }
-        curl_close($ch2);
+        curl_close($ch);
 
         $result2 = json_decode($result2);
 
 
-        //end Time entries Harvest
 
-        $totalHours = 0;
-        $monday = date( 'Y-m-d', strtotime( 'monday this week'));
-        $tuesday = date( 'Y-m-d', strtotime( 'tuesday this week'));
-        $wednesday = date( 'Y-m-d', strtotime( 'wednesday this week'));
-        $thursday = date( 'Y-m-d', strtotime( 'thursday this week'));
-        $friday = date( 'Y-m-d', strtotime( 'friday this week'));
+//end Time entries Harvest API
 
-        for($i = 0; $i  < count($result2->time_entries); $i++) {
-            if($result2->time_entries[$i]->spent_date == $monday) {
-                $totalHours += $result2->time_entries[$i]->hours;
 
+//Beginning Holidays API
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+$resultHolidays = curl_exec($ch);
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+}
+curl_close($ch);
+
+
+$resultHolidays = json_decode($resultHolidays);
+
+
+//$actualMonthDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date("Y"));
+$monthBegin = new DateTime('first day of this month');
+$monthEnd = new DateTime('tomorrow'); //ele inclui a start date, mas não a end date, portanto adicionamos mais um dia
+$monthlyHoursWorkDays = 0;
+$dateRangeCountWeekends = new DatePeriod(
+    new DateTime($monthBegin->format('Y-m-d')),
+    new DateInterval('P1D'),
+    new DateTime($monthEnd->format('Y-m-d'))
+);
+
+$workingDays = [];
+for($i = $workHoursSettings->flextime_startDay; $i <= $workHoursSettings->flextime_endDay; $i++) {
+    array_push($workingDays, $i);
+}
+
+
+foreach ($dateRangeCountWeekends as $key => $value) {
+    if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
+           foreach($workingDays as $wDays) {
+               if($value->format('w') == $wDays) { //se for dentro da range dos dias escolhidos para trabalhar nas settings
+                    $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
+                    foreach($resultHolidays as $holiday) { //se não for fim de semana e fôr um dia da semana escolhido nas settings, mas fôr feriado, retira as horas
+                        if($holiday->date == $value->format('Y-m-d')) {
+                            $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
+                        }
+                    }
+               }
+           }
+    }
+}
+
+//this week vars
+$currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y');
+
+$daysCurrentWeek = [];
+$totalsCurrentWeek = [];
+$totalHours = 0;
+
+for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+{
+    array_push($daysCurrentWeek,date('Y-m-d', strtotime( 'monday this week +'.$b.' days')));
+    array_push($totalsCurrentWeek, 0);
+}
+
+
+
+for($i = 0; $i  < count($result2->time_entries); $i++) {
+    for($b = 0; $b < count($daysCurrentWeek); $b++) {
+        foreach($allAbsences as $absence) {
+            $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
+            $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($absence->end_date)));
+            $AbsenceDatesBetween = new DatePeriod(
+                new DateTime($dateStartAbsence),
+                new DateInterval('P1D'),
+                new DateTime($dateEndAbsence)
+           );
+           foreach ($AbsenceDatesBetween as $key => $value) {
+                if($value->format('Y-m-d') == $daysCurrentWeek[$b]) {
+                    if($absence->absencetype == 1) {
+                        $totalsCurrentWeek[$b] = "Vacations";
+                        continue 3; //após confirmado que é ausência, passa para o prox dia
+                    }
+                    else {
+                        $totalsCurrentWeek[$b] = $absence->motive;
+                        continue 3;
+                    }
+                     // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
+                    //pega em todos os dias da absence (inclusive os que estão no meio) e
+                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual,
+                    //é porque o user esteve ausente esses dias.
+                }
             }
-            if($result2->time_entries[$i]->spent_date == $tuesday) {
 
-                $totalHours += $result2->time_entries[$i]->hours;
 
+        }
+        foreach($resultHolidays as $holiday) {
+            if($holiday->date == $daysCurrentWeek[$b]) {
+                $totalsCurrentWeek[$b] = $holiday->localName;
+                continue 2;
             }
-            if($result2->time_entries[$i]->spent_date == $wednesday) {
-
+        }
+        if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
+                $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
                 $totalHours += $result2->time_entries[$i]->hours;
+        }
 
+
+    }
+
+}
+
+$totalHoursTodoCurrentWeek = 0;
+$dateRangeCurrentWeek = new DatePeriod(
+    new DateTime($daysCurrentWeek[0]),
+    new DateInterval('P1D'),
+    new DateTime(date( "Y-m-d", strtotime(end($daysCurrentWeek) . '+1 day'))) //ultimo dia do array +1 dia, para ele contá-lo no total de horas
+);
+
+
+
+
+
+foreach ($dateRangeCurrentWeek as $key => $value) {
+        $totalHoursTodoCurrentWeek+= $workHoursSettings->flextime_dailyHours;
+        foreach($resultHolidays as $holiday) {
+            if($holiday->date == $value->format('Y-m-d')) {
+                $totalHoursTodoCurrentWeek-= $workHoursSettings->flextime_dailyHours;
             }
-            if($result2->time_entries[$i]->spent_date == $thursday) {
-                $totalHours += $result2->time_entries[$i]->hours;
+        }
 
+}
+//Notifications Harvest
+$allNotiticationsHarvest = NotificationsUsers::All();
+$notfExists = false;
+if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurrentWeek) {
+
+    foreach($allNotiticationsHarvest as $notfHarvest) {
+        $notification = notifications::find($notfHarvest->notificationId);
+        if($notification->type == 'Flextime') {
+            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == Auth::user()->id) {
+                $notfExists = true;
             }
-            if($result2->time_entries[$i]->spent_date == $friday) {
-                $totalHours += $result2->time_entries[$i]->hours;
+        }
 
-            }
+    }
+
+if(!$notfExists) {
+    $newNotification = new notifications;
+    $newNotification->type = "Flextime";
+    $newNotification->description = "You still have ".($totalHoursTodoCurrentWeek - $totalHours)." left to report this week.";
+    $newNotification->save();
+    $newNotfUser = new NotificationsUsers;
+    $newNotfUser->notificationId = $newNotification->id;
+    $newNotfUser->receiveUserId = Auth::user()->id;
+    $newNotfUser->save();
+}
 
 
-            } */
+}
+//Notifications harvest
+
+//endcurrentweek
 
 
 
@@ -1026,7 +1520,117 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
 
-        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg'));
+        //Notifications
+            $listNotificationsEvals = notifications::where('type', 'EvaluationAssigned')->orderBy('created_at', 'desc')->get();
+            $notfsUsers = NotificationsUsers::All();
+            $AllReminders = notifications_reminders::All();
+
+            //notifications Evals
+            foreach($listNotificationsEvals as $notfEval) { //reminders
+                $notfUser = NotificationsUsers::where('notificationId', $notfEval->id)->get();
+                foreach($notfUser as $userNotf) {
+                    if(date('Y-m-d') == date('Y-m-d',strtotime($userNotf->date_limit_evals . "-5 days"))) {
+                        $reminderDescription = "You have 5 days remaining to complete your survey from ". User::find($userNotf->createUserId)->name;
+                        $reminderAlreadyExists = false;
+                        foreach($AllReminders as $reminder) {
+                            if($reminder->notifications_users_id == $userNotf->id && $reminder->description == $reminderDescription){
+                                $reminderAlreadyExists = true; // se o reminder existe associado a esta notf, com a mesma descrição, não vai aparecer
+                            }
+                        }
+                        if(!$reminderAlreadyExists) {
+                            $newReminder = new notifications_reminders; //nova notificacao
+                            $newReminder->notifications_users_id = $userNotf->id;
+                            $newReminder->description = $reminderDescription;
+                            $newReminder->save();
+                        }
+
+
+                    }
+                    else if(date('Y-m-d') == date('Y-m-d',strtotime($userNotf->date_limit_evals . "-1 days"))) {
+                        $reminderDescription = "You have 1 day remaining to complete your survey from ". User::find($userNotf->createUserId)->name;
+                        $reminderAlreadyExists = false;
+                        foreach($AllReminders as $reminder) {
+                        if($reminder->notifications_users_id == $userNotf->id && $reminder->description == $reminderDescription){
+                                $reminderAlreadyExists = true; // se o reminder existe associado a esta notf, com a mesma descrição, não vai aparecer
+                            }
+                        }
+                        if(!$reminderAlreadyExists) {
+                            $newReminder = new notifications_reminders; //nova notificacao
+                            $newReminder->notifications_users_id = $userNotf->id;
+                            $newReminder->description = $reminderDescription;
+                            $newReminder->save();
+                        }
+
+                    }
+                }
+
+            }
+            //notification evals end
+
+            //notifications birthdays
+            $userBdays= User::All();
+            $notificationsUserBirthdays = NotificationsUsers::All();
+
+             foreach($userBdays as $bday) {
+                $notfExists = false;
+                 foreach($notificationsUserBirthdays as $notfsUser) {
+                     $notification = notifications::find($notfsUser->notificationId);
+                     if($notfsUser->receiveUserId == Auth::User()->id && $notification->type == "Birthday" && date('Y-m',strtotime($notfsUser->created_at)) == date('Y-m')) {
+                         //caso a notificacao esteja associada ao user logado, for um birthday, e tiver sido criado no mês actual, é porque já existe
+                         //senão, como inserimos sempre uma notf nova associada ao user logado, ele cria uma individualmente quando faz login apenas
+                        $notfExists = true;
+                        break;
+                     }
+                 }
+                 if(!$notfExists) {
+                    if(date('d-m',strtotime($bday->birthDate)) == date('d-m') && Auth::user()->id == $bday->id) {
+                        $newNotification = new notifications;
+                        $newNotification->type = "Birthday";
+                        $newNotificationUser = new NotificationsUsers;
+                        $newNotification->description = "Happy birthday ".$bday->name."!";
+                        $newNotification->save();
+                        $newNotificationUser->notificationId = $newNotification->id;
+                        $newNotificationUser->receiveUserId = Auth::user()->id; //salva sempre como o user logado asim que carrega a pag
+                        $newNotificationUser->save();
+                    }
+                    else if(date('d-m',strtotime($bday->birthDate)) == date('d-m')) {
+                            $newNotification = new notifications;
+                            $newNotification->type = "Birthday";
+                            $newNotificationUser = new NotificationsUsers;
+                            $newNotification->description = "Today is ".$bday->name."'s birthday";
+                            $newNotification->save();
+                            $newNotificationUser->notificationId = $newNotification->id;
+                            $newNotificationUser->receiveUserId = Auth::User()->id; //salva sempre como o user logado asim que carrega a pag
+                            $newNotificationUser->save();
+
+
+                    }
+                    else if(date('d-m-Y',strtotime($bday->birthDate . "-1 days")) == date('d-m-Y')) {
+                            $newNotification = new notifications;
+                            $newNotification->type = "Birthday";
+                            $newNotificationUser = new NotificationsUsers;
+                            $newNotification->description = "Tomorrow will be ".$bday->name."'s birthday!";
+                            $newNotification->save();
+                            $newNotificationUser->notificationId = $newNotification->id;
+                            $newNotificationUser->receiveUserId = Auth::User()->id; //salva sempre como o user logado asim que carrega a pag
+                            $newNotificationUser->save();
+
+                    }
+                }
+
+
+
+
+
+             }
+             //notifications Birthdays end
+
+
+
+        //Notifications end
+
+
+        return view('admin.dashboard',compact('vacationDaysAvailable','vacations_total','diasAusencia', 'events', 'msg', 'totalHoursTodoCurrentWeek', 'totalHours'));
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }

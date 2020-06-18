@@ -1,17 +1,17 @@
 @extends('layouts.template')
 
 @section('title')
-    Improove HR - Employees
+    Improove HR - Reports Results
 @endsection
 
-@section('sidebaremployees')
+@section('sidebarreports')
 active
 @endsection
 
 @section('content')
 
-
-<div class="block-content block-content-full">
+<div class="shadow p-1 bg-white cardbox1">
+    <div class="table-responsive">
         <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
         <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
             <thead>
@@ -22,37 +22,36 @@ active
                     <th class="d-none d-sm-table-cell" style="width: 5%;"><b>ABSENCE TYPE</b></th>
                     <th class="d-none d-sm-table-cell" style="width: 15%;"><b>START DATE</b></th>
                     <th class="d-none d-sm-table-cell" style="width: 15%;"><b>END DATE</b></th>
-
                 </tr>
             </thead>
                     <tbody>
                         @foreach($listReports as $list)
-
-
-                        <tr>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->iduser}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->name}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->status}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->description}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->start_date}}
-                            </td>
-                            <td class="font-w600 font-size-sm">
-                            {{$list->end_date}}
-                            </td>
-                        </tr>
-                    @endforeach
+                            <tr>
+                                <td class="font-w600 font-size-sm">
+                                    <label for=""> {{$list->iduser}}</label>
+                                </td>
+                                <td class="font-w600 font-size-sm">
+                                    <label for="">{{$list->name}}</label>
+                                </td>
+                                <td class="font-w600 font-size-sm">
+                                    <label for="">{{$list->status}}</label>
+                                </td>
+                                <td class="font-w600 font-size-sm">
+                                    <label for="">{{$list->description}}</label>
+                                </td>
+                                <td class="font-w600 font-size-sm">
+                                    <label for="">{{$list->start_date}}</label>
+                                </td>
+                                <td class="font-w600 font-size-sm">
+                                    <label for="">{{$list->end_date}}</label>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
         </table>
     </div>
+        <a href="/reports"><button id="reportbtn" class="btn btn-info">Back</button></a>
+</div>
 
 <!-- <table class="table table-striped">
 <thead>
@@ -75,9 +74,6 @@ active
     </tr>
 @endforeach
   </tbody>
-
-
 </table>
 <a href="{{ route('reports.excel') }}" class="btn btn-success">Export To Excel</a> -->
-
 @endsection

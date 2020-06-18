@@ -179,6 +179,10 @@ input[type=radio] {
 }
 .showSurv2{
     width: 25%;
+    grid-gap: 12px;
+    .btncreate{
+        width: 126px;
+    }
 }
 .showSurv3{
     width: 25%;
