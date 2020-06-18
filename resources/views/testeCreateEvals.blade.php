@@ -57,12 +57,12 @@ open
                             @endforeach
                         </select>
                 </div>
-                    <button class="form-group btn btn-outline-success showSurvey">Show</button>
+                    <button id="showSurvey" class="form-group btn btn-outline-success showSurvey">Show</button>
             </form>
         </div>
         @if($clickedShow == true)
         <div class="surveybox"> <!-- Inicio de div para radius a volta do questinario -->
-            <b><h4>{{$surveyName}}</h4></b>
+            <b><h4 id="marginMobile">{{$surveyName}}</h4></b>
             <b><h4>{{$surveyType}}</h4></b>
             <div class="alignbtn">
 

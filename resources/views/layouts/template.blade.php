@@ -494,6 +494,49 @@
 
                                                 if($notif->receiveUserId == $id_user) {
 
+                                                    if($settingsAlerts->alert_evaluations == 1) {
+
+                                                        if($listNotif->type == "EvaluationAssigned") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_birthdays == 1) {
+
+                                                        if($listNotif->type == "Birthday") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_flextime == 1) {
+
+                                                        if($listNotif->type == "Flextime") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_holidays == 1) {
+
+                                                        if($listNotif->type == "Vacations" || $listNotif->type == "Absences" || $listNotif->type == "Approval") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
                                                     foreach($allReminders as $rem) {
 
                                                         if($rem->notifications_users_id == $notif->id) {
@@ -503,8 +546,6 @@
                                                         }
 
                                                     }
-
-                                                    $countNotif++;
 
                                                 }
 

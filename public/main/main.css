@@ -1892,6 +1892,11 @@ input[type=radio] {
 
 .showSurv2 {
   width: 25%;
+  grid-gap: 12px;
+}
+
+.showSurv2 .btncreate {
+  width: 126px;
 }
 
 .showSurv3 {
@@ -2142,7 +2147,7 @@ input[type=radio] {
   .showSurveyForm2 input {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 230px;
+    width: 240px;
   }
   .showSurveyForm2 button {
     -ms-grid-column: 1;
@@ -2389,6 +2394,112 @@ input[type=radio] {
   }
 }
 
+@media (min-width: 320px) and (max-width: 330px) {
+  .showSurv2 label {
+    margin-left: 100px;
+  }
+  .showSurv2 button {
+    margin-left: 43px;
+  }
+}
+
+@media (min-width: 330px) and (max-width: 375px) {
+  .showSurv2 label {
+    margin-left: 100px;
+  }
+  .showSurv2 button {
+    margin-left: 45px;
+  }
+  .showSurv2 input {
+    margin-left: 15px;
+  }
+}
+
+@media (min-width: 340px) and (max-width: 350px) {
+  .surveyname,
+  .answerlimit,
+  .surveytype,
+  .showSurv {
+    margin-left: 15px;
+  }
+  .showSurveyForm button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 100px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 375px) {
+  .surveyname,
+  .answerlimit,
+  .surveytype,
+  .showSurv {
+    margin-left: 25px;
+  }
+  .showSurveyForm button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 150px;
+    margin: auto;
+    margin-left: 85px;
+  }
+  .alignbtn {
+    margin-left: 20px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 425px) {
+  .surveyname,
+  .answerlimit,
+  .surveytype,
+  .showSurv {
+    margin-left: 40px;
+  }
+  .showSurveyForm button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 150px;
+    margin: auto;
+    margin-left: 100px;
+  }
+  .alignbtn {
+    margin-left: 40px;
+  }
+  #hideArea,
+  #hideQuestions,
+  #hideSubCat {
+    margin-left: 45px;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 770px) {
+  .surveyname {
+    margin-right: 20px;
+    margin-left: 50px;
+  }
+  .surveytype {
+    margin-left: 200px;
+  }
+  #marginMobile {
+    margin-top: 150px;
+  }
+  .showSurveyForm {
+    margin-left: 190px;
+  }
+  .alignbtn {
+    margin-left: 180px;
+  }
+  #hideArea,
+  #hideQuestions,
+  #hideSubCat {
+    margin-left: 200px;
+  }
+  .showSurv7 {
+    margin-left: 125px;
+  }
+}
+
 .colors h2 {
   margin-bottom: 13px;
   color: #3b685a;
@@ -2608,6 +2719,9 @@ input[type=radio] {
 .subTitleReport {
   font-weight: bold;
   font-size: 20px;
+  text-align: center;
+  font-family: Helvetica;
+  color: #6e74d0;
 }
 
 .selectReport {
@@ -2673,23 +2787,65 @@ input[type=radio] {
 
 .reportStart {
   padding: 2px;
+  text-align: center;
 }
 
 .reportDate {
-  width: 80px;
-  background-color: #007bff;
-  border-radius: 5px;
-  border-width: 10px;
-  color: white;
+  font-family: Helvetica;
 }
 
 .buttonArea {
   margin-top: -20px;
+  text-align: center;
 }
 
 .createTableReport {
   font-size: 20px;
   font-weight: bold;
+}
+
+#absencetype {
+  width: 250px;
+  margin: auto;
+}
+
+#iduser {
+  width: 250px;
+  margin: auto;
+}
+
+#start_date {
+  width: 200px;
+  margin: auto;
+}
+
+#end_date {
+  width: 200px;
+  margin: auto;
+}
+
+#reportbtn {
+  margin-top: 40px;
+  font-family: helvetica;
+  text-align: center;
+  margin-left: 20px;
+  width: 100px;
+}
+
+.bsettings11 {
+  width: 260px;
+  margin-top: 45px;
+}
+
+@media (min-width: 320px) and (max-width: 800px) {
+  #reportbtn {
+    margin-top: 20px;
+    font-family: helvetica;
+    text-align: center;
+    margin-left: 20px;
+    width: 100px;
+    margin-bottom: 15px;
+  }
 }
 
 .cardbox111 {
