@@ -231,6 +231,10 @@ class AbsenceController extends Controller
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
 
+            } else if($from->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
             } else {
 
                 $vacation->iduser=$userid;
@@ -275,6 +279,10 @@ class AbsenceController extends Controller
             if($to < $from) {
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
+
+            } else if($from->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
 
             } else {
 
@@ -1023,22 +1031,26 @@ for($l = 0; $l < $blocksNum; $l++) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
+                if($list->iduser !== $id_user) {
 
-                foreach($allNotifications as $notifList) {
+                    $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
 
-                    if($notifList->description == $descricao) {
+                    foreach($allNotifications as $notifList) {
 
-                        $idTemp = $notifList->id;
+                        if($notifList->description == $descricao) {
+
+                            $idTemp = $notifList->id;
 
 
-                        foreach($allNotificationUsers as $list) {
+                            foreach($allNotificationUsers as $list) {
 
-                            if($list->notificationId == $idTemp) {
+                                if($list->notificationId == $idTemp) {
 
-                                if($list->receiveUserId == $id_user) {
+                                    if($list->receiveUserId == $id_user) {
 
-                                    $noNotification = true;
+                                        $noNotification = true;
+
+                                    }
 
                                 }
 
@@ -1048,25 +1060,28 @@ for($l = 0; $l < $blocksNum; $l++) {
 
                     }
 
+                    if($noNotification == false) {
+
+                        $notification->type="Absences";
+                        $notification->description=$descricao;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
                 }
 
-                if($noNotification == false) {
 
-                    $notification->type="Absences";
-                    $notification->description=$descricao;
-
-                    $notification->save();
-
-                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                    $notif_user->notificationId=$id_notif;
-                    $notif_user->receiveUserId=$id_user;
-
-                    $notif_user->save();
-
-
-                }
 
             }
 
@@ -1099,22 +1114,26 @@ foreach($listVacationsTotal as $list) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
+                if($list->iduser !== $id_user) {
 
-                foreach($allNotifications as $notifList) {
+                    $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
 
-                    if($notifList->description == $descricao) {
+                    foreach($allNotifications as $notifList) {
 
-                        $idTemp = $notifList->id;
+                        if($notifList->description == $descricao) {
+
+                            $idTemp = $notifList->id;
 
 
-                        foreach($allNotificationUsers as $list) {
+                            foreach($allNotificationUsers as $list) {
 
-                            if($list->notificationId == $idTemp) {
+                                if($list->notificationId == $idTemp) {
 
-                                if($list->receiveUserId == $id_user) {
+                                    if($list->receiveUserId == $id_user) {
 
-                                    $noNotification = true;
+                                        $noNotification = true;
+
+                                    }
 
                                 }
 
@@ -1124,25 +1143,26 @@ foreach($listVacationsTotal as $list) {
 
                     }
 
+                if($noNotification == false) {
+
+                    $notification->type="Vacations";
+                    $notification->description=$descricao;
+
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->receiveUserId=$id_user;
+
+                    $notif_user->save();
+
                 }
 
-            if($noNotification == false) {
 
-                $notification->type="Vacations";
-                $notification->description=$descricao;
+                }
 
-                $notification->save();
-
-                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                $notif_user->notificationId=$id_notif;
-                $notif_user->receiveUserId=$id_user;
-
-                $notif_user->save();
-
-
-            }
 
         }
 
@@ -1179,7 +1199,9 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                    $descricao2 = "You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
+                if($listAb->iduser !== $id_user) {
+
+                    $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
                     foreach($allNotifications as $notifList) {
 
@@ -1222,8 +1244,9 @@ foreach($listAbsencesTotal as $listAb) {
 
                         $notif_user->save();
 
-
                     }
+
+                }
 
 
             }
@@ -1258,7 +1281,9 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-                    $descricao2 = "You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
+                if($listVac->iduser !== $id_user) {
+
+                    $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
                     foreach($allNotifications as $notifList) {
 
@@ -1301,9 +1326,9 @@ foreach($listVacationsTotal as $listVac) {
 
                         $notif_user->save();
 
-
                     }
 
+                }
 
             }
 
