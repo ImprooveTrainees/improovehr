@@ -820,7 +820,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
 
-            $msg .= "<div class='col-md-4'>";
+            $msg .= "<div class='col-md-4 sizeMobile'>";
                 $msg .= "<div class='card mb-2'>";
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
@@ -831,7 +831,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
             if($eventos[$i]->Type == "Birthday") {
                 if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>Happy birthday ".$eventos[$i]->Name."! </p>";
@@ -839,7 +839,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                   $msg.= "</div>";
                 }
                 else {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
@@ -856,7 +856,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
             else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Type"} == 1) {
-                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                 $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;
@@ -867,7 +867,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
             else if($eventos[$i]->Type == "Contract Begin") {
                 if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
@@ -877,7 +877,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg.= "</div>";
                 }
                 else {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
@@ -892,7 +892,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
             else {
-                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                 // $msg .= "Type: ".$eventos[$i]->Type."<br>";
