@@ -72,7 +72,7 @@
     .showSurveyForm2{
                         input{
                                 grid-column-start: 1;
-                                width: 230px;
+                                width: 240px;
                         }
                         button{
                                 grid-column-start: 1;
@@ -297,6 +297,120 @@
                                 height: 20px;
                 }
 
+
+    }
+
+}
+@media (min-width: 320px) and (max-width: 330px) {
+    .showSurv2{
+        label{
+            margin-left: 100px;
+        }
+        button{
+            margin-left: 43px;
+        }
+    }
+
+}
+@media (min-width: 330px) and (max-width: 375px) {
+    .showSurv2{
+        label{
+            margin-left: 100px;
+        }
+        button{
+            margin-left: 45px;
+        }
+        input{
+            margin-left: 15px;
+        }
+    }
+}
+
+@media (min-width: 340px) and (max-width: 350px) {
+
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+            margin-left: 15px;
+    }
+    .showSurveyForm{
+           button{
+                    grid-column-start: 1;
+                    width: 100px;
+                    margin: auto;
+           }
+    }
+}
+
+@media (min-width: 350px) and (max-width: 375px) {
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+            margin-left: 25px;
+    }
+    .showSurveyForm{
+        button{
+            grid-column-start: 1;
+            width: 150px;
+            margin: auto;
+            margin-left: 85px;
+        }
+    }
+    .alignbtn{
+            margin-left: 20px;
+    }
+}
+@media (min-width: 400px) and (max-width: 425px) {
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+            margin-left: 40px;
+    }
+    .showSurveyForm{
+        button{
+            grid-column-start: 1;
+            width: 150px;
+            margin: auto;
+            margin-left: 100px;
+        }
+    }
+    .alignbtn{
+        margin-left: 40px;
+    }
+    #hideArea,
+    #hideQuestions,
+    #hideSubCat{
+        margin-left: 45px;
+    }
+}
+@media (min-width: 750px) and (max-width: 770px) {
+    .surveyname{
+        margin-right: 20px;
+        margin-left: 50px;
+    }
+    .surveytype{
+        margin-left: 200px;
+    }
+    #marginMobile{
+        margin-top: 150px;
+    }
+    .showSurveyForm{
+        margin-left: 190px;
+    }
+    .alignbtn{
+        margin-left: 180px;
+    }
+    #hideArea,
+    #hideQuestions,
+    #hideSubCat{
+        margin-left: 200px;
+    }
+    .showSurv7{
+
+        margin-left: 125px;
 
     }
 
