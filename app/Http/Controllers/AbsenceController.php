@@ -381,7 +381,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated start date of created absences. Waiting for Approval.";
 
                 $notification->save();
@@ -411,7 +411,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated end date of created absences. Waiting for Approval.";
 
                 $notification->save();
