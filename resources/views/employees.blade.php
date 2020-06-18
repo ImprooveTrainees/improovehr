@@ -391,13 +391,14 @@ active
 <!-- Trigger/Open The Modal -->
 <!-- The Modal Edit Employee -->
 <div class="modal" id="editProfessionaInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" id="modalEmployees">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document" id="modalEmployees">
     <!-- Modal content -->
     <div class="modal-content" id="modalEmployees2">
         <div class="modal-header">
             <span class="close">&times;</span>
         </div>
       <div class="modal-body">
+          <div id="infoModal">
         <form id="professionalEditForm" action="/editProfessionalInfo">
                 @csrf
                 <div class="froleLabel">
@@ -452,6 +453,7 @@ active
                     <button class="btn btn-outline-primary" type="submit" id="saveEmployees">Save</button>
                 </div>
         </form>
+    </div>
       </div>
     </div>
     </div>
