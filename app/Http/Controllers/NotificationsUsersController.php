@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\NotificationsUsers;
+use App\notifications_reminders;
 use App\notifications;
 use Carbon\Carbon;
 
@@ -35,7 +36,7 @@ class NotificationsUsersController extends Controller
         foreach($notificationRead as $notfRead) {
             $notification = notifications::find($notfRead);
             if($notification->read_at == null) {   //se tiver nulo
-                $notification->read_at = Carbon::now()->toDateTimeString();
+                $notification->read_at = Carbon::now()->addHour()->toDateTimeString();
                 $notification->save();
             }
     
@@ -59,9 +60,20 @@ class NotificationsUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function readReminder(Request $request)
     {
         //
+        $msg = "";
+        $reminderRead = filter_input(INPUT_GET, 'remindersRead', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        //filtra o input do ajax para array (porque queremos um conjunto de valores)
+        foreach($reminderRead as $remRead) {
+            $reminder = notifications_reminders::find($remRead);
+            if($reminder->read_at == null) {   //se tiver nulo
+                $reminder->read_at = Carbon::now()->addHour()->toDateTimeString();
+                $reminder->save();
+            }
+    
+        }
     }
 
     /**

@@ -475,7 +475,7 @@
                             // $notificationsHolidays = sliderview::where('Type', 'Absence')->where('Absence Type', 1)->get();
 
                         ?>
-                        <div onclick="readNotifications()" class="dropdown d-inline-block ml-2">
+                        <div onclick="readNotifications(); readReminders();" class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="si si-bell"></i>
                                 <span id="txtHint">  </span>
@@ -533,10 +533,10 @@
                                         @if($id_user == $notUser->receiveUserId)
                                             <?php $notification = notifications::find($notUser->notificationId); ?>
                                             @if($notification->read_at=='')
-                                            <li style="background-color: lightgrey">
+                                            <li class="ajaxWhiteLI">
                                             @else
-
-                                            <li>
+                                            <li class="ajaxWhiteLI">
+                                            
                                             @endif
                  
                                                 <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
@@ -613,7 +613,10 @@
                                     @endforeach
                                 </form>
 
+                                    <form id="formReminderAJAX">
+                                        @csrf
                                     @foreach($allReminders as $reminder) <!-- Reminders -->
+                                    <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
                                     <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
                                         @if($notificationUser->receiveUserId == $id_user)
                                             @if($settingsAlerts->alert_evaluations == 1)
@@ -637,7 +640,7 @@
                                             @endif
                                         @endif
                                     @endforeach
-
+                                            </form>
                                    
 
 
@@ -805,12 +808,49 @@
                   success: function(result){
                      document.getElementById("txtHint").innerHTML = result;
                      document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
+                    //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
+            
+
                   }});
             //  document.getElementById('notificationsReadForm').submit();
            
 
 
             }
+
+            function readReminders() {
+                // var xmlhttp = new XMLHttpRequest();
+                // xmlhttp.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //      document.getElementById("txtHint").innerHTML = this.responseText;
+                // }
+                // };
+                // xmlhttp.open("GET", "/readNotification", true);
+                // xmlhttp.send();
+
+
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/readReminder') }}",
+                  method: 'get',
+                  data: $("#formReminderAJAX").serialize(), //apanha todos os valores da form
+                  success: function(result){
+                     document.getElementById("txtHint").innerHTML = result;
+                     document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
+                    //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
+            
+
+                  }});
+            //  document.getElementById('notificationsReadForm').submit();
+           
+
+
+            }
+       
             
         </script>
         <!-- OneUI JS -->

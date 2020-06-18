@@ -1469,7 +1469,7 @@ if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurren
 if(!$notfExists) {
     $newNotification = new notifications;
     $newNotification->type = "Flextime";
-    $newNotification->description = "You must report more ".($totalHoursTodoCurrentWeek - $totalHours)." hours this week.";
+    $newNotification->description = "You still have ".($totalHoursTodoCurrentWeek - $totalHours)." left to report this week.";
     $newNotification->save();
     $newNotfUser = new NotificationsUsers;
     $newNotfUser->notificationId = $newNotification->id;
