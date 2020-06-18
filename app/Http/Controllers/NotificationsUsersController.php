@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\NotificationsUsers;
+use App\notifications_reminders;
+use App\notifications;
+use Carbon\Carbon;
+
+
 use Illuminate\Http\Request;
 
 class NotificationsUsersController extends Controller
@@ -22,9 +27,31 @@ class NotificationsUsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function readNotification(Request $request)
     {
         //
+        $msg = "";
+        $notificationRead = filter_input(INPUT_GET, 'notfsRead', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        //filtra o input do ajax para array (porque queremos um conjunto de valores)
+        foreach($notificationRead as $notfRead) {
+            $notification = notifications::find($notfRead);
+            if($notification->read_at == null) {   //se tiver nulo
+                $notification->read_at = Carbon::now()->addHour()->toDateTimeString();
+                $notification->save();
+            }
+    
+        }
+      
+
+
+
+        // $msg = "";
+        // $notificationRead = $request->input('notfsRead');
+        //  foreach($notificationRead as $notfRead) {
+        //          $msg .= $notfRead . "<br>";
+        //     }
+        //     echo $msg;
+
     }
 
     /**
@@ -33,9 +60,20 @@ class NotificationsUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function readReminder(Request $request)
     {
         //
+        $msg = "";
+        $reminderRead = filter_input(INPUT_GET, 'remindersRead', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        //filtra o input do ajax para array (porque queremos um conjunto de valores)
+        foreach($reminderRead as $remRead) {
+            $reminder = notifications_reminders::find($remRead);
+            if($reminder->read_at == null) {   //se tiver nulo
+                $reminder->read_at = Carbon::now()->addHour()->toDateTimeString();
+                $reminder->save();
+            }
+    
+        }
     }
 
     /**
