@@ -64,6 +64,7 @@ active
                     <hr>
                 </div>
                 <p id="timeaccomplished">30  of 40 hours</p>
+             
                 </div>
             </div>
 
