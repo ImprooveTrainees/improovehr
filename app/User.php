@@ -134,6 +134,39 @@ class User extends Authenticatable
         return $manager;
      }
 
+     public function managerDoUserId($depart, $country) {
+
+
+        // select users.name
+        // from  users, departments, users_deps,contracts
+        // where users.id=users_deps.idUser
+        // and users_deps.idDepartment=departments.id
+        // and contracts.iduser=users.id
+        // and contracts.position="Manager"
+        // and users_deps.idDepartment
+        // in(
+        // select users_deps.idDepartment from users_deps where users_deps.iduser = 2);
+
+
+        $manager = DB::table('users')
+        ->join('users_deps', 'users.id', '=', 'users_deps.idUser')
+        ->join('departments', 'users_deps.idDepartment', '=', 'departments.id')
+        ->join('contracts', 'contracts.iduser', '=', 'users.id')
+        ->join('offices_deps', 'users_deps.idDepartment', '=', 'offices_deps.idDepartment')
+        ->join('offices', 'offices_deps.idOffice', '=', 'offices.id')
+        ->where('contracts.position','=', 'Manager')
+        ->where('departments.description', '=', $depart)
+        ->where('offices.country', '=', $country)
+        ->where('users.country', '=', $country)
+        ->select('users.id')
+        ->groupBy('offices.description')
+        ->value('id');
+
+
+
+    return $manager;
+ }
+
 
     public function userAbsence() {
 

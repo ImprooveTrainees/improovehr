@@ -656,32 +656,36 @@
 
                                     <form id="formReminderAJAX">
                                         @csrf
-                                    @foreach($allReminders as $reminder) <!-- Reminders -->
-                                    <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
-                                    <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
-                                        @if($notificationUser->receiveUserId == $id_user)
-                                            @if($settingsAlerts->alert_evaluations == 1)
-
-                                            @if($reminder->read_at=='')
-                                             <li style="background-color: lightgrey">
-                                            @else
-
-                                            <li>
-                                            @endif
-                                                    <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                            <div class="font-w600">{{$reminder->description}}</div>
-                                                            <small class="text-muted">{{$reminder->created_at}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @endif
+                                        @if($allReminders != null)
+                                            @foreach($allReminders as $reminder) <!-- Reminders -->
+                                            <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
+                                                <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
+                                                @if($notificationUser->receiveUserId == $id_user)
+                                                    @if($settingsAlerts->alert_evaluations == 1)
+        
+                                                    @if($reminder->read_at=='')
+                                                    <li style="background-color: lightgrey">
+                                                    @else
+        
+                                                    <li>
+                                                    @endif
+                                                            <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$reminder->description}}</div>
+                                                                    <small class="text-muted">{{$reminder->created_at}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
                                         @endif
-                                    @endforeach
-                                            </form>
+                                    </form>
+                                        
+                                   
                                    
 
 

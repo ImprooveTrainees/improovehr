@@ -113,12 +113,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/readReminder', 'NotificationsUsersController@readReminder');
         //
         //Notification Test Mail
-        Route::get('/sendTestMail', function () {
-          
-            $user = Auth::user();
-            $user->notify(new evalsNotification("notification_Test"));
-               
-            });
+        Route::get('/sendTestMail', 'NotificationsUsersController@sendMail');
         //
 });
 
