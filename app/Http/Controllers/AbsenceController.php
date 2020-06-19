@@ -1202,7 +1202,7 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($listAb->iduser !== $id_user) {
+
 
                     $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
@@ -1252,7 +1252,7 @@ foreach($listAbsencesTotal as $listAb) {
                 }
 
 
-            }
+
 
         }
 
@@ -1284,7 +1284,7 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-                if($listVac->iduser !== $id_user) {
+
 
                     $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
@@ -1331,7 +1331,7 @@ foreach($listVacationsTotal as $listVac) {
 
                     }
 
-                }
+
 
             }
 
@@ -1587,7 +1587,7 @@ if(!$notfExists) {
                 }
 
     }
-     
+
 
 
 
@@ -1597,7 +1597,7 @@ if(!$notfExists) {
 
     return redirect()->action('AbsenceController@show');
 
-    
+
 
 
 }
@@ -1683,7 +1683,7 @@ if(!$notfExists) {
                             }
                         }
                         if(!$reminderAlreadyExists) {
-                 
+
 
                             //Mail to user
                             $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
@@ -1718,7 +1718,7 @@ if(!$notfExists) {
                             $newReminder->save();
 
 
-                        
+
                         }
 
                     }
