@@ -576,6 +576,10 @@ class AbsenceController extends Controller
         ->where('users.id','=',$id_user)
         ->select('users.idusertype')->value('idusertype');
 
+        $username = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.name')->value('name');
+
         $noNotification = false;
 
         $listVacationsTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
@@ -1275,7 +1279,7 @@ foreach($listAbsencesTotal as $listAb) {
 
                         //
 
-                        
+
 
                     }
 
@@ -1383,7 +1387,7 @@ foreach($listVacationsTotal as $listVac) {
                          ];
                          $response = $mj->post(Resources::$Email, ['body' => $body]);
                          $response->success() && var_dump($response->getData());
- 
+
                          //
 
 
