@@ -1507,35 +1507,38 @@ if(!$notfExists) {
     $response->success() && var_dump($response->getData());
     //
 
-    if($managerUserAuth->id != null && $managerUserAuth->id != Auth::user()->id) { //se o user não for manager, não vai enviar de novo mail a ele mesmo
-                                                   //neste momento apenas temos acesso a um harvest, não é possivel avisar todos os users que faltam horas (sem info na db)
-        //Mail to Manager
-        $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
-        $body = [
-        'Messages' => [
-            [
-            'From' => [
+    if($managerUserAuth->id != null) {
+        if($managerUserAuth->id != Auth::user()->id) { //se o user não for manager, não vai enviar de novo mail a ele mesmo
+            //neste momento apenas temos acesso a um harvest, não é possivel avisar todos os users que faltam horas (sem info na db)
+                //Mail to Manager
+                $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                $body = [
+                'Messages' => [
+                [
+                'From' => [
                 'Email' => "mailsenderhr@gmail.com",
                 'Name' => "ImprooveHR"
-            ],
-            'To' => [
+                ],
+                'To' => [
                 [
                 'Email' => "andresl19972@gmail.com",
                 'Name' => $managerUserAuth->name,
                 ]
-            ],
-            'Subject' => "Harvest hours remaining",
-            'TextPart' => "My first Mailjet email",
-            'HTMLPart' => "<h3>Dear ".$managerUserAuth->name.", ".Auth::user()->name." still haves ".($totalHoursTodoCurrentWeek - $totalHours)." hours left to report this week. Warn him as soon as possible.</h3><br/>!",
-            'CustomID' => "AppGettingStartedTest"
-            ]
-        ]
-        ];
-        $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && var_dump($response->getData());
-        //
+                ],
+                'Subject' => "Harvest hours remaining",
+                'TextPart' => "My first Mailjet email",
+                'HTMLPart' => "<h3>Dear ".$managerUserAuth->name.", ".Auth::user()->name." still haves ".($totalHoursTodoCurrentWeek - $totalHours)." hours left to report this week. Warn him as soon as possible.</h3><br/>!",
+                'CustomID' => "AppGettingStartedTest"
+                ]
+                ]
+                ];
+                $response = $mj->post(Resources::$Email, ['body' => $body]);
+                $response->success() && var_dump($response->getData());
+                //
+                }
+
     }
-    
+     
 
 
 
@@ -1593,30 +1596,29 @@ if(!$notfExists) {
                             $newReminder->save();
 
                             //Mail to user
-                                $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
-                                $body = [
-                                'Messages' => [
+                            $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                            $body = [
+                            'Messages' => [
+                                [
+                                'From' => [
+                                    'Email' => "mailsenderhr@gmail.com",
+                                    'Name' => "ImprooveHR"
+                                ],
+                                'To' => [
                                     [
-                                    'From' => [
-                                        'Email' => "mailsenderhr@gmail.com",
-                                        'Name' => "ImprooveHR"
-                                    ],
-                                    'To' => [
-                                        [
-                                        'Email' => "andresl19972@gmail.com",
-                                        'Name' => User::find($notfUser->id)->name,
-                                        ]
-                                    ],
-                                    'Subject' => "Harvest hours remaining",
-                                    'TextPart' => "My first Mailjet email",
-                                    'HTMLPart' => "<h3>Dear ".User::find($notfUser->id)->name.", you have 5 days remaining to complete your survey from ". User::find($userNotf->createUserId)->name.";</h3><br/>!",
-                                    'CustomID' => "AppGettingStartedTest"
+                                    'Email' => "andresl19972@gmail.com",
+                                    'Name' => User::find($userNotf->receiveUserId)->name,
                                     ]
+                                ],
+                                'Subject' => "Evaluation time is almost over",
+                                'TextPart' => "My first Mailjet email",
+                                'HTMLPart' => "<h3>Dear ".User::find($userNotf->receiveUserId)->name.", you have 5 days remaining to complete your survey from ". User::find($userNotf->createUserId)->name.". Don't forget!</h3><br/>!",
+                                'CustomID' => "AppGettingStartedTest"
                                 ]
-                                ];
-                                $response = $mj->post(Resources::$Email, ['body' => $body]);
-                                $response->success() && var_dump($response->getData());
-
+                            ]
+                            ];
+                            $response = $mj->post(Resources::$Email, ['body' => $body]);
+                            $response->success() && var_dump($response->getData());
 
                             //
                         }
@@ -1632,10 +1634,7 @@ if(!$notfExists) {
                             }
                         }
                         if(!$reminderAlreadyExists) {
-                            $newReminder = new notifications_reminders; //nova notificacao
-                            $newReminder->notifications_users_id = $userNotf->id;
-                            $newReminder->description = $reminderDescription;
-                            $newReminder->save();
+                 
 
                             //Mail to user
                             $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
@@ -1649,12 +1648,12 @@ if(!$notfExists) {
                                 'To' => [
                                     [
                                     'Email' => "andresl19972@gmail.com",
-                                    'Name' => User::find($notfUser->id)->name,
+                                    'Name' => User::find($userNotf->receiveUserId)->name,
                                     ]
                                 ],
-                                'Subject' => "Harvest hours remaining",
+                                'Subject' => "Evaluation time is up",
                                 'TextPart' => "My first Mailjet email",
-                                'HTMLPart' => "<h3>Dear ".User::find($notfUser->id)->name.", you have 1 day remaining to complete your survey from ". User::find($userNotf->createUserId)->name.". Hurry up!;</h3><br/>!",
+                                'HTMLPart' => "<h3>Dear ".User::find($userNotf->receiveUserId)->name.", you have 1 day remaining to complete your survey from ". User::find($userNotf->createUserId)->name.". Hurry up!</h3><br/>!",
                                 'CustomID' => "AppGettingStartedTest"
                                 ]
                             ]
@@ -1662,8 +1661,15 @@ if(!$notfExists) {
                             $response = $mj->post(Resources::$Email, ['body' => $body]);
                             $response->success() && var_dump($response->getData());
 
+                            //
 
-                        //
+                            $newReminder = new notifications_reminders; //nova notificacao
+                            $newReminder->notifications_users_id = $userNotf->id;
+                            $newReminder->description = $reminderDescription;
+                            $newReminder->save();
+
+
+                        
                         }
 
                     }

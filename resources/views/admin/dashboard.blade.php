@@ -116,7 +116,6 @@ active
 <div class="row">
     <div class="col">
     <p id="timeaccomplished">{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours</p>
-    <a href="/sendTestMail">Enviar mail teste</a>
     </div>
   </div>
 </div>
