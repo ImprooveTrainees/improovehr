@@ -1,74 +1,61 @@
-@media (min-width: 1250px) and (max-width: 1500px) {
+@media screen and (max-width: 700px) {
 
-    #box1{
-        margin-left: 127px;
-        width: 17%;
-        margin-top: 367px;
-    }
-
-    #box2{
-        margin-left: -4px;
-        width: 17%;
-    }
-
-    #box3{
-        margin-left: 266px;
-        width: 17%;
-    }
-
-    #allboxes {
-        margin-top: -411px;
-        margin-left: 1px;
-      }
-
-    #allboxes2{
-        margin-left: 223px;
-        width: 100%;
-    }
-
-    #calendar{
-        margin-right: -25px;
-        margin-top: 34%;
-    }
-
-    #ptotal {
-        margin-left: 44%;
-        margin-top: -102px;
-    }
-
-    #year1 {
-        margin-left: 48px;
-    }
-
-    #currentyear1 {
-        margin-left: 168px;
-    }
-
-    #pholidays {
-        margin-top: 4px;
-    }
-
-    #year2 {
-        margin-left: 44px;
-    }
-
-    #pabsences {
-        margin-top: -14px;
-    }
-
-    #currentyear2 {
-        margin-left: 167px;
-    }
-
-    .controls-top {
-        margin-left: 470px;
-        margin-top: -19px;
+    .sizeMobile {
+        width: 230px;
+        display: grid;
+        grid-template-columns: 230px 30px;
+        margin: auto;
     }
 
     #multi-item-example {
-        margin-top: 679px;
-        width: 450px;
-        margin-left: -263px;
-        position: absolute;
+        grid-template-columns: 800px;
+        width: 800px;
+        margin-bottom: 0;
+    }
+
+    #box1,
+    #box2,
+    #box3 {
+        width: auto;
+        height: 300px;
+        margin-bottom: 40px;
+    }
+
+    #allboxes {
+        grid-template-columns: 320px;
+        width: 320px;
+        margin-bottom: 30px;
+    }
+
+    #pTotalHolidays,
+    #currentYear1 {
+        p {
+            font-size: 21pt;
+        }
+    }
+
+    #timeaccomplished {
+        font-size: 21pt;
+    }
+
+    #currentYear1 {
+        grid-template-columns: 100px 100px;
+        width: 200px;
+    }
+
+    #pTotalHolidays {
+        grid-template-columns: 110px;
+        width: 110px;
+    }
+
+    #pholidays2,
+    #pholidays,
+    #pabsences,
+    #timeAll {
+        grid-template-rows: 40px 10px;
+
+        p {
+            font-size: 18pt;
+        }
     }
 }

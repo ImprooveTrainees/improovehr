@@ -914,5 +914,7 @@
         <script src="{{ asset ('assets/js/pages/be_tables_datatables.min.js ') }}"></script>
 
         <script src="{{ asset ('js/myscripts.js ') }}"></script>
+        <script src="{{ asset ('js/flextime.js ') }}"></script>
+        <script src="{{ asset ('js/home.js ') }}"></script>
     </body>
 </html>

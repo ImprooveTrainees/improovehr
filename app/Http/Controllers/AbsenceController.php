@@ -234,6 +234,10 @@ class AbsenceController extends Controller
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
 
+            } else if($from->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
             } else {
 
                 $vacation->iduser=$userid;
@@ -278,6 +282,10 @@ class AbsenceController extends Controller
             if($to < $from) {
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
+
+            } else if($from->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
 
             } else {
 
@@ -384,7 +392,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated start date of created absences. Waiting for Approval.";
 
                 $notification->save();
@@ -414,7 +422,7 @@ class AbsenceController extends Controller
 
             if($roleuser>2) {
 
-                $notification->type="Vacations";
+                $notification->type="Absences";
                 $notification->description=$username." updated end date of created absences. Waiting for Approval.";
 
                 $notification->save();
@@ -650,7 +658,7 @@ class AbsenceController extends Controller
             Carbon::create(2020, 12, 8),
             Carbon::create(2020, 12, 24),
             Carbon::create(2020, 12, 25),
-            Carbon::create(2020, 12, 31)
+            Carbon::create(2020, 12, 31),
 
 
         ];
@@ -873,7 +881,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
 
-            $msg .= "<div class='col-md-4'>";
+            $msg .= "<div class='col-md-4 sizeMobile'>";
                 $msg .= "<div class='card mb-2'>";
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
@@ -884,7 +892,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
             if($eventos[$i]->Type == "Birthday") {
                 if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>Happy birthday ".$eventos[$i]->Name."! </p>";
@@ -892,7 +900,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                   $msg.= "</div>";
                 }
                 else {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s birthday!";
@@ -909,7 +917,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
             else if($eventos[$i]->Type == "Absence" && $eventos[$i]->{"Absence Type"} == 1) {
-                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                 $msg .= "<p class='card-text'> Vacations: ".$eventDate. " - ". $absenceDateEnd;
@@ -920,7 +928,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
             else if($eventos[$i]->Type == "Contract Begin") {
                 if(date('d/m',strtotime($eventos[$i]->Date)) == date('d/m')) {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'> Today is ".$eventos[$i]->Name. "'s company birthday!";
@@ -930,7 +938,7 @@ for($l = 0; $l < $blocksNum; $l++) {
                     $msg.= "</div>";
                 }
                 else {
-                    $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                    $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                     $msg .= "<div class='card-body'>";
                     $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                     $msg .= "<p class='card-text'>".$eventos[$i]->Name."'s company birthday!";;
@@ -945,7 +953,7 @@ for($l = 0; $l < $blocksNum; $l++) {
             }
 
             else {
-                $msg .= "<img class='card-img-top sliderResize' src=".$eventos[$i]->Photo." alt='Card image cap'>";
+                $msg .= "<img class='card-img-top sliderResize2' src=".$eventos[$i]->Photo." alt='Card image cap'>";
                 $msg .= "<div class='card-body'>";
                 $msg .= "<h4 class='card-title'>".$eventos[$i]->Name."</h4>";
                 // $msg .= "Type: ".$eventos[$i]->Type."<br>";
@@ -1008,11 +1016,17 @@ for($l = 0; $l < $blocksNum; $l++) {
 
  foreach($listAbsencesTotal as $list) {
 
-    $dayBefore = Carbon::now()->subDays(1);
+    $today = Carbon::now();
 
     $startDate = Carbon::parse($list->start_date);
 
-    $difference = $dayBefore->diffInDays($startDate);
+    //$difference = $today->diffInDays($startDate);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
 
     if($difference <= 1) {
 
@@ -1020,22 +1034,26 @@ for($l = 0; $l < $blocksNum; $l++) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                $descricao = $list->name." will be absent tomorrow from ".$list->start_date." to ".$list->end_date." .";
+                if($list->iduser !== $id_user) {
 
-                foreach($allNotifications as $notifList) {
+                    $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
 
-                    if($notifList->description == $descricao) {
+                    foreach($allNotifications as $notifList) {
 
-                        $idTemp = $notifList->id;
+                        if($notifList->description == $descricao) {
+
+                            $idTemp = $notifList->id;
 
 
-                        foreach($allNotificationUsers as $list) {
+                            foreach($allNotificationUsers as $list) {
 
-                            if($list->notificationId == $idTemp) {
+                                if($list->notificationId == $idTemp) {
 
-                                if($list->receiveUserId == $id_user) {
+                                    if($list->receiveUserId == $id_user) {
 
-                                    $noNotification = true;
+                                        $noNotification = true;
+
+                                    }
 
                                 }
 
@@ -1045,25 +1063,28 @@ for($l = 0; $l < $blocksNum; $l++) {
 
                     }
 
+                    if($noNotification == false) {
+
+                        $notification->type="Absences";
+                        $notification->description=$descricao;
+
+                        $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->receiveUserId=$id_user;
+
+                        $notif_user->save();
+
+
+                    }
+
+
                 }
 
-                if($noNotification == false) {
 
-                    $notification->type="Absences";
-                    $notification->description=$descricao;
-
-                    $notification->save();
-
-                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                    $notif_user->notificationId=$id_notif;
-                    $notif_user->receiveUserId=$id_user;
-
-                    $notif_user->save();
-
-
-                }
 
             }
 
@@ -1078,11 +1099,17 @@ $noNotification = false;
 foreach($listVacationsTotal as $list) {
 
 
-    $dayBefore = Carbon::now()->subDays(1);
+    $today = Carbon::now();
 
     $startDate = Carbon::parse($list->start_date);
 
-    $difference = $dayBefore->diffInDays($startDate);
+    //$difference = $today->diffInDays($startDate);
+
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
 
     if($difference <= 1) {
 
@@ -1090,22 +1117,26 @@ foreach($listVacationsTotal as $list) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                $descricao = $list->name." will be on vacations tomorrow from ".$list->start_date." to ".$list->end_date." .";
+                if($list->iduser !== $id_user) {
 
-                foreach($allNotifications as $notifList) {
+                    $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
 
-                    if($notifList->description == $descricao) {
+                    foreach($allNotifications as $notifList) {
 
-                        $idTemp = $notifList->id;
+                        if($notifList->description == $descricao) {
+
+                            $idTemp = $notifList->id;
 
 
-                        foreach($allNotificationUsers as $list) {
+                            foreach($allNotificationUsers as $list) {
 
-                            if($list->notificationId == $idTemp) {
+                                if($list->notificationId == $idTemp) {
 
-                                if($list->receiveUserId == $id_user) {
+                                    if($list->receiveUserId == $id_user) {
 
-                                    $noNotification = true;
+                                        $noNotification = true;
+
+                                    }
 
                                 }
 
@@ -1115,25 +1146,26 @@ foreach($listVacationsTotal as $list) {
 
                     }
 
+                if($noNotification == false) {
+
+                    $notification->type="Vacations";
+                    $notification->description=$descricao;
+
+                    $notification->save();
+
+                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                    $notif_user->notificationId=$id_notif;
+                    $notif_user->receiveUserId=$id_user;
+
+                    $notif_user->save();
+
                 }
 
-            if($noNotification == false) {
 
-                $notification->type="Vacations";
-                $notification->description=$descricao;
+                }
 
-                $notification->save();
-
-                $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                $notif_user->notificationId=$id_notif;
-                $notif_user->receiveUserId=$id_user;
-
-                $notif_user->save();
-
-
-            }
 
         }
 
@@ -1152,11 +1184,17 @@ $noNotification2 = false;
 
 foreach($listAbsencesTotal as $listAb) {
 
-    $dayBefore = Carbon::now()->subDays(1);
+    $today = Carbon::now();
 
     $startDate = Carbon::parse($list->start_date);
 
-    $difference = $dayBefore->diffInDays($startDate);
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    //$difference = $today->diffInDays($startDate);
 
     if($difference <= 1) {
 
@@ -1164,7 +1202,9 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                    $descricao2 = "You have an Absence from ".$listAb->name." due to tomorrow waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
+                if($listAb->iduser !== $id_user) {
+
+                    $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
                     foreach($allNotifications as $notifList) {
 
@@ -1207,8 +1247,9 @@ foreach($listAbsencesTotal as $listAb) {
 
                         $notif_user->save();
 
-
                     }
+
+                }
 
 
             }
@@ -1225,11 +1266,17 @@ $noNotification2 = false;
 
 foreach($listVacationsTotal as $listVac) {
 
-    $dayBefore = Carbon::now()->subDays(1);
+    $today = Carbon::now();
 
     $startDate = Carbon::parse($list->start_date);
 
-    $difference = $dayBefore->diffInDays($startDate);
+    $difference=$today->diffInDaysFiltered(function (Carbon $date) use ($holidays) {
+
+        return $date->isWeekday() && !in_array($date, $holidays);
+
+    }, $startDate);
+
+    //$difference = $today->diffInDays($startDate);
 
     if($difference <= 1) {
 
@@ -1237,7 +1284,9 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-                    $descricao2 = "You have Vacations from ".$listVac->name." due to tomorrow waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
+                if($listVac->iduser !== $id_user) {
+
+                    $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
                     foreach($allNotifications as $notifList) {
 
@@ -1280,9 +1329,9 @@ foreach($listVacationsTotal as $listVac) {
 
                         $notif_user->save();
 
-
                     }
 
+                }
 
             }
 
@@ -1368,20 +1417,20 @@ foreach ($dateRangeCountWeekends as $key => $value) {
                         if($holiday->date == $value->format('Y-m-d')) {
                             $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
                         }
-                    }       
+                    }
                }
            }
     }
 }
 
 //this week vars
-$currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y'); 
+$currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y');
 
 $daysCurrentWeek = [];
 $totalsCurrentWeek = [];
 $totalHours = 0;
 
-for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++) 
+for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
 {
     array_push($daysCurrentWeek,date('Y-m-d', strtotime( 'monday this week +'.$b.' days')));
     array_push($totalsCurrentWeek, 0);
@@ -1400,7 +1449,7 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
                 new DateTime($dateEndAbsence)
            );
            foreach ($AbsenceDatesBetween as $key => $value) {
-                if($value->format('Y-m-d') == $daysCurrentWeek[$b]) { 
+                if($value->format('Y-m-d') == $daysCurrentWeek[$b]) {
                     if($absence->absencetype == 1) {
                         $totalsCurrentWeek[$b] = "Vacations";
                         continue 3; //após confirmado que é ausência, passa para o prox dia
@@ -1410,15 +1459,15 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
                         continue 3;
                     }
                      // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
-                    //pega em todos os dias da absence (inclusive os que estão no meio) e 
-                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual, 
+                    //pega em todos os dias da absence (inclusive os que estão no meio) e
+                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual,
                     //é porque o user esteve ausente esses dias.
                 }
             }
-             
-            
+
+
         }
-        foreach($resultHolidays as $holiday) { 
+        foreach($resultHolidays as $holiday) {
             if($holiday->date == $daysCurrentWeek[$b]) {
                 $totalsCurrentWeek[$b] = $holiday->localName;
                 continue 2;
@@ -1429,7 +1478,7 @@ for($i = 0; $i  < count($result2->time_entries); $i++) {
                 $totalHours += $result2->time_entries[$i]->hours;
         }
 
-    
+
     }
 
 }
@@ -1445,14 +1494,14 @@ $dateRangeCurrentWeek = new DatePeriod(
 
 
 
-foreach ($dateRangeCurrentWeek as $key => $value) { 
+foreach ($dateRangeCurrentWeek as $key => $value) {
         $totalHoursTodoCurrentWeek+= $workHoursSettings->flextime_dailyHours;
-        foreach($resultHolidays as $holiday) { 
+        foreach($resultHolidays as $holiday) {
             if($holiday->date == $value->format('Y-m-d')) {
                 $totalHoursTodoCurrentWeek-= $workHoursSettings->flextime_dailyHours;
             }
         }
-    
+
 }
 //Notifications Harvest
 $allNotiticationsHarvest = NotificationsUsers::All();
@@ -1464,9 +1513,9 @@ if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurren
         if($notification->type == 'Flextime') {
             if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == Auth::user()->id) {
                 $notfExists = true;
-            } 
+            }
         }
-    
+
     }
 
 if(!$notfExists) {
