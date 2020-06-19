@@ -1247,6 +1247,36 @@ foreach($listAbsencesTotal as $listAb) {
 
                         $notif_user->save();
 
+
+                        //Mail to user
+                        $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                        $body = [
+                        'Messages' => [
+                            [
+                            'From' => [
+                                'Email' => "mailsenderhr@gmail.com",
+                                'Name' => "ImprooveHR"
+                            ],
+                            'To' => [
+                                [
+                                'Email' => "andresl19972@gmail.com",
+                                'Name' => User::find($id_user)->name,
+                                ]
+                            ],
+                            'Subject' => "Absence waiting for approval",
+                            'TextPart' => "My first Mailjet email",
+                            'HTMLPart' => "<h3>Dear ".User::find($id_user)->name.",".$descricao2."</h3><br/>!",
+                            'CustomID' => "AppGettingStartedTest"
+                            ]
+                        ]
+                        ];
+                        $response = $mj->post(Resources::$Email, ['body' => $body]);
+                        $response->success() && var_dump($response->getData());
+
+                        //
+
+                        
+
                     }
 
                 }
@@ -1328,6 +1358,35 @@ foreach($listVacationsTotal as $listVac) {
                         $notif_user->receiveUserId=$id_user;
 
                         $notif_user->save();
+
+                         //Mail to user
+                         $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                         $body = [
+                         'Messages' => [
+                             [
+                             'From' => [
+                                 'Email' => "mailsenderhr@gmail.com",
+                                 'Name' => "ImprooveHR"
+                             ],
+                             'To' => [
+                                 [
+                                 'Email' => "andresl19972@gmail.com",
+                                 'Name' => User::find($id_user)->name,
+                                 ]
+                             ],
+                             'Subject' => "Vacations waiting for approval",
+                             'TextPart' => "My first Mailjet email",
+                             'HTMLPart' => "<h3>Dear ".User::find($id_user)->name.",".$descricao2."</h3><br/>!",
+                             'CustomID' => "AppGettingStartedTest"
+                             ]
+                         ]
+                         ];
+                         $response = $mj->post(Resources::$Email, ['body' => $body]);
+                         $response->success() && var_dump($response->getData());
+ 
+                         //
+
+
 
                     }
 
