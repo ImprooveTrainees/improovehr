@@ -1206,7 +1206,7 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-
+                if($listAb->name !== $username) {
 
                     $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
@@ -1283,6 +1283,11 @@ foreach($listAbsencesTotal as $listAb) {
 
                     }
 
+
+                }
+
+
+
                 }
 
 
@@ -1318,8 +1323,7 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-
-
+                if($listVac->name !== $username) {
                     $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
                     foreach($allNotifications as $notifList) {
@@ -1393,6 +1397,12 @@ foreach($listVacationsTotal as $listVac) {
 
 
                     }
+
+
+
+                }
+
+
 
 
 
