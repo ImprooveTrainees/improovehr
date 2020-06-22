@@ -1590,12 +1590,25 @@ foreach($listVacationsTotal as $listVac) {
                 if($flexUser->hoursDoneWeek < $flexUser->hoursToDoWeek && $workHoursSettings->alert_flextime == 1) {
                                 
                     $notfExists = false;
+                    $notfManagerExists = false;
 
                     foreach($allNotiticationsHarvest as $notfHarvest) {
                         $notification = notifications::find($notfHarvest->notificationId);
                         if($notification->type == 'Flextime') {
                             if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $flexUser->idUser) {
                                 $notfExists = true;
+                            }
+                        
+                        }
+                    }
+                    $userFlex = User::find($flexUser->idUser);
+                    $managerUser = User::find($userFlex->managerDoUserId($userFlex->departments->first()->description, $userFlex->country));
+
+                    foreach($allNotiticationsHarvest as $notfHarvest) {
+                        $notification = notifications::find($notfHarvest->notificationId);
+                        if($notification->type == 'Flextime') {
+                            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $managerUser->id) {
+                                $notfManagerExists = true;
                             }
                         
                         }
@@ -1638,6 +1651,46 @@ foreach($listVacationsTotal as $listVac) {
                               $response = $mj->post(Resources::$Email, ['body' => $body]);
                               $response->success();
                             //
+
+                        }
+                        if(!$notfManagerExists && Auth::user()->id != $managerUser->id) {
+                                //user manager part
+                             
+
+                                $newNotificationAdmin = new notifications;
+                                $newNotificationAdmin->type = "Flextime";
+                                $newNotificationAdmin->description = $userFlex->name." still haves ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." hours left to report this week. Warn him!";
+                                $newNotificationAdmin->save();
+                                $newNotfUserAdmin = new NotificationsUsers;
+                                $newNotfUserAdmin->notificationId = $newNotificationAdmin->id;
+                                $newNotfUserAdmin->receiveUserId = $managerUser->id;
+                                $newNotfUserAdmin->save();
+
+
+                                $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                              $body = [
+                                'Messages' => [
+                                  [
+                                    'From' => [
+                                      'Email' => "mailsenderhr@gmail.com",
+                                      'Name' => "ImprooveHR"
+                                    ],
+                                    'To' => [
+                                      [
+                                        'Email' => "andresl19972@gmail.com",
+                                        'Name' => $managerUser->name,
+                                      ]
+                                    ],
+                                    'Subject' => "Harvest hours remaining",
+                                    'TextPart' => "My first Mailjet email",
+                                    'HTMLPart' => "<h3>Dear ".$managerUser->name.", ".User::find($flexUser->idUser)->name." still haves ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." hours left to report from this week. Warn him as quickly as possible.</h3><br/>!",
+                                    'CustomID' => "AppGettingStartedTest"
+                                  ]
+                                ]
+                              ];
+                              $response = $mj->post(Resources::$Email, ['body' => $body]);
+                              $response->success();
+                               //
                         }
 
 
