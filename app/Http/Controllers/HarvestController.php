@@ -9,6 +9,7 @@ use Auth;
 use DatePeriod;
 use DateTime;
 use DateInterval;
+use App\users_flextime;
 
 class HarvestController extends Controller
 {
@@ -17,11 +18,27 @@ class HarvestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         
         // header("Content-Type: application/json");
+
+        $harvestToken = $request->input('harvestToken');
+        $harvestAccId = $request->input('harvestAccId');
+        $harvestMail = $request->input('harvestMail');
+        if(isset($harvestToken)){ //caso a variavel esteja definida, é porque foi executada a form
+            $newHarvestAccount = new users_flextime;
+            $newHarvestAccount->idUser = Auth::user()->id;
+            $newHarvestAccount->harvestApi_token = $harvestToken;
+            $newHarvestAccount->acc_id = $harvestAccId;
+            if($harvestMail != null) {
+                $newHarvestAccount->harvest_mail = $harvestMail;
+            }
+            $newHarvestAccount->save();
+            
+
+        }
 
 
         $workHoursSettings = settings_general::orderBy('created_at', 'desc')->first();

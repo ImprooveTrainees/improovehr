@@ -5,6 +5,16 @@
 </head>
 
 <body>
+
+<form action="">
+    Welcome!
+    <p>Insert your Harvest API token: <input name="harvestToken" required type="text"></p>
+    <p>Insert your Harvest account ID: <input name="harvestAccId" required type="number"> </p>
+    <p>Insert your Harvest email(optional): <input name="harvestMail" type="text"></p>
+    <button type="Submit">Submit</button>
+</form>
+
+
 {{$month}}
 
 
@@ -17,7 +27,7 @@
 {{$harvestProfile->first_name}}
 {{$harvestProfile->last_name}}
 <br>
- {{$harvestProfile->email}} 
+{{$harvestProfile->email}} 
 
  <br>
  <br>
