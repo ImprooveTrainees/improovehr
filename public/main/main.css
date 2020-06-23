@@ -48,6 +48,10 @@
   }
 }
 
+#main-container p, #main-container h1, #main-container h2, #main-container h3, #main-container h4, #main-container h5, #main-container h6, #main-container th, #main-container td, #main-container tr, #main-container table, #main-container button, #main-container label, #main-container select, #main-container input, #main-container strong {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
 .content {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
@@ -2526,6 +2530,12 @@ table {
   display: none;
 }
 
+#lastMonth th,
+#last2weeks th,
+#currentWeek th {
+  width: 250px;
+}
+
 .flexstyle {
   margin: unset;
   margin-top: 60px;
@@ -2600,20 +2610,20 @@ td {
   grid-gap: 20px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 120px 120px 120px;
-      grid-template-columns: 120px 120px 120px;
+  -ms-grid-columns: 150px 150px 150px;
+      grid-template-columns: 150px 150px 150px;
   margin: auto;
-  width: 400px;
+  width: 490px;
   margin-top: 80px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 425px) {
   .flexstyle {
     margin-top: 20px;
-    margin-left: 20px;
     width: 230px;
     height: 180px;
     float: none;
+    margin: auto;
   }
   #flexbuttons {
     -ms-grid-columns: 120px;
