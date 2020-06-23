@@ -459,4 +459,15 @@ active
     </div>
 </div>
 
+
+<script>
+function confirmDelete() {
+
+    if(!confirm("Are You Sure you want to delete this user?"))
+      event.preventDefault();
+
+}
+
+    </script>
+
 @endsection
