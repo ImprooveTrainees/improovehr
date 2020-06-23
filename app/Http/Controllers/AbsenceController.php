@@ -578,6 +578,10 @@ class AbsenceController extends Controller
         ->where('users.id','=',$id_user)
         ->select('users.idusertype')->value('idusertype');
 
+        $username = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.name')->value('name');
+
         $noNotification = false;
 
         $listVacationsTotal = DB::table('users')->join('absences','absences.iduser','=','users.id')
@@ -1204,7 +1208,7 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-
+                if($listAb->name !== $username) {
 
                     $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
@@ -1277,11 +1281,16 @@ foreach($listAbsencesTotal as $listAb) {
 
                             //
                         }
-                        
 
-                        
+
+
 
                     }
+
+
+                }
+
+
 
                 }
 
@@ -1318,8 +1327,7 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-
-
+                if($listVac->name !== $username) {
                     $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
                     foreach($allNotifications as $notifList) {
@@ -1387,12 +1395,18 @@ foreach($listVacationsTotal as $listVac) {
                          ];
                          $response = $mj->post(Resources::$Email, ['body' => $body]);
                          $response->success();
- 
+
                          //
 
 
 
                     }
+
+
+
+                }
+
+
 
 
 
@@ -1410,7 +1424,7 @@ foreach($listVacationsTotal as $listVac) {
 
 
 //Flextime begin
-        $userExistFlextime = users_flextime::where('idUser', Auth::user()->id)->first(); 
+        $userExistFlextime = users_flextime::where('idUser', Auth::user()->id)->first();
         $harvestConfigured = false;
         if($userExistFlextime == null) {
             $totalHoursTodoCurrentWeek = "N/A";
@@ -1419,7 +1433,7 @@ foreach($listVacationsTotal as $listVac) {
         else {
 
                 $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
-                
+
                 //Time entries Harvest API
                 $ch = curl_init();
 
@@ -1583,12 +1597,12 @@ foreach($listVacationsTotal as $listVac) {
         $allUsersFlextime = users_flextime::All();
         $allNotiticationsHarvest = NotificationsUsers::All();
 
-    
+
 
         if(date('Y-m-d') == end($daysCurrentWeek)) {
             foreach($allUsersFlextime as $flexUser) {
                 if($flexUser->hoursDoneWeek < $flexUser->hoursToDoWeek && $workHoursSettings->alert_flextime == 1) {
-                                
+
                     $notfExists = false;
                     $notfManagerExists = false;
 
@@ -1598,7 +1612,7 @@ foreach($listVacationsTotal as $listVac) {
                             if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $flexUser->idUser) {
                                 $notfExists = true;
                             }
-                        
+
                         }
                     }
                     $userFlex = User::find($flexUser->idUser);
@@ -1610,7 +1624,7 @@ foreach($listVacationsTotal as $listVac) {
                             if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $managerUser->id) {
                                 $notfManagerExists = true;
                             }
-                        
+
                         }
                     }
 
@@ -1655,7 +1669,7 @@ foreach($listVacationsTotal as $listVac) {
                         }
                         if(!$notfManagerExists && Auth::user()->id != $managerUser->id) {
                                 //user manager part
-                             
+
 
                                 $newNotificationAdmin = new notifications;
                                 $newNotificationAdmin->type = "Flextime";
@@ -1694,7 +1708,7 @@ foreach($listVacationsTotal as $listVac) {
                         }
 
 
-                  
+
                 }
             }
         }
