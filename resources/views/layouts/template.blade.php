@@ -576,7 +576,7 @@
                                         @if($id_user == $notUser->receiveUserId)
                                             <?php $notification = notifications::find($notUser->notificationId); ?>
                                             @if($notification->read_at=='')
-                                            <li class="ajaxWhiteLI">
+                                            <li style="background-color:lightgrey;">
                                             @else
                                             <li class="ajaxWhiteLI">
 
