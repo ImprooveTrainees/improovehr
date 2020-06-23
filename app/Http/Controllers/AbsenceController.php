@@ -846,9 +846,13 @@ class AbsenceController extends Controller
 
         $vacations_total = $vacationDaysCY + $balanceLY; // TOTAL DAYS
 
-        if($vacations_total > 30) {
+        $maxVacations = DB::table('settings_general')->select('limit_vacations')->latest('created_at')->first();
 
-            $vacations_total = 30;
+        $maxVacations = settings_general::orderBy('created_at','desc')->first()->limit_vacations;
+
+        if($vacations_total > $maxVacations) {
+
+            $vacations_total = $maxVacations;
 
         }
 
