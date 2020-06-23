@@ -9,6 +9,7 @@ use App\User;
 use App\notifications_reminders;
 use App\settings_general;
 use App\users_flextime;
+use App\settings_extradays;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -303,7 +304,7 @@ class AbsenceController extends Controller
                 if($roleuser>2) {
 
                     $notification->type="Absences";
-                $notification->description=$username." created an absence. Waiting for Approval.";
+                    $notification->description=$username." created an absence from ".$startDate." to ".$endDate." . Waiting for Approval.";
 
                     $notification->save();
 
@@ -448,8 +449,8 @@ class AbsenceController extends Controller
             $idUserCreated = DB::table('users')
             ->join('absences','absences.iduser','=','users.id')
             ->where('absences.id','=',$updValue)
-            ->select('users.id')
-            ->value('id');
+            ->select('absences.iduser')
+            ->value('iduser');
 
             $typeAbsence = DB::table('absences')
             ->where('absences.id','=',$updValue)
@@ -487,8 +488,8 @@ class AbsenceController extends Controller
             $idUserCreated = DB::table('users')
             ->join('absences','absences.iduser','=','users.id')
             ->where('absences.id','=',$updValue)
-            ->select('users.id')
-            ->value('id');
+            ->select('absences.iduser')
+            ->value('iduser');
 
             $typeAbsence = DB::table('absences')
             ->where('absences.id','=',$updValue)
@@ -647,7 +648,22 @@ class AbsenceController extends Controller
 
         $dateEnd2Y = date('Y-12-31', strtotime('- 2 year')); // DATE - END OF 2 YEARS AGO
 
-        $holidays = [
+        //Beginning Holidays API
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $resultHolidays = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+
+        $resultHolidays = json_decode($resultHolidays);
+
+        /* $holidays = [
 
             Carbon::create(2020, 1, 1),
             Carbon::create(2020, 2, 26),
@@ -667,7 +683,27 @@ class AbsenceController extends Controller
             Carbon::create(2020, 12, 31),
 
 
-        ];
+        ]; */
+
+        $holidays = array();
+
+        foreach($resultHolidays as $hol) {
+
+            $hld = Carbon::parse($hol->date);
+            array_push($holidays, $hld);
+
+        }
+
+        // ADD EXTRA DAYS TO HOLIDAYS
+
+        $allExtraDays = settings_extradays::all();
+
+        foreach($allExtraDays as $extra) {
+
+            $xtr = Carbon::parse($extra->extra_day);
+            array_push($holidays, $xtr);
+
+        }
 
 
         foreach($nrVacationsCY as $vac) {
@@ -701,11 +737,13 @@ class AbsenceController extends Controller
 
             $count_days += $days;
 
+            $count_days += 1; //Number of vacation days already spent this year
+
         }
 
         //$count_days = $days;
 
-        $count_days += 1; //Number of vacation days already spent this year
+        //$count_days += 1; //Number of vacation days already spent this year
 
         foreach($nrVacationsLY as $vac) {
 
@@ -731,9 +769,11 @@ class AbsenceController extends Controller
 
             $count_days2 += $days2;
 
+            $count_days2 += 1; //Number of vacation days already spent from last year
+
         }
 
-        $count_days2 += 1; //Number of vacation days already spent from last year
+        //$count_days2 += 1; //Number of vacation days already spent from last year
 
 
         $balance = 0;
@@ -1459,22 +1499,6 @@ foreach($listVacationsTotal as $listVac) {
 
 
         //end Time entries Harvest API
-
-
-        //Beginning Holidays API
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $resultHolidays = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close($ch);
-
-
-        $resultHolidays = json_decode($resultHolidays);
 
 
         //$actualMonthDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date("Y"));
