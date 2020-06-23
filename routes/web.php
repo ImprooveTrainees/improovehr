@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Harvest
         Route::get('/harvest', 'HarvestController@index');
+        Route::post('/harvestSaveCreds', 'HarvestController@index');
         //
 
         //Evaluations AdminRH Create Evaluation
