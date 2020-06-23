@@ -14,6 +14,17 @@ open
 
 @section('content')
 
+<form id="harvestForm" method="post" action="/harvestSaveCreds">
+    @csrf
+    Welcome!
+    <p>Insert your Harvest API token: <input name="harvestToken" required type="text"></p>
+    <p>Insert your Harvest account ID: <input name="harvestAccId" required type="number"> </p>
+    <p>Insert your Harvest email (optional): <input name="harvestMail" type="text"></p>
+    <button type="Submit">Submit</button>
+</form>
+
+
+@if(isset($harvestProfile))
 <div class="shadow p-1 bg-white cardbox1">
     <div class="shadow p-1 bg-white cardbox2 flexstyle">
         <h6 id="flexh6">This Week</h6>
@@ -64,13 +75,12 @@ open
             <thead>
                 <tr>
                     @foreach($daysPreviousMonth as $day)
-                    <th class="d-sm-table-cell">
-                        {{date( 'D', strtotime($day->format('Y-m-d')))}}
-                        <br>
-                        {{date( 'd F', strtotime($day->format('Y-m-d')))}}
-                        <?php $countTr++ ?>
+                    <th>{{date( 'D', strtotime($day->format('Y-m-d')))}}
+                    <br>
+                    {{date( 'd F', strtotime($day->format('Y-m-d')))}}
+                    <?php $countTr++ ?>
                     </th>
-                    @if($day->format('w') == 5) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
+                    @if($day->format('w') == end($workingDays)) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
                 </tr>
             </thead>
             <tbody>
@@ -84,19 +94,19 @@ open
             </table> <!-- termina uma table -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable">  <!-- começa outra table -->
                 <thead>
-                <tr>
-                @elseif($day->format('w') != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
-                </tr>   <!-- encerra a tr dos headers -->
+                    <tr>
+                        @elseif(end($workingDays) != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
+                    </tr>   <!-- encerra a tr dos headers -->
                 </thead>
                     <tr>  <!-- começa as td -->
                         @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
                                 <td>{{$daysPreviousMonthTotals[$b]}} Hours</td>
                         @endfor
                         <?php $countTh = $b ?>
+                        @endif
+                    @endforeach
                     </tr> <!-- acaba as td -->
-                </table>
-                @endif
-            @endforeach
+            </table>
             <h5>{{$totalHoursDoneLastMonth}} of {{$totalHoursToDoLastMonth}} of hours done last month</h5>
 
     {{-- @if($totalHoursDoneLastMonth > $totalHoursToDoLastMonth)
@@ -114,27 +124,10 @@ open
         <table class="table table-bordered table-striped table-vcenter js-dataTable">
             <thead>
                 <tr>
-                    <th class="d-sm-table-cell">{{date( 'D', strtotime( '-1 week monday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week monday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell">{{date( 'D', strtotime( '-1 week tuesday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week tuesday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell">{{date( 'D', strtotime( '-1 week wednesday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week wednesday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell">{{date( 'D', strtotime( '-1 week thursday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week thursday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell">{{date( 'D', strtotime( '-1 week friday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week friday this week'))}}
-                    </th>
-                    </tr>
+                    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                    <th>{{date( 'D', strtotime( '-1 week monday this week +'.$b.' days'))}}</th>
+                    @endfor
+                </tr>
             </thead>
             <tbody>
                 <tr>
@@ -151,28 +144,13 @@ open
             <table class="table table-bordered table-striped table-vcenter js-dataTable">  <!-- começa outra table -->
                 <thead>
                     <tr>
-                        <th class=" d-sm-table-cell">{{date( 'D', strtotime( '-2 week monday this week'))}}
+                        @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                        <th>{{date( 'D', strtotime( '-2 week monday this week +'.$b.' days'))}}
                             <br>
-                            {{date( 'd F', strtotime( '-2 week monday this week'))}}
+                            {{date( 'd F', strtotime( ' -2 week monday this week +'.$b.' days'))}}
                         </th>
-                        <th class=" d-sm-table-cell">{{date( 'D', strtotime( '-2 week tuesday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week tuesday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell">{{date( 'D', strtotime( '-2 week wednesday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week wednesday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell">{{date( 'D', strtotime( '-2 week thursday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week thursday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell">{{date( 'D', strtotime( '-2 week friday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week friday this week'))}}
-                        </th>
+                    @endfor
                     </tr>
-
                 </thead>
                 <tr>
                     @foreach($last2WeeksTotals as $dayPast2week)
@@ -208,26 +186,28 @@ open
         <table class="table table-bordered table-striped table-vcenter js-dataTable">
             <thead>
                 <tr>
-                    <th class=" d-sm-table-cell">{{date( 'D', strtotime( 'monday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( 'monday this week'))}}
-                    </th>
-                    <th class=" d-sm-table-cell">{{date( 'D', strtotime( 'tuesday this week'))}}
+                    <th>{{date( 'D', strtotime( 'tuesday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'tuesday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell">{{date( 'D', strtotime( 'wednesday this week'))}}
+                    <th>{{date( 'D', strtotime( 'wednesday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'wednesday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell">{{date( 'D', strtotime( 'thursday this week'))}}
+                    <th>{{date( 'D', strtotime( 'thursday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'thursday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell">{{date( 'D', strtotime( 'friday this week'))}}
+                    <th>{{date( 'D', strtotime( 'friday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'friday this week'))}}
                     </th>
+                    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                        <th>{{date( 'D', strtotime( 'monday this week +'.$b.' days'))}}
+                            <br>
+                            {{date( 'd F', strtotime( 'monday this week +'.$b.' days'))}}
+                        </th>
+                    @endfor
                 </tr>
             </thead>
             <tbody>
@@ -254,4 +234,12 @@ open
 
 {{-- END OF CARDBOX1 --}}
 </div>
+
+<script>
+    document.getElementById('harvestForm').style.display = "none";
+    //esconde a form
+ </script>
+
+@endif
 @endsection
+
