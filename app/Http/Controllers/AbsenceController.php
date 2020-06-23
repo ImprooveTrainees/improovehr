@@ -8,6 +8,8 @@ use App\NotificationsUsers;
 use App\User;
 use App\notifications_reminders;
 use App\settings_general;
+use App\users_flextime;
+use App\settings_extradays;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -17,6 +19,9 @@ use DB;
 use App\sliderView;
 use Redirect,Response;
 use Carbon\Carbon;
+
+require '../vendor/autoload.php';
+use \Mailjet\Resources;
 
 class AbsenceController extends Controller
 {
@@ -299,7 +304,7 @@ class AbsenceController extends Controller
                 if($roleuser>2) {
 
                     $notification->type="Absences";
-                $notification->description=$username." created an absence. Waiting for Approval.";
+                    $notification->description=$username." created an absence from ".$startDate." to ".$endDate." . Waiting for Approval.";
 
                     $notification->save();
 
@@ -444,8 +449,8 @@ class AbsenceController extends Controller
             $idUserCreated = DB::table('users')
             ->join('absences','absences.iduser','=','users.id')
             ->where('absences.id','=',$updValue)
-            ->select('users.id')
-            ->value('id');
+            ->select('absences.iduser')
+            ->value('iduser');
 
             $typeAbsence = DB::table('absences')
             ->where('absences.id','=',$updValue)
@@ -483,8 +488,8 @@ class AbsenceController extends Controller
             $idUserCreated = DB::table('users')
             ->join('absences','absences.iduser','=','users.id')
             ->where('absences.id','=',$updValue)
-            ->select('users.id')
-            ->value('id');
+            ->select('absences.iduser')
+            ->value('iduser');
 
             $typeAbsence = DB::table('absences')
             ->where('absences.id','=',$updValue)
@@ -551,6 +556,7 @@ class AbsenceController extends Controller
      */
     public function show(Request $request)
     {
+        $workHoursSettings = settings_general::orderBy('created_at', 'desc')->first();
 
         $user = Auth::user();
 
@@ -572,6 +578,10 @@ class AbsenceController extends Controller
         $roleuser = DB::table('users')
         ->where('users.id','=',$id_user)
         ->select('users.idusertype')->value('idusertype');
+
+        $username = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.name')->value('name');
 
         $noNotification = false;
 
@@ -638,7 +648,22 @@ class AbsenceController extends Controller
 
         $dateEnd2Y = date('Y-12-31', strtotime('- 2 year')); // DATE - END OF 2 YEARS AGO
 
-        $holidays = [
+        //Beginning Holidays API
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $resultHolidays = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+
+        $resultHolidays = json_decode($resultHolidays);
+
+        /* $holidays = [
 
             Carbon::create(2020, 1, 1),
             Carbon::create(2020, 2, 26),
@@ -658,7 +683,27 @@ class AbsenceController extends Controller
             Carbon::create(2020, 12, 31),
 
 
-        ];
+        ]; */
+
+        $holidays = array();
+
+        foreach($resultHolidays as $hol) {
+
+            $hld = Carbon::parse($hol->date);
+            array_push($holidays, $hld);
+
+        }
+
+        // ADD EXTRA DAYS TO HOLIDAYS
+
+        $allExtraDays = settings_extradays::all();
+
+        foreach($allExtraDays as $extra) {
+
+            $xtr = Carbon::parse($extra->extra_day);
+            array_push($holidays, $xtr);
+
+        }
 
 
         foreach($nrVacationsCY as $vac) {
@@ -692,11 +737,13 @@ class AbsenceController extends Controller
 
             $count_days += $days;
 
+            $count_days += 1; //Number of vacation days already spent this year
+
         }
 
         //$count_days = $days;
 
-        $count_days += 1; //Number of vacation days already spent this year
+        //$count_days += 1; //Number of vacation days already spent this year
 
         foreach($nrVacationsLY as $vac) {
 
@@ -722,9 +769,11 @@ class AbsenceController extends Controller
 
             $count_days2 += $days2;
 
+            $count_days2 += 1; //Number of vacation days already spent from last year
+
         }
 
-        $count_days2 += 1; //Number of vacation days already spent from last year
+        //$count_days2 += 1; //Number of vacation days already spent from last year
 
 
         $balance = 0;
@@ -797,9 +846,13 @@ class AbsenceController extends Controller
 
         $vacations_total = $vacationDaysCY + $balanceLY; // TOTAL DAYS
 
-        if($vacations_total > 30) {
+        $maxVacations = DB::table('settings_general')->select('limit_vacations')->latest('created_at')->first();
 
-            $vacations_total = 30;
+        $maxVacations = settings_general::orderBy('created_at','desc')->first()->limit_vacations;
+
+        if($vacations_total > $maxVacations) {
+
+            $vacations_total = $maxVacations;
 
         }
 
@@ -1199,7 +1252,7 @@ foreach($listAbsencesTotal as $listAb) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($listAb->iduser !== $id_user) {
+                if($listAb->name !== $username) {
 
                     $descricao2 = "Urgent! You have an Absence from ".$listAb->name." waiting for Approval, from ".$listAb->start_date." to ".$listAb->end_date." .";
 
@@ -1244,12 +1297,49 @@ foreach($listAbsencesTotal as $listAb) {
 
                         $notif_user->save();
 
+                        if($workHoursSettings->alert_holidays == 1) {
+                                //Mail to user
+                            $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                            $body = [
+                            'Messages' => [
+                                [
+                                'From' => [
+                                    'Email' => "mailsenderhr@gmail.com",
+                                    'Name' => "ImprooveHR"
+                                ],
+                                'To' => [
+                                    [
+                                    'Email' => "andresl19972@gmail.com",
+                                    'Name' => User::find($id_user)->name,
+                                    ]
+                                ],
+                                'Subject' => "Absence waiting for approval",
+                                'TextPart' => "My first Mailjet email",
+                                'HTMLPart' => "<h3>Dear ".User::find($id_user)->name.",".$descricao2."</h3><br/>!",
+                                'CustomID' => "AppGettingStartedTest"
+                                ]
+                            ]
+                            ];
+                            $response = $mj->post(Resources::$Email, ['body' => $body]);
+                            $response->success();
+
+                            //
+                        }
+
+
+
+
                     }
+
 
                 }
 
 
-            }
+
+                }
+
+
+
 
         }
 
@@ -1281,8 +1371,7 @@ foreach($listVacationsTotal as $listVac) {
 
             if($roleuser==2) {
 
-                if($listVac->iduser !== $id_user) {
-
+                if($listVac->name !== $username) {
                     $descricao2 = "Urgent! You have Vacations from ".$listVac->name." waiting for Approval, from ".$listVac->start_date." to ".$listVac->end_date." .";
 
                     foreach($allNotifications as $notifList) {
@@ -1326,9 +1415,44 @@ foreach($listVacationsTotal as $listVac) {
 
                         $notif_user->save();
 
+                         //Mail to user
+                         $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                         $body = [
+                         'Messages' => [
+                             [
+                             'From' => [
+                                 'Email' => "mailsenderhr@gmail.com",
+                                 'Name' => "ImprooveHR"
+                             ],
+                             'To' => [
+                                 [
+                                 'Email' => "andresl19972@gmail.com",
+                                 'Name' => User::find($id_user)->name,
+                                 ]
+                             ],
+                             'Subject' => "Vacations waiting for approval",
+                             'TextPart' => "My first Mailjet email",
+                             'HTMLPart' => "<h3>Dear ".User::find($id_user)->name.",".$descricao2."</h3><br/>!",
+                             'CustomID' => "AppGettingStartedTest"
+                             ]
+                         ]
+                         ];
+                         $response = $mj->post(Resources::$Email, ['body' => $body]);
+                         $response->success();
+
+                         //
+
+
+
                     }
 
+
+
                 }
+
+
+
+
 
             }
 
@@ -1344,190 +1468,378 @@ foreach($listVacationsTotal as $listVac) {
 
 
 //Flextime begin
-        $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
-        $workHoursSettings = settings_general::orderBy('created_at', 'desc')->first();
-        //Time entries Harvest API
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-        $headers = array();
-        $headers[] = 'Harvest-Account-Id: 1309110';
-        $headers[] = 'Authorization: Bearer 2342863.pt.D9pe8kGLDpagqouCRGH5xB7QIlwQm46vbyUspFIr9PVq5C6BRnJ_oyi1Pz5-MLE071ak7EFN_D0zl0IaknazTQ';
-        $headers[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result2 = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+        $userExistFlextime = users_flextime::where('idUser', Auth::user()->id)->first();
+        $harvestConfigured = false;
+        if($userExistFlextime == null) {
+            $totalHoursTodoCurrentWeek = "N/A";
+            $totalHours = "N/A";
         }
-        curl_close($ch);
+        else {
 
-        $result2 = json_decode($result2);
+                $allAbsences = absence::All()->where('status', '=', 'Concluded')->where('iduser', '=', Auth::User()->id);
 
+                //Time entries Harvest API
+                $ch = curl_init();
 
-
-//end Time entries Harvest API
-
-
-//Beginning Holidays API
-$ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-$resultHolidays = curl_exec($ch);
-if (curl_errno($ch)) {
-    echo 'Error:' . curl_error($ch);
-}
-curl_close($ch);
+                curl_setopt($ch, CURLOPT_URL, 'https://api.harvestapp.com/v2/time_entries');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 
-$resultHolidays = json_decode($resultHolidays);
+                $headers = array();
+                $headers[] = 'Harvest-Account-Id:'.$userExistFlextime->acc_id;
+                $headers[] = 'Authorization: Bearer '.$userExistFlextime->harvestApi_token;
+                $headers[] = 'User-Agent: ImprooveHR(andre.lopes@gmail.com)';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                $result2 = curl_exec($ch);
+                if (curl_errno($ch)) {
+                    echo 'Error:' . curl_error($ch);
+                }
+                curl_close($ch);
+
+                $result2 = json_decode($result2);
 
 
-//$actualMonthDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date("Y"));
-$monthBegin = new DateTime('first day of this month');
-$monthEnd = new DateTime('tomorrow'); //ele inclui a start date, mas não a end date, portanto adicionamos mais um dia
-$monthlyHoursWorkDays = 0;
-$dateRangeCountWeekends = new DatePeriod(
-    new DateTime($monthBegin->format('Y-m-d')),
-    new DateInterval('P1D'),
-    new DateTime($monthEnd->format('Y-m-d'))
-);
 
-$workingDays = [];
-for($i = $workHoursSettings->flextime_startDay; $i <= $workHoursSettings->flextime_endDay; $i++) {
-    array_push($workingDays, $i);
-}
+        //end Time entries Harvest API
 
 
-foreach ($dateRangeCountWeekends as $key => $value) {
-    if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
-           foreach($workingDays as $wDays) {
-               if($value->format('w') == $wDays) { //se for dentro da range dos dias escolhidos para trabalhar nas settings
-                    $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
-                    foreach($resultHolidays as $holiday) { //se não for fim de semana e fôr um dia da semana escolhido nas settings, mas fôr feriado, retira as horas
-                        if($holiday->date == $value->format('Y-m-d')) {
-                            $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
-                        }
+        //$actualMonthDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date("Y"));
+        $monthBegin = new DateTime('first day of this month');
+        $monthEnd = new DateTime('tomorrow'); //ele inclui a start date, mas não a end date, portanto adicionamos mais um dia
+        $monthlyHoursWorkDays = 0;
+        $dateRangeCountWeekends = new DatePeriod(
+            new DateTime($monthBegin->format('Y-m-d')),
+            new DateInterval('P1D'),
+            new DateTime($monthEnd->format('Y-m-d'))
+        );
+
+        $workingDays = [];
+        for($i = $workHoursSettings->flextime_startDay; $i <= $workHoursSettings->flextime_endDay; $i++) {
+            array_push($workingDays, $i);
+        }
+
+
+        foreach ($dateRangeCountWeekends as $key => $value) {
+            if($value->format('w') != 6 && $value->format('w') != 0) { //retira as horas dos fim de semanas do mês actual
+                foreach($workingDays as $wDays) {
+                    if($value->format('w') == $wDays) { //se for dentro da range dos dias escolhidos para trabalhar nas settings
+                            $monthlyHoursWorkDays+= $workHoursSettings->flextime_dailyHours;
+                            foreach($resultHolidays as $holiday) { //se não for fim de semana e fôr um dia da semana escolhido nas settings, mas fôr feriado, retira as horas
+                                if($holiday->date == $value->format('Y-m-d')) {
+                                    $monthlyHoursWorkDays-= $workHoursSettings->flextime_dailyHours;
+                                }
+                            }
                     }
-               }
-           }
-    }
-}
-
-//this week vars
-$currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y');
-
-$daysCurrentWeek = [];
-$totalsCurrentWeek = [];
-$totalHours = 0;
-
-for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
-{
-    array_push($daysCurrentWeek,date('Y-m-d', strtotime( 'monday this week +'.$b.' days')));
-    array_push($totalsCurrentWeek, 0);
-}
-
-
-
-for($i = 0; $i  < count($result2->time_entries); $i++) {
-    for($b = 0; $b < count($daysCurrentWeek); $b++) {
-        foreach($allAbsences as $absence) {
-            $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
-            $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($absence->end_date)));
-            $AbsenceDatesBetween = new DatePeriod(
-                new DateTime($dateStartAbsence),
-                new DateInterval('P1D'),
-                new DateTime($dateEndAbsence)
-           );
-           foreach ($AbsenceDatesBetween as $key => $value) {
-                if($value->format('Y-m-d') == $daysCurrentWeek[$b]) {
-                    if($absence->absencetype == 1) {
-                        $totalsCurrentWeek[$b] = "Vacations";
-                        continue 3; //após confirmado que é ausência, passa para o prox dia
-                    }
-                    else {
-                        $totalsCurrentWeek[$b] = $absence->motive;
-                        continue 3;
-                    }
-                     // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
-                    //pega em todos os dias da absence (inclusive os que estão no meio) e
-                    //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual,
-                    //é porque o user esteve ausente esses dias.
                 }
             }
+        }
 
+        //this week vars
+        $currentWeek = date( 'F d', strtotime( 'monday this week' ) )." | ". date( 'F d', strtotime( 'sunday this week' ) )." ".date('Y');
+
+        $daysCurrentWeek = [];
+        $totalsCurrentWeek = [];
+        $totalHours = 0;
+
+        for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+        {
+            array_push($daysCurrentWeek,date('Y-m-d', strtotime( 'monday this week +'.$b.' days')));
+            array_push($totalsCurrentWeek, 0);
+        }
+
+
+
+        for($i = 0; $i  < count($result2->time_entries); $i++) {
+            for($b = 0; $b < count($daysCurrentWeek); $b++) {
+                foreach($allAbsences as $absence) {
+                    $dateStartAbsence = date('Y-m-d',strtotime($absence->start_date));
+                    $dateEndAbsence = date('Y-m-d',strtotime('+1 day', strtotime($absence->end_date)));
+                    $AbsenceDatesBetween = new DatePeriod(
+                        new DateTime($dateStartAbsence),
+                        new DateInterval('P1D'),
+                        new DateTime($dateEndAbsence)
+                );
+                foreach ($AbsenceDatesBetween as $key => $value) {
+                        if($value->format('Y-m-d') == $daysCurrentWeek[$b]) {
+                            if($absence->absencetype == 1) {
+                                $totalsCurrentWeek[$b] = "Vacations";
+                                continue 3; //após confirmado que é ausência, passa para o prox dia
+                            }
+                            else {
+                                $totalsCurrentWeek[$b] = $absence->motive;
+                                continue 3;
+                            }
+                            // aqui passa para a prox iteração do dia da semana, pois esse dia já foi preenchido pela absence
+                            //pega em todos os dias da absence (inclusive os que estão no meio) e
+                            //compara com o dia da semana do harvest. Caso se verifique que algum deles é igual,
+                            //é porque o user esteve ausente esses dias.
+                        }
+                    }
+
+
+                }
+                foreach($resultHolidays as $holiday) {
+                    if($holiday->date == $daysCurrentWeek[$b]) {
+                        $totalsCurrentWeek[$b] = $holiday->localName;
+                        continue 2;
+                    }
+                }
+                if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
+                        $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
+                        $totalHours += $result2->time_entries[$i]->hours;
+                }
+
+
+            }
 
         }
-        foreach($resultHolidays as $holiday) {
-            if($holiday->date == $daysCurrentWeek[$b]) {
-                $totalsCurrentWeek[$b] = $holiday->localName;
-                continue 2;
+
+        $totalHoursTodoCurrentWeek = 0;
+        $dateRangeCurrentWeek = new DatePeriod(
+            new DateTime($daysCurrentWeek[0]),
+            new DateInterval('P1D'),
+            new DateTime(date( "Y-m-d", strtotime(end($daysCurrentWeek) . '+1 day'))) //ultimo dia do array +1 dia, para ele contá-lo no total de horas
+        );
+
+
+
+
+
+        foreach ($dateRangeCurrentWeek as $key => $value) {
+                $totalHoursTodoCurrentWeek+= $workHoursSettings->flextime_dailyHours;
+                foreach($resultHolidays as $holiday) {
+                    if($holiday->date == $value->format('Y-m-d')) {
+                        $totalHoursTodoCurrentWeek-= $workHoursSettings->flextime_dailyHours;
+                    }
+                }
+
+        }
+
+        $userExistFlextime->hoursDoneWeek = $totalHours;
+        $userExistFlextime->hoursToDoWeek = $totalHoursTodoCurrentWeek;
+        $userExistFlextime->save();
+
+        //Notifications Harvest
+        $allUsersFlextime = users_flextime::All();
+        $allNotiticationsHarvest = NotificationsUsers::All();
+
+
+
+        if(date('Y-m-d') == end($daysCurrentWeek)) {
+            foreach($allUsersFlextime as $flexUser) {
+                if($flexUser->hoursDoneWeek < $flexUser->hoursToDoWeek && $workHoursSettings->alert_flextime == 1) {
+
+                    $notfExists = false;
+                    $notfManagerExists = false;
+
+                    foreach($allNotiticationsHarvest as $notfHarvest) {
+                        $notification = notifications::find($notfHarvest->notificationId);
+                        if($notification->type == 'Flextime') {
+                            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $flexUser->idUser) {
+                                $notfExists = true;
+                            }
+
+                        }
+                    }
+                    $userFlex = User::find($flexUser->idUser);
+                    $managerUser = User::find($userFlex->managerDoUserId($userFlex->departments->first()->description, $userFlex->country));
+
+                    foreach($allNotiticationsHarvest as $notfHarvest) {
+                        $notification = notifications::find($notfHarvest->notificationId);
+                        if($notification->type == 'Flextime') {
+                            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == $managerUser->id) {
+                                $notfManagerExists = true;
+                            }
+
+                        }
+                    }
+
+                        if(!$notfExists) {
+                                $newNotification = new notifications;
+                                $newNotification->type = "Flextime";
+                                $newNotification->description = "You still have ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." left to report this week.";
+                                $newNotification->save();
+                                $newNotfUser = new NotificationsUsers;
+                                $newNotfUser->notificationId = $newNotification->id;
+                                $newNotfUser->receiveUserId = $flexUser->idUser;
+                                $newNotfUser->save();
+
+                            //     $managerUserAuth = User::find(Auth::user()->managerDoUserId(Auth::user()->departments->first()->description, Auth::user()->country));
+                              //Mail to User
+
+                              $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                              $body = [
+                                'Messages' => [
+                                  [
+                                    'From' => [
+                                      'Email' => "mailsenderhr@gmail.com",
+                                      'Name' => "ImprooveHR"
+                                    ],
+                                    'To' => [
+                                      [
+                                        'Email' => "andresl19972@gmail.com",
+                                        'Name' => User::find($flexUser->idUser)->name,
+                                      ]
+                                    ],
+                                    'Subject' => "Harvest hours remaining",
+                                    'TextPart' => "My first Mailjet email",
+                                    'HTMLPart' => "<h3>Dear ".User::find($flexUser->idUser)->name.", you still have ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." hours left to report from this week. Do it as quickly as possible.</h3><br/>!",
+                                    'CustomID' => "AppGettingStartedTest"
+                                  ]
+                                ]
+                              ];
+                              $response = $mj->post(Resources::$Email, ['body' => $body]);
+                              $response->success();
+                            //
+
+                        }
+                        if(!$notfManagerExists && Auth::user()->id != $managerUser->id) {
+                                //user manager part
+
+
+                                $newNotificationAdmin = new notifications;
+                                $newNotificationAdmin->type = "Flextime";
+                                $newNotificationAdmin->description = $userFlex->name." still haves ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." hours left to report this week. Warn him!";
+                                $newNotificationAdmin->save();
+                                $newNotfUserAdmin = new NotificationsUsers;
+                                $newNotfUserAdmin->notificationId = $newNotificationAdmin->id;
+                                $newNotfUserAdmin->receiveUserId = $managerUser->id;
+                                $newNotfUserAdmin->save();
+
+
+                                $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                              $body = [
+                                'Messages' => [
+                                  [
+                                    'From' => [
+                                      'Email' => "mailsenderhr@gmail.com",
+                                      'Name' => "ImprooveHR"
+                                    ],
+                                    'To' => [
+                                      [
+                                        'Email' => "andresl19972@gmail.com",
+                                        'Name' => $managerUser->name,
+                                      ]
+                                    ],
+                                    'Subject' => "Harvest hours remaining",
+                                    'TextPart' => "My first Mailjet email",
+                                    'HTMLPart' => "<h3>Dear ".$managerUser->name.", ".User::find($flexUser->idUser)->name." still haves ".($flexUser->hoursToDoWeek - $flexUser->hoursDoneWeek)." hours left to report from this week. Warn him as quickly as possible.</h3><br/>!",
+                                    'CustomID' => "AppGettingStartedTest"
+                                  ]
+                                ]
+                              ];
+                              $response = $mj->post(Resources::$Email, ['body' => $body]);
+                              $response->success();
+                               //
+                        }
+
+
+
+                }
             }
         }
-        if($result2->time_entries[$i]->spent_date == $daysCurrentWeek[$b]) {
-                $totalsCurrentWeek[$b] += $result2->time_entries[$i]->hours;
-                $totalHours += $result2->time_entries[$i]->hours;
-        }
 
+        //Notifications Harvest
 
     }
-
-}
-
-$totalHoursTodoCurrentWeek = 0;
-$dateRangeCurrentWeek = new DatePeriod(
-    new DateTime($daysCurrentWeek[0]),
-    new DateInterval('P1D'),
-    new DateTime(date( "Y-m-d", strtotime(end($daysCurrentWeek) . '+1 day'))) //ultimo dia do array +1 dia, para ele contá-lo no total de horas
-);
-
-
-
-
-
-foreach ($dateRangeCurrentWeek as $key => $value) {
-        $totalHoursTodoCurrentWeek+= $workHoursSettings->flextime_dailyHours;
-        foreach($resultHolidays as $holiday) {
-            if($holiday->date == $value->format('Y-m-d')) {
-                $totalHoursTodoCurrentWeek-= $workHoursSettings->flextime_dailyHours;
-            }
-        }
-
-}
 //Notifications Harvest
-$allNotiticationsHarvest = NotificationsUsers::All();
-$notfExists = false;
-if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurrentWeek) {
-
-    foreach($allNotiticationsHarvest as $notfHarvest) {
-        $notification = notifications::find($notfHarvest->notificationId);
-        if($notification->type == 'Flextime') {
-            if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == Auth::user()->id) {
-                $notfExists = true;
-            }
-        }
-
-    }
-
-if(!$notfExists) {
-    $newNotification = new notifications;
-    $newNotification->type = "Flextime";
-    $newNotification->description = "You still have ".($totalHoursTodoCurrentWeek - $totalHours)." left to report this week.";
-    $newNotification->save();
-    $newNotfUser = new NotificationsUsers;
-    $newNotfUser->notificationId = $newNotification->id;
-    $newNotfUser->receiveUserId = Auth::user()->id;
-    $newNotfUser->save();
-}
 
 
-}
+    // $allNotiticationsHarvest = NotificationsUsers::All();
+    // $notfExists = false;
+    // if(date('Y-m-d') == end($daysCurrentWeek) && $totalHours < $totalHoursTodoCurrentWeek) {
+
+    //     foreach($allNotiticationsHarvest as $notfHarvest) {
+    //         $notification = notifications::find($notfHarvest->notificationId);
+    //         if($notification->type == 'Flextime') {
+    //             if(date('Y-m-d') == date('Y-m-d',strtotime($notfHarvest->created_at)) && $notfHarvest->receiveUserId == Auth::user()->id) {
+    //                 $notfExists = true;
+    //             }
+    //         }
+
+    //     }
+
+    // if(!$notfExists) {
+    //     $newNotification = new notifications;
+    //     $newNotification->type = "Flextime";
+    //     $newNotification->description = "You still have ".($totalHoursTodoCurrentWeek - $totalHours)." left to report this week.";
+    //     $newNotification->save();
+    //     $newNotfUser = new NotificationsUsers;
+    //     $newNotfUser->notificationId = $newNotification->id;
+    //     $newNotfUser->receiveUserId = Auth::user()->id;
+    //     $newNotfUser->save();
+
+    //     $managerUserAuth = User::find(Auth::user()->managerDoUserId(Auth::user()->departments->first()->description, Auth::user()->country));
+    //     //Mail to User
+
+    //     $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+    //     $body = [
+    //       'Messages' => [
+    //         [
+    //           'From' => [
+    //             'Email' => "mailsenderhr@gmail.com",
+    //             'Name' => "ImprooveHR"
+    //           ],
+    //           'To' => [
+    //             [
+    //               'Email' => "andresl19972@gmail.com",
+    //               'Name' => Auth::user()->name,
+    //             ]
+    //           ],
+    //           'Subject' => "Harvest hours remaining",
+    //           'TextPart' => "My first Mailjet email",
+    //           'HTMLPart' => "<h3>Dear ".Auth::user()->name.", you still have ".($totalHoursTodoCurrentWeek - $totalHours)." hours left to report this week. Do it as quickly as possible.</h3><br/>!",
+    //           'CustomID' => "AppGettingStartedTest"
+    //         ]
+    //       ]
+    //     ];
+    //     $response = $mj->post(Resources::$Email, ['body' => $body]);
+    //     $response->success() && var_dump($response->getData());
+    //     //
+
+    //     if($managerUserAuth->id != null) {
+    //         if($managerUserAuth->id != Auth::user()->id) { //se o user não for manager, não vai enviar de novo mail a ele mesmo
+    //             //neste momento apenas temos acesso a um harvest, não é possivel avisar todos os users que faltam horas (sem info na db)
+    //                 //Mail to Manager
+    //                 $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+    //                 $body = [
+    //                 'Messages' => [
+    //                 [
+    //                 'From' => [
+    //                 'Email' => "mailsenderhr@gmail.com",
+    //                 'Name' => "ImprooveHR"
+    //                 ],
+    //                 'To' => [
+    //                 [
+    //                 'Email' => "andresl19972@gmail.com",
+    //                 'Name' => $managerUserAuth->name,
+    //                 ]
+    //                 ],
+    //                 'Subject' => "Harvest hours remaining",
+    //                 'TextPart' => "My first Mailjet email",
+    //                 'HTMLPart' => "<h3>Dear ".$managerUserAuth->name.", ".Auth::user()->name." still haves ".($totalHoursTodoCurrentWeek - $totalHours)." hours left to report this week. Warn him as soon as possible.</h3><br/>!",
+    //                 'CustomID' => "AppGettingStartedTest"
+    //                 ]
+    //                 ]
+    //                 ];
+    //                 $response = $mj->post(Resources::$Email, ['body' => $body]);
+    //                 $response->success() && var_dump($response->getData());
+    //                 //
+    //                 }
+
+    //     }
+
+
+
+
+
+
+    // }
+
+
+    // }
 //Notifications harvest
 
 //endcurrentweek
@@ -1567,6 +1879,33 @@ if(!$notfExists) {
                             $newReminder->notifications_users_id = $userNotf->id;
                             $newReminder->description = $reminderDescription;
                             $newReminder->save();
+
+                            //Mail to user
+                            $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                            $body = [
+                            'Messages' => [
+                                [
+                                'From' => [
+                                    'Email' => "mailsenderhr@gmail.com",
+                                    'Name' => "ImprooveHR"
+                                ],
+                                'To' => [
+                                    [
+                                    'Email' => "andresl19972@gmail.com",
+                                    'Name' => User::find($userNotf->receiveUserId)->name,
+                                    ]
+                                ],
+                                'Subject' => "Evaluation time is almost over",
+                                'TextPart' => "My first Mailjet email",
+                                'HTMLPart' => "<h3>Dear ".User::find($userNotf->receiveUserId)->name.", you have 5 days remaining to complete your survey from ". User::find($userNotf->createUserId)->name.". Don't forget!</h3><br/>!",
+                                'CustomID' => "AppGettingStartedTest"
+                                ]
+                            ]
+                            ];
+                            $response = $mj->post(Resources::$Email, ['body' => $body]);
+                            $response->success();
+
+                            //
                         }
 
 
@@ -1580,10 +1919,42 @@ if(!$notfExists) {
                             }
                         }
                         if(!$reminderAlreadyExists) {
+
+
+                            //Mail to user
+                            $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+                            $body = [
+                            'Messages' => [
+                                [
+                                'From' => [
+                                    'Email' => "mailsenderhr@gmail.com",
+                                    'Name' => "ImprooveHR"
+                                ],
+                                'To' => [
+                                    [
+                                    'Email' => "andresl19972@gmail.com",
+                                    'Name' => User::find($userNotf->receiveUserId)->name,
+                                    ]
+                                ],
+                                'Subject' => "Evaluation time is up",
+                                'TextPart' => "My first Mailjet email",
+                                'HTMLPart' => "<h3>Dear ".User::find($userNotf->receiveUserId)->name.", you have 1 day remaining to complete your survey from ". User::find($userNotf->createUserId)->name.". Hurry up!</h3><br/>!",
+                                'CustomID' => "AppGettingStartedTest"
+                                ]
+                            ]
+                            ];
+                            $response = $mj->post(Resources::$Email, ['body' => $body]);
+                            $response->success();
+
+                            //
+
                             $newReminder = new notifications_reminders; //nova notificacao
                             $newReminder->notifications_users_id = $userNotf->id;
                             $newReminder->description = $reminderDescription;
                             $newReminder->save();
+
+
+
                         }
 
                     }
@@ -1659,6 +2030,7 @@ if(!$notfExists) {
         // return view('testeAbsencesCount')->with('absences', $diasAusencia);
 
     }
+
 
     /**
      * Show the form for editing the specified resource.

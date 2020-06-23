@@ -7,6 +7,9 @@ use App\notifications_reminders;
 use App\notifications;
 use Carbon\Carbon;
 
+require '../vendor/autoload.php';
+use \Mailjet\Resources;
+
 
 use Illuminate\Http\Request;
 
@@ -82,9 +85,35 @@ class NotificationsUsersController extends Controller
      * @param  \App\NotificationsUsers  $notificationsUsers
      * @return \Illuminate\Http\Response
      */
-    public function show(NotificationsUsers $notificationsUsers)
+    public function sendMail()
     {
         //
+        $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+        $body = [
+          'Messages' => [
+            [
+              'From' => [
+                'Email' => "mailsenderhr@gmail.com",
+                'Name' => "André Sender"
+              ],
+              'To' => [
+                [
+                  'Email' => "andresl19972@gmail.com",
+                  'Name' => "André"
+                ]
+              ],
+              'Subject' => "Greetings from Mailjet.",
+              'TextPart' => "My first Mailjet email",
+              'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />HELLOOO!",
+              'CustomID' => "AppGettingStartedTest"
+            ]
+          ]
+        ];
+        $response = $mj->post(Resources::$Email, ['body' => $body]);
+        $response->success() && var_dump($response->getData());
+        return redirect()->action('AbsenceController@show');
+
+
     }
 
     /**

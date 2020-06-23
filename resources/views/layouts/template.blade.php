@@ -63,6 +63,8 @@
         <script src="{{asset('https://kit.fontawesome.com/041a9ee086.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
+
+
     </head>
     <body>
         <!-- Page Container -->
@@ -574,12 +576,12 @@
                                         @if($id_user == $notUser->receiveUserId)
                                             <?php $notification = notifications::find($notUser->notificationId); ?>
                                             @if($notification->read_at=='')
-                                            <li class="ajaxWhiteLI">
+                                            <li style="background-color:lightgrey;">
                                             @else
                                             <li class="ajaxWhiteLI">
-                                            
+
                                             @endif
-                 
+
                                                 <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
@@ -648,7 +650,7 @@
                                                         </li>
                                                     @endif
                                                 @endif
-                                           
+
                                         @endif
 
                                     @endforeach
@@ -656,33 +658,37 @@
 
                                     <form id="formReminderAJAX">
                                         @csrf
-                                    @foreach($allReminders as $reminder) <!-- Reminders -->
-                                    <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
-                                    <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
-                                        @if($notificationUser->receiveUserId == $id_user)
-                                            @if($settingsAlerts->alert_evaluations == 1)
+                                        @if($allReminders != null)
+                                            @foreach($allReminders as $reminder) <!-- Reminders -->
+                                            <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
+                                                <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
+                                                @if($notificationUser->receiveUserId == $id_user)
+                                                    @if($settingsAlerts->alert_evaluations == 1)
 
-                                            @if($reminder->read_at=='')
-                                             <li style="background-color: lightgrey">
-                                            @else
+                                                    @if($reminder->read_at=='')
+                                                    <li style="background-color: lightgrey">
+                                                    @else
 
-                                            <li>
-                                            @endif
-                                                    <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                            <div class="font-w600">{{$reminder->description}}</div>
-                                                            <small class="text-muted">{{$reminder->created_at}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @endif
+                                                    <li>
+                                                    @endif
+                                                            <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$reminder->description}}</div>
+                                                                    <small class="text-muted">{{$reminder->created_at}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
                                         @endif
-                                    @endforeach
-                                            </form>
-                                   
+                                    </form>
+
+
+
 
 
 
@@ -805,7 +811,7 @@
             <main id="main-container">
 
                 @yield('content')
-                
+
             </main>
             <!-- END Main Container -->
 
@@ -850,11 +856,11 @@
                      document.getElementById("txtHint").innerHTML = result;
                      document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
                     //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
-            
+
 
                   }});
             //  document.getElementById('notificationsReadForm').submit();
-           
+
 
 
             }
@@ -883,16 +889,16 @@
                      document.getElementById("txtHint").innerHTML = result;
                      document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
                     //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
-            
+
 
                   }});
             //  document.getElementById('notificationsReadForm').submit();
-           
+
 
 
             }
-       
-            
+
+
         </script>
         <!-- OneUI JS -->
         <script src="{{ asset ('assets/js/oneui.core.min.js') }}"></script>
@@ -912,5 +918,8 @@
         <script src="{{ asset ('js/myscripts.js ') }}"></script>
         <script src="{{ asset ('js/flextime.js ') }}"></script>
         <script src="{{ asset ('js/home.js ') }}"></script>
+
+        {{-- TABLESAW --}}
+        <script src="{{ asset ('js/tablesaw_custom.js ') }}"></script>
     </body>
 </html>
