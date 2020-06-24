@@ -62,6 +62,7 @@
         td {
             background-color: #dee2e6;
         }
+
         padding: 0.25rem 0.25rem 1px;
     }
 
@@ -69,6 +70,18 @@
         h3 {
             font-size: 15pt;
         }
+    }
+
+    #harvestForm {
+        form {
+            width: 270px;
+        }
+    }
+
+    #apiToken,
+    #harvestID,
+    #harvestEmail {
+        grid-template-columns: 100px 160px;
     }
 }
 

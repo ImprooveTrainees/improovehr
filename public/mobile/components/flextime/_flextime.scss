@@ -2,7 +2,8 @@
 #last2weeks,
 #currentWeek {
     display: none;
-    th{
+
+    th {
         width: 250px;
     }
 }
@@ -80,5 +81,37 @@ td {
 //     background-color: #717171;
 // }
 
+
+#apiToken,
+#harvestID,
+#harvestEmail {
+    display: grid;
+    grid-template-columns: 290px 250px;
+    text-align: right;
+
+    input {
+        margin-left: 15px;
+    }
+}
+
+#harvestForm {
+    form {
+        display: grid;
+        grid-gap: 20px;
+        margin: auto;
+        width: 540px;
+        margin-top: 200px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    button {
+        display: grid;
+        grid-template-columns: 150px;
+        margin: auto;
+    }
+}
 
 @import '../../../screens/components/flextime/_flextime';

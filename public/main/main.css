@@ -48,7 +48,22 @@
   }
 }
 
-#main-container p, #main-container h1, #main-container h2, #main-container h3, #main-container h4, #main-container h5, #main-container h6, #main-container th, #main-container td, #main-container tr, #main-container table, #main-container button, #main-container label, #main-container select, #main-container input, #main-container strong {
+#main-container p,
+#main-container h1,
+#main-container h2,
+#main-container h3,
+#main-container h4,
+#main-container h5,
+#main-container h6,
+#main-container th,
+#main-container td,
+#main-container tr,
+#main-container table,
+#main-container button,
+#main-container label,
+#main-container select,
+#main-container input,
+#main-container strong {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
@@ -2617,6 +2632,43 @@ td {
   margin-top: 80px;
 }
 
+#apiToken,
+#harvestID,
+#harvestEmail {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 290px 250px;
+      grid-template-columns: 290px 250px;
+  text-align: right;
+}
+
+#apiToken input,
+#harvestID input,
+#harvestEmail input {
+  margin-left: 15px;
+}
+
+#harvestForm form {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 20px;
+  margin: auto;
+  width: 540px;
+  margin-top: 200px;
+}
+
+#harvestForm h2 {
+  text-align: center;
+}
+
+#harvestForm button {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 150px;
+      grid-template-columns: 150px;
+  margin: auto;
+}
+
 @media screen and (min-width: 320px) and (max-width: 425px) {
   .flexstyle {
     margin-top: 20px;
@@ -2674,6 +2726,15 @@ td {
   }
   #lastMonth h3 {
     font-size: 15pt;
+  }
+  #harvestForm form {
+    width: 270px;
+  }
+  #apiToken,
+  #harvestID,
+  #harvestEmail {
+    -ms-grid-columns: 100px 160px;
+        grid-template-columns: 100px 160px;
   }
 }
 
