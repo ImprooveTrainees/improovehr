@@ -14,15 +14,25 @@ open
 
 @section('content')
 
-<form id="harvestForm" method="post" action="/harvestSaveCreds">
-    @csrf
-    Welcome!
-    <p>Insert your Harvest API token: <input name="harvestToken" required type="text"></p>
-    <p>Insert your Harvest account ID: <input name="harvestAccId" required type="number"> </p>
-    <p>Insert your Harvest email (optional): <input name="harvestMail" type="text"></p>
-    <button type="Submit">Submit</button>
-</form>
-
+<div class="shadow p-1 bg-white cardbox1" id="harvestForm">
+    <form method="post" action="/harvestSaveCreds">
+        @csrf
+        <h2>Harvest Reports</h2>
+        <div id="apiToken">
+            <label>Insert your Harvest API token: </label>
+            <input name="harvestToken" required type="text">
+        </div>
+        <div id="harvestID">
+            <label>Insert your Harvest account ID:</label>
+            <input name="harvestAccId" required type="number">
+        </div>
+        <div id="harvestEmail">
+            <label>Insert your Harvest email (optional):</label>
+            <input name="harvestMail" type="text">
+        </div>
+        <button class="form-group btn btn-outline-primary" type="Submit">Submit</button>
+    </form>
+</div>
 
 @if(isset($harvestProfile))
 <div class="shadow p-1 bg-white cardbox1">
