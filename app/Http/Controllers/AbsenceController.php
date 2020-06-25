@@ -492,6 +492,16 @@ class AbsenceController extends Controller
 
             $start_date = request('upd_start_date');
 
+            $tempEndDate = DB::table('absences')
+                    ->where('id', $updValue)
+                    ->select('absences.end_date')->value('end_date');
+
+            if($start_date > $tempEndDate) {
+
+                return redirect('/holidays')->withErrors('Error! Start Date must be inferior to End Date.');
+
+            }
+
             $startDate = Carbon::parse($start_date);
 
             for($i=0;$i<count($holidays);$i++) {
@@ -563,6 +573,16 @@ class AbsenceController extends Controller
 
             $end_date = request('upd_end_date');
 
+            $tempStartDate =  DB::table('absences')
+            ->where('id', $updValue)
+            ->select('absences.start_date')->value('start_date');
+
+            if($end_date < $tempStartDate) {
+
+                return redirect('/holidays')->withErrors('Error! End Date must be superior to Start Date.');
+
+            }
+
             if($roleuser<=2) {
 
                 DB::table('absences')
@@ -608,6 +628,16 @@ class AbsenceController extends Controller
             $onHoliday = false;
 
             $start_datetime = request('upd_start_datetime');
+
+            $tempEndDateTime = DB::table('absences')
+            ->where('id', $updValue)
+            ->select('absences.start_date')->value('start_date');
+
+            if($start_datetime > $tempEndDateTime) {
+
+                return redirect('/holidays')->withErrors('Error! Start Date must be inferior to End Date.');
+
+            }
 
             $startDate = Carbon::parse($start_datetime);
 
@@ -677,6 +707,16 @@ class AbsenceController extends Controller
         } else if($op==6) {
 
             $end_datetime = request('upd_end_datetime');
+
+            $tempStartDateTime = DB::table('absences')
+            ->where('id', $updValue)
+            ->select('absences.start_date')->value('start_date');
+
+            if($end_datetime < $tempStartDateTime) {
+
+                return redirect('/holidays')->withErrors('Error! End Date must be superior to Start Date.');
+
+            }
 
             if($roleuser<=3) {
 
