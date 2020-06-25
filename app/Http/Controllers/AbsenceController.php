@@ -191,6 +191,8 @@ class AbsenceController extends Controller
 
         $vacationsAlready = false;
         $absencesAlready = false;
+        $vacationStartonHoliday = false;
+        $absenceStartonHoliday = false;
 
         $username = DB::table('users')
         ->where('users.id','=',$userid)
@@ -208,6 +210,44 @@ class AbsenceController extends Controller
         $roleuser = DB::table('users')
         ->where('users.id','=',$userid)
         ->select('users.idusertype')->value('idusertype');
+
+
+
+        //Beginning Holidays API
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $resultHolidays = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+        // PORTUGAL HOLIDAYS WITH EXTRA DAYS
+
+        $resultHolidays = json_decode($resultHolidays);
+
+        $holidays = array();
+
+        foreach($resultHolidays as $hol) {
+
+            $hld = Carbon::parse($hol->date);
+            array_push($holidays, $hld);
+
+        }
+
+        $allExtraDays = settings_extradays::all();
+
+        foreach($allExtraDays as $extra) {
+
+            $xtr = Carbon::parse($extra->extra_day);
+            array_push($holidays, $xtr);
+
+        }
+
+        // END - PORTUGAL HOLIDAYS WITH EXTRA DAYS
 
         // NOT ALLOW TO CREATE VACATIONS ON DAYS ALREADY APPROVED / CONCLUDED
 
@@ -257,6 +297,16 @@ class AbsenceController extends Controller
 
             }
 
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($from == $holidays[$i]) {
+
+                    $vacationStartonHoliday = true;
+
+                }
+
+            }
+
             $days = $to->diffInWeekdays($from);
 
             if($available_days < $days) {
@@ -270,6 +320,10 @@ class AbsenceController extends Controller
             } else if($from->isWeekend()) {
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            } else if($vacationStartonHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Date you chose is on a holiday.');
 
             } else if($vacationsAlready == true) {
 
@@ -341,6 +395,16 @@ class AbsenceController extends Controller
 
             }
 
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($from == $holidays[$i]) {
+
+                    $absenceStartonHoliday = true;
+
+                }
+
+            }
+
             if($to < $from) {
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
@@ -348,6 +412,10 @@ class AbsenceController extends Controller
             } else if($from->isWeekend()) {
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            }  else if($absenceStartonHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Date you chose is on a holiday.');
 
             } else if($absencesAlready == true) {
 
