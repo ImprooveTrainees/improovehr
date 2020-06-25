@@ -978,6 +978,8 @@ class AbsenceController extends Controller
 
         $vacations_total = $vacationDaysCY + $balanceLY; // TOTAL DAYS
 
+        // MAX DAYS PER YEAR -> VARIABLE FROM SETTINGS
+
         $maxVacations = DB::table('settings_general')->select('limit_vacations')->latest('created_at')->first();
 
         $maxVacations = settings_general::orderBy('created_at','desc')->first()->limit_vacations;
