@@ -6,6 +6,7 @@
         use Illuminate\Http\Request;
         use Auth;
         use DB;
+        use Carbon\Carbon;
         use App\User;
         $listNotifications = NotificationsUsers::orderBy('created_at', 'desc')->get();
         $notificationMessages = notifications::All();
@@ -17,6 +18,8 @@
         $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
         $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
 
+        // JOIN REMINDERS AND NOTIFICATIONS TABLE:
+
         $first = DB::table('notifications')
         ->join('notifications_users','notifications.id','=','notifications_users.notificationId')
         ->select('notifications.id','notifications.description','notifications.created_at as dataCreated', 'notifications.read_at as read_at','notifications.type as type')
@@ -25,6 +28,10 @@
         $notificationsReminder = DB::table('notifications_reminders')
         ->select('notifications_reminders.id','notifications_reminders.description','notifications_reminders.created_at as dataCreated','notifications_reminders.read_at as read_at', DB::raw("NULL as type"))
         ->union($first)->orderBy('dataCreated','desc')->get();
+
+
+        // GET TODAY'S DATE
+        $currentDate = Carbon::now();
 
 ?>
 <!doctype html>
@@ -590,6 +597,17 @@
 
                                             @endif
 
+                                            @php
+                                                $readAt = $notification->read_at;
+
+                                                $read_date = Carbon::parse($readAt);
+
+                                                $diff_in_days = $currentDate->diffInDays($read_date);
+
+                                            @endphp
+
+                                            @if($notification->read_at=='' || $notification->read_at!=='' && $diff_in_days<=2)
+
                                                 <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
@@ -670,7 +688,7 @@
                                                         </li>
                                                     @endif
                                                 @endif
-
+                                            @endif
                                     @endforeach
                                 </form>
 
