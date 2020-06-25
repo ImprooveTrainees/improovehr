@@ -187,6 +187,11 @@ class AbsenceController extends Controller
         $user = Auth::user();
         $userid = Auth::id();
 
+        $allAbsences = absence::All();
+
+        $vacationsAlready = false;
+        $absencesAlready = false;
+
         $username = DB::table('users')
         ->where('users.id','=',$userid)
         ->select('users.name')
@@ -203,6 +208,8 @@ class AbsenceController extends Controller
         $roleuser = DB::table('users')
         ->where('users.id','=',$userid)
         ->select('users.idusertype')->value('idusertype');
+
+        // NOT ALLOW TO CREATE VACATIONS ON DAYS ALREADY APPROVED / CONCLUDED
 
         $vacation = new absence();
 
@@ -222,9 +229,33 @@ class AbsenceController extends Controller
 
             $startDate = request('start_date');
             $endDate = request('end_date');
-
             $from = Carbon::parse($startDate);
             $to = Carbon::parse($endDate);
+
+            foreach($allAbsences as $all) {
+
+                if($all->iduser == $userid) {
+
+                    if($all->absencetype == 1) {
+                        // VACATIONS
+
+                        if($all->status !== "Disapproved") {
+
+                            if($to>=$all->start_date && $from<=$all->end_date  || $from==$all->start_date || $from==$all->end_date || $to == $all->start_date || $to == $all->end_date) {
+
+                                $vacationsAlready = true;
+                                break;
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+            }
 
             $days = $to->diffInWeekdays($from);
 
@@ -239,6 +270,10 @@ class AbsenceController extends Controller
             } else if($from->isWeekend()) {
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            } else if($vacationsAlready == true) {
+
+                return redirect('/holidays')->withErrors('Error! You already have vacations scheduled for the dates you chosen.');
 
             } else {
 
@@ -281,6 +316,31 @@ class AbsenceController extends Controller
             $from = Carbon::parse($startDate);
             $to = Carbon::parse($endDate);
 
+            foreach($allAbsences as $all) {
+
+                if($all->iduser == $userid) {
+
+                    if($all->absencetype > 1) {
+                        // ABSENCES
+
+                        if($all->status !== "Disapproved") {
+
+                            if($to>=$all->start_date && $from<=$all->end_date || $from==$all->start_date || $from==$all->end_date || $to == $all->start_date || $to == $all->end_date) {
+
+                                $absencesAlready = true;
+                                break;
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+            }
+
             if($to < $from) {
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
@@ -288,6 +348,10 @@ class AbsenceController extends Controller
             } else if($from->isWeekend()) {
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            } else if($absencesAlready == true) {
+
+                return redirect('/holidays')->withErrors('Error! You already have absences scheduled for the dates you chosen.');
 
             } else {
 
