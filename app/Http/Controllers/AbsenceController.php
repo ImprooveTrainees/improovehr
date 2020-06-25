@@ -1084,7 +1084,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($list->iduser !== $id_user) {
+                if($list->name !== $username) {
 
                     $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
 
@@ -1167,7 +1167,7 @@ foreach($listVacationsTotal as $list) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($list->iduser !== $id_user) {
+                if($list->name !== $username) {
 
                     $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
 
