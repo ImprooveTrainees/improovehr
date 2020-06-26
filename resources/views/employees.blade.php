@@ -11,7 +11,7 @@ active
 @section('content')
 
 <div class="shadow p-1 bg-white cardbox1">
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="pills-employees-tab" data-toggle="pill" href="#pills-employees" role="tab" aria-controls="pills-employees" aria-selected="true">Your Teams</a>
         </li>
@@ -46,7 +46,7 @@ active
         <!-- Teams -->
         @for($v = 0; $v < $tablesCount->count(); $v++)
         <h3>{{$LoggedUserTeamsArrayTeamName[$v]->description}}</h3>
-        <table class="table table-striped js-dataTable-full table-responsive">
+        <table class="table table-striped js-dataTable-full">
             <thead class="thead-dark">
                 <tr>
                     <th>Photo</th>
@@ -140,8 +140,10 @@ active
 <div class="tab-pane fade show" id="pills-allEmployees" role="tabpanel" aria-labelledby="pills-allEmployees-tab">
     <div class="block">
         <div class="block-content-full">
+            <div id="allEmployees">
+                <h3>All Employees Table</h3>
 
-        <table class="table js-dataTable-buttons table-responsive">
+        <table class="table js-dataTable-buttons">
             <thead class="thead-dark">
                 <tr>
                     <th class="text-center" style="width: 80px;">Photo</th>
@@ -163,12 +165,16 @@ active
         </table>
     </div>
     </div>
+    </div>
 </div>
 {{-- END ALL EMPLOYEES TAB --}}
 
 
 <!-- DIV Register New Employee -->
-        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+        <div class="tab-pane fade marginLeft" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+            <div id="insertNewTeam">
+            <p>Register Employee</p>
+            <hr>
             <form method="POST" class="form-group" action="/newEmployeeRegister">
                 @csrf
 
@@ -209,9 +215,10 @@ active
                 </div>
 
                 <div class="form-group registerButton">
-                    <button type="submit" class="form-group btn btn-outline-primary registeremployee">Save</button>
+                    <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
                 </div>
             </form>
+        </div>
         </div>
 <!-- END DIV Register New Employee -->
 
@@ -243,7 +250,7 @@ active
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-outline-primary" id="btnCreateTeam">Create team</button>
+                <button type="submit" class="btn btn-outline-primary bprofile" id="btnCreateTeam">Create team</button>
                 </form>
             </div>
 
@@ -264,7 +271,7 @@ active
                     </select>
                     @endif
                 </div>
-                <button type="submit" id="showTeamDetails" class="btn btn-outline-primary">Show team details</button>
+                <button type="submit" id="showTeamDetails" class="btn btn-outline-primary bprofile">Show team details</button>
             </form>
         </div>
 
@@ -296,7 +303,7 @@ active
 
         <div id="yourTeams">
                 <h4>{{$teamName}}</h4>
-                <table class="table js-dataTable-full table-responsive">
+                <table class="table js-dataTable-full">
                     <thead class="thead-dark">
                         <tr>
                             <th class="text-center" style="width: 80px;">Photo</th>

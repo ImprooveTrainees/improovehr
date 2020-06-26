@@ -27,13 +27,14 @@ active
 
     @if(session('msgError'))
 
-        <div class="centerStyle">
-            <h4>Select a user to see his final average results of a chosen year</h4>
+        <div class="colors">
+            <h2>Select a user to see his final average results of a chosen year</h2>
         </div>
 
             <form class="form-group finalAverage" action="/finalCalculus" method="post">
                 @csrf
-
+                <p> Choose a user</p>
+                <hr>
                     <div class="showFinalAverageGrid">
                         <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
                             @foreach ($allUsers as $user)
@@ -45,7 +46,7 @@ active
                                 <option value={{$year}}>{{$year}}</option>
                             @endforeach
                         </select>
-                            <button class="btn btn-outline-success" type="submit">Show</button>
+                            <button class="btn btn-outline-primary" type="submit">Show</button>
                     </div>
 
             </form>
@@ -55,13 +56,14 @@ active
             </div>
     @else
 
-        <div class="centerStyle">
-            <h4>Select a user to see his final average results of a chosen year</h4>
+        <div class="colors">
+            <h2>Select a user to see his final average results of a chosen year</h2>
         </div>
 
         <form class="form-group finalAverage" action="/finalCalculus" method="post">
             @csrf
-
+            <p> Choose a user</p>
+            <hr>
                 <div class="showFinalAverageGrid">
                     <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
                         @foreach ($allUsers as $user)
@@ -73,33 +75,33 @@ active
                             <option value={{$year}}>{{$year}}</option>
                         @endforeach
                     </select>
-                        <button class="btn btn-outline-success" type="submit">Show</button>
+                        <button class="btn btn-outline-primary" type="submit">Show</button>
                 </div>
 
         </form>
 
     @if(count($arrayAveragesTable) != 0)
-    <div class="table-responsive">
-        <table id="tableFormat" class="table table-bordered">
-            <thead>
+    <div class="">
+        <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th id="tableStyle" class="bg-info" scope="col"><b>Total Potencial</b></th>
-                <th class="table-dark" scope="col"><b>Total Performance</b></th>
+                <th class="d-none d-sm-table-cell">#</th>
+                <th class="d-none d-sm-table-cell"><b>Total Potencial</b></th>
+                <th class="d-none d-sm-table-cell"><b>Total Performance</b></th>
             </tr>
             </thead>
             <tbody>
                 @for($i = 0; $i < count($arrayAveragesTable); $i+=3)
                     <tr>
                         <th scope="row">{{$arrayAveragesTable[$i]}}</th>
-                        <td class="table-info">{{$arrayAveragesTable[$i+1]}}</td>
-                        <td class="table-secondary">{{$arrayAveragesTable[$i+2]}}</td>
+                        <td class="font-w600 font-size-sm">{{$arrayAveragesTable[$i+1]}}</td>
+                        <td class="font-w600 font-size-sm">{{$arrayAveragesTable[$i+2]}}</td>
                     </tr>
                     @endfor
-                    <tr class="table-Success">
-                        <th class="" scope="row">Average Results</th>
-                        <td class=""><b>{{$resultPotential}}</b></td>
-                        <td class=""><b>{{$resultPerformance}}</b></td>
+                    <tr>
+                        <th scope="row">Average Results</th>
+                        <td class="font-w600 font-size-sm"><b>{{$resultPotential}}</b></td>
+                        <td class="font-w600 font-size-sm"><b>{{$resultPerformance}}</b></td>
                     </tr>
             </tbody>
         </table>

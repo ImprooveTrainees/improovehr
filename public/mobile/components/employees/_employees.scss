@@ -4,7 +4,8 @@
     margin: auto;
     align-items: baseline;
     margin-top: 30px;
-    justify-content: center;
+
+    // justify-content: center;
 }
 
 .email,
@@ -14,7 +15,9 @@
 .departmentEmployeesAlign {
     @include divs();
 }
-
+.marginLeft{
+    // margin-left: 30px;
+}
 #rolenew {
     display: none;
 }
@@ -60,6 +63,16 @@
         text-align: center;
         margin-top: 20px;
         margin-bottom: 10px;
+        color: rgba(128, 128, 128, 0.692);
+    }
+
+}
+#allEmployees{
+    h3{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: rgba(128, 128, 128, 0.692);
     }
 }
 
@@ -123,6 +136,16 @@ table {
 
 #modalEmployees2 {
     width: 85%;
+}
+#pills-register p{
+    margin: auto;
+    color: rgba(128, 128, 128, 0.692);
+    font-size: 10pt;
+}
+#pills-register hr{
+    width: 160px;
+    margin-left: 0;
+    margin-top: 5px;
 }
 
 @import '../../../screens/components/employees/_employees';

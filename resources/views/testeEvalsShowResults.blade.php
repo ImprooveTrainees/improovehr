@@ -200,9 +200,9 @@ active
 
 
 <div style="display: none" id="finalResults">
-    <div class="table-responsive">
+    <div class="">
         <table id="tableFormat" class="table table-bordered">
-            <thead>
+            <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th id="tableStyle" class="bg-dark" scope="col"><b>Total Performance</b></th>
