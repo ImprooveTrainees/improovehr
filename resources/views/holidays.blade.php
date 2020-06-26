@@ -20,10 +20,10 @@ open
 </div>
 @endif
 
-<div id="table_hol">
+<div id="">
 
 <div id="cardbox4" class="shadow p-1 bg-white cardbox1">
-    <div class="container">
+    <div class="">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
@@ -42,7 +42,7 @@ open
 
         <!-- Tab panes -->
         <div class="tab-content">
-          <div id="home" class="container tab-pane active"><br>
+          <div id="home" class="tab-pane active"><br>
 
           <div class="shadow p-1 bg-white cardbox2">
                 <a data-toggle="modal" data-target="#modalVacation">
@@ -129,7 +129,7 @@ open
 
             <!-- ------------------------------------------------------ TAB - EMPLOYEES ON HOLIDAYS ------------------------------------------------------ -->
 
-            <div id="home2" class="container tab-pane fade"><br>
+            <div id="home2" class="tab-pane fade"><br>
             @if($roleuser <= 3)
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
@@ -140,7 +140,7 @@ open
 
 <div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<table class="table table-bordered js-dataTable-buttons table-responsive" class="tablesaw" data-tablesaw-mode="swipe">
+<table class="table table-bordered js-dataTable-buttons">
 <thead class="thead-dark">
     <tr>
     <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
@@ -245,7 +245,7 @@ open
 
         {{-- TAB ABSENCES --}}
 
-<div id="menu1" class="container tab-pane fade"><br>
+<div id="menu1" class=" tab-pane fade"><br>
  <!-- Tab panes -->
 
  <div class="shadow p-1 bg-white cardbox2">
@@ -397,7 +397,7 @@ open
 
 <!-- ------------------------------------------------------ TAB - ABSENCES WITH ABSENCES ------------------------------------------------------ -->
 
-    <div id="menu2" class="container tab-pane fade"><br>
+    <div id="menu2" class="tab-pane fade"><br>
 
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 @if($roleuser <= 3)
@@ -407,7 +407,7 @@ open
 </div>
 <div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-  <table class="table table-bordered js-dataTable-buttons table-responsive" data-tablesaw-mode = "swipe" data-tablesaw-minimap>
+  <table class="table table-bordered js-dataTable-buttons">
       <thead class="thead-dark">
           <tr>
           <th class="title" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">NR</th>

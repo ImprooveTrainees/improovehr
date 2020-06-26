@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title')
-    Improove HR - Holidays/Absences
+    Improove HR - Settings
 @endsection
 
 @section('sidebarsettings')
@@ -10,7 +10,7 @@ active
 
 @section('content')
 
-<div class="shadow p-1 bg-white cardboxsettings">
+<div class="shadow p-1 bg-white cardbox1">
     @if(session('msg'))
 <div class="alert alert-info alert-block">
     <?php echo session('msg')  ?>
@@ -172,6 +172,8 @@ active
         {{-- FLEX-TIME --}}
 
  <div id="flextime" class="container tab-pane fade">
+        <p>Edit flext-time</p>
+        <hr>
      <div id="daysettings">
         <label>Days:</label>
      </div>
@@ -182,7 +184,7 @@ active
             @for($i = 0; $i < count($weekDays); $i++)
                 @if($lastSettingsGeneral->flextime_startDay == $i+1)
                     <option selected value={{$i+1}}>{{$weekDays[$i]}}</option>
-                @else 
+                @else
                     <option value={{$i+1}}>{{$weekDays[$i]}}</option>
                 @endif
             @endfor
@@ -210,7 +212,7 @@ active
             @for($b = 0; $b < count($weekDays); $b++)
             @if($lastSettingsGeneral->flextime_endDay == $b+1)
                 <option selected value={{$b+1}}>{{$weekDays[$b]}}</option>
-            @else 
+            @else
                 <option value={{$b+1}}>{{$weekDays[$b]}}</option>
             @endif
         @endfor
@@ -310,7 +312,8 @@ active
     {{-- HOLIDAYS --}}
 
         <div id="holidays" class="container tab-pane fade">
-            <br>
+            <p>Edit Holydays / Absences</p>
+            <hr>
             <div id="holidaysExtra">
                 <label>Extra Days:</label>
                 <input type="date" id="dateSelected" class="form-control">
@@ -324,7 +327,7 @@ active
             </div>
 
             <div id="holidaysExtra5">
-                <button type="button" onclick="addDate()" class="form-group btn btn-outline-primary bsettings2">Add date</button>
+                <button type="button" onclick="addDate()" class="form-group btn btn-outline-primary bprofileSettings">Add date</button>
                 <ul id="dateList">
 
                 </ul>
@@ -367,7 +370,7 @@ active
         </div>
     </div>
     </form>
-    <button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary bsettings">Save</button>
+    <button onclick="execForm()" type="submit" class="form-group btn btn-outline-primary btnSettings">Save</button>
 </div>
 
 
