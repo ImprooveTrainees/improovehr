@@ -1230,10 +1230,10 @@ $contagem = 0;
 
 for($l = 0; $l < $blocksNum; $l++) {
     if($l == 0) {
-        $msg .= "<div class='carousel-item active' id='carItems'>";
+        $msg .= "<div class='carousel-item active'>";
     }
      else {
-         $msg .= "<div class='carousel-item' id='carItems'>";
+         $msg .= "<div class='carousel-item'>";
      }
     $msg .= "<div class='row'>";
 
@@ -1252,7 +1252,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
             $msg .= "<div class='col-md-4 sizeMobile'>";
-                $msg .= "<div class='mb-2'>";
+                $msg .= "<div class='card mb-2'>";
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
                 $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));

@@ -128,7 +128,8 @@ active
                     </tr>
                     @endfor
                 </tbody>
-        </table>
+                     </table>
+
         @endfor
     </div>
 </div>
@@ -142,13 +143,13 @@ active
             <div id="allEmployees">
                 <h3>All Employees Table</h3>
 
-        <table class="table table-striped js-dataTable-full table-responsive">
+        <table class="table js-dataTable-buttons">
             <thead class="thead-dark">
                 <tr>
-                    <th >Photo</th>
+                    <th class="text-center" style="width: 80px;">Photo</th>
                     <th>Name</th>
-                    <th class="d-none d-sm-table-cell">Company</th>
-                    <th class="d-none d-sm-table-cell">Role</th>
+                    <th class="d-none d-sm-table-cell" style="width: 30%;">Company</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Role</th>
                     <th style="width: 15%;">Department</th>
                     <th style="width: 15%;">Time</th>
                     <th style="width: 15%;">Staff Manager</th>

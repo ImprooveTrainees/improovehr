@@ -8,9 +8,9 @@
     }
 
     #multi-item-example {
-        grid-template-columns: 320px;
-        width: 320px;
-        margin-bottom: 30px;
+        grid-template-columns: 800px;
+        width: 800px;
+        margin-bottom: 0;
     }
 
     #box1,
@@ -25,11 +25,6 @@
         grid-template-columns: 320px;
         width: 320px;
         margin-bottom: 30px;
-    }
-
-    #allboxes2 {
-        height: 340px;
-        grid-template-columns: 320px;
     }
 
     #pTotalHolidays,
@@ -61,38 +56,6 @@
 
         p {
             font-size: 18pt;
-        }
-    }
-
-    #dotAbsences {
-        grid-template-columns: 60px 150px;
-        grid-template-rows: 100px;
-        grid-template-rows: 100px;
-        width: 210px;
-
-        p,
-        h3 {
-            font-size: 70px;
-        }
-    }
-
-    .daysAvaila {
-        grid-template-columns: 100px 160px;
-        width: 260px;
-
-        #label3,
-        h3 {
-            font-size: 70px;
-        }
-    }
-
-    #timeaccomplished {
-        font-size: 50px;
-    }
-
-    #timeAll2 {
-        h3 {
-            font-size: 50px;
         }
     }
 }

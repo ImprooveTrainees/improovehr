@@ -41,18 +41,6 @@
 }
 
 #pholidays2,
-#pabsences,
-#timeAll {
-    margin-top: 30px;
-}
-
-#timeAll2 {
-    h3 {
-        font-size: 35px;
-    }
-}
-
-#pholidays2,
 #pholidays,
 #pabsences,
 #timeAll {
@@ -221,36 +209,30 @@
 }
 
 #label3 {
-    color: rgb(0, 223, 19);
+    margin-top: 12%;
+    color: white;
     font-size: 35px;
-    margin: auto;
-}
-
-.daysAvaila {
-    display: grid;
-    grid-template-columns: 50px 70px;
-    width: 120px;
-    margin: auto;
-
-    h3 {
-        margin: auto;
-    }
+    font-family: monospace;
 }
 
 #ptotalabsences {
-    color: rgb(250, 33, 33);
+    color: white;
     font-size: 35px;
-    margin: auto;
+    font-family: monospace;
 }
 
 #dotAbsences {
     display: grid;
-    grid-template-columns: 60px 75px;
-    grid-template-rows: 50px;
-    width: 135px;
+    grid-template-columns: 80px;
+    grid-template-rows: 80px;
+    width: 80px;
     margin: auto;
+    margin-top: 10px;
 
-    h3 {
+    .dot2,
+    #ptotalabsences {
+        grid-column-start: 1;
+        grid-row-start: 1;
         margin: auto;
     }
 }
@@ -278,24 +260,11 @@
 }
 
 .sliderResize2 {
-    height: 150px;
-    border-radius: 50%;
-}
-
-.card-img-top {
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
+    height: 120px;
 }
 
 .carousel-item {
-    width: 580px;
-}
-
-#carItems {
-    // display: grid;
-    grid-template-columns: 580px;
-    margin: auto;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
 .card-body {

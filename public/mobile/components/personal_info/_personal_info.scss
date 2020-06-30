@@ -1,14 +1,14 @@
 @mixin gridBox {
     display: grid;
     align-items: center;
-    grid-template-columns: 180px 220px;
+    grid-template-columns: 86px 220px 40px;
     grid-template-rows: auto;
     float: none;
     font-size: 11pt;
 }
 
 .bprofile {
-    width: 240px;
+    width: 347px;
 }
 
 .birthday,
@@ -61,6 +61,23 @@
     width: 90%;
     margin: auto;
     border-radius: 25px;
+}
+
+.birthday input,
+.academic select,
+.status select,
+.username input,
+.age input,
+.mobile input,
+.emailprofile input,
+.nif input,
+.address input,
+.city input,
+.zipcode input,
+.soscontact input,
+.linkedin input,
+.sosusername input {
+    margin-left: 40px;
 }
 
 .status {

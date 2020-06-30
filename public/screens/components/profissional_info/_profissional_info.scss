@@ -1,5 +1,4 @@
-@media (min-width: 1200px) and (max-width: 2000px) {
-
+@media (min-width: 765px) and (max-width: 1440px) {
     .role,
     .typeofcontract,
     .companymobile,
@@ -8,7 +7,7 @@
     .endofcontract,
     .companyemail,
     .departmentmanager {
-        grid-template-columns: 180px 190px;
+        grid-template-columns: 86px 190px 40px;
         grid-template-rows: auto;
     }
 
@@ -33,34 +32,9 @@
     }
 }
 
-@media (min-width: 768px) and (max-width: 1200px) {
 
-    .role,
-    .typeofcontract,
-    .companymobile,
-    .department,
-    .admissiondate,
-    .endofcontract,
-    .companyemail,
-    .departmentmanager {
-        grid-template-columns: 160px 160px;
-    }
-}
 
 @media screen and (max-width: 425px) {
-
-    .role,
-    .typeofcontract,
-    .companymobile,
-    .department,
-    .admissiondate,
-    .endofcontract,
-    .companyemail,
-    .departmentmanager {
-        grid-template-columns: 130px 120px;
-        grid-template-rows: auto;
-    }
-
     .role,
     .typeofcontract,
     .department,
@@ -71,7 +45,7 @@
     .admissiondate label,
     .endofcontract label,
     .departmentmanager label,
-    .companymobile label {
+    .companymobile label{
         margin-left: 0;
     }
 }

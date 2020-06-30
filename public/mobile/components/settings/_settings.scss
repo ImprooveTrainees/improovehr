@@ -15,7 +15,7 @@
 
 @mixin flextimesettings {
     display: grid;
-    grid-template-columns: 120px 140px;
+    grid-template-columns: 120px 220px;
     margin-top: 20px;
 }
 
@@ -39,7 +39,7 @@
     margin-top: 30px;
 }
 
-#holidaysExtra3 {
+#holidaysExtra3{
     display: grid;
     align-items: center;
     grid-template-columns: 170px 220px;
@@ -49,7 +49,7 @@
 
 #holidaysExtra6 {
     display: grid;
-    grid-template-columns: 120px 200px 20px;
+    grid-template-columns: 120px 180px 20px;
 }
 
 #evaluations1 {
