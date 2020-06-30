@@ -412,63 +412,68 @@ class UserController extends Controller
 
         $isPasswordValid = false;
 
-        if (Hash::check($currentPass, $passUserAuth) || $currentPass == $passUserAuth) {
+        if($currentPass !== null || $newPass !== null) {
 
-            if($currentPass !== '') {
+            if (Hash::check($currentPass, $passUserAuth) || $currentPass == $passUserAuth) {
 
-                $isPasswordValid = true;
+                if($currentPass !== null) {
+
+                    $isPasswordValid = true;
+
+                }
+
 
             }
 
+            if($currentPass == $newPass && ($currentPass!==null && $newPass!==null)) {
 
-        }
-
-        /* if($currentPass == $newPass && ($currentPass!=='' && $newPass!=='')) {
-
-            $msgPass = "Error! The Passwords are the same. Try Again.";
-
-            return redirect()->action('UserController@index')->with('message', $msgPass);
-
-        } */
-
-        if($isPasswordValid == true) {
-
-            if($newPass !== '') {
-
-                $userLogado->password = Hash::make($newPass);
-                $userLogado->save();
-
-            } else {
-
-                $msgPass = "Error! New Password is empty. Try Again.";
+                $msgPass = "Error! The Passwords are the same. Try Again.";
 
                 return redirect()->action('UserController@index')->with('message', $msgPass);
 
             }
 
-        } else {
+            if($isPasswordValid == true) {
 
-            $msgPass = "Error! Current Password is incorrect. Try Again.";
+                if($newPass !== null) {
 
-            return redirect()->action('UserController@index')->with('message', $msgPass);
+                    $userLogado->password = Hash::make($newPass);
+
+                } else {
+
+                    $msgPass = "Error! New Password is empty. Try Again.";
+
+                    return redirect()->action('UserController@index')->with('message', $msgPass);
+
+                }
+
+            } else {
+
+                $msgPass = "Error! Current Password is incorrect. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
 
         }
 
+            $userLogado->name = $name;
+            $userLogado->status = $status;
+            $userLogado->academicQual = $academic;
+            $userLogado->birthDate = $birthday;
+            $userLogado->phone = $mobile;
+            $userLogado->email = $email;
+            $userLogado->taxNumber = $nif;
+            $userLogado->address = $address;
+            $userLogado->city = $city;
+            $userLogado->zip_code = $zip;
+            $userLogado->sosName = $sosName;
+            $userLogado->sosContact = $sosContact;
+            $userLogado->iban = $iban;
+            $userLogado->linkedIn = $linkedIn;
 
-        $userLogado->name = $name;
-        $userLogado->status = $status;
-        $userLogado->academicQual = $academic;
-        $userLogado->birthDate = $birthday;
-        $userLogado->phone = $mobile;
-        $userLogado->email = $email;
-        $userLogado->taxNumber = $nif;
-        $userLogado->address = $address;
-        $userLogado->city = $city;
-        $userLogado->zip_code = $zip;
-        $userLogado->sosName = $sosName;
-        $userLogado->sosContact = $sosContact;
-        $userLogado->iban = $iban;
-        $userLogado->linkedIn = $linkedIn;
+
 
 
         $userLogado->save();
