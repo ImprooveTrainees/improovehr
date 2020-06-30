@@ -31,8 +31,7 @@
         <link rel="shortcut icon" href="{{ asset ('assets/media/favicons/favicon.png') }}">
         <link rel="icon" type="image/png" sizes="192x192" href="{{ asset ('assets/media/favicons/favicon-192x192.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset ('assets/media/favicons/apple-touch-icon-180x180.png') }}">
-        <link href="{{ asset ('https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet') }}">
+        <link rel="stylesheet" href="{{ asset ('https://fonts.googleapis.com/icon?family=Material+Icons') }}">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
@@ -47,7 +46,7 @@
 
         <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
         <link rel="stylesheet" href="{{asset ('assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-        {{-- <link rel="stylesheet" href="{{asset ('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous') }}"> --}}
+        <link rel="stylesheet" href="{{asset ('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous') }}">
         <link rel="stylesheet" href="{{asset ('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css') }}" />
          <!-- Calendar -->
         <link href="{{asset ('assets/fullcalendar/core/main.css') }}" rel='stylesheet' />
@@ -63,7 +62,10 @@
         <script src="{{asset('https://kit.fontawesome.com/041a9ee086.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-
+        {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/dataTables.responsive.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script> --}}
 
     </head>
     <body>
@@ -919,7 +921,7 @@
         <script src="{{ asset ('js/flextime.js ') }}"></script>
         <script src="{{ asset ('js/home.js ') }}"></script>
 
-        {{-- TABLESAW --}}
-        <script src="{{ asset ('js/tablesaw_custom.js ') }}"></script>
+
+
     </body>
 </html>
