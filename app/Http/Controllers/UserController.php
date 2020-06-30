@@ -384,7 +384,11 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        //
+        $id_user= Auth::user()->id;
+
+        $passUserAuth = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.password')->value('password');
 
         $name = $request->input('name');
         $status = $request->input('status');
@@ -401,23 +405,75 @@ class UserController extends Controller
         $iban = $request->input('iban');
         $linkedIn = $request->input('linkedIn');
 
+        $currentPass = $request->input('currentPass');
+        $newPass = $request->input('newPass');
 
         $userLogado = User::find(Auth::User()->id);
 
-        $userLogado->name = $name;
-        $userLogado->status = $status;
-        $userLogado->academicQual = $academic;
-        $userLogado->birthDate = $birthday;
-        $userLogado->phone = $mobile;
-        $userLogado->email = $email;
-        $userLogado->taxNumber = $nif;
-        $userLogado->address = $address;
-        $userLogado->city = $city;
-        $userLogado->zip_code = $zip;
-        $userLogado->sosName = $sosName;
-        $userLogado->sosContact = $sosContact;
-        $userLogado->iban = $iban;
-        $userLogado->linkedIn = $linkedIn;
+        $isPasswordValid = false;
+
+        if($currentPass !== null || $newPass !== null) {
+
+            if (Hash::check($currentPass, $passUserAuth) || $currentPass == $passUserAuth) {
+
+                if($currentPass !== null) {
+
+                    $isPasswordValid = true;
+
+                }
+
+
+            }
+
+            if($currentPass == $newPass && ($currentPass!==null && $newPass!==null)) {
+
+                $msgPass = "Error! The Passwords are the same. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
+            if($isPasswordValid == true) {
+
+                if($newPass !== null) {
+
+                    $userLogado->password = Hash::make($newPass);
+
+                } else {
+
+                    $msgPass = "Error! New Password is empty. Try Again.";
+
+                    return redirect()->action('UserController@index')->with('message', $msgPass);
+
+                }
+
+            } else {
+
+                $msgPass = "Error! Current Password is incorrect. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
+
+        }
+
+            $userLogado->name = $name;
+            $userLogado->status = $status;
+            $userLogado->academicQual = $academic;
+            $userLogado->birthDate = $birthday;
+            $userLogado->phone = $mobile;
+            $userLogado->email = $email;
+            $userLogado->taxNumber = $nif;
+            $userLogado->address = $address;
+            $userLogado->city = $city;
+            $userLogado->zip_code = $zip;
+            $userLogado->sosName = $sosName;
+            $userLogado->sosContact = $sosContact;
+            $userLogado->iban = $iban;
+            $userLogado->linkedIn = $linkedIn;
+
+
 
 
         $userLogado->save();
