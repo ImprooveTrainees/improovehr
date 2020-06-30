@@ -45,9 +45,9 @@ open
     <div class="form-group username">
         <label for="">Name:</label>
         @if($users->name == null)
-      <input type="text" name="name" class="form-control" placeholder="Insira o nome">
+      <input id="username2" type="text" name="name" class="form-control" placeholder="Insira o nome" minlength="4" maxlength="10" required>
         @else
-        <input type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}}>
+        <input id="username2" type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}} minlength="4" maxlength="10">
         @endif
     </div>
 

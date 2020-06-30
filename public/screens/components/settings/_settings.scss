@@ -84,7 +84,7 @@
     #holidaysExtra,
     #holidaysExtra4,
     #holidaysExtra2 {
-        grid-template-columns: 90px 155px;
+        grid-template-columns: 100px 150px;
     }
 
     #holidaysExtra3 {
@@ -94,5 +94,9 @@
     .bsettings2,
     .bsettings {
         width: 240px;
+    }
+
+    #holidaysExtra6 {
+        grid-template-columns: 100px 120px 20px;
     }
 }
