@@ -357,13 +357,13 @@ active
 
             </div>
 
-            <div id="holidaysExtra3">
+            <!-- <div id="holidaysExtra3">
                 <label for="">Absence Justification:</label>
                 <select class="form-control" name="Absence" id="absenceJustificationForm">
                     <option selected="selected">Yes</option>
                     <option >No</option>
                 </select>
-            </div>
+            </div> -->
         </div>
 
 
