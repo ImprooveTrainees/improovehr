@@ -1252,11 +1252,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
             $msg .= "<div class='col-md-4 sizeMobile'>";
-<<<<<<< HEAD
                 $msg .= "<div class=' mb-2'>";
-=======
-                $msg .= "<div class='mb-2'>";
->>>>>>> parent of 1ea717a... Revert "Merge pull request #176 from ImprooveTrainees/homepage_as_new"
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
                 $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));
