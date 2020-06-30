@@ -1252,7 +1252,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
 
             $msg .= "<div class='col-md-4 sizeMobile'>";
-                $msg .= "<div class='card mb-2'>";
+                $msg .= "<div class=' mb-2'>";
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
                 $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));
