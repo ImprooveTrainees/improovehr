@@ -29,6 +29,13 @@
   margin-top: -13px;
 }
 
+#log {
+  width: 40%;
+  position: relative;
+  margin-left: 35%;
+  margin-top: 5%;
+}
+
 @media screen and (min-width: 800px) {
   #login_first {
     width: 160%;
@@ -48,6 +55,46 @@
   }
 }
 
+@media screen and (max-width: 320px) {
+  #linkfp {
+    margin-top: 0px;
+    margin-left: -14px;
+  }
+  #cardbox {
+    height: 320px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  #cardbox {
+    height: 295px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 425px) {
+  #cardbox {
+    height: 295px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+  #cardbox {
+    height: 220px;
+  }
+  #linkfp {
+    margin-top: 0px;
+    margin-left: -14px;
+  }
+  #email input,
+  #password input {
+    width: 130%;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 2560px) {
+  #cardbox {
+    height: 260px;
+  }
 #main-container p,
 #main-container h1,
 #main-container h2,
@@ -647,7 +694,7 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media (min-width: 420px) and (max-width: 425px) {
   .birthday,
   .academic,
   .status,
@@ -667,8 +714,72 @@
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 220px;
+  }
+  #profile {
+    margin-left: 33px;
+  }
+  .cardbox4 {
+    margin-left: 33px;
+  }
+  .box1 {
+    margin-left: 17px;
+  }
+  .bprofile {
+    width: 342px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 215px;
+  }
   .cardbox1 {
-    margin-top: 3%;
+    margin-left: 17px;
+    width: 92%;
+  }
+  #profile {
+    margin-left: 13px;
+  }
+  .box1 {
+    margin-left: 2px;
+    margin-top: 200px;
+  }
+  .bprofile {
+    width: 332px;
   }
 }
 
@@ -689,6 +800,35 @@
   .linkedin {
     -ms-grid-columns: 70px 135px;
         grid-template-columns: 70px 135px;
+  }
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 176px;
+  }
+  .bprofile {
+    width: 275px;
+  }
+  .box1 {
+    margin-left: 2px;
+    margin-top: 200px;
+  }
+  #profile {
+    margin-left: -14px;
   }
 }
 
@@ -768,6 +908,23 @@
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p,
+  .companymobile input {
+    margin-left: 40px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .companyemail input {
+    margin-left: 40px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 316px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
@@ -809,6 +966,127 @@
   .departmentmanager label,
   .companymobile label {
     margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .role,
+  .typeofcontract,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .departmentmanager {
+    -ms-grid-columns: 70px 135px;
+        grid-template-columns: 70px 135px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 45px;
+    width: 176px;
+  }
+  .companymobile input,
+  .companyemail input {
+    width: 63%;
+    margin-left: 23px;
+  }
+  #profile2 {
+    margin-left: -14px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 275px;
+    margin-left: -27px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 30px;
+    width: 215px;
+  }
+  .companymobile input,
+  .companyemail input {
+    width: 85%;
+    margin-left: 27px;
+  }
+  .cardbox1 {
+    margin-left: 15px;
+  }
+  #profile2 {
+    margin-left: 13px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 319px;
+    margin-left: -21px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 425px) {
+  .role,
+  .typeofcontract,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .departmentmanager {
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 30px;
+    width: 220px;
+  }
+  .companymobile input,
+  .companyemail input {
+    margin-left: 30px;
+    width: 213px;
+  }
+  #profile2 {
+    margin-left: 33px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 340px;
+    margin-left: -12px;
+  }
+}
+
+@media (min-width: 1445px) and (max-width: 2560px) {
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p,
+  .companymobile input {
+    margin-left: 40px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .companyemail input {
+    margin-left: 40px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 345px;
   }
 }
 
@@ -1304,9 +1582,6 @@ th {
       -ms-flex-align: baseline;
           align-items: baseline;
   margin-top: 30px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 #rolenew {
@@ -1355,6 +1630,14 @@ th {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 10px;
+  color: rgba(128, 128, 128, 0.692);
+}
+
+#allEmployees h3 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 #teamLeader {
@@ -1425,6 +1708,18 @@ table {
 
 #modalEmployees2 {
   width: 85%;
+}
+
+#pills-register p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+#pills-register hr {
+  width: 160px;
+  margin-left: 0;
+  margin-top: 5px;
 }
 
 /* Change scroll Body */
@@ -1506,8 +1801,8 @@ table {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-grid-columns: 120px 190px;
-      grid-template-columns: 120px 190px;
+  -ms-grid-columns: 170px 220px;
+      grid-template-columns: 170px 220px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
@@ -1519,8 +1814,8 @@ table {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-grid-columns: 170px 140px;
-      grid-template-columns: 170px 140px;
+  -ms-grid-columns: 170px 220px;
+      grid-template-columns: 170px 220px;
   -ms-grid-rows: 30px;
       grid-template-rows: 30px;
   margin-top: 30px;
@@ -1619,8 +1914,8 @@ table {
   display: -ms-grid;
   display: grid;
   margin-top: 20px;
-  -ms-grid-columns: 210px 75px;
-      grid-template-columns: 210px 75px;
+  -ms-grid-columns: 210px 220px;
+      grid-template-columns: 210px 220px;
 }
 
 #holidaysnoti,
@@ -1680,9 +1975,54 @@ table {
   margin-left: 30px;
 }
 
+.btnSettings {
+  margin-left: 30px;
+  margin-top: 20px;
+  width: 347px;
+}
+
 .bsettings2 {
   margin-top: 20px;
   width: 260px;
+}
+
+.bprofileSettings {
+  margin-top: 20px;
+  width: 347px;
+}
+
+#flextime p {
+  margin: auto;
+  margin-top: 20px;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+#flextime hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+}
+
+#holidays p {
+  margin: auto;
+  margin-top: 20px;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+#holidays hr {
+  width: 20%;
+  display: inline-block;
+  margin-top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
 }
 
 @media (min-width: 320px) and (max-width: 1024px) {
@@ -2016,7 +2356,6 @@ td {
 }
 
 .gridTop {
-  margin-top: 5%;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 50px 300px 200px;
@@ -2033,8 +2372,8 @@ td {
 .testgrid2 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 80px 300px 10px 300px 200px;
-      grid-template-columns: 80px 300px 10px 300px 200px;
+  -ms-grid-columns: 80px 300px 200px 300px 200px;
+      grid-template-columns: 80px 300px 200px 300px 200px;
   text-align: center;
   grid-gap: 2%;
 }
@@ -2073,8 +2412,8 @@ td {
 .testgrid6 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 176px 300px 50px;
-      grid-template-columns: 176px 300px 50px;
+  -ms-grid-columns: 176px 300px 200px;
+      grid-template-columns: 176px 300px 200px;
   grid-gap: 2%;
   margin-top: 1%;
 }
@@ -2082,16 +2421,16 @@ td {
 .testgrid7 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 176px 300px 50px;
-      grid-template-columns: 176px 300px 50px;
+  -ms-grid-columns: 176px 300px 200px;
+      grid-template-columns: 176px 300px 200px;
   grid-gap: 2%;
 }
 
 .testgrid8 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 176px 150px 50px;
-      grid-template-columns: 176px 150px 50px;
+  -ms-grid-columns: 176px 300px 50px;
+      grid-template-columns: 176px 300px 50px;
   grid-gap: 2%;
   margin-top: 1%;
 }
@@ -2099,8 +2438,8 @@ td {
 .testgrid10 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 176px 550px 40px;
-      grid-template-columns: 176px 550px 40px;
+  -ms-grid-columns: 176px 300px 200px;
+      grid-template-columns: 176px 300px 200px;
   grid-gap: 2%;
 }
 
@@ -2116,7 +2455,6 @@ td {
   display: grid;
   -ms-grid-columns: 76px 100px 200px 200px;
       grid-template-columns: 76px 100px 200px 200px;
-  width: 400px;
   margin: auto;
   grid-gap: 15px;
 }
@@ -2125,28 +2463,41 @@ td {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 120px 150px 150px;
-      grid-template-columns: 120px 150px 150px;
-  width: 400px;
+  grid-template-columns: 80px 100px 200px 200px;
+  /* width: 400px; */
   margin: auto;
-  grid-gap: 10%;
+  grid-gap: 15px;
   margin-top: 2%;
 }
 
+.testgrid13 #limitdate {
+  -ms-grid-column: 3;
+      grid-column-start: 3;
+}
+
 .testgrid14 {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 15px;
+  -ms-grid-columns: 80px 100px 200px 200px;
+      grid-template-columns: 80px 100px 200px 200px;
   font-size: large;
-  width: 400px;
-  margin: auto;
-  grid-gap: 10%;
+  /* width: 400px; */
+  /* margin: auto; */
+  /* grid-gap: 10%; */
   margin-top: 2%;
   color: grey;
   font-family: Helvetica;
 }
 
+#strongGrid {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
+}
+
 .aligment {
-  margin-top: 2%;
   margin-bottom: 1%;
   font-family: Helvetica;
-  margin-left: 20%;
   color: grey;
 }
 
@@ -2173,9 +2524,6 @@ input[type=radio] {
       grid-template-rows: 50px 100px 500px 100px 100px;
 }
 
-.surveyname,
-.answerlimit,
-.surveytype,
 .showSurv,
 .showSurv2 {
   display: -ms-grid;
@@ -2183,20 +2531,38 @@ input[type=radio] {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -ms-grid-columns: 86px 220px 40px;
-      grid-template-columns: 86px 220px 40px;
+  -ms-grid-columns: 86px 220px 200px;
+      grid-template-columns: 86px 220px 200px;
   -ms-grid-rows: auto;
       grid-template-rows: auto;
-  float: left;
   font-size: 11pt;
 }
 
+.surveyname,
+.answerlimit,
+.surveytype {
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  /* align-items: center; */
+  -ms-grid-columns: 86px 220px 40px;
+  grid-template-columns: 86px 220px 200px;
+  -ms-grid-rows: auto;
+  grid-template-rows: auto;
+  font-size: 11pt;
+  grid-gap: 15px;
+}
+
 .showSurv6 {
-  margin-top: 3%;
-  text-align: center;
-  font-size: x-large;
+  color: grey;
   font-family: Helvetica;
-  color: #745757;
+}
+
+#h2Style {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  margin-top: 3%;
 }
 
 .alignbtn {
@@ -2205,7 +2571,7 @@ input[type=radio] {
 }
 
 .btncreate {
-  width: 300%;
+  width: 100%;
 }
 
 .creatSurvey {
@@ -2216,17 +2582,29 @@ input[type=radio] {
   width: 25%;
 }
 
+.showSurveytop {
+  margin-top: 30px;
+}
+
 .showSurv2 {
   width: 25%;
   grid-gap: 12px;
 }
 
-.showSurv2 .btncreate {
-  width: 126px;
-}
-
 .showSurv3 {
   width: 25%;
+}
+
+.showSurv11 {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 15px;
+  -ms-grid-columns: 86px 220px 200px;
+      grid-template-columns: 86px 220px 200px;
+}
+
+#surveyShowID {
+  width: 100%;
 }
 
 .btnAlign {
@@ -2264,14 +2642,12 @@ input[type=radio] {
 }
 
 .ndbox {
-  margin-left: 4%;
   margin-top: 3%;
 }
 
 .ndbox h2 {
   margin: auto;
   color: rgba(128, 128, 128, 0.692);
-  text-align: center;
 }
 
 .ndbox h4 {
@@ -2293,20 +2669,11 @@ input[type=radio] {
   margin-top: 5px;
 }
 
-.createsurveyform {
-  margin-top: 8%;
-}
-
 .createsurveyform #lineform {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin-left: 0;
-}
-
-.showSurveyForm {
-  margin-top: 5%;
-  margin-left: 30%;
 }
 
 .showSurveyForm #lineform {
@@ -2325,10 +2692,6 @@ input[type=radio] {
   display: -ms-flexbox;
   display: flex;
   margin-left: 0;
-}
-
-.showSurveyForm3 {
-  margin-top: 5%;
 }
 
 .showSurveyForm3 #lineform {
@@ -2385,7 +2748,26 @@ input[type=radio] {
   color: #dc5f5f;
 }
 
+#newSurvey {
+  margin-top: 30px;
+}
+
+#newSurvey p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+#newSurvey hr {
+  width: 160px;
+  margin-left: 0;
+  margin-top: 5px;
+}
+
 @media (min-width: 320px) and (max-width: 1024px) {
+  .survey {
+    margin-left: -15%;
+  }
   .surveyname {
     display: -ms-grid;
     display: grid;
@@ -2396,15 +2778,9 @@ input[type=radio] {
         grid-template-rows: 50px 40px;
     -ms-grid-columns: 263px 0;
         grid-template-columns: 263px 0;
-    float: left;
-    font-size: 11pt;
-  }
-  .surveyname label {
-    text-align: center;
   }
   .surveyname input {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .answerlimit {
     display: -ms-grid;
@@ -2416,15 +2792,9 @@ input[type=radio] {
         grid-template-rows: 50px 40px;
     -ms-grid-columns: 263px 0;
         grid-template-columns: 263px 0;
-    float: left;
-    font-size: 11pt;
-  }
-  .answerlimit label {
-    text-align: center;
   }
   .answerlimit input {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .surveytype {
     -ms-grid-rows: 50px 40px;
@@ -2432,12 +2802,14 @@ input[type=radio] {
     -ms-grid-columns: 263px 0;
         grid-template-columns: 263px 0;
   }
-  .surveytype label {
-    text-align: center;
-  }
   .surveytype select {
+    margin-left: 40px;
+  }
+  .surveytype button {
     -ms-grid-column: 1;
         grid-column-start: 1;
+    width: 265px;
+    margin-top: 10px;
   }
   .creatSurvey {
     width: 50%;
@@ -2446,22 +2818,24 @@ input[type=radio] {
   .showSurveyForm {
     display: -ms-grid;
     display: grid;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
     -ms-grid-rows: 50px 40px;
         grid-template-rows: 50px 40px;
     -ms-grid-columns: 263px 0;
         grid-template-columns: 263px 0;
-    float: left;
-    font-size: 11pt;
     margin-left: 0px;
   }
-  .showSurveyForm button {
+  .showSurveyForm button .showSurvey {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 70px;
-    margin-left: 35%;
+    width: 265px;
+    margin-top: 10px;
+  }
+  .showSurv11 {
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
+    -ms-grid-rows: auto;
+    grid-template-rows: auto;
+    grid-gap: 0px;
   }
   .alignbtn {
     display: -ms-grid;
@@ -2470,84 +2844,71 @@ input[type=radio] {
     grid-gap: 5%;
     margin-bottom: 20%;
   }
-  .showSurveyForm2 input {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
-    width: 240px;
-  }
   .showSurveyForm2 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
     width: 150px;
   }
-  .showSurveyForm2 label {
-    text-align: center;
-  }
   .showSurveyForm2 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
-    width: 250px;
+    margin-left: 40px;
   }
   .testgrid2 {
-    margin-top: 25%;
-    -ms-grid-columns: 240px 100px 70px;
-        grid-template-columns: 240px 100px 70px;
-    text-align: center;
-    grid-gap: 5%;
+    -ms-grid-columns: 86px 140px 70px;
+        grid-template-columns: 86px 140px 70px;
+    text-align: start;
+    grid-gap: 0%;
+  }
+  .testgrid2 .marginSelect {
+    margin-top: 5%;
+  }
+  .testgrid2 #strongGrid {
+    margin-top: 5%;
   }
   .testgrid2 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid2 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 50%;
-    margin: auto;
+    width: 265px;
+    margin-top: 10px;
   }
   .testgrid2 strong {
     -ms-grid-column: 1;
         grid-column-start: 1;
   }
   .testgrid3 {
-    -ms-grid-columns: 240px 100px 70px;
-        grid-template-columns: 240px 100px 70px;
-    text-align: center;
+    -ms-grid-columns: 86px 140px 70px;
+        grid-template-columns: 86px 140px 70px;
+    text-align: start;
+    grid-gap: 0%;
   }
   .testgrid3 input {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid3 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 75%;
-    margin: auto;
-  }
-  .showSurveyForm5 {
-    margin-top: 30%;
+    width: 265px;
+    margin-top: 10px;
   }
   .testgrid33 {
-    -ms-grid-columns: 250px 100px 70px;
-        grid-template-columns: 250px 100px 70px;
-    text-align: center;
-    grid-gap: 10%;
+    -ms-grid-columns: 86px 140px 70px;
+        grid-template-columns: 86px 140px 70px;
+    text-align: start;
+    grid-gap: 0%;
   }
   .testgrid33 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid33 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 75%;
-    margin: auto;
+    width: 265px;
+    margin-top: 10px;
   }
   .topSurv {
     margin-top: 30%;
-  }
-  .showSurv2 {
-    grid-gap: 10px;
   }
   .showSurv6 {
     display: -ms-grid;
@@ -2564,60 +2925,53 @@ input[type=radio] {
         grid-column-start: 2;
   }
   .testgrid7 {
-    -ms-grid-columns: 250px 30px 30px;
-        grid-template-columns: 250px 30px 30px;
-    grid-gap: 12px;
+    -ms-grid-columns: 86px 140px 30px;
+        grid-template-columns: 86px 140px 30px;
+    grid-gap: 0px;
   }
   .testgrid7 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid7 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    margin: auto;
-    width: 100px;
+    width: 265px;
+    margin-top: 10px;
   }
   .testgrid7 label {
-    text-align: center;
+    text-align: start;
   }
   .testgrid5 {
-    text-align: center;
-    -ms-grid-columns: 240px 1100px;
-        grid-template-columns: 240px 1100px;
+    text-align: start;
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
   }
   .testgrid5 input {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid6 {
-    text-align: center;
-    margin-top: 30px;
-    grid-gap: 15px;
-    -ms-grid-columns: 240px 100px 100px;
-        grid-template-columns: 240px 100px 100px;
+    text-align: start;
+    grid-gap: 0px;
+    -ms-grid-columns: 86px 140px 100px;
+        grid-template-columns: 86px 140px 100px;
   }
   .testgrid6 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid6 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 100px;
-    margin: auto;
+    width: 265px;
+    margin-top: 10px;
   }
   .testgrid8 {
-    text-align: center;
-    -ms-grid-columns: 240px 100px 100px;
-        grid-template-columns: 240px 100px 100px;
+    text-align: start;
+    -ms-grid-columns: 86px 140px 100px;
+        grid-template-columns: 86px 140px 100px;
   }
   .testgrid8 input {
-    width: 65px;
+    margin-left: 40px;
     text-align: center;
-    margin: auto;
-    -ms-grid-column: 1;
-        grid-column-start: 1;
   }
   .testgrid8 b {
     -ms-grid-column: 1;
@@ -2626,9 +2980,8 @@ input[type=radio] {
   #params {
     display: -ms-grid;
     display: grid;
-    margin-top: 40px;
-    -ms-grid-columns: 100px 45px 100px;
-        grid-template-columns: 100px 45px 100px;
+    -ms-grid-columns: 125px 45px 100px;
+        grid-template-columns: 125px 45px 100px;
   }
   .showSurv66 {
     display: -ms-grid;
@@ -2642,47 +2995,38 @@ input[type=radio] {
     width: 25px;
   }
   .testgrid10 {
-    text-align: center;
-    -ms-grid-columns: 250px 550px 40px;
-        grid-template-columns: 250px 550px 40px;
-    grid-gap: 10px;
+    text-align: start;
+    -ms-grid-columns: 86px 140px 40px;
+        grid-template-columns: 86px 140px 40px;
+    grid-gap: 0px;
   }
   .testgrid10 select {
-    -ms-grid-column: 1;
-        grid-column-start: 1;
+    margin-left: 40px;
   }
   .testgrid10 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 75px;
-    margin: auto;
+    width: 265px;
+    margin-top: 10px;
   }
   .testgrid12 {
-    -ms-grid-columns: 30px 200px 200px;
-        grid-template-columns: 30px 200px 200px;
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    -ms-grid-columns: 30px 95px 140px;
+        grid-template-columns: 30px 95px 140px;
+    grid-gap: 0%;
   }
   .testgrid12 input {
-    width: 70px;
-    height: 18px;
-  }
-  .testgrid12 select {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
-    width: 200px;
+    margin-top: 5px;
   }
   .testgrid12 .secondSelect {
     display: inline;
-    -ms-grid-column: 2;
-        grid-column-start: 2;
+    -ms-grid-column: 3;
+        grid-column-start: 3;
   }
   .testgrid13 {
-    text-align: center;
-    margin-top: 50px;
-    -ms-grid-columns: 240px 150px 150px;
-        grid-template-columns: 240px 150px 150px;
+    text-align: start;
+    -ms-grid-columns: 86px 140px 150px;
+        grid-template-columns: 86px 140px 150px;
+    grid-gap: 0px;
   }
   .testgrid13 input[type=date] {
     -ms-grid-column: 1;
@@ -2691,9 +3035,15 @@ input[type=radio] {
   .testgrid13 button {
     -ms-grid-column: 1;
         grid-column-start: 1;
+    width: 265px;
+    margin-top: 10px;
+  }
+  .testgrid13 #limitdate {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+    margin-left: 40px;
   }
   .testgrid14 {
-    margin-top: 40px;
     font-size: large;
     width: 400px;
     margin: auto;
@@ -2703,20 +3053,17 @@ input[type=radio] {
     font-family: Helvetica;
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 82px 130px 131px 100px;
-        grid-template-columns: 82px 130px 131px 100px;
+    -ms-grid-columns: 110px 40px 131px 100px;
+        grid-template-columns: 110px 40px 131px 100px;
   }
   .testgrid14 button {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
-    width: 133px;
-    margin: auto;
-  }
-  .testgrid14 input[type=checkbox] {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 100px;
-    height: 20px;
+    width: 265px;
+    margin-top: 10px;
+  }
+  .testgrid14 input[type=checkbox] {
+    margin-top: 14%;
   }
 }
 
@@ -2730,14 +3077,20 @@ input[type=radio] {
 }
 
 @media (min-width: 330px) and (max-width: 375px) {
-  .showSurv2 label {
-    margin-left: 100px;
-  }
-  .showSurv2 button {
-    margin-left: 45px;
+  .showSurv2 {
+    -ms-grid-columns: 86px 140px 200px;
+        grid-template-columns: 86px 140px 200px;
+    width: 0%;
+    grid-gap: 0px;
   }
   .showSurv2 input {
-    margin-left: 15px;
+    margin-left: 40px;
+  }
+  .showSurv2 button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 265px;
+    margin-top: 10px;
   }
 }
 
@@ -2761,14 +3114,20 @@ input[type=radio] {
   .answerlimit,
   .surveytype,
   .showSurv {
-    margin-left: 25px;
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
+    -ms-grid-rows: auto;
+    grid-template-rows: auto;
+    grid-gap: 0px;
   }
   .showSurveyForm button {
     -ms-grid-column: 1;
         grid-column-start: 1;
-    width: 150px;
-    margin: auto;
-    margin-left: 85px;
+    width: 265px;
+    margin-top: 10px;
+  }
+  .showSurveyForm select {
+    margin-left: 40px;
   }
   .alignbtn {
     margin-left: 20px;
@@ -2827,14 +3186,15 @@ input[type=radio] {
 }
 
 .colors h2 {
-  margin-bottom: 13px;
-  color: #3b685a;
   text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 .colors h4 {
   margin: auto;
-  color: rgba(99, 79, 79, 0.692);
+  color: rgba(128, 128, 128, 0.692);
   text-align: center;
 }
 
@@ -2867,6 +3227,7 @@ input[type=radio] {
 
 .finalAverage {
   margin-top: 5%;
+  margin-left: 30px;
 }
 
 .finalAverage #lineform {
@@ -2874,6 +3235,18 @@ input[type=radio] {
   display: -ms-flexbox;
   display: flex;
   margin-left: 0;
+}
+
+.finalAverage p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.finalAverage hr {
+  width: 160px;
+  margin-left: 0;
+  margin-top: 5px;
 }
 
 .showFinalAverage {
@@ -2884,9 +3257,9 @@ input[type=radio] {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 120px 120px 120px;
-      grid-template-columns: 120px 120px 120px;
+  grid-template-columns: 200px 200px 347px;
   margin: auto;
-  width: 400px;
+  /* width: 400px; */
   text-align: center;
   grid-gap: 20px;
 }
@@ -2905,6 +3278,13 @@ input[type=radio] {
   width: 400px;
   margin: auto;
   margin-top: 4%;
+}
+
+.colors h2 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 @media (min-width: 320px) and (max-width: 1024px) {
@@ -3037,17 +3417,24 @@ input[type=radio] {
 }
 
 .titleReport {
-  color: rgba(128, 128, 128, 0.692);
-  font-size: 40px;
-  text-align: center;
+  margin-top: 30px;
+  margin-left: 30px;
 }
 
-.subTitleReport {
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  font-family: Helvetica;
-  color: #6e74d0;
+.titleReport p {
+  margin: auto;
+  color: rgba(128, 128, 128, 0.692);
+  font-size: 10pt;
+}
+
+.titleReport hr {
+  width: 160px;
+  margin-left: 0;
+  margin-top: 5px;
+}
+
+.subTitleReport2 {
+  margin-top: 30px;
 }
 
 .selectReport {
@@ -3100,7 +3487,15 @@ input[type=radio] {
 }
 
 .reportSelects {
-  padding: 10px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 110px 200px;
+  grid-template-columns: 200px 200px;
+  margin: auto;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  margin-top: 30px;
 }
 
 .reportDateSpace {
@@ -3109,6 +3504,10 @@ input[type=radio] {
       -ms-flex-direction: row;
           flex-direction: row;
   max-width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 200px 240px 330px;
+      grid-template-columns: 200px 240px 330px;
 }
 
 .reportStart {
@@ -3141,7 +3540,7 @@ input[type=radio] {
 }
 
 #start_date {
-  width: 200px;
+  width: 250px;
   margin: auto;
 }
 
@@ -3375,7 +3774,6 @@ input[type=radio] {
   #myChart {
     width: 400px;
     margin: auto;
-    margin-top: 4%;
   }
 }
 

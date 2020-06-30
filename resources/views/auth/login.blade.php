@@ -3,14 +3,20 @@
 @section('content')
 
 <img src="img/login.svg" alt="improove" srcset="" id="login_first">
+
 <div class="container">
+    <div class="loginImg">
+        <img src="img/loginLogo.png" alt="" id="log">
+    </div>
     <div class="row justify-content-center">
+
         <div class="login_box">
             <div class="card bg-light card_login">
-                <div class="card-body">
+                <div id="cardbox" class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
+
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">

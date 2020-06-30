@@ -20,10 +20,10 @@ open
 </div>
 @endif
 
-<div id="table_hol">
+<div id="">
 
 <div id="cardbox4" class="shadow p-1 bg-white cardbox1">
-    <div class="container">
+    <div class="">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
@@ -42,7 +42,7 @@ open
 
         <!-- Tab panes -->
         <div class="tab-content">
-          <div id="home" class="container tab-pane active"><br>
+          <div id="home" class="tab-pane active"><br>
 
           <div class="shadow p-1 bg-white cardbox2">
                 <a data-toggle="modal" data-target="#modalVacation">
@@ -129,7 +129,7 @@ open
 
             <!-- ------------------------------------------------------ TAB - EMPLOYEES ON HOLIDAYS ------------------------------------------------------ -->
 
-            <div id="home2" class="container tab-pane fade"><br>
+            <div id="home2" class="tab-pane fade"><br>
             @if($roleuser <= 3)
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
@@ -240,7 +240,7 @@ open
 
         {{-- TAB ABSENCES --}}
 
-<div id="menu1" class="container tab-pane fade"><br>
+<div id="menu1" class=" tab-pane fade"><br>
  <!-- Tab panes -->
 
  <div class="shadow p-1 bg-white cardbox2" id="newAbsenceadd">
@@ -392,7 +392,7 @@ open
 
 <!-- ------------------------------------------------------ TAB - ABSENCES WITH ABSENCES ------------------------------------------------------ -->
 
-    <div id="menu2" class="container tab-pane fade"><br>
+    <div id="menu2" class="tab-pane fade"><br>
 
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 @if($roleuser <= 3)

@@ -187,6 +187,13 @@ class AbsenceController extends Controller
         $user = Auth::user();
         $userid = Auth::id();
 
+        $allAbsences = absence::All();
+
+        $vacationsAlready = false;
+        $absencesAlready = false;
+        $vacationStartonHoliday = false;
+        $absenceStartonHoliday = false;
+
         $username = DB::table('users')
         ->where('users.id','=',$userid)
         ->select('users.name')
@@ -203,6 +210,46 @@ class AbsenceController extends Controller
         $roleuser = DB::table('users')
         ->where('users.id','=',$userid)
         ->select('users.idusertype')->value('idusertype');
+
+
+
+        //Beginning Holidays API
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://date.nager.at/Api/v2/PublicHolidays/'.date("Y").'/PT');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $resultHolidays = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+        // PORTUGAL HOLIDAYS WITH EXTRA DAYS
+
+        $resultHolidays = json_decode($resultHolidays);
+
+        $holidays = array();
+
+        foreach($resultHolidays as $hol) {
+
+            $hld = Carbon::parse($hol->date);
+            array_push($holidays, $hld);
+
+        }
+
+        $allExtraDays = settings_extradays::all();
+
+        foreach($allExtraDays as $extra) {
+
+            $xtr = Carbon::parse($extra->extra_day);
+            array_push($holidays, $xtr);
+
+        }
+
+        // END - PORTUGAL HOLIDAYS WITH EXTRA DAYS
+
+        // NOT ALLOW TO CREATE VACATIONS ON DAYS ALREADY APPROVED / CONCLUDED
 
         $vacation = new absence();
 
@@ -222,9 +269,43 @@ class AbsenceController extends Controller
 
             $startDate = request('start_date');
             $endDate = request('end_date');
-
             $from = Carbon::parse($startDate);
             $to = Carbon::parse($endDate);
+
+            foreach($allAbsences as $all) {
+
+                if($all->iduser == $userid) {
+
+                    if($all->absencetype == 1) {
+                        // VACATIONS
+
+                        if($all->status !== "Disapproved") {
+
+                            if($to>=$all->start_date && $from<=$all->end_date  || $from==$all->start_date || $from==$all->end_date || $to == $all->start_date || $to == $all->end_date) {
+
+                                $vacationsAlready = true;
+                                break;
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($from == $holidays[$i]) {
+
+                    $vacationStartonHoliday = true;
+
+                }
+
+            }
 
             $days = $to->diffInWeekdays($from);
 
@@ -240,17 +321,43 @@ class AbsenceController extends Controller
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
 
+            } else if($vacationStartonHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Date you chose is on a holiday.');
+
+            } else if($vacationsAlready == true) {
+
+                return redirect('/holidays')->withErrors('Error! You already have vacations scheduled for the dates you chosen.');
+
             } else {
 
-                $vacation->iduser=$userid;
-                $vacation->absencetype=1;
-                $vacation->attachment="";
-                $vacation->status="Pending";
-                $vacation->start_date = request('start_date');
-                $vacation->end_date = request('end_date');
-                $vacation->motive = "";
+                if($roleuser<=2) {
 
-                $vacation->save();
+                    $vacation->iduser=$userid;
+                    $vacation->absencetype=1;
+                    $vacation->attachment="";
+                    $vacation->status="Approved";
+                    $vacation->start_date = request('start_date');
+                    $vacation->end_date = request('end_date');
+                    $vacation->motive = "";
+
+                    $vacation->save();
+
+                } else {
+
+                    $vacation->iduser=$userid;
+                    $vacation->absencetype=1;
+                    $vacation->attachment="";
+                    $vacation->status="Pending";
+                    $vacation->start_date = request('start_date');
+                    $vacation->end_date = request('end_date');
+                    $vacation->motive = "";
+
+                    $vacation->save();
+
+                }
+
+
 
                 if($roleuser>2) {
 
@@ -281,6 +388,41 @@ class AbsenceController extends Controller
             $from = Carbon::parse($startDate);
             $to = Carbon::parse($endDate);
 
+            foreach($allAbsences as $all) {
+
+                if($all->iduser == $userid) {
+
+                    if($all->absencetype > 1) {
+                        // ABSENCES
+
+                        if($all->status !== "Disapproved") {
+
+                            if($to>=$all->start_date && $from<=$all->end_date || $from==$all->start_date || $from==$all->end_date || $to == $all->start_date || $to == $all->end_date) {
+
+                                $absencesAlready = true;
+                                break;
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($from == $holidays[$i]) {
+
+                    $absenceStartonHoliday = true;
+
+                }
+
+            }
+
             if($to < $from) {
 
                 return redirect('/holidays')->withErrors('Error! End Date can not be inferior to Start Date.');
@@ -289,17 +431,41 @@ class AbsenceController extends Controller
 
                 return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
 
+            }  else if($absenceStartonHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Date you chose is on a holiday.');
+
+            } else if($absencesAlready == true) {
+
+                return redirect('/holidays')->withErrors('Error! You already have absences scheduled for the dates you chosen.');
+
             } else {
 
-                $absence->iduser=$userid;
-                $absence->absencetype=6;
-                $absence->attachment="";
-                $absence->status="Pending";
-                $absence->start_date = request('start_date');
-                $absence->end_date = request('end_date');
-                $absence->motive = "";
+                if($roleuser<=3) {
 
-                $absence->save();
+                    $absence->iduser=$userid;
+                    $absence->absencetype=6;
+                    $absence->attachment="";
+                    $absence->status="Approved";
+                    $absence->start_date = request('start_date');
+                    $absence->end_date = request('end_date');
+                    $absence->motive = "";
+
+                    $absence->save();
+
+                } else {
+
+                    $absence->iduser=$userid;
+                    $absence->absencetype=6;
+                    $absence->attachment="";
+                    $absence->status="Pending";
+                    $absence->start_date = request('start_date');
+                    $absence->end_date = request('end_date');
+                    $absence->motive = "";
+
+                    $absence->save();
+
+                }
 
                 if($roleuser>2) {
 
@@ -322,45 +488,122 @@ class AbsenceController extends Controller
 
         } else if($op==3) {
 
+            $onHoliday = false;
+
             $start_date = request('upd_start_date');
 
-            DB::table('absences')
-            ->where('id', $updValue)
-            ->update(['start_date' => $start_date]);
+            $tempEndDate = DB::table('absences')
+                    ->where('id', $updValue)
+                    ->select('absences.end_date')->value('end_date');
 
-            DB::table('absences')
-            ->where('id', $updValue)
-            ->update(['status' => 'Pending']);
+            if($start_date > $tempEndDate) {
 
-            if($roleuser>2) {
-
-                $notification->type="Vacations";
-                $notification->description=$username." updated start date of created vacations. Waiting for Approval.";
-
-                $notification->save();
-
-                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
-
-
-                    $notif_user->notificationId=$id_notif;
-                    $notif_user->createUserId=$userid;
-                    $notif_user->receiveUserId=$managerId;
-
-                    $notif_user->save();
+                return redirect('/holidays')->withErrors('Error! Start Date must be inferior to End Date.');
 
             }
+
+            $startDate = Carbon::parse($start_date);
+
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($startDate == $holidays[$i]) {
+
+                    $onHoliday = true;
+
+                }
+
+            }
+
+            if($startDate->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            } else if($onHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Day you chose is on a holiday.');
+
+            } else {
+
+                if($roleuser<=2) {
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['start_date' => $start_date]);
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['status' => 'Approved']);
+
+                } else {
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['start_date' => $start_date]);
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['status' => 'Pending']);
+
+                }
+
+                if($roleuser>2) {
+
+                    $notification->type="Vacations";
+                    $notification->description=$username." updated start date of created vacations. Waiting for Approval.";
+
+                    $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->createUserId=$userid;
+                        $notif_user->receiveUserId=$managerId;
+
+                        $notif_user->save();
+
+                }
+
+
+            }
+
+
 
         } else if($op==4) {
 
             $end_date = request('upd_end_date');
 
-            DB::table('absences')
+            $tempStartDate =  DB::table('absences')
             ->where('id', $updValue)
-            ->update(['end_date' => $end_date]);
+            ->select('absences.start_date')->value('start_date');
 
-            DB::table('absences')
-            ->where('id', $updValue)
-            ->update(['status' => 'Pending']);
+            if($end_date < $tempStartDate) {
+
+                return redirect('/holidays')->withErrors('Error! End Date must be superior to Start Date.');
+
+            }
+
+            if($roleuser<=2) {
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['end_date' => $end_date]);
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['status' => 'Approved']);
+
+            } else {
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['end_date' => $end_date]);
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['status' => 'Pending']);
+
+            }
 
             if($roleuser>2) {
 
@@ -382,31 +625,82 @@ class AbsenceController extends Controller
 
         } else if($op==5) {
 
+            $onHoliday = false;
+
             $start_datetime = request('upd_start_datetime');
 
-            DB::table('absences')
+            $tempEndDateTime = DB::table('absences')
             ->where('id', $updValue)
-            ->update(['start_date' => $start_datetime]);
+            ->select('absences.start_date')->value('start_date');
 
-            DB::table('absences')
-            ->where('id', $updValue)
-            ->update(['status' => 'Pending']);
+            if($start_datetime > $tempEndDateTime) {
 
-            if($roleuser>2) {
+                return redirect('/holidays')->withErrors('Error! Start Date must be inferior to End Date.');
 
-                $notification->type="Absences";
-                $notification->description=$username." updated start date of created absences. Waiting for Approval.";
+            }
 
-                $notification->save();
+            $startDate = Carbon::parse($start_datetime);
 
-                    $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+            for($i=0;$i<count($holidays);$i++) {
+
+                if($startDate == $holidays[$i]) {
+
+                    $onHoliday = true;
+
+                }
+
+            }
+
+            if($startDate->isWeekend()) {
+
+                return redirect('/holidays')->withErrors('Error! Your Start Date must be a week day.');
+
+            } else if($onHoliday == true) {
+
+                return redirect('/holidays')->withErrors('Error! The Start Day you chose is on a holiday.');
+
+            } else {
+
+                if($roleuser<=3) {
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['start_date' => $start_datetime]);
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['status' => 'Approved']);
 
 
-                    $notif_user->notificationId=$id_notif;
-                    $notif_user->createUserId=$userid;
-                    $notif_user->receiveUserId=$managerId;
+                } else {
 
-                    $notif_user->save();
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['start_date' => $start_datetime]);
+
+                    DB::table('absences')
+                    ->where('id', $updValue)
+                    ->update(['status' => 'Pending']);
+
+                }
+
+                if($roleuser>2) {
+
+                    $notification->type="Absences";
+                    $notification->description=$username." updated start date of created absences. Waiting for Approval.";
+
+                    $notification->save();
+
+                        $id_notif = notifications::orderBy('created_at','desc')->first()->id;
+
+
+                        $notif_user->notificationId=$id_notif;
+                        $notif_user->createUserId=$userid;
+                        $notif_user->receiveUserId=$managerId;
+
+                        $notif_user->save();
+
+                }
 
             }
 
@@ -414,13 +708,37 @@ class AbsenceController extends Controller
 
             $end_datetime = request('upd_end_datetime');
 
-            DB::table('absences')
+            $tempStartDateTime = DB::table('absences')
             ->where('id', $updValue)
-            ->update(['end_date' => $end_datetime]);
+            ->select('absences.start_date')->value('start_date');
 
-            DB::table('absences')
-            ->where('id', $updValue)
-            ->update(['status' => 'Pending']);
+            if($end_datetime < $tempStartDateTime) {
+
+                return redirect('/holidays')->withErrors('Error! End Date must be superior to Start Date.');
+
+            }
+
+            if($roleuser<=3) {
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['end_date' => $end_datetime]);
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['status' => 'Approved']);
+
+            } else {
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['end_date' => $end_datetime]);
+
+                DB::table('absences')
+                ->where('id', $updValue)
+                ->update(['status' => 'Pending']);
+
+            }
 
             if($roleuser>2) {
 
@@ -846,6 +1164,8 @@ class AbsenceController extends Controller
 
         $vacations_total = $vacationDaysCY + $balanceLY; // TOTAL DAYS
 
+        // MAX DAYS PER YEAR -> VARIABLE FROM SETTINGS
+
         $maxVacations = DB::table('settings_general')->select('limit_vacations')->latest('created_at')->first();
 
         $maxVacations = settings_general::orderBy('created_at','desc')->first()->limit_vacations;
@@ -1084,7 +1404,7 @@ for($l = 0; $l < $blocksNum; $l++) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($list->iduser !== $id_user) {
+                if($list->name !== $username) {
 
                     $descricao = $list->name." will be absent from ".$list->start_date." to ".$list->end_date." .";
 
@@ -1167,7 +1487,7 @@ foreach($listVacationsTotal as $list) {
 
             if($roleuser>1 && $roleuser<=3) {
 
-                if($list->iduser !== $id_user) {
+                if($list->name !== $username) {
 
                     $descricao = $list->name." will be on vacations from ".$list->start_date." to ".$list->end_date." .";
 

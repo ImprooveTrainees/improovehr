@@ -6,6 +6,7 @@
         use Illuminate\Http\Request;
         use Auth;
         use DB;
+        use Carbon\Carbon;
         use App\User;
         $listNotifications = NotificationsUsers::orderBy('created_at', 'desc')->get();
         $notificationMessages = notifications::All();
@@ -16,6 +17,22 @@
         use App\settings_general;
         $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
         $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
+
+        // JOIN REMINDERS AND NOTIFICATIONS TABLE:
+
+        $first = DB::table('notifications')
+        ->join('notifications_users','notifications.id','=','notifications_users.notificationId')
+        ->select('notifications.id','notifications.description','notifications.created_at as dataCreated', 'notifications.read_at as read_at','notifications.type as type')
+        ->where('notifications_users.receiveUserId','=',$id_user);
+
+        $notificationsReminder = DB::table('notifications_reminders')
+        ->select('notifications_reminders.id','notifications_reminders.description','notifications_reminders.created_at as dataCreated','notifications_reminders.read_at as read_at', DB::raw("NULL as type"))
+        ->union($first)->orderBy('dataCreated','desc')->get();
+
+
+        // GET TODAY'S DATE
+        $currentDate = Carbon::now();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -574,15 +591,24 @@
 
                                     <form method="GET" id="notificationsReadForm"> <!-- a form tem de estar fora para apanhar todos os values para o ajax, para fazer tudo parte de uma só form -->
                                         @csrf
-                                    @foreach($listNotifications as $notUser) <!-- Notificacoes -->
-                                        @if($id_user == $notUser->receiveUserId)
-                                            <?php $notification = notifications::find($notUser->notificationId); ?>
+                                    @foreach($notificationsReminder as $notification) <!-- Notificacoes -->
                                             @if($notification->read_at=='')
                                             <li style="background-color:lightgrey;">
                                             @else
                                             <li class="ajaxWhiteLI">
 
                                             @endif
+
+                                            @php
+                                                $readAt = $notification->read_at;
+
+                                                $read_date = Carbon::parse($readAt);
+
+                                                $diff_in_days = $currentDate->diffInDays($read_date);
+
+                                            @endphp
+
+                                            @if($notification->read_at=='' || $notification->read_at!=='' && $diff_in_days<=2)
 
                                                 <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
@@ -593,7 +619,19 @@
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <div class="font-w600">{{$notification->description}}</div>
-                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                    @if($notification->type == null)
+                                                    <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
@@ -607,7 +645,7 @@
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <div class="font-w600">{{$notification->description}}</div>
-                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
@@ -621,7 +659,7 @@
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <div class="font-w600">{{$notification->description}}</div>
-                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
@@ -635,7 +673,7 @@
                                                             </div>
                                                             <div class="media-body pr-2">
                                                                 <small class="font-w600">{{$notification->description}}</small>
-                                                                <small class="text-muted">{{$notification->created_at}}</small>
+                                                                <small class="text-muted">{{$notification->dataCreated}}</small>
                                                             </div>
                                                         </a>
                                                     </li>
@@ -646,112 +684,15 @@
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <small class="font-w600">{{$notification->description}}</small>
-                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                     @endif
                                                 @endif
-
-                                        @endif
-
+                                            @endif
                                     @endforeach
                                 </form>
-
-                                    <form id="formReminderAJAX">
-                                        @csrf
-                                        @if($allReminders != null)
-                                            @foreach($allReminders as $reminder) <!-- Reminders -->
-                                            <input type="hidden" value={{$reminder->id}} name="remindersRead[]">
-                                                <?php $notificationUser = NotificationsUsers::find($reminder->notifications_users_id);  ?>
-                                                @if($notificationUser->receiveUserId == $id_user)
-                                                    @if($settingsAlerts->alert_evaluations == 1)
-
-                                                    @if($reminder->read_at=='')
-                                                    <li style="background-color: lightgrey">
-                                                    @else
-
-                                                    <li>
-                                                    @endif
-                                                            <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
-                                                                <div class="mr-2 ml-3">
-                                                                    <i class="fas fa-pencil-alt"></i>
-                                                                </div>
-                                                                <div class="media-body pr-2">
-                                                                    <div class="font-w600">{{$reminder->description}}</div>
-                                                                    <small class="text-muted">{{$reminder->created_at}}</small>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </form>
-
-
-
-
-
-
-                                {{-- @foreach($listNotifications as $listNot)
-
-                                @if($id_user==$listNot->receiveUserId)
-
-                                @foreach($notificationMessages as $msg)
-
-                                @if($listNot->notificationId==$msg->id)
-
-                                @if($msg->type == "Vacations" || $msg->type == "Absences")
-
-                                @if($msg->read_at=='')
-                                <li style="background-color: lightgrey">
-                                @else
-
-                                <li>
-                                @endif
-                                            <a class="text-dark media py-2" href="/holidays">
-                                                <div class="mr-2 ml-3" >
-                                                    <i class="fas fa-clock"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                    <small class="font-w600">{{$msg->description}}</small>
-                                                </div>
-                                            </a>
-                                </li>
-
-                                @elseif($msg->type == "Approval")
-
-                                @if($msg->read_at=='')
-                                <li style="background-color: lightgrey">
-                                @else
-
-                                <li>
-                                @endif
-                                            <a class="text-dark media py-2" href="/holidays">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                    <small class="font-w600">{{$msg->description}}</small>
-                                                </div>
-                                            </a>
-                                </li>
-
-
-                                @endif
-
-                                @endif
-                                @endforeach
-
-
-
-                                @endif
-
-
-                                @endforeach --}}
-
-
 
                                 </ul>
                                 <div class="p-2 border-top">
