@@ -384,7 +384,11 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        //
+        $id_user= Auth::user()->id;
+
+        $passUserAuth = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.password')->value('password');
 
         $name = $request->input('name');
         $status = $request->input('status');
@@ -401,8 +405,55 @@ class UserController extends Controller
         $iban = $request->input('iban');
         $linkedIn = $request->input('linkedIn');
 
+        $currentPass = $request->input('currentPass');
+        $newPass = $request->input('newPass');
 
         $userLogado = User::find(Auth::User()->id);
+
+        $isPasswordValid = false;
+
+        if (Hash::check($currentPass, $passUserAuth) || $currentPass == $passUserAuth) {
+
+            if($currentPass !== '') {
+
+                $isPasswordValid = true;
+
+            }
+
+
+        }
+
+        /* if($currentPass == $newPass && ($currentPass!=='' && $newPass!=='')) {
+
+            $msgPass = "Error! The Passwords are the same. Try Again.";
+
+            return redirect()->action('UserController@index')->with('message', $msgPass);
+
+        } */
+
+        if($isPasswordValid == true) {
+
+            if($newPass !== '') {
+
+                $userLogado->password = Hash::make($newPass);
+                $userLogado->save();
+
+            } else {
+
+                $msgPass = "Error! New Password is empty. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
+        } else {
+
+            $msgPass = "Error! Current Password is incorrect. Try Again.";
+
+            return redirect()->action('UserController@index')->with('message', $msgPass);
+
+        }
+
 
         $userLogado->name = $name;
         $userLogado->status = $status;

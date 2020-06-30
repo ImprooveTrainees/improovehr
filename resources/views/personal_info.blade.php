@@ -209,6 +209,19 @@ open
             <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link" value={{$users->linkedIn}}>
             @endif
         </div>
+        <div id="subtitle">
+            <p>Change Password</p>
+            <hr>
+        </div>
+
+        <div class="form-group linkedin">
+            <label for="">Current Password:</label>
+            <input type="password" name="currentPass" class="form-control" placeholder="Insert Current Password">
+
+            <label for="">New Password:</label>
+            <input type="password" name="newPass" class="form-control" placeholder="Insert New Password">
+
+        </div>
     <br>
   <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
   </form>
