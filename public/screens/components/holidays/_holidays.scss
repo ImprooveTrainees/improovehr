@@ -10,7 +10,7 @@
         margin-right: 50px;
     }
 
-    #enddayab{
+    #enddayab {
         grid-template-rows: 30px 50px;
         margin-right: 30px;
     }
@@ -32,6 +32,10 @@
 
     #approvalab {
         float: none;
+    }
+
+    #newAbsenceadd {
+        width: 600px;
     }
 }
 
@@ -69,6 +73,11 @@
     #enddayab {
         grid-template-columns: 160px 20px;
     }
+
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+        margin: 10px;
+        justify-content: center;
+    }
 }
 
 @media (min-width: 320px) and (max-width: 375px) {
@@ -84,270 +93,5 @@
     #addabsence {
         margin-top: 5px;
         grid-template-columns: 45px 120px;
-    }
-}
-
-
-// TABLESAW
-@media (min-width: 24em) {
-    .tablesaw-toolbar .a11y-sm {
-        clip: none;
-        height: auto;
-        width: auto;
-        position: static;
-        overflow: visible;
-    }
-}
-
-@media (min-width: 25em) {
-    .tablesaw caption {
-        margin-bottom: .6em;
-        line-height: 1.2;
-    }
-}
-
-@media (min-width: 40em) {
-    .tablesaw td {
-        line-height: 2em;
-    }
-}
-
-@media only all {
-    .tablesaw-swipe .tablesaw-cell-persist {
-        border-right: 1px solid #e4e1de;
-    }
-
-    .tablesaw-swipe .tablesaw-cell-persist {
-        box-shadow: 3px 0 4px -1px #e4e1de;
-    }
-}
-
-@media only all {
-    /* Show the table cells as a block level element */
-
-    .tablesaw-stack td,
-    .tablesaw-stack th {
-        text-align: left;
-        display: block;
-    }
-
-    .tablesaw-stack tr {
-        clear: both;
-        display: table-row;
-    }
-
-    /* Make the label elements a percentage width */
-
-    .tablesaw-stack td .tablesaw-cell-label,
-    .tablesaw-stack th .tablesaw-cell-label {
-        display: block;
-        padding: 0 .6em 0 0;
-        width: 30%;
-        display: inline-block;
-    }
-
-    /* For grouped headers, have a different style to visually separate the levels by classing the first label in each col group */
-
-    .tablesaw-stack th .tablesaw-cell-label-top,
-    .tablesaw-stack td .tablesaw-cell-label-top {
-        display: block;
-        padding: .4em 0;
-        margin: .4em 0;
-    }
-
-    .tablesaw-cell-label {
-        display: block;
-    }
-
-    /* Avoid double strokes when stacked */
-
-    .tablesaw-stack tbody th.group {
-        margin-top: -1px;
-    }
-
-    /* Avoid double strokes when stacked */
-
-    .tablesaw-stack th.group b.tablesaw-cell-label {
-        display: none !important;
-    }
-}
-
-@media (max-width: 39.9375em) {
-
-    .tablesaw-stack thead td,
-    .tablesaw-stack thead th {
-        display: none;
-    }
-
-    .tablesaw-stack tbody td,
-    .tablesaw-stack tbody th {
-        clear: left;
-        float: left;
-        width: 100%;
-    }
-
-    .tablesaw-cell-label {
-        vertical-align: top;
-    }
-
-    .tablesaw-cell-content {
-        max-width: 67%;
-        display: inline-block;
-    }
-
-    .tablesaw-stack td:empty,
-    .tablesaw-stack th:empty {
-        display: none;
-    }
-}
-
-/* Media query to show as a standard table at 560px (35em x 16px) or wider */
-
-@media (min-width: 40em) {
-    .tablesaw-stack tr {
-        display: table-row;
-    }
-
-    /* Show the table header rows */
-
-    .tablesaw-stack td,
-    .tablesaw-stack th,
-    .tablesaw-stack thead td,
-    .tablesaw-stack thead th {
-        display: table-cell;
-        margin: 0;
-    }
-
-    /* Hide the labels in each cell */
-
-    .tablesaw-stack td .tablesaw-cell-label,
-    .tablesaw-stack th .tablesaw-cell-label {
-        display: none !important;
-    }
-}
-
-.tablesaw-fix-persist {
-    table-layout: fixed;
-}
-
-@media only all {
-    /* Unchecked manually: Always hide */
-
-    .tablesaw-swipe th.tablesaw-cell-hidden,
-    .tablesaw-swipe td.tablesaw-cell-hidden {
-        display: none;
-    }
-}
-
-@media only all {
-
-    .tablesaw-columntoggle th.tablesaw-priority-6,
-    .tablesaw-columntoggle td.tablesaw-priority-6,
-    .tablesaw-columntoggle th.tablesaw-priority-5,
-    .tablesaw-columntoggle td.tablesaw-priority-5,
-    .tablesaw-columntoggle th.tablesaw-priority-4,
-    .tablesaw-columntoggle td.tablesaw-priority-4,
-    .tablesaw-columntoggle th.tablesaw-priority-3,
-    .tablesaw-columntoggle td.tablesaw-priority-3,
-    .tablesaw-columntoggle th.tablesaw-priority-2,
-    .tablesaw-columntoggle td.tablesaw-priority-2,
-    .tablesaw-columntoggle th.tablesaw-priority-1,
-    .tablesaw-columntoggle td.tablesaw-priority-1 {
-        display: none;
-    }
-}
-
-.tablesaw-columntoggle-btnwrap .dialog-content {
-    top: 0 !important;
-    right: 1em;
-    left: auto !important;
-    width: 12em;
-    max-width: 18em;
-    margin: -.5em auto 0;
-}
-
-.tablesaw-columntoggle-btnwrap .dialog-content:focus {
-    outline-style: none;
-}
-
-/* Preset breakpoints if "" class added to table */
-
-/* Show priority 1 at 320px (20em x 16px) */
-
-@media (min-width: 20em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-1,
-    .tablesaw-columntoggle td.tablesaw-priority-1 {
-        display: table-cell;
-    }
-}
-
-/* Show priority 2 at 480px (30em x 16px) */
-
-@media (min-width: 30em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-2,
-    .tablesaw-columntoggle td.tablesaw-priority-2 {
-        display: table-cell;
-    }
-}
-
-/* Show priority 3 at 640px (40em x 16px) */
-
-@media (min-width: 40em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-3,
-    .tablesaw-columntoggle td.tablesaw-priority-3 {
-        display: table-cell;
-    }
-
-    .tablesaw-columntoggle tbody td {
-        line-height: 2;
-    }
-}
-
-/* Show priority 4 at 800px (50em x 16px) */
-
-@media (min-width: 50em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-4,
-    .tablesaw-columntoggle td.tablesaw-priority-4 {
-        display: table-cell;
-    }
-}
-
-/* Show priority 5 at 960px (60em x 16px) */
-
-@media (min-width: 60em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-5,
-    .tablesaw-columntoggle td.tablesaw-priority-5 {
-        display: table-cell;
-    }
-}
-
-/* Show priority 6 at 1,120px (70em x 16px) */
-
-@media (min-width: 70em) {
-
-    .tablesaw-columntoggle th.tablesaw-priority-6,
-    .tablesaw-columntoggle td.tablesaw-priority-6 {
-        display: table-cell;
-    }
-}
-
-@media only all {
-    /* Unchecked manually: Always hide */
-
-    .tablesaw-columntoggle th.tablesaw-cell-hidden,
-    .tablesaw-columntoggle td.tablesaw-cell-hidden {
-        display: none;
-    }
-
-    /* Checked manually: Always show */
-
-    .tablesaw-columntoggle th.tablesaw-cell-visible,
-    .tablesaw-columntoggle td.tablesaw-cell-visible {
-        display: table-cell;
     }
 }
