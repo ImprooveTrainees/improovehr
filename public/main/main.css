@@ -91,10 +91,12 @@
   }
 }
 
-@media (min-width: 1024px) and (max-width: 2560px) {
+@media screen and (max-width: 1024px) {
   #cardbox {
     height: 260px;
   }
+}
+
 #main-container p,
 #main-container h1,
 #main-container h2,
