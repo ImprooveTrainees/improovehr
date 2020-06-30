@@ -140,7 +140,6 @@ open
 
 <div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<<<<<<< HEAD
 <table class="table js-dataTable-buttons table-responsive">
 <thead class="thead-dark">
     <tr>
@@ -151,18 +150,6 @@ open
                 <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
                 <th style="width: 10%;">Status</th>
                 <th style="width: 15%;">Actions</th>
-=======
-<table class="table table-striped js-dataTable-full table-responsive">
-<thead class="thead-dark">
-    <tr>
-        <th style="width: 5%;">NR</th>
-        <th style="width: 10%;">Name</th>
-        <th style="width: 10%;">Department</th>
-        <th style="width: 15%;">Start Date</th>
-        <th style="width: 15%;">End Date</th>
-        <th style="width: 1%;">Status</th>
-        <th style="width: 15%;">Actions</th>
->>>>>>> parent of 1ea717a... Revert "Merge pull request #176 from ImprooveTrainees/homepage_as_new"
     </tr>
 </thead>
 <tbody>
@@ -415,30 +402,17 @@ open
 </div>
 <div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<<<<<<< HEAD
   <table class="table js-dataTable-buttons table-responsive">
       <thead class="thead-dark">
           <tr>
           <th class="title" >NR</th>
                       <th style="width: 15%;">Name</th>
                       <th style="width: 15%;">Department</th>
-=======
-  <table class="table table-striped js-dataTable-full table-responsive">
-      <thead class="thead-dark">
-          <tr>
-          <th >NR</th>
-                      <th style="width: 5%;">Name</th>
-                      <th style="width: 10%;">Department</th>
->>>>>>> parent of 1ea717a... Revert "Merge pull request #176 from ImprooveTrainees/homepage_as_new"
                       <th style="width: 15%;">Start Date</th>
                       <th style="width: 15%;">End Date</th>
                       <th style="width: 15%;">Attachment</th>
                       <th style="width: 15%;">Type</th>
-<<<<<<< HEAD
                       <th style="width: 15%;">Status</th>
-=======
-                      <th style="width: 5%;">Status</th>
->>>>>>> parent of 1ea717a... Revert "Merge pull request #176 from ImprooveTrainees/homepage_as_new"
                       <th style="width: 15%;">Actions</th>
 
           </tr>
