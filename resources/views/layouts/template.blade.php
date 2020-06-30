@@ -2,18 +2,37 @@
         namespace App\Http\Controllers;
         use App\notifications;
         use App\NotificationsUsers;
+        use App\notifications_reminders;
         use Illuminate\Http\Request;
         use Auth;
         use DB;
+        use Carbon\Carbon;
         use App\User;
-        $listNotifications = NotificationsUsers::all();
-        $notificationMessages = notifications::all();
+        $listNotifications = NotificationsUsers::orderBy('created_at', 'desc')->get();
+        $notificationMessages = notifications::All();
+        $allReminders = notifications_reminders::All();
         $id_user = Auth::user()->id;
 
         use App\sliderView;
         use App\settings_general;
         $settingsAlerts = settings_general::orderBy('created_at', 'desc')->first();
         $notificationsBirthdays = sliderview::where('Type', 'Birthday')->get();
+
+        // JOIN REMINDERS AND NOTIFICATIONS TABLE:
+
+        $first = DB::table('notifications')
+        ->join('notifications_users','notifications.id','=','notifications_users.notificationId')
+        ->select('notifications.id','notifications.description','notifications.created_at as dataCreated', 'notifications.read_at as read_at','notifications.type as type')
+        ->where('notifications_users.receiveUserId','=',$id_user);
+
+        $notificationsReminder = DB::table('notifications_reminders')
+        ->select('notifications_reminders.id','notifications_reminders.description','notifications_reminders.created_at as dataCreated','notifications_reminders.read_at as read_at', DB::raw("NULL as type"))
+        ->union($first)->orderBy('dataCreated','desc')->get();
+
+
+        // GET TODAY'S DATE
+        $currentDate = Carbon::now();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -60,6 +79,8 @@
         <script src="{{asset('assets/fullcalendar/list/main.js') }}"></script>
         <script src="{{asset('https://kit.fontawesome.com/041a9ee086.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('https://code.jquery.com/jquery-3.4.1.min.js') }}" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
 
     </head>
     <body>
@@ -473,182 +494,203 @@
                             // $notificationsHolidays = sliderview::where('Type', 'Absence')->where('Absence Type', 1)->get();
 
                         ?>
-                        <div class="dropdown d-inline-block ml-2">
+                        <div onclick="readNotifications(); readReminders();" class="dropdown d-inline-block ml-2">
                             <button type="button" class="btn btn-sm btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="si si-bell"></i>
-                                <span class="badge badge-primary badge-pill">A definir</span>
+                                <span id="txtHint">  </span>
+
+                                <?php
+
+                                $countNotif=0;
+
+                                foreach($notificationMessages as $listNotif) {
+
+                                    if($listNotif->read_at=='') {
+
+                                        foreach($listNotifications as $notif) {
+
+                                            if($notif->notificationId == $listNotif->id) {
+
+                                                if($notif->receiveUserId == $id_user) {
+
+                                                    if($settingsAlerts->alert_evaluations == 1) {
+
+                                                        if($listNotif->type == "EvaluationAssigned") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_birthdays == 1) {
+
+                                                        if($listNotif->type == "Birthday") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_flextime == 1) {
+
+                                                        if($listNotif->type == "Flextime") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+
+                                                    }
+
+                                                    if($settingsAlerts->alert_holidays == 1) {
+
+                                                        if($listNotif->type == "Vacations" || $listNotif->type == "Absences" || $listNotif->type == "Approval") {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
+                                                    foreach($allReminders as $rem) {
+
+                                                        if($rem->notifications_users_id == $notif->id) {
+
+                                                            $countNotif++;
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+                                ?>
+                                @if($countNotif>0)
+                                    <span id="countNotifIdAjax" class="badge badge-primary badge-pill">{{$countNotif}}</span>
+                                @endif
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-notifications-dropdown">
                                 <div class="p-2 bg-primary text-center">
                                     <h5 class="dropdown-header text-uppercase text-white">Notifications</h5>
                                 </div>
                                 <ul class="nav-items mb-0">
-                                    @foreach($listNotifications as $notUser) <!-- Notificacoes -->
-                                        @if($id_user == $notUser->receiveUserId)
-                                            <?php $notification = notifications::find($notUser->notificationId); ?>
+
+                                    <form method="GET" id="notificationsReadForm"> <!-- a form tem de estar fora para apanhar todos os values para o ajax, para fazer tudo parte de uma só form -->
+                                        @csrf
+                                    @foreach($notificationsReminder as $notification) <!-- Notificacoes -->
+                                            @if($notification->read_at=='')
+                                            <li style="background-color:lightgrey;">
+                                            @else
+                                            <li class="ajaxWhiteLI">
+
+                                            @endif
+
+                                            @php
+                                                $readAt = $notification->read_at;
+
+                                                $read_date = Carbon::parse($readAt);
+
+                                                $diff_in_days = $currentDate->diffInDays($read_date);
+
+                                            @endphp
+
+                                            @if($notification->read_at=='' || $notification->read_at!=='' && $diff_in_days<=2)
+
+                                                <input type="hidden" name="notfsRead[]" value={{$notification->id}}>
                                                 @if($settingsAlerts->alert_evaluations == 1) <!-- Se as notificacoes das avals tiverem ligadas -->
                                                     @if($notification->type == "EvaluationAssigned") <!-- Notificacoes avaliacoes -->
-                                                        <li>
                                                             <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
                                                                 <div class="mr-2 ml-3">
                                                                     <i class="fas fa-pencil-alt"></i>
                                                                 </div>
                                                                 <div class="media-body pr-2">
                                                                     <div class="font-w600">{{$notification->description}}</div>
-                                                                    <small class="text-muted">{{$notification->created_at}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                    @if($notification->type == null)
+                                                    <a class="text-dark media py-2" href="/indexUserEvals"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                     @endif
                                                 @endif
-                                        @endif
-
-                                    @endforeach
-                                    @foreach($notificationsBirthdays as $bday)
-                                        @if($settingsAlerts->alert_evaluations == 1)
-                                            @if(date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Happy birthday {{$bday->Name}}!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @elseif(date('d-m',strtotime($bday->Date)) == date('d-m'))
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Today is {{$bday->Name}}'s birthday!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
-                                                <li>
-                                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                                        <div class="mr-2 ml-3">
-                                                            <i class="fas fa-birthday-cake"></i>
-                                                        </div>
-                                                        <div class="media-body pr-2">
-                                                        <div class="font-w600">Tomorrow will be {{$bday->Name}}'s birthday!</div>
-                                                            <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                        </div>
-                                                    </a>
-                                                </li>
+                                                @if($settingsAlerts->alert_birthdays == 1)
+                                                    @if($notification->type == "Birthday") <!-- Notificacoes avaliacoes -->
+                                                            <a class="text-dark media py-2" href="javascript:void(0)"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-birthday-cake"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                                @if($settingsAlerts->alert_flextime == 1)
+                                                    @if($notification->type == "Flextime") <!-- Notificacoes avaliacoes -->
+                                                            <a class="text-dark media py-2" href="/harvest"> <!-- pagina das avals -->
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-user-clock"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <div class="font-w600">{{$notification->description}}</div>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                             @endif
+                                                @if($settingsAlerts->alert_holidays == 1)
+                                                    @if($notification->type == "Vacations" || $notification->type == "Absences")
+                                                        <a class="text-dark media py-2" href="/holidays">
+                                                            <div class="mr-2 ml-3" >
+                                                                <i class="fas fa-clock"></i>
+                                                            </div>
+                                                            <div class="media-body pr-2">
+                                                                <small class="font-w600">{{$notification->description}}</small>
+                                                                <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    @elseif($notification->type == "Approval")
+                                                            <a class="text-dark media py-2" href="/holidays">
+                                                                <div class="mr-2 ml-3">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </div>
+                                                                <div class="media-body pr-2">
+                                                                    <small class="font-w600">{{$notification->description}}</small>
+                                                                    <small class="text-muted">{{$notification->dataCreated}}</small>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
                                             @endif
-
-                                        @endif
                                     @endforeach
-
-
-
-                                @foreach($listNotifications as $listNot)
-
-                                @if($id_user==$listNot->receiveUserId)
-
-                                @foreach($notificationMessages as $msg)
-
-                                @if($listNot->notificationId==$msg->id)
-                                <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                    <small class="font-w600">{{$msg->description}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-
-
-                                @endif
-                                @endforeach
-
-
-
-                                @endif
-
-
-                                @endforeach
-
-                                    {{-- @foreach($allNotificationsUser as $not) <!-- Notificacoes -->
-                                        @if($settingsAlerts->alert_evaluations == 1 && $not->notificationType == "Evaluation" && $not->userID == Auth::user()->id)
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                    <div class="font-w600">{{$not->description}}</div>
-                                                    <small class="text-muted">{{$not->created_at}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @endif
-                                    @endforeach --}}
-
-                                    {{-- @foreach($notificationsBirthdays as $bday) <!-- Notificacoes -->
-                                        @if($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m') && Auth::user()->name == $bday->Name)
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                <div class="font-w600">Happy birthday {{$bday->Name}}!</div>
-                                                    <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date)) == date('d-m'))
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                <div class="font-w600">Today is {{$bday->Name}}'s birthday!</div>
-                                                    <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @elseif($settingsAlerts->alert_birthdays == 1 && date('d-m',strtotime($bday->Date . "-1 days")) == date('d-m'))
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                <div class="font-w600">Tomorrow will be {{$bday->Name}}'s birthday!</div>
-                                                    <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach
-
-                                @foreach($notificationsHolidays as $holiday) <!-- Notificacoes -->
-                                    @if($settingsAlerts->alert_holidays == 1 && date('d-m',strtotime($holiday->Date)))
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-2 ml-3">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                                <div class="media-body pr-2">
-                                                <div class="font-w600">Happy birthday {{$bday->Name}}!</div>
-                                                    <small class="text-muted">{{date('Y-m-d')}}</small>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach --}}
+                                </form>
 
                                 </ul>
                                 <div class="p-2 border-top">
@@ -730,7 +772,75 @@
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
+        <script>
+            function readNotifications() {
+                // var xmlhttp = new XMLHttpRequest();
+                // xmlhttp.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //      document.getElementById("txtHint").innerHTML = this.responseText;
+                // }
+                // };
+                // xmlhttp.open("GET", "/readNotification", true);
+                // xmlhttp.send();
 
+
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/readNotification') }}",
+                  method: 'get',
+                  data: $("#notificationsReadForm").serialize(), //apanha todos os valores da form
+                  success: function(result){
+                     document.getElementById("txtHint").innerHTML = result;
+                     document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
+                    //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
+
+
+                  }});
+            //  document.getElementById('notificationsReadForm').submit();
+
+
+
+            }
+
+            function readReminders() {
+                // var xmlhttp = new XMLHttpRequest();
+                // xmlhttp.onreadystatechange = function() {
+                // if (this.readyState == 4 && this.status == 200) {
+                //      document.getElementById("txtHint").innerHTML = this.responseText;
+                // }
+                // };
+                // xmlhttp.open("GET", "/readNotification", true);
+                // xmlhttp.send();
+
+
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/readReminder') }}",
+                  method: 'get',
+                  data: $("#formReminderAJAX").serialize(), //apanha todos os valores da form
+                  success: function(result){
+                     document.getElementById("txtHint").innerHTML = result;
+                     document.getElementById('countNotifIdAjax').innerHTML = null; //pões as notifs a 0 depois de abertas
+                    //  document.getElementsByClassName("ajaxWhiteLI").style.color = "white";
+
+
+                  }});
+            //  document.getElementById('notificationsReadForm').submit();
+
+
+
+            }
+
+
+        </script>
         <!-- OneUI JS -->
         <script src="{{ asset ('assets/js/oneui.core.min.js') }}"></script>
         <script src="{{ asset ('assets/js/oneui.app.min.js') }} "></script>
@@ -747,5 +857,10 @@
         <script src="{{ asset ('assets/js/pages/be_tables_datatables.min.js ') }}"></script>
 
         <script src="{{ asset ('js/myscripts.js ') }}"></script>
+        <script src="{{ asset ('js/flextime.js ') }}"></script>
+        <script src="{{ asset ('js/home.js ') }}"></script>
+
+        {{-- TABLESAW --}}
+        <script src="{{ asset ('js/tablesaw_custom.js ') }}"></script>
     </body>
 </html>

@@ -10,12 +10,12 @@
 @mixin notifications {
     display: grid;
     margin-top: 20px;
-    grid-template-columns: 210px 75px;
+    grid-template-columns: 210px 220px;
 }
 
 @mixin flextimesettings {
     display: grid;
-    grid-template-columns: 120px 120px;
+    grid-template-columns: 120px 220px;
     margin-top: 20px;
 }
 
@@ -34,7 +34,7 @@
 #holidaysExtra2 {
     display: grid;
     align-items: center;
-    grid-template-columns: 120px 190px;
+    grid-template-columns: 170px 220px;
     grid-template-rows: 30px;
     margin-top: 30px;
 }
@@ -42,14 +42,14 @@
 #holidaysExtra3{
     display: grid;
     align-items: center;
-    grid-template-columns: 170px 140px;
+    grid-template-columns: 170px 220px;
     grid-template-rows: 30px;
     margin-top: 30px;
 }
 
 #holidaysExtra6 {
     display: grid;
-    grid-template-columns: 100px 20px;
+    grid-template-columns: 120px 180px 20px;
 }
 
 #evaluations1 {
@@ -170,10 +170,49 @@
     margin-top: 45px;
     margin-left: 30px;
 }
+.btnSettings{
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 347px;
+}
 
 .bsettings2 {
     margin-top: 20px;
     width: 260px;
+}
+.bprofileSettings{
+    margin-top: 20px;
+    width: 347px;
+}
+#flextime {
+            p{
+            margin: auto;
+            margin-top: 20px;
+            color: rgba(128, 128, 128, 0.692);
+            font-size: 10pt;
+            }
+            hr{
+            width: 20%;
+            display: inline-block;
+            margin-top: 5px;
+            display: flex;
+            margin: 0;
+            }
+}
+#holidays{
+        p{
+        margin: auto;
+        margin-top: 20px;
+        color: rgba(128, 128, 128, 0.692);
+        font-size: 10pt;
+        }
+        hr{
+        width: 20%;
+        display: inline-block;
+        margin-top: 5px;
+        display: flex;
+        margin: 0;
+        }
 }
 
 @import '../../../screens/components/settings/_settings';

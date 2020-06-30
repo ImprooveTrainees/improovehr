@@ -1,15 +1,28 @@
+
 .titleReport {
-
-    color: rgba(128, 128, 128, 0.692);
-    font-size: 40px;
-    text-align:center;
-
+    margin-top: 30px;
+    margin-left: 30px;
+    p{
+        margin: auto;
+        color: rgba(128, 128, 128, 0.692);
+        font-size: 10pt;
+    }
+    hr{
+        width: 160px;
+        margin-left: 0;
+        margin-top: 5px;
+    }
 }
 
-.subTitleReport {
+.subTitleReport2 {
+    margin-top: 30px;
 
-    font-weight: bold;
-    font-size: 20px;
+
+    // font-weight: bold;
+    // font-size: 20px;
+    // text-align: center;
+    // font-family: Helvetica;
+    // color: #6e74d0;
 }
 
 .selectReport {
@@ -56,7 +69,14 @@
 
 .reportSelects {
 
-    padding: 10px;
+    display: grid;
+    -ms-grid-columns: 110px 200px;
+    grid-template-columns: 200px 200px;
+    margin: auto;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    margin-top: 30px;
 
 }
 
@@ -64,33 +84,62 @@
 
     flex-direction: row;
     max-width: 100%;
+    display: grid;
+    grid-template-columns: 200px 240px 330px;
 }
 
 .reportStart {
 
     padding: 2px;
+    text-align: center;
 
 }
 
 .reportDate {
 
-    width: 80px;
-    background-color: #007bff;
-    border-radius: 5px;
-    border-width: 10px;
-    color: white;
+    font-family:Helvetica;
 }
 
 .buttonArea {
 
     margin-top: -20px;
-
+    text-align: center;
 }
 
 .createTableReport {
 
     font-size: 20px;
     font-weight: bold;
+
+}
+#absencetype{
+    width: 250px;
+    margin: auto;
+
+}
+#iduser{
+    width: 250px;
+    margin: auto;
+
+}
+#start_date{
+    width: 250px;
+    margin: auto;
+}
+#end_date{
+    width: 200px;
+    margin: auto;
+}
+#reportbtn{
+    margin-top: 40px;
+    font-family: helvetica;
+    text-align: center;
+    margin-left: 20px;
+    width: 100px;
+}
+.bsettings11 {
+    width: 260px;
+    margin-top: 45px;
 
 }
 

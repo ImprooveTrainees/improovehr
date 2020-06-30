@@ -25,10 +25,13 @@ class SettingController extends Controller
         //selecciona o first porque a morada aponta sempre para o id do escritorio certo
         $lastSettingsGeneral = settings_general::orderBy('created_at', 'desc')->first();
         $extraDays = settings_extradays::orderBy('extra_day', 'asc')->get();
+
+        $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         return view('settingspage')
         ->with('officeUserLogged', $officeUserLogged)
         ->with('lastSettingsGeneral', $lastSettingsGeneral)
         ->with('extraDays', $extraDays)
+        ->with('weekDays', $weekDays)
         ;
     }
 

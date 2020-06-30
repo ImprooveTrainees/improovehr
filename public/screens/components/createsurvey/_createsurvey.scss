@@ -1,18 +1,16 @@
 @media (min-width: 320px) and (max-width: 1024px) {
 
+    .survey{
+            margin-left: -15%;
+
+    }
     .surveyname{
                 display: grid;
                 align-items: center;
                 grid-template-rows: 50px 40px;
                 grid-template-columns: 263px 0;
-                float: left;
-                font-size: 11pt;
-                label{
-                    text-align: center;
-                }
-
                 input{
-                    grid-column-start: 1;
+                    margin-left: 40px;
                 }
     }
     .answerlimit{
@@ -20,26 +18,20 @@
                 align-items: center;
                 grid-template-rows: 50px 40px;
                 grid-template-columns: 263px 0;
-                float: left;
-                font-size: 11pt;
-                label{
-                    text-align: center;
-                }
-
                 input{
-                    grid-column-start: 1;
+                    margin-left: 40px;
                 }
-
     }
     .surveytype{
                 grid-template-rows: 50px 40px;
                 grid-template-columns: 263px 0;
-                label{
-                    text-align: center;
-                }
-
                 select{
+                    margin-left: 40px;
+                }
+                button{
                     grid-column-start: 1;
+                    width: 265px;
+                    margin-top: 10px;
                 }
 
     }
@@ -49,18 +41,22 @@
     }
     .showSurveyForm{
                 display: grid;
-                align-items: center;
+
                 grid-template-rows: 50px 40px;
                 grid-template-columns: 263px 0;
-                float: left;
-                font-size: 11pt;
                 margin-left: 0px;
 
-                button{
+                button .showSurvey{
                     grid-column-start: 1;
-                    width: 70px;
-                    margin-left: 35%;
+                    width: 265px;
+                    margin-top: 10px;
                 }
+    }
+    .showSurv11{
+        grid-template-columns: 86px 140px;
+        -ms-grid-rows: auto;
+        grid-template-rows: auto;
+        grid-gap: 0px;
     }
 
     .alignbtn{
@@ -70,36 +66,35 @@
         margin-bottom: 20%;
     }
     .showSurveyForm2{
-                        input{
-                                grid-column-start: 1;
-                                width: 230px;
-                        }
+
                         button{
                                 grid-column-start: 1;
                                 width: 150px;
                         }
-                        label{
-                            text-align: center;
-                        }
+
                         select{
-                                grid-column-start: 1;
-                                width: 250px;
+                                margin-left: 40px;
                         }
     }
 
     .testgrid2{
-                margin-top: 25%;
-                grid-template-columns: 240px 100px 70px;
-                text-align: center;
-                grid-gap: 5%;
 
+                grid-template-columns: 86px 140px 70px;
+                text-align: start;
+                grid-gap: 0%;
+                .marginSelect{
+                        margin-top: 5%;
+                }
+                #strongGrid{
+                        margin-top: 5%;
+                }
                 select{
-                        grid-column-start: 1;
+                        margin-left: 40px;
                 }
                 button{
-                    grid-column-start: 1;
-                    width: 50%;
-                    margin: auto;
+                        grid-column-start: 1;
+                        width: 265px;
+                    margin-top: 10px;
                 }
                 strong{
                         grid-column-start: 1;
@@ -108,44 +103,41 @@
     }
 
     .testgrid3{
-                grid-template-columns: 240px 100px 70px;
-                text-align: center;
+                grid-template-columns: 86px 140px 70px;
+                text-align: start;
+                grid-gap: 0%;
 
                 input{
-                    grid-column-start: 1;
+                        margin-left: 40px;
                 }
 
                 button{
                     grid-column-start: 1;
-                    width: 75%;
-                    margin: auto;
+                    width: 265px;
+                    margin-top: 10px;
                 }
     }
     .showSurveyForm5{
-                        margin-top: 30%;
+                        // margin-top: 30%;
     }
 
     .testgrid33{
-                grid-template-columns: 250px 100px 70px;
-                text-align: center;
-                grid-gap: 10%;
+                grid-template-columns: 86px 140px 70px;
+                text-align: start;
+                grid-gap: 0%;
 
                 select{
-                        grid-column-start: 1;
+                        margin-left: 40px;
                 }
                 button{
                         grid-column-start: 1;
-                        width: 75%;
-                        margin: auto;
+                        width: 265px;
+                        margin-top: 10px;
                 }
 
     }
     .topSurv{
                 margin-top: 30%;
-    }
-
-    .showSurv2{
-                grid-gap: 10px;
     }
 
     .showSurv6{
@@ -162,54 +154,53 @@
 
     }
     .testgrid7{
-                grid-template-columns: 250px 30px 30px;
-                grid-gap: 12px;
+                grid-template-columns: 86px 140px 30px;
+                grid-gap: 0px;
 
                     select{
-                        grid-column-start: 1;
+                        margin-left: 40px;
                     }
                     button{
                         grid-column-start: 1;
-                        margin: auto;
-                        width: 100px;
+                        width: 265px;
+                        margin-top: 10px;
                     }
                     label{
-                        text-align: center;
+                        text-align: start;
                     }
 
     }
     .testgrid5{
-                text-align: center;
-                grid-template-columns: 240px 1100px;
+                text-align: start;
+                grid-template-columns: 86px 140px;
 
                 input{
-                        grid-column-start: 1;
+                        margin-left: 40px;
                         }
 
 
     }
     .testgrid6{
-                text-align: center;
-                margin-top: 30px;
-                grid-gap: 15px;
-                grid-template-columns: 240px 100px 100px;
+                text-align: start;
+
+                grid-gap: 0px;
+                grid-template-columns: 86px 140px 100px;
                 select{
-                    grid-column-start: 1;
+                    margin-left: 40px;
                 }
                 button{
-                    grid-column-start: 1;
-                    width: 100px;
-                    margin: auto;
+                        grid-column-start: 1;
+                        width: 265px;
+                        margin-top: 10px;
                 }
     }
     .testgrid8{
-                text-align: center;
-                grid-template-columns: 240px 100px 100px;
+                text-align: start;
+                grid-template-columns: 86px 140px 100px;
                 input{
-                        width: 65px;
+                        margin-left: 40px;
                         text-align: center;
-                        margin: auto;
-                        grid-column-start: 1;
+
                 }
                 b{
                     grid-column-start: 1;
@@ -217,8 +208,7 @@
     }
     #params{
                 display: grid;
-                margin-top: 40px;
-                grid-template-columns: 100px 45px 100px;
+                grid-template-columns: 125px 45px 100px;
     }
     .showSurv66{
                 display: grid;
@@ -230,53 +220,56 @@
                 }
     }
     .testgrid10{
-                text-align: center;
-                grid-template-columns: 250px 550px 40px;
-                grid-gap: 10px;
+                text-align: start;
+                grid-template-columns: 86px 140px 40px;
+                grid-gap: 0px;
                 select{
-                    grid-column-start: 1;
+                    margin-left: 40px;
                 }
                 button{
-                    grid-column-start: 1;
-                    width: 75px;
-                    margin: auto;
+                        grid-column-start: 1;
+                        width: 265px;
+                        margin-top: 10px;
                 }
     }
 
     .testgrid12{
-                grid-template-columns: 30px 200px 200px;
-                text-align: center;
-                margin-top: 30px;
-                margin-bottom: 20px;
+                grid-template-columns: 30px 95px 140px;
+                grid-gap: 0%;
+
                 input{
-                        width: 70px;
-                        height: 18px;
+                        margin-top: 5px;
                 }
                 select{
-                        grid-column-start: 2;
-                        width: 200px;
+
                 }
                 .secondSelect{
                     display: inline;
-                    grid-column-start: 2;
+                    grid-column-start: 3;
                 }
     }
 
     .testgrid13{
-                text-align: center;
-                margin-top: 50px;
-                grid-template-columns: 240px 150px 150px;
+                text-align: start;
+                grid-template-columns: 86px 140px 150px;
+                grid-gap: 0px;
 
                 input[type=date]{
                         grid-column-start: 1;
                 }
                 button{
                         grid-column-start: 1;
+                        width: 265px;
+                        margin-top: 10px;
+                }
+                #limitdate{
+                        grid-column-start: 2;
+                        margin-left: 40px;
                 }
 
     }
     .testgrid14{
-                margin-top: 40px;
+
                 font-size: large;
                 width: 400px;
                 margin: auto;
@@ -285,18 +278,142 @@
                 color: grey;
                 font-family: Helvetica;
                 display: grid;
-                grid-template-columns: 82px 130px 131px 100px;
+                grid-template-columns: 110px 40px 131px 100px;
                 button{
-                        grid-column-start: 2;
-                        width: 133px;
-                        margin: auto;
+                    grid-column-start: 1;
+                    width: 265px;
+                    margin-top: 10px;
                 }
                 input[type=checkbox]{
-                                grid-column-start: 1;
-                                width: 100px;
-                                height: 20px;
+                                    margin-top: 14%;
+                                // grid-column-start: 1;
+                                // width: 100px;
+                                // height: 20px;
                 }
 
+
+    }
+
+}
+@media (min-width: 320px) and (max-width: 330px) {
+    .showSurv2{
+        label{
+            margin-left: 100px;
+        }
+        button{
+            margin-left: 43px;
+        }
+    }
+
+}
+@media (min-width: 330px) and (max-width: 375px) {
+    .showSurv2{
+            grid-template-columns: 86px 140px 200px;
+            width: 0%;
+            grid-gap: 0px;
+        input{
+            margin-left: 40px;
+        }
+        button{
+            grid-column-start: 1;
+            width: 265px;
+            margin-top: 10px;
+
+        }
+    }
+}
+
+@media (min-width: 340px) and (max-width: 350px) {
+
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+            margin-left: 15px;
+    }
+    .showSurveyForm{
+           button{
+                    grid-column-start: 1;
+                    width: 100px;
+                    margin: auto;
+           }
+    }
+}
+
+@media (min-width: 350px) and (max-width: 375px) {
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+        grid-template-columns: 86px 140px;
+        -ms-grid-rows: auto;
+        grid-template-rows: auto;
+        grid-gap: 0px;
+    }
+    .showSurveyForm{
+        button{
+            grid-column-start: 1;
+            width: 265px;
+            margin-top: 10px;
+            }
+            select{
+                margin-left: 40px;
+        }
+    }
+    .alignbtn{
+            margin-left: 20px;
+    }
+
+}
+@media (min-width: 400px) and (max-width: 425px) {
+    .surveyname,
+    .answerlimit,
+    .surveytype,
+    .showSurv{
+            margin-left: 40px;
+    }
+    .showSurveyForm{
+        button{
+            grid-column-start: 1;
+            width: 150px;
+            margin: auto;
+            margin-left: 100px;
+        }
+    }
+    .alignbtn{
+        margin-left: 40px;
+    }
+    #hideArea,
+    #hideQuestions,
+    #hideSubCat{
+        margin-left: 45px;
+    }
+}
+@media (min-width: 750px) and (max-width: 770px) {
+    .surveyname{
+        margin-right: 20px;
+        margin-left: 50px;
+    }
+    .surveytype{
+        margin-left: 200px;
+    }
+    #marginMobile{
+        margin-top: 150px;
+    }
+    .showSurveyForm{
+        margin-left: 190px;
+    }
+    .alignbtn{
+        margin-left: 180px;
+    }
+    #hideArea,
+    #hideQuestions,
+    #hideSubCat{
+        margin-left: 200px;
+    }
+    .showSurv7{
+
+        margin-left: 125px;
 
     }
 

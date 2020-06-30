@@ -31,9 +31,9 @@ active
 
 
     <div class="centerBtn">
-        <button class="btn btn-info" onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
-        <button class="btn btn-info" onclick="finalResults()">Final Results</button>
-        <button class="btn btn-info" onclick="graph()">Graph</button>
+        <button id="margTop" class="btn btn-info" onclick="hideAvgPPArea()">Total Performance/Potential Area</button>
+        <button id="margTop" class="btn btn-info" onclick="finalResults()">Final Results</button>
+        <button id="margTop" class="btn btn-info" onclick="graph()">Graph</button>
     </div>
 
     <div id="avgPPArea" style="display: none">
@@ -94,6 +94,7 @@ active
                                                             </thead>
                                                           </table>
 
+
                                                     @else
                                                         &nbsp;&nbsp;&nbsp;&nbsp;<li class="performanceQuest2"> <strong>{{$questionsNumericHTML[$c+1]->description}} </strong></li>
 
@@ -121,6 +122,7 @@ active
                                                                 </tr>
                                                             </thead>
                                                         </table>
+
                                                     @endif
                                                 @endif
                                             @endif
@@ -130,6 +132,7 @@ active
                             @endif
                         @endfor
                     <div class="aligntable">
+
                         <table id="finalTable" class="table table-bordered">
                             <thead>
                                 <tr>
@@ -161,6 +164,7 @@ active
                                 </tr>
                             </thead>
                         </table>
+
                     </div>
                 @endfor
             </div>
@@ -196,40 +200,42 @@ active
 
 
 <div style="display: none" id="finalResults">
-
-    <table id="tableFormat" class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th id="tableStyle" class="bg-dark" scope="col"><b>Total Performance</b></th>
-            <th class="table-primary" scope="col"><b>Total Potencial</b></th>
-        </tr>
-        </thead>
-        <tbody>
-            @for($ç = 0; $ç < count($areasHTML); $ç++)
-                <tr>
-                    <th scope="row">{{$areasHTML[$ç]->description}}</th>
-                    @for($v = 0; $v < count($totalNoPercentagePerformancePotential); $v++)
-                        @if($areasHTML[$ç]->id == $totalNoPercentagePerformancePotential[$v])
-                            <td class="table-secondary">{{$totalNoPercentagePerformancePotential[$v+1]}}</td>
-                            <td class="table-secondary">{{$totalNoPercentagePerformancePotential[$v+2]}}</td>
-                        @endif
+    <div class="">
+        <table id="tableFormat" class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th id="tableStyle" class="bg-dark" scope="col"><b>Total Performance</b></th>
+                <th class="table-primary" scope="col"><b>Total Potencial</b></th>
+            </tr>
+            </thead>
+            <tbody>
+                @for($ç = 0; $ç < count($areasHTML); $ç++)
+                    <tr>
+                        <th scope="row">{{$areasHTML[$ç]->description}}</th>
+                        @for($v = 0; $v < count($totalNoPercentagePerformancePotential); $v++)
+                            @if($areasHTML[$ç]->id == $totalNoPercentagePerformancePotential[$v])
+                                <td class="table-secondary">{{$totalNoPercentagePerformancePotential[$v+1]}}</td>
+                                <td class="table-secondary">{{$totalNoPercentagePerformancePotential[$v+2]}}</td>
+                            @endif
+                        @endfor
+                    </tr>
                     @endfor
-                </tr>
-                @endfor
-                <tr class="table-Success">
-                    <th class="" scope="row">Average Calculation</th>
-                    <td class=""><b>{{$finalAvgPerformance}}</b></td>
-                    <td class=""><b>{{$finalAvgPotential}}</b></td>
-                </tr>
-        </tbody>
-    </table>
-
+                    <tr class="table-Success">
+                        <th class="" scope="row">Average Calculation</th>
+                        <td class=""><b>{{$finalAvgPerformance}}</b></td>
+                        <td class=""><b>{{$finalAvgPotential}}</b></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="chartStyle" style="display: none" id="graph">
+<div  style="display: none" id="graph">
 
-    <div id="myChart"></div>
+    <div id="myChart"  {{-- class="chartStyle"--}}>
+
+    </div>
 
 
 </div>
@@ -281,9 +287,9 @@ active
                 { x: {{$finalAvgPotential}}, y: {{$finalAvgPerformance}} },
             ]
         }]
-    });
-    chart.render();
 
+    });
+        chart.render();
     }
 
     function hideAvgPPArea() {

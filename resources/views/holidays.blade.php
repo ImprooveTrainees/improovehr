@@ -20,10 +20,10 @@ open
 </div>
 @endif
 
-<div id="table_hol">
+<div id="">
 
 <div id="cardbox4" class="shadow p-1 bg-white cardbox1">
-    <div class="container">
+    <div class="">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
@@ -42,7 +42,7 @@ open
 
         <!-- Tab panes -->
         <div class="tab-content">
-          <div id="home" class="container tab-pane active"><br>
+          <div id="home" class="tab-pane active"><br>
 
           <div class="shadow p-1 bg-white cardbox2">
                 <a data-toggle="modal" data-target="#modalVacation">
@@ -57,14 +57,14 @@ open
             <div class="shadow p-1 bg-white cardbox2" id="holbox">
                 <div id="startday">
                     <h5>Start Day</h5>
-                    <p1 class="holidayDates">{{$array_vacations[$i+1]}}</p1>
+                    <p class="holidayDates">{{$array_vacations[$i+1]}}</p>
                     <a class="editstart" data-toggle="modal" data-target="#editStartDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click(this.id)" class="fas fa-pen"></i>
                     </a>
                 </div>
                 <div id="endday">
                     <h5>End Day</h5>
-                    <p2 class="holidayDates">{{$array_vacations[$i+2]}}</p2>
+                    <p class="holidayDates">{{$array_vacations[$i+2]}}</p>
                     <a class="editend" data-toggle="modal" data-target="#editEndDay">
                         <i type="button" id="{{$array_vacations[$i]}}" onClick="reply_click2(this.id)" class="fas fa-pen"></i>
                     </a>
@@ -129,7 +129,7 @@ open
 
             <!-- ------------------------------------------------------ TAB - EMPLOYEES ON HOLIDAYS ------------------------------------------------------ -->
 
-            <div id="home2" class="container tab-pane fade"><br>
+            <div id="home2" class="tab-pane fade"><br>
             @if($roleuser <= 3)
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 
@@ -138,10 +138,10 @@ open
 <h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
 </div>
 
-<div class="block-content block-content-full">
+<div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-<thead>
+<table class="table table-bordered js-dataTable-buttons">
+<thead class="thead-dark">
     <tr>
     <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">Name</th>
@@ -245,7 +245,7 @@ open
 
         {{-- TAB ABSENCES --}}
 
-<div id="menu1" class="container tab-pane fade"><br>
+<div id="menu1" class=" tab-pane fade"><br>
  <!-- Tab panes -->
 
  <div class="shadow p-1 bg-white cardbox2">
@@ -279,28 +279,28 @@ open
 
           <div id="approvalab">
               <h5>Approval</h5>
-              <p><p class="dot" style="background-color:#EC6927"></p>{{$array_absences[$i+3]}}</p>
+              <p class="dot" style="background-color:#EC6927" id="approvaldot"></p><p>{{$array_absences[$i+3]}}</p>
           </div>
 
             @elseif($array_absences[$i+3]=="Concluded")
 
             <div id="approvalab">
                         <h5>Approval</h5>
-                        <p><p class="dot" style="background-color:#3B96F2"></p>{{$array_absences[$i+3]}}</p>
+                        <p class="dot" style="background-color:#3B96F2" id="approvaldot"></p><p>{{$array_absences[$i+3]}}</p>
                     </div>
 
             @elseif($array_absences[$i+3]=="Pending")
 
             <div id="approvalab">
             <h5>Approval</h5>
-            <p><p class="dot" style="background-color:#EBD12A"></p>{{$array_absences[$i+3]}}</p>
+            <p class="dot" style="background-color:#EBD12A" id="approvaldot"></p><p>{{$array_absences[$i+3]}}</p>
             </div>
 
             @else
 
             <div id="approvalab">
                         <h5>Approval</h5>
-                        <p><p class="dot" style="background-color:#31DC59"></p>{{$array_absences[$i+3]}}</p>
+                        <p class="dot" style="background-color:#31DC59" id="approvaldot"></p><p>{{$array_absences[$i+3]}}</p>
                     </div>
 
 
@@ -312,12 +312,12 @@ open
 
         @if($array_absences[$i+4]!="")
 
-            <div class="attachContainer">
+            {{-- <div class="attachContainer"> --}}
             <p class="attachamentText">{{$array_absences[$i+4]}}</p>
             <a id="addattachment" type="button" id="{{$array_absences[$i]}}" onClick="reply_click9(this.id)" data-toggle="modal" data-target="#justificationModal">
                   <i class="fas fa-pen iconSize"></i>
               </a>
-              </div>
+              {{-- </div> --}}
 
         @else
 
@@ -397,7 +397,7 @@ open
 
 <!-- ------------------------------------------------------ TAB - ABSENCES WITH ABSENCES ------------------------------------------------------ -->
 
-    <div id="menu2" class="container tab-pane fade"><br>
+    <div id="menu2" class="tab-pane fade"><br>
 
 <!-- <br><hr style="border-radius: 5px;border: 1px solid black; width: 80%"> -->
 @if($roleuser <= 3)
@@ -405,20 +405,20 @@ open
 <div class="block-header">
   <h3 class="block-title text-center">Absences<small> - ALL Employees</small></h3>
 </div>
-<div class="block-content block-content-full">
+<div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-  <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
-      <thead>
+  <table class="table table-bordered js-dataTable-buttons">
+      <thead class="thead-dark">
           <tr>
-          <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                      <th class="d-none d-sm-table-cell" style="width: 10%;">Name</th>
-                      <th class="d-none d-sm-table-cell" style="width: 5%;">Department</th>
-                      <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
-                      <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
-                      <th style="width: 15%;">Attachment</th>
-                      <th style="width: 10%;">Type</th>
-                      <th style="width: 10%;">Status</th>
-                      <th style="width: 15%;">Actions</th>
+          <th class="title" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">NR</th>
+                      <th scope="col" class="tablesaw-priority-1" data-tablesaw-sortable-col data-tablesaw-priority="1">Name</th>
+                      <th scope="col" class="tablesaw-priority-2" data-tablesaw-sortable-col data-tablesaw-priority="2">Department</th>
+                      <th scope="col" class="tablesaw-priority-3" data-tablesaw-sortable-col data-tablesaw-priority="3">Start Date</th>
+                      <th scope="col" class="tablesaw-priority-4" data-tablesaw-sortable-col data-tablesaw-priority="4">End Date</th>
+                      <th scope="col" class="tablesaw-priority-5" data-tablesaw-sortable-col data-tablesaw-priority="5">Attachment</th>
+                      <th scope="col" class="tablesaw-priority-6" data-tablesaw-sortable-col data-tablesaw-priority="6">Type</th>
+                      <th scope="col" class="tablesaw-priority-7" data-tablesaw-sortable-col data-tablesaw-priority="7">Status</th>
+                      <th scope="col" class="tablesaw-priority-8" data-tablesaw-sortable-col data-tablesaw-priority="8">Actions</th>
 
           </tr>
       </thead>

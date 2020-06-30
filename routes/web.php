@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Notifications\evalsNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Harvest
         Route::get('/harvest', 'HarvestController@index');
+        Route::post('/harvestSaveCreds', 'HarvestController@index');
         //
 
         //Evaluations AdminRH Create Evaluation
@@ -96,17 +98,23 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/removeExtraDay/{idExtraDay}', 'SettingController@deleteExtraDay')->middleware('generalAdminsRole');
         //
         //Reports
-        Route::get('/reports', 'ReportController@index');
+        Route::get('/reports', 'ReportController@index')->middleware('generalAdminsRole');
         Route::get('/settingspage', 'SettingController@index')->middleware('generalAdminsRole');
-        Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel');
-        Route::post('/reports', 'ReportController@store');
+        Route::get('/reports/excel', 'ReportController@excel')->name('reports.excel')->middleware('generalAdminsRole');
+        Route::post('/reports', 'ReportController@store')->middleware('generalAdminsRole');
         //
         //Teams
-        Route::get('/newTeam', 'teamsController@create');
+        Route::get('/newTeam', 'teamsController@create')->middleware('generalAdminsRole');
         Route::get('/showTeam', 'UserController@employees'); //mostra a equipa no employees
-        Route::get('/addTeamMember', 'teamsController@addTeamMember');
-        Route::get('/remTeamMember/{idUserRem}', 'teamsController@remTeamMember');
-        
+        Route::get('/addTeamMember', 'teamsController@addTeamMember')->middleware('generalAdminsRole');
+        Route::get('/remTeamMember/{idUserRem}', 'teamsController@remTeamMember')->middleware('generalAdminsRole');
+        //
+        //Notifications
+        Route::get('/readNotification', 'NotificationsUsersController@readNotification');
+        Route::get('/readReminder', 'NotificationsUsersController@readReminder');
+        //
+        //Notification Test Mail
+        Route::get('/sendTestMail', 'NotificationsUsersController@sendMail');
         //
 });
 

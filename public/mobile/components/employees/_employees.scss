@@ -4,7 +4,8 @@
     margin: auto;
     align-items: baseline;
     margin-top: 30px;
-    justify-content: center;
+
+    // justify-content: center;
 }
 
 .email,
@@ -14,7 +15,9 @@
 .departmentEmployeesAlign {
     @include divs();
 }
-
+.marginLeft{
+    // margin-left: 30px;
+}
 #rolenew {
     display: none;
 }
@@ -37,7 +40,140 @@
     width: 60px;
 }
 
-.registerButton{
+.registerButton {
+    display: grid;
+}
+
+#pills-registerTeam {
+    p {
+        margin: auto;
+        color: rgba(128, 128, 128, 0.692);
+        font-size: 10pt;
+    }
+
+    hr {
+        width: 160px;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
+
+#pills-employees {
+    h3 {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: rgba(128, 128, 128, 0.692);
+    }
+
+}
+#allEmployees{
+    h3{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: rgba(128, 128, 128, 0.692);
+    }
+}
+
+#teamLeader {
+    display: grid;
+    grid-template-columns: 150px 250px;
+    margin-top: 30px;
+}
+
+#newTeamName,
+#selectTeam {
+    display: grid;
+    grid-template-columns: 150px 250px;
+}
+
+#addLeader {
+    display: grid;
+    grid-template-columns: 150px 250px 180px;
+    margin-top: 20px;
+
+    button {
+        margin-left: 40px;
+    }
+}
+
+#btnCreateTeam,
+#showTeamDetails,
+#yourTeams {
+    margin-top: 30px;
+}
+
+#yourTeams {
+    h4 {
+        text-align: center;
+    }
+}
+
+#insertNewTeam,
+#teamManagement,
+#addMembers {
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+#teamMembers {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: 30px 160px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+table {
+    border-collapse: separate;
+    border-radius: 20px;
+}
+
+#modalEmployees {
+    text-align: -webkit-center;
+}
+
+#modalEmployees2 {
+    width: 85%;
+}
+#pills-register p{
+    margin: auto;
+    color: rgba(128, 128, 128, 0.692);
+    font-size: 10pt;
+}
+#pills-register hr{
+    width: 160px;
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+/* Change scroll Body */
+.modal {
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
+.modal-body {
+    width: 100%;
     display: grid;
 }
 

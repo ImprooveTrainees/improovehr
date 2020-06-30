@@ -14,6 +14,27 @@ open
 
 @section('content')
 
+<div class="shadow p-1 bg-white cardbox1" id="harvestForm">
+    <form method="post" action="/harvestSaveCreds">
+        @csrf
+        <h2>Harvest Reports</h2>
+        <div id="apiToken">
+            <label>Insert your Harvest API token: </label>
+            <input name="harvestToken" required type="text">
+        </div>
+        <div id="harvestID">
+            <label>Insert your Harvest account ID:</label>
+            <input name="harvestAccId" required type="number">
+        </div>
+        <div id="harvestEmail">
+            <label>Insert your Harvest email (optional):</label>
+            <input name="harvestMail" type="text">
+        </div>
+        <button class="form-group btn btn-outline-primary" type="Submit">Submit</button>
+    </form>
+</div>
+
+@if(isset($harvestProfile))
 <div class="shadow p-1 bg-white cardbox1">
     <div class="shadow p-1 bg-white cardbox2 flexstyle">
         <h6 id="flexh6">This Week</h6>
@@ -34,103 +55,27 @@ open
         <h1>{{$month}}</h1>
     </div>
 
-    {{-- <img src="{{$harvestProfile->avatar_url}}" style="width: 60px; height: 60px; display: none"> --}}
 
-    {{-- <br>
-    {{$harvestProfile->first_name}} {{$harvestProfile->last_name}}
-    <br>
-    {{$harvestProfile->email}}
-    This Week
-    <br>
-    {{$currentWeek}}
-    <br>
-    @if($totalHours > $totalHoursTodoCurrentWeek)
-    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You did more {{$totalHours - $totalHoursTodoCurrentWeek}} hours this week.
-    @else
-    {{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.
-    @endif
-    <br>
-    <br>
+    {{-- {{$month}}
 
-    <table>
-    <tr>
-{{--
-    <th>{{date( 'D', strtotime( 'monday this week'))}}
-        <br>
-        {{date( 'd F', strtotime( 'monday this week'))}}
-    </th>
-    <th>{{date( 'D', strtotime( 'tuesday this week'))}}
-        <br>
-        {{date( 'd F', strtotime( 'tuesday this week'))}}
-    </th>
-    <th>{{date( 'D', strtotime( 'wednesday this week'))}}
-        <br>
-        {{date( 'd F', strtotime( 'wednesday this week'))}}
-    </th>
-    <th>{{date( 'D', strtotime( 'thursday this week'))}}
-        <br>
-        {{date( 'd F', strtotime( 'thursday this week'))}}
-    </th>
-    <th>{{date( 'D', strtotime( 'friday this week'))}}
-        <br>
-        {{date( 'd F', strtotime( 'friday this week'))}}
-    </th> --}}
+<img src="{{$harvestProfile->avatar_url}}" style="width: 60px; height: 60px">
+{{$harvestProfile->first_name}}
+{{$harvestProfile->last_name}}
 
-    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
-        <th>{{date( 'D', strtotime( 'monday this week +'.$b.' days'))}}
-            <br>
-            {{date( 'd F', strtotime( 'monday this week +'.$b.' days'))}}
-        </th>
-    @endfor
+ {{$harvestProfile->email}} --}}
+
+ {{-- Total hours reported this month: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
+ <br>
+ You must report more {{$hoursLeftReport}} hours this month.
+ <br> --}}
+
+<div id="flexbuttons">
+    <button  class="form-group btn btn-outline-primary" id="lastMonth2" onclick="showMonth()">Last Month</button>
+    <button  class="form-group btn btn-outline-primary" id="lat2weeks2" onclick="show2weeks()">Last 2 weeks</button>
+    <button  class="form-group btn btn-outline-primary" id="currentWeek2" onclick="showWeek()">This Week</button>
+</div>
 
 
-    </tr>
-
-
-
-    <tr>
-    @foreach($totalsCurrentWeek as $dayCurrent)
-        @if(is_numeric($dayCurrent))
-            <td>{{$dayCurrent}} hours</td>
-        @else
-            <td>{{$dayCurrent}}</td>
-        @endif
-    @endforeach
-    </tr>
-
-
-
-    <br>
-    Total hours reported this month: {{$hoursReportedTotal}} of {{$monthlyHoursWorkDays}}
-    <br>
-    You must report more {{$hoursLeftReport}} hours this month. --}}
-    {{$lastWeek}}
-    <table>
-        <tr>
-
-    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
-        <th>{{date( 'D', strtotime( '-1 week monday this week +'.$b.' days'))}}
-            <br>
-            {{date( 'd F', strtotime( ' -1 week monday this week +'.$b.' days'))}}
-        </th>
-    @endfor
-
-
-    <div id="flexbuttons">
-        <button  class="form-group btn btn-outline-primary" id="lastMonth2" onclick="showMonth()">Last Month</button>
-        <button  class="form-group btn btn-outline-primary" id="lat2weeks2" onclick="show2weeks()">Last 2 weeks</button>
-        <button  class="form-group btn btn-outline-primary" id="currentWeek2" onclick="showWeek()">This Week</button>
-    </div>
-
-    <table>
-        <tr>
-
-        @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
-            <th>{{date( 'D', strtotime( '-2 week monday this week +'.$b.' days'))}}
-                <br>
-                {{date( 'd F', strtotime( ' -2 week monday this week +'.$b.' days'))}}
-            </th>
-        @endfor
 
 {{-- Last Month Table --}}
 <div id="lastMonth">
@@ -140,13 +85,12 @@ open
             <thead>
                 <tr>
                     @foreach($daysPreviousMonth as $day)
-                    <th class="d-sm-table-cell" style="width: 20%;">
-                        {{date( 'D', strtotime($day->format('Y-m-d')))}}
-                        <br>
-                        {{date( 'd F', strtotime($day->format('Y-m-d')))}}
-                        <?php $countTr++ ?>
+                    <th>{{date( 'D', strtotime($day->format('Y-m-d')))}}
+                    <br>
+                    {{date( 'd F', strtotime($day->format('Y-m-d')))}}
+                    <?php $countTr++ ?>
                     </th>
-                    @if($day->format('w') == 5) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
+                    @if($day->format('w') == end($workingDays)) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
                 </tr>
             </thead>
             <tbody>
@@ -160,20 +104,20 @@ open
             </table> <!-- termina uma table -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable">  <!-- começa outra table -->
                 <thead>
-                <tr>
-                @elseif($day->format('w') != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
-                </tr>   <!-- encerra a tr dos headers -->
+                    <tr>
+                        @elseif(end($workingDays) != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
+                    </tr>   <!-- encerra a tr dos headers -->
                 </thead>
                     <tr>  <!-- começa as td -->
                         @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
                                 <td>{{$daysPreviousMonthTotals[$b]}} Hours</td>
                         @endfor
                         <?php $countTh = $b ?>
+                        @endif
+                    @endforeach
                     </tr> <!-- acaba as td -->
-                </table>
-                @endif
-            @endforeach
-            <h3>{{$totalHoursDoneLastMonth}} of {{$totalHoursToDoLastMonth}} of hours done last month</h3>
+            </table>
+            <h5>{{$totalHoursDoneLastMonth}} of {{$totalHoursToDoLastMonth}} of hours done last month</h5>
 
     {{-- @if($totalHoursDoneLastMonth > $totalHoursToDoLastMonth)
         <h3>You have done {{$totalHoursDoneLastMonth - $totalHoursToDoLastMonth}} hours overtime last month.</h3>
@@ -183,34 +127,6 @@ open
 {{-- END Last Month Table --}}
 
 
-<div id="lastMonth" style="display: none;">
-    <br>
-    Previous Month
-    <br>
-<table>
-    <tr>
-        @foreach($daysPreviousMonth as $day)
-            <th>{{date( 'D', strtotime($day->format('Y-m-d')))}}
-                <br>
-                {{date( 'd F', strtotime($day->format('Y-m-d')))}}
-                <?php $countTr++ ?>
-            </th>
-            @if($day->format('w') == end($workingDays)) <!-- Assim que chega a sexta, acaba e começa uma nova table -->
-                </tr>   <!-- encerra a tr dos headers -->
-
-                        <tr>  <!-- começa as td -->
-                            @for($b = $countTh; $b < $countTr; $b++) <!-- o $b assume sempre o ultimo valor de onde parou -->
-                                <td>{{$daysPreviousMonthTotals[$b]}}</td>
-                            @endfor
-                            <?php $countTh = $b ?>
-                        </tr> <!-- acaba as td -->
-                </table> <!-- termina uma table -->
-                <br>
-                <table>  <!-- começa outra table -->
-                <tr>
-            @elseif(end($workingDays) != 5 && $countTr == count($daysPreviousMonth)) <!-- se tiver na ultimo dia e não for sexta -->
-                </tr>   <!-- encerra a tr dos headers -->
-
 {{-- Last 2 Weeks Table --}}
 <div id="last2weeks">
     <div class="block-content block-content-full">
@@ -218,27 +134,10 @@ open
         <table class="table table-bordered table-striped table-vcenter js-dataTable">
             <thead>
                 <tr>
-                    <th class="d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-1 week monday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week monday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-1 week tuesday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week tuesday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-1 week wednesday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week wednesday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-1 week thursday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week thursday this week'))}}
-                    </th>
-                    <th class="d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-1 week friday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( '-1 week friday this week'))}}
-                    </th>
-                    </tr>
+                    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                    <th>{{date( 'D', strtotime( '-1 week monday this week +'.$b.' days'))}}</th>
+                    @endfor
+                </tr>
             </thead>
             <tbody>
                 <tr>
@@ -255,28 +154,13 @@ open
             <table class="table table-bordered table-striped table-vcenter js-dataTable">  <!-- começa outra table -->
                 <thead>
                     <tr>
-                        <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-2 week monday this week'))}}
+                        @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                        <th>{{date( 'D', strtotime( '-2 week monday this week +'.$b.' days'))}}
                             <br>
-                            {{date( 'd F', strtotime( '-2 week monday this week'))}}
+                            {{date( 'd F', strtotime( ' -2 week monday this week +'.$b.' days'))}}
                         </th>
-                        <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-2 week tuesday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week tuesday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-2 week wednesday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week wednesday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-2 week thursday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week thursday this week'))}}
-                        </th>
-                        <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( '-2 week friday this week'))}}
-                            <br>
-                            {{date( 'd F', strtotime( '-2 week friday this week'))}}
-                        </th>
+                    @endfor
                     </tr>
-
                 </thead>
                 <tr>
                     @foreach($last2WeeksTotals as $dayPast2week)
@@ -289,16 +173,16 @@ open
                 </tr>
                 </table>
 
-            <p>{{$totalHours15days}} hours reported total in the last 2 weeks.</p>
+            <h5>{{$totalHours15days}} hours reported total in the last 2 weeks.</h5>
             @if($totalHours15days > $hoursToReportPer15Days)
-            <p>{{$totalHours15days - $hoursToReportPer15Days}} hours overtime.</p>
+            <h5>{{$totalHours15days - $hoursToReportPer15Days}} hours overtime.</h5>
             {{-- @else
             {{$hoursToReportPer15Days}} hours left to report in the last two weeks. --}}
             @endif
 
-            <p>{{$totalHoursDone15daysThisMonth}} of {{$totalHoursTodoPast2WeeksThisMonth}} hours done this month in the past two weeks</p>
+            <h5>{{$totalHoursDone15daysThisMonth}} of {{$totalHoursTodoPast2WeeksThisMonth}} hours done this month in the past two weeks</h5>
             @if($totalHoursDone15daysThisMonth > $totalHoursTodoPast2WeeksThisMonth)
-                <p>You did more {{$totalHoursDone15daysThisMonth - $totalHoursTodoPast2WeeksThisMonth}} hours overtime.</p>
+                <h5>You did more {{$totalHoursDone15daysThisMonth - $totalHoursTodoPast2WeeksThisMonth}} hours overtime.</h5>
             @endif
     </div>
 </div>
@@ -312,26 +196,28 @@ open
         <table class="table table-bordered table-striped table-vcenter js-dataTable">
             <thead>
                 <tr>
-                    <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( 'monday this week'))}}
-                        <br>
-                        {{date( 'd F', strtotime( 'monday this week'))}}
-                    </th>
-                    <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( 'tuesday this week'))}}
+                    <th>{{date( 'D', strtotime( 'tuesday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'tuesday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( 'wednesday this week'))}}
+                    <th>{{date( 'D', strtotime( 'wednesday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'wednesday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( 'thursday this week'))}}
+                    <th>{{date( 'D', strtotime( 'thursday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'thursday this week'))}}
                     </th>
-                    <th class=" d-sm-table-cell" style="width: 20%;">{{date( 'D', strtotime( 'friday this week'))}}
+                    <th>{{date( 'D', strtotime( 'friday this week'))}}
                         <br>
                         {{date( 'd F', strtotime( 'friday this week'))}}
                     </th>
+                    @for($b = $workHoursSettings->flextime_startDay-1; $b < $workHoursSettings->flextime_endDay; $b++)
+                        <th>{{date( 'D', strtotime( 'monday this week +'.$b.' days'))}}
+                            <br>
+                            {{date( 'd F', strtotime( 'monday this week +'.$b.' days'))}}
+                        </th>
+                    @endfor
                 </tr>
             </thead>
             <tbody>
@@ -348,9 +234,9 @@ open
             </table> <!-- termina uma table -->
 
             @if($totalHours > $totalHoursTodoCurrentWeek)
-            <p>{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You did more {{$totalHours - $totalHoursTodoCurrentWeek}} hours this week.</p>
+            <h5>{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You did more {{$totalHours - $totalHoursTodoCurrentWeek}} hours this week.</h5>
             @else
-            <p>{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.</p>
+            <h5>{{$totalHours}} of {{$totalHoursTodoCurrentWeek}} hours | You must report more {{$totalHoursTodoCurrentWeek - $totalHours}} hours this week.</h5>
             @endif
     </div>
 </div>
@@ -358,4 +244,12 @@ open
 
 {{-- END OF CARDBOX1 --}}
 </div>
+
+<script>
+    document.getElementById('harvestForm').style.display = "none";
+    //esconde a form
+ </script>
+
+@endif
 @endsection
+

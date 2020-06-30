@@ -11,6 +11,7 @@ use App\users_deps;
 use App\contractType;
 use App\teams;
 use App\teamUsers;
+use App\Record_users;
 use Hash;
 use Auth;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class UserController extends Controller
         $userLoggedIn = Auth::user();
 
         $allTeams = teams::All();
-        
+
 
         $users = User::all();
         $departments = departments::all();
@@ -116,24 +117,24 @@ class UserController extends Controller
             }
             if($userLogged->idusertype == 1) { // se for admin
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";  
-                
+                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
+
             }
             else if($userLogged->idusertype == 2) { // se for manager
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>"; 
+                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
                 if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";   
+                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
                 }
             }
             $msg .= "</tr>";
             }
-            
+
 
 
         }
@@ -159,7 +160,7 @@ class UserController extends Controller
                     array_push($leaderArray, "No");
                 }
             }
-        
+
 
             $LoggedUserTeams = teamUsers::where('userID', $userLogged->id)->get(); //todas as equipas a que o user pertence
             $LoggedUserTeamsArrayUserId = [];
@@ -167,7 +168,7 @@ class UserController extends Controller
             $LoggedUserTeamsArrayTeamName = [];
             $LoggedUserTeamsArrayTeamLeaders = [];
             $tablesCount = teamUsers::where('userID', $userLogged->id)->get();
-    
+
             foreach($LoggedUserTeams as $teamUserId) {
                 array_push($LoggedUserTeamsArrayTeamName,teams::find($teamUserId->teamID));
                 $teamMembersTeam = teamUsers::where('teamID', $teamUserId->teamID)->get();
@@ -182,11 +183,11 @@ class UserController extends Controller
                     }
 
                 }
-    
-                
+
+
             }
 
-                
+
             return view('employees') //manda as vars da form para a mesma pag
             ->with('msg', $msg)
             ->with('departmentList', $departmentList)
@@ -230,12 +231,12 @@ class UserController extends Controller
                 }
             }
 
-            
+
         }
 
-        
+
         //End Teams
-        
+
 
         return view('employees')
         ->with('msg', $msg)
@@ -496,6 +497,35 @@ class UserController extends Controller
     {
         //
         $userToRemove = User::find($id);
+
+        // ADD ELIMINATED USER TO RECORDS TABLE
+
+        $user_to_records = new Record_users();
+
+        $user_to_records->userid=$id;
+        $user_to_records->name=$userToRemove->name;
+        $user_to_records->email=$userToRemove->email;
+        $user_to_records->password=$userToRemove->password;
+        $user_to_records->idusertype=$userToRemove->idusertype;
+        $user_to_records->iddepartment=$userToRemove->iddepartment;
+        $user_to_records->idcontract=$userToRemove->idcontract;
+        $user_to_records->address=$userToRemove->address;
+        $user_to_records->academicQual=$userToRemove->academicQual;
+        $user_to_records->phone=$userToRemove->phone;
+        $user_to_records->photo=$userToRemove->photo;
+        $user_to_records->birthDate=$userToRemove->birthDate;
+        $user_to_records->status=$userToRemove->status;
+        $user_to_records->taxNumber=$userToRemove->taxNumber;
+        $user_to_records->IBAN=$userToRemove->IBAN;
+        $user_to_records->sosContact=$userToRemove->sosContact;
+        $user_to_records->sosRelationship=$userToRemove->sosRelationship;
+        $user_to_records->sosName=$userToRemove->sosName;
+        $user_to_records->country=$userToRemove->country;
+
+        $user_to_records->save();
+
+        // END - ADD ELIMINATED USER TO RECORDS TABLE
+
         $userToRemove->delete();
 
         $msg = "Employee removed succesfully";

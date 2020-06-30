@@ -21,6 +21,9 @@ use App\settings_general;
 use App\notifications;
 use App\NotificationsUsers;
 
+require '../vendor/autoload.php';
+use \Mailjet\Resources;
+
 class EvaluationsController extends Controller
 {
     /**
@@ -617,17 +620,44 @@ class EvaluationsController extends Controller
             }
             $newSurveyUsers->evaluated = $evalChoice;
             $newSurveyUsers->save();
+
             $newNotification = new notifications; //nova notificacao
             $newNotificationUser = new NotificationsUsers;
             $newNotification->type = "EvaluationAssigned";
-            $newNotification->description = "You have a new evaluation to complete from ".Auth::user()->name;
+            $newNotification->description = "You have a new evaluation (".Survey::find($survey)->name.") to complete from ".Auth::user()->name;
             $newNotification->save();
             
             $newNotificationUser->notificationId = $newNotification->id;
             $newNotificationUser->createUserId = Auth::user()->id;
             $newNotificationUser->receiveUserId = $user;
+            $newNotificationUser->date_limit_evals = $dateLimit;
             $newNotificationUser->save();
 
+            //email
+            $mj = new \Mailjet\Client('9b7520c7fe890b48c2753779066eb9ac','b8f16fd81c883fc77bb1f3f4410b2b02',true,['version' => 'v3.1']);
+            $body = [
+              'Messages' => [
+                [
+                  'From' => [
+                    'Email' => "mailsenderhr@gmail.com",
+                    'Name' => "ImprooveHR"
+                  ],
+                  'To' => [
+                    [
+                      'Email' => "andresl19972@gmail.com",
+                      'Name' => User::find($user)->name,
+                    ]
+                  ],
+                  'Subject' => "You have a new evaluation to complete",
+                  'TextPart' => "My first Mailjet email",
+                  'HTMLPart' => "<h3>Dear ".User::find($user)->name.", you have a new evaluation (".Survey::find($survey)->name.") to complete from ".Auth::user()->name." .</h3><br/>!",
+                  'CustomID' => "AppGettingStartedTest"
+                ]
+              ]
+            ];
+            $response = $mj->post(Resources::$Email, ['body' => $body]);
+            $response->success() && var_dump($response->getData());
+            //
 
 
         }
@@ -660,6 +690,8 @@ class EvaluationsController extends Controller
         $usersSelected = $request->input('usersRem');
         $survey = $request->input('idSurveyAutoShow');
 
+        
+
         if($usersSelected == 0) {
             $msg = "<script>
                         Swal.fire({
@@ -683,7 +715,9 @@ class EvaluationsController extends Controller
                     </script>";
         foreach($usersSelected as $usersRem) {
             surveyUsers::where('idUser', $usersRem)->where('idSurvey', $survey)->delete();
+ 
         }
+        
     }
         $msg .= "<script>";
         $msg .= 'document.getElementById("surveyShowID").value='.$request->input('idSurveyAutoShow');
