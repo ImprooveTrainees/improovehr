@@ -143,11 +143,11 @@ open
 <table class="table js-dataTable-buttons table-responsive">
 <thead class="thead-dark">
     <tr>
-    <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                <th class="d-none d-sm-table-cell" style="width: 5%;">Name</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Department</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
+    <th class=" d-sm-table-cell" style="width: 5%;">NR</th>
+                <th class=" d-sm-table-cell" style="width: 5%;">Name</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">Department</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">Start Date</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">End Date</th>
                 <th style="width: 10%;">Status</th>
                 <th style="width: 15%;">Actions</th>
     </tr>
