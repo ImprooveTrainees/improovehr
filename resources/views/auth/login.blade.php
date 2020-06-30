@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="login_box">
             <div class="card bg-light card_login">
-                <div class="card-body">
+                <div id="cardbox" class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
