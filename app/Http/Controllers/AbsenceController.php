@@ -1200,8 +1200,9 @@ class AbsenceController extends Controller
             $diff=date_diff($date1,$date2);
             $days = $diff->format("%d%");
             $diasAusencia += $days;
+            $diasAusencia += 1;
         }
-        $diasAusencia += 1;
+
 
 
         //Calendar begin
