@@ -46,13 +46,13 @@ active
         <!-- Teams -->
         @for($v = 0; $v < $tablesCount->count(); $v++)
         <h3>{{$LoggedUserTeamsArrayTeamName[$v]->description}}</h3>
-        <table class="table table-striped js-dataTable-full">
+        <table class="table js-dataTable-buttons table-responsive">
             <thead class="thead-dark">
                 <tr>
-                    <th>Photo</th>
-                    <th>Name</th>
-                    <th>Company</th>
-                    <th>Role</th>
+                    <th style="width: 15%;">Photo</th>
+                    <th style="width: 15%;">Name</th>
+                    <th style="width: 15%;">Company</th>
+                    <th style="width: 15%;">Role</th>
                     <th style="width: 15%;">Department</th>
                     <th style="width: 15%;">Time</th>
                     <th style="width: 15%;">Staff Manager</th>
@@ -143,7 +143,7 @@ active
             <div id="allEmployees">
                 <h3>All Employees Table</h3>
 
-        <table class="table js-dataTable-buttons">
+        <table class="table js-dataTable-buttons table-responsive">
             <thead class="thead-dark">
                 <tr>
                     <th class="text-center" style="width: 80px;">Photo</th>

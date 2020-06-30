@@ -140,11 +140,11 @@ open
 
 <div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<table class="table table-bordered js-dataTable-buttons">
+<table class="table js-dataTable-buttons table-responsive">
 <thead class="thead-dark">
     <tr>
     <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Name</th>
+                <th class="d-none d-sm-table-cell" style="width: 5%;">Name</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">Department</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
                 <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
@@ -407,18 +407,18 @@ open
 </div>
 <div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-  <table class="table table-bordered js-dataTable-buttons">
+  <table class="table js-dataTable-buttons table-responsive">
       <thead class="thead-dark">
           <tr>
-          <th class="title" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">NR</th>
-                      <th scope="col" class="tablesaw-priority-1" data-tablesaw-sortable-col data-tablesaw-priority="1">Name</th>
-                      <th scope="col" class="tablesaw-priority-2" data-tablesaw-sortable-col data-tablesaw-priority="2">Department</th>
-                      <th scope="col" class="tablesaw-priority-3" data-tablesaw-sortable-col data-tablesaw-priority="3">Start Date</th>
-                      <th scope="col" class="tablesaw-priority-4" data-tablesaw-sortable-col data-tablesaw-priority="4">End Date</th>
-                      <th scope="col" class="tablesaw-priority-5" data-tablesaw-sortable-col data-tablesaw-priority="5">Attachment</th>
-                      <th scope="col" class="tablesaw-priority-6" data-tablesaw-sortable-col data-tablesaw-priority="6">Type</th>
-                      <th scope="col" class="tablesaw-priority-7" data-tablesaw-sortable-col data-tablesaw-priority="7">Status</th>
-                      <th scope="col" class="tablesaw-priority-8" data-tablesaw-sortable-col data-tablesaw-priority="8">Actions</th>
+          <th class="title" >NR</th>
+                      <th style="width: 15%;">Name</th>
+                      <th style="width: 15%;">Department</th>
+                      <th style="width: 15%;">Start Date</th>
+                      <th style="width: 15%;">End Date</th>
+                      <th style="width: 15%;">Attachment</th>
+                      <th style="width: 15%;">Type</th>
+                      <th style="width: 15%;">Status</th>
+                      <th style="width: 15%;">Actions</th>
 
           </tr>
       </thead>
