@@ -142,11 +142,7 @@ active
             <div id="allEmployees">
                 <h3>All Employees Table</h3>
 
-<<<<<<< HEAD
         <table class="table js-dataTable-buttons table-responsive">
-=======
-        <table class="table table-striped js-dataTable-full table-responsive">
->>>>>>> parent of 1ea717a... Revert "Merge pull request #176 from ImprooveTrainees/homepage_as_new"
             <thead class="thead-dark">
                 <tr>
                     <th >Photo</th>
