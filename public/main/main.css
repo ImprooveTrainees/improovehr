@@ -55,6 +55,46 @@
   }
 }
 
+@media screen and (max-width: 320px) {
+  #linkfp {
+    margin-top: 0px;
+    margin-left: -14px;
+  }
+  #cardbox {
+    height: 320px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  #cardbox {
+    height: 295px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 425px) {
+  #cardbox {
+    height: 295px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+  #cardbox {
+    height: 220px;
+  }
+  #linkfp {
+    margin-top: 0px;
+    margin-left: -14px;
+  }
+  #email input,
+  #password input {
+    width: 130%;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 2560px) {
+  #cardbox {
+    height: 260px;
+  }
 #main-container p,
 #main-container h1,
 #main-container h2,
@@ -610,7 +650,7 @@
   }
 }
 
-@media screen and (max-width: 425px) {
+@media (min-width: 420px) and (max-width: 425px) {
   .birthday,
   .academic,
   .status,
@@ -630,8 +670,72 @@
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 220px;
+  }
+  #profile {
+    margin-left: 33px;
+  }
+  .cardbox4 {
+    margin-left: 33px;
+  }
+  .box1 {
+    margin-left: 17px;
+  }
+  .bprofile {
+    width: 342px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 215px;
+  }
   .cardbox1 {
-    margin-top: 3%;
+    margin-left: 17px;
+    width: 92%;
+  }
+  #profile {
+    margin-left: 13px;
+  }
+  .box1 {
+    margin-left: 2px;
+    margin-top: 200px;
+  }
+  .bprofile {
+    width: 332px;
   }
 }
 
@@ -652,6 +756,35 @@
   .linkedin {
     -ms-grid-columns: 70px 135px;
         grid-template-columns: 70px 135px;
+  }
+  .birthday input,
+  .academic input,
+  .status input,
+  .username input,
+  .age input,
+  .mobile input,
+  .emailprofile input,
+  .nif input,
+  .address input,
+  .city input,
+  .zipcode input,
+  .soscontact input,
+  .sosusername input,
+  .linkedin input,
+  .academic select,
+  .status select {
+    margin-left: 30px;
+    width: 176px;
+  }
+  .bprofile {
+    width: 275px;
+  }
+  .box1 {
+    margin-left: 2px;
+    margin-top: 200px;
+  }
+  #profile {
+    margin-left: -14px;
   }
 }
 
@@ -728,7 +861,7 @@
   margin-top: 5px;
 }
 
-@media (min-width: 768px) and (max-width: 1440px) {
+@media (min-width: 765px) and (max-width: 1440px) {
   .role,
   .typeofcontract,
   .companymobile,
@@ -742,22 +875,26 @@
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p,
+  .companymobile input {
+    margin-left: 40px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .companyemail input {
+    margin-left: 40px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 316px;
+  }
 }
 
 @media screen and (max-width: 425px) {
-  .role,
-  .typeofcontract,
-  .companymobile,
-  .department,
-  .admissiondate,
-  .endofcontract,
-  .companyemail,
-  .departmentmanager {
-    -ms-grid-columns: 86px 140px 40px;
-        grid-template-columns: 86px 140px 40px;
-    -ms-grid-rows: auto;
-        grid-template-rows: auto;
-  }
   .role,
   .typeofcontract,
   .department,
@@ -769,6 +906,127 @@
   .departmentmanager label,
   .companymobile label {
     margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .role,
+  .typeofcontract,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .departmentmanager {
+    -ms-grid-columns: 70px 135px;
+        grid-template-columns: 70px 135px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 45px;
+    width: 176px;
+  }
+  .companymobile input,
+  .companyemail input {
+    width: 63%;
+    margin-left: 23px;
+  }
+  #profile2 {
+    margin-left: -14px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 275px;
+    margin-left: -27px;
+  }
+}
+
+@media (min-width: 370px) and (max-width: 375px) {
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 30px;
+    width: 215px;
+  }
+  .companymobile input,
+  .companyemail input {
+    width: 85%;
+    margin-left: 27px;
+  }
+  .cardbox1 {
+    margin-left: 15px;
+  }
+  #profile2 {
+    margin-left: 13px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 319px;
+    margin-left: -21px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 425px) {
+  .role,
+  .typeofcontract,
+  .department,
+  .admissiondate,
+  .endofcontract,
+  .departmentmanager {
+    -ms-grid-columns: 86px 140px;
+        grid-template-columns: 86px 140px;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p {
+    margin-left: 30px;
+    width: 220px;
+  }
+  .companymobile input,
+  .companyemail input {
+    margin-left: 30px;
+    width: 213px;
+  }
+  #profile2 {
+    margin-left: 33px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 340px;
+    margin-left: -12px;
+  }
+}
+
+@media (min-width: 1445px) and (max-width: 2560px) {
+  .admissiondate p,
+  .endofcontract p,
+  .departmentmanager p,
+  .companymobile input {
+    margin-left: 40px;
+  }
+  .role p,
+  .typeofcontract p,
+  .department p,
+  .companyemail input {
+    margin-left: 40px;
+  }
+  .bprofile2,
+  #btnupload,
+  #inputdoc {
+    width: 345px;
   }
 }
 

@@ -107,7 +107,7 @@ open
                 @endif
             </div>
                 @endforeach  {{--END For Para Form --}}
-            <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
+            <button type="submit" class="form-group btn btn-outline-primary bprofile2">Save</button>
             <br><br>
         </form>
         {{--------------------------- FIM Form PARA ALTERAR Phone and Email  -------------------------------------------}}
@@ -131,7 +131,7 @@ open
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                         <br><br>
-                        <button type="submit" id="btnupload" class="form-group btn btn-outline-primary bprofile">Upload file</button>
+                        <button type="submit" id="btnupload" class="form-group btn btn-outline-primary bprofile2">Upload file</button>
                         <br><br>
                     </form>
                 </div>
