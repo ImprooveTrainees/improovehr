@@ -267,6 +267,8 @@ class UserController extends Controller
         $contractNewEmployee = new contract();
         $userDepartment = new users_deps();
 
+        $idusertype = 4;
+
         $accountCreator = Auth::User();
 
         $name = $request->input('name');
@@ -278,6 +280,19 @@ class UserController extends Controller
         else {
             $role = $request->input('role');
         }
+
+        //ID USER TYPE
+
+        if($role == "Manager") {
+
+            $idusertype = 2;
+
+        } else if($role == "Human Resources") {
+
+            $idusertype = 3;
+
+        }
+
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
         $department = $request->input('Department');
@@ -288,6 +303,7 @@ class UserController extends Controller
         $employee->password = Hash::make($passwordAutomatica);
         $employee->country = $country;
         $employee->officeAdress = $officeAdressCreator;
+        $employee->idusertype = $idusertype;
         $employee->save();
 
         $contractNewEmployee->iduser = $employee->id;
@@ -522,6 +538,24 @@ class UserController extends Controller
         $userDep->save();
 
         $userSelected = User::find($userId);
+
+        //ID USER TYPE
+
+        if($newRole == "Manager") {
+
+            $idusertype = 2;
+
+        } else if($newRole == "Human Resources") {
+
+            $idusertype = 3;
+
+        } else {
+
+            $idusertype = 4;
+
+        }
+
+        $userSelected->idusertype = $idusertype;
         $userSelected->compMail = $companyMail;
         $userSelected->compPhone = $companyMobile;
         $userSelected->save();
