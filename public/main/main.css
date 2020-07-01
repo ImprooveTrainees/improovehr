@@ -2117,6 +2117,15 @@ table {
   }
 }
 
+@media (min-width: 410px) and (max-width: 450px) {
+  #holidaysExtra,
+  #holidaysExtra4,
+  #holidaysExtra2 {
+    -ms-grid-columns: 140px 180px;
+        grid-template-columns: 140px 180px;
+  }
+}
+
 #lastMonth,
 #last2weeks,
 #currentWeek {
@@ -3491,12 +3500,12 @@ input[type=radio] {
 .reportSelects {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 110px 200px;
-  grid-template-columns: 200px 200px;
+  -ms-grid-columns: 200px 250px;
+      grid-template-columns: 200px 250px;
   margin: auto;
   -webkit-box-align: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
   margin-top: 30px;
 }
 
@@ -3510,6 +3519,7 @@ input[type=radio] {
   display: grid;
   -ms-grid-columns: 200px 240px 330px;
       grid-template-columns: 200px 240px 330px;
+  grid-gap: 10px;
 }
 
 .reportStart {
@@ -3531,26 +3541,6 @@ input[type=radio] {
   font-weight: bold;
 }
 
-#absencetype {
-  width: 250px;
-  margin: auto;
-}
-
-#iduser {
-  width: 250px;
-  margin: auto;
-}
-
-#start_date {
-  width: 250px;
-  margin: auto;
-}
-
-#end_date {
-  width: 200px;
-  margin: auto;
-}
-
 #reportbtn {
   margin-top: 40px;
   font-family: helvetica;
@@ -3564,7 +3554,7 @@ input[type=radio] {
   margin-top: 45px;
 }
 
-@media (min-width: 320px) and (max-width: 800px) {
+@media (min-width: 700px) and (max-width: 1024px) {
   #reportbtn {
     margin-top: 20px;
     font-family: helvetica;
@@ -3572,6 +3562,44 @@ input[type=radio] {
     margin-left: 20px;
     width: 100px;
     margin-bottom: 15px;
+  }
+  .reportStart {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .reportDateSpace {
+    -ms-grid-columns: 200px 240px;
+        grid-template-columns: 200px 240px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 350px) {
+  .reportSelects {
+    -ms-grid-columns: 110px 130px;
+        grid-template-columns: 110px 130px;
+  }
+  .reportStart {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .reportDateSpace {
+    -ms-grid-columns: 110px 130px;
+        grid-template-columns: 110px 130px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 430px) {
+  .reportSelects {
+    -ms-grid-columns: 110px 190px;
+        grid-template-columns: 110px 190px;
+  }
+  .reportStart {
+    -ms-grid-column: 2;
+        grid-column-start: 2;
+  }
+  .reportDateSpace {
+    -ms-grid-columns: 110px 190px;
+        grid-template-columns: 110px 190px;
   }
 }
 

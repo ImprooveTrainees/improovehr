@@ -70,11 +70,8 @@
 .reportSelects {
 
     display: grid;
-    -ms-grid-columns: 110px 200px;
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 200px 250px;
     margin: auto;
-    -webkit-box-align: baseline;
-    -ms-flex-align: baseline;
     align-items: baseline;
     margin-top: 30px;
 
@@ -86,6 +83,7 @@
     max-width: 100%;
     display: grid;
     grid-template-columns: 200px 240px 330px;
+    grid-gap: 10px;
 }
 
 .reportStart {
@@ -112,24 +110,8 @@
     font-weight: bold;
 
 }
-#absencetype{
-    width: 250px;
-    margin: auto;
 
-}
-#iduser{
-    width: 250px;
-    margin: auto;
 
-}
-#start_date{
-    width: 250px;
-    margin: auto;
-}
-#end_date{
-    width: 200px;
-    margin: auto;
-}
 #reportbtn{
     margin-top: 40px;
     font-family: helvetica;
