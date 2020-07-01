@@ -127,7 +127,7 @@ class UserController extends Controller
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
-                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
                     $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
                 }
