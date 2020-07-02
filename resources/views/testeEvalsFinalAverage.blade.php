@@ -36,11 +36,13 @@ active
                 <p> Choose a user</p>
                 <hr>
                     <div class="showFinalAverageGrid">
+                        <label for="">User:</label>
                         <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
                             @foreach ($allUsers as $user)
                                 <option value={{$user->id}}>{{$user->name}}</option>
                             @endforeach
                         </select>
+                        <label for="">Year:</label>
                         <select class="form-control secondSelect" id="exampleFormControlSelect2" name="chosenYear">
                             @foreach ($yearsArray as $year)
                                 <option value={{$year}}>{{$year}}</option>
@@ -65,17 +67,19 @@ active
             <p> Choose a user</p>
             <hr>
                 <div class="showFinalAverageGrid">
+                    <label for="">User:</label>
                     <select class="form-control firstSelect" id="exampleFormControlSelect2" name="idUser">
                         @foreach ($allUsers as $user)
                             <option value={{$user->id}}>{{$user->name}}</option>
                         @endforeach
                     </select>
+                    <label id="year" for="">Year:</label>
                     <select class="form-control secondSelect" id="exampleFormControlSelect2" name="chosenYear">
                         @foreach ($yearsArray as $year)
                             <option value={{$year}}>{{$year}}</option>
                         @endforeach
                     </select>
-                        <button class="btn btn-outline-primary" type="submit">Show</button>
+                        <button class="btn btn-outline-primary bprofile" type="submit">Show</button>
                 </div>
 
         </form>

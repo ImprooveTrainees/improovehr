@@ -3137,11 +3137,25 @@ input[type=radio] {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 120px 120px 120px;
-  grid-template-columns: 200px 200px 347px;
+  grid-template-columns: 86px 220px 347px;
   margin: auto;
   /* width: 400px; */
-  text-align: center;
-  grid-gap: 20px;
+  /* text-align: center; */
+  grid-gap: 10px;
+}
+
+.showFinalAverageGrid select {
+  margin-left: 30px;
+}
+
+.showFinalAverageGrid #year {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
+}
+
+.showFinalAverageGrid button {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
 }
 
 #tableStyle {
@@ -3174,20 +3188,30 @@ input[type=radio] {
     width: auto;
   }
   .showFinalAverageGrid select {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
+    -ms-grid-column: 0;
+        grid-column-start: 0;
   }
   .showFinalAverageGrid button {
-    -ms-grid-column: 2;
-        grid-column-start: 2;
+    -ms-grid-column: 1;
+        grid-column-start: 1;
   }
 }
 
 @media (min-width: 321px) and (max-width: 376px) {
   .showFinalAverageGrid {
-    -ms-grid-columns: 40px 220px 50px;
-        grid-template-columns: 40px 220px 50px;
+    -ms-grid-columns: 86px 140px 50px;
+        grid-template-columns: 86px 140px 50px;
     width: auto;
+  }
+  .showFinalAverageGrid button {
+    -ms-grid-column: 1;
+        grid-column-start: 1;
+    width: 265px;
+    margin-top: 10px;
+  }
+  .showFinalAverageGrid select {
+    -ms-grid-column: 0;
+        grid-column-start: 0;
   }
 }
 
@@ -3219,24 +3243,24 @@ input[type=radio] {
   margin-top: 2%;
 }
 
-.surveyHeader h1 {
-  font-family: Helvetica;
+.surveyHeader h2 {
   text-align: center;
-  color: #856b6a;
+  font-family: Helvetica;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 .surveyHeader h4 {
   margin-top: 1%;
-  font-family: Helvetica;
   text-align: center;
-  color: rosybrown;
+  font-family: Helvetica;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 .surveyHeader h5 {
   margin-top: 1%;
-  font-family: Helvetica;
-  color: red;
   text-align: center;
+  font-family: Helvetica;
+  color: rgba(128, 128, 128, 0.692);
 }
 
 .numQuestions {

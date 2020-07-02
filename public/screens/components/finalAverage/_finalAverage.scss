@@ -4,10 +4,10 @@
             width: auto;
 
             select{
-                grid-column-start: 2;
+                grid-column-start: 0;
             }
             button{
-                grid-column-start: 2;
+                grid-column-start: 1;
             }
 
     }
@@ -15,8 +15,16 @@
 }
 @media (min-width: 321px) and (max-width: 376px) {
         .showFinalAverageGrid{
-        grid-template-columns: 40px 220px 50px;
-        width: auto;
+            grid-template-columns: 86px 140px 50px;
+            width: auto;
+        button{
+            grid-column-start: 1;
+            width: 265px;
+            margin-top: 10px;
+        }
+        select{
+            grid-column-start: 0;
+        }
         }
 }
 @media (min-width: 377px) and (max-width: 426px) {

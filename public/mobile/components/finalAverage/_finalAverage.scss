@@ -48,11 +48,20 @@
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 120px 120px 120px;
-    grid-template-columns: 200px 200px 347px;
+    grid-template-columns: 86px 220px 347px;
     margin: auto;
     /* width: 400px; */
-    text-align: center;
-    grid-gap: 20px;
+    /* text-align: center; */
+    grid-gap: 10px;
+    select{
+        margin-left: 30px;
+    }
+    #year{
+        grid-column-start: 1;
+    }
+    button{
+        grid-column-start: 1;
+    }
 
 
 }
