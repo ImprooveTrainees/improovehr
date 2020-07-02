@@ -19,7 +19,7 @@ class CreateNotificationsUsersTable extends Migration
             $table->foreign('notificationId')->references('id')->on('notifications');
             $table->integer('createUserId')->nullable();
             $table->foreign('createUserId')->references('id')->on('users');
-            $table->integer('receiveUserId');
+            $table->integer('receiveUserId')->nullable();
             $table->foreign('receiveUserId')->references('id')->on('users');
             $table->timestamps();
         });

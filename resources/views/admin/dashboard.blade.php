@@ -22,9 +22,10 @@ active
                     <hr>
                 </div>
 
-                <span class="dot1">
+                <div class="daysAvaila">
                     <label id="label3">{{$vacationDaysAvailable}}</label>
-                </span>
+                    <h3>Days</h3>
+                </div>
                 <div id="pholidays">
                     <p>A total of</p>
                     <hr>
@@ -33,10 +34,10 @@ active
                 <div id="pTotalHolidays">
                     <p id="ptotal">{{$vacations_total}} days</p>
                 </div>
-                <div id="currentYear1">
+                {{-- <div id="currentYear1">
                     <p id="year1">Year of</p>
                     <p id="currentyear1"></p>
-                </div>
+                </div> --}}
 
             </div>
             {{-- Box 2 --}}
@@ -46,30 +47,28 @@ active
                     <hr>
                 </div>
                 <div id="dotAbsences">
-                        <p class="dot2"></p>
                         <p id="ptotalabsences">{{$diasAusencia}}</p>
+                        <h3>Days</h3>
                 </div>
 
-                <div id="currentYear1">
+                {{-- <div id="currentYear1">
                     <p id="year2">Year of</p>
-                    <p id="currentyear2"></p>
-                </div>
+                    <p id="currentyear1"></p>
+                </div> --}}
 
             </div>
             {{-- Box 3 --}}
             <div class="shadow p-1 bg-white" id="box3">
-                <div id="timeAll2">
                 <div id="timeAll">
                     <p>Time Accomplished</p>
                     <hr>
                 </div>
+                <div id="timeAll2">
                 @if($totalHoursTodoCurrentWeek == "N/A" && $totalHours == "N/A")
-                    <p id="timeaccomplished">You must configure your Harvest API credentials.</p>
+                    <h4 id="timeaccomplished">You must configure your Harvest API credentials.</h4>
                 @else
-                    <p id="timeaccomplished">{{$totalHours}}  of {{$totalHoursTodoCurrentWeek}} hours</p>
+                    <h3 id="timeaccomplished">{{$totalHours}}  of {{$totalHoursTodoCurrentWeek}} hours</h3>
                 @endif
-                
-             
                 </div>
             </div>
 

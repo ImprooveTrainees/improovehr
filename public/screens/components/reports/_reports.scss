@@ -1,5 +1,5 @@
-@media (min-width: 320px) and (max-width: 800px) {
-    #reportbtn{
+@media (min-width: 700px) and (max-width: 1024px) {
+    #reportbtn {
         margin-top: 20px;
         font-family: helvetica;
         text-align: center;
@@ -8,4 +8,40 @@
         margin-bottom: 15px;
     }
 
+    .reportStart {
+        grid-column-start: 2;
+    }
+
+    .reportDateSpace {
+        grid-template-columns: 200px 240px;
+    }
+}
+
+
+@media (min-width: 320px) and (max-width: 350px) {
+    .reportSelects {
+        grid-template-columns: 110px 130px;
+    }
+
+    .reportStart {
+        grid-column-start: 2;
+    }
+
+    .reportDateSpace {
+        grid-template-columns: 110px 130px;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 430px) {
+    .reportSelects {
+        grid-template-columns: 110px 190px;
+    }
+
+    .reportStart {
+        grid-column-start: 2;
+    }
+
+    .reportDateSpace {
+        grid-template-columns: 110px 190px;
+    }
 }

@@ -135,19 +135,19 @@ open
 
 <!-- Dynamic Table with Export Buttons -->
 <div class="block-header">
-<h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
+    <h3 class="block-title text-center">Holidays<small> - ALL Employees</small></h3>
 </div>
 
 <div class="block-content-full">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-<table class="table table-bordered js-dataTable-buttons">
+<table class="table js-dataTable-buttons table-responsive">
 <thead class="thead-dark">
     <tr>
-    <th class="d-none d-sm-table-cell" style="width: 5%;">NR</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Name</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Department</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">Start Date</th>
-                <th class="d-none d-sm-table-cell" style="width: 15%;">End Date</th>
+    <th class=" d-sm-table-cell" style="width: 5%;">NR</th>
+                <th class=" d-sm-table-cell" style="width: 5%;">Name</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">Department</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">Start Date</th>
+                <th class=" d-sm-table-cell" style="width: 15%;">End Date</th>
                 <th style="width: 10%;">Status</th>
                 <th style="width: 15%;">Actions</th>
     </tr>
@@ -160,29 +160,28 @@ open
 @foreach($listVacationsTotal as $list)
 
     <tr>
-        <td class="font-w600 font-size-sm">
+        <td >
             {{$i}}
         </td>
-        <td class="font-w600 font-size-sm">
+        <td >
             <a href="be_pages_generic_blank.html">{{$list->name}}</a>
         </td>
-        <td class="font-w600 font-size-sm">
+        <td >
                     <a href="be_pages_generic_blank.html">{{$list->depDescription}}</a>
                 </td>
-        <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+        <td data-type="date" >
             {{$list->start_date}}
         </td>
-        <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+        <td data-type="date" >
             {{$list->end_date}}
         </td>
-        <td class="font-size-sm">
+        <td class="font-w600 font-size-sm">
             {{$list->status}}
         </td>
 
         @if($list->status=='Concluded')
 
-        <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-        grid-auto-columns: max-content;">
+        <td data-field="Actions" data-autohide-disabled="false">
             <span style="overflow: visible; position: relative;">
             <div class="dropdown" style="float: left;">
                 <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
@@ -198,11 +197,8 @@ open
             </span>
         </td>
 
-
-
         @else
-            <td data-field="Actions" data-autohide-disabled="false" class="kt-datatable__cell" style="display: grid;
-            grid-auto-columns: max-content;">
+            <td data-field="Actions" data-autohide-disabled="false">
                 <span style="overflow: visible; position: relative;">
                 <div class="dropdown" style="float: left;">
                     <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
@@ -222,7 +218,6 @@ open
                     <a data-toggle="modal" data-target="#modalDisapproval" href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete">
                     <i type="button" id="{{$list->absencedId}}" onClick="reply_click6(this.id)" class="fas fa-times"></i>
                     </a>
-
             @endif
                 </span>
             </td>
@@ -248,7 +243,7 @@ open
 <div id="menu1" class=" tab-pane fade"><br>
  <!-- Tab panes -->
 
- <div class="shadow p-1 bg-white cardbox2">
+ <div class="shadow p-1 bg-white cardbox2" id="newAbsenceadd">
           <a data-toggle="modal" data-target="#modalAbsence">
           <div id="addabsence" class="shadow p-1 bg-white cardbox3">
               <i class="fas fa-plus"></i>
@@ -407,18 +402,18 @@ open
 </div>
 <div class="block-content-full">
   <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-  <table class="table table-bordered js-dataTable-buttons">
+  <table class="table js-dataTable-buttons table-responsive">
       <thead class="thead-dark">
           <tr>
-          <th class="title" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">NR</th>
-                      <th scope="col" class="tablesaw-priority-1" data-tablesaw-sortable-col data-tablesaw-priority="1">Name</th>
-                      <th scope="col" class="tablesaw-priority-2" data-tablesaw-sortable-col data-tablesaw-priority="2">Department</th>
-                      <th scope="col" class="tablesaw-priority-3" data-tablesaw-sortable-col data-tablesaw-priority="3">Start Date</th>
-                      <th scope="col" class="tablesaw-priority-4" data-tablesaw-sortable-col data-tablesaw-priority="4">End Date</th>
-                      <th scope="col" class="tablesaw-priority-5" data-tablesaw-sortable-col data-tablesaw-priority="5">Attachment</th>
-                      <th scope="col" class="tablesaw-priority-6" data-tablesaw-sortable-col data-tablesaw-priority="6">Type</th>
-                      <th scope="col" class="tablesaw-priority-7" data-tablesaw-sortable-col data-tablesaw-priority="7">Status</th>
-                      <th scope="col" class="tablesaw-priority-8" data-tablesaw-sortable-col data-tablesaw-priority="8">Actions</th>
+          <th class="title" >NR</th>
+                      <th style="width: 15%;">Name</th>
+                      <th style="width: 15%;">Department</th>
+                      <th style="width: 15%;">Start Date</th>
+                      <th style="width: 15%;">End Date</th>
+                      <th style="width: 15%;">Attachment</th>
+                      <th style="width: 15%;">Type</th>
+                      <th style="width: 15%;">Status</th>
+                      <th style="width: 15%;">Actions</th>
 
           </tr>
       </thead>
@@ -432,25 +427,25 @@ open
 
 
           <tr>
-              <td class="font-w600 font-size-sm">
+              <td >
                   {{$j}}
               </td>
-              <td class="font-w600 font-size-sm">
+              <td >
                   <a href="be_pages_generic_blank.html">{{$list2->name}}</a>
               </td>
-              <td class="font-w600 font-size-sm">
+              <td >
                           <a href="be_pages_generic_blank.html">{{$list2->depDescription}}</a>
                       </td>
-              <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+              <td data-type="date" class="d-sm-table-cell font-size-sm">
                   {{$list2->start_date}}
               </td>
-              <td data-type="date" class="d-none d-sm-table-cell font-size-sm">
+              <td data-type="date" class="d-sm-table-cell font-size-sm">
                  {{$list2->end_date}}
               </td>
               <td class="font-w600 font-size-sm">
                 <a href="javascript:void(0)">{{$list2->attachment}}</a>
             </td>
-            <td class="font-w600 font-size-sm">
+            <td >
                 {{$list2->description}}
             </td>
             <td class="font-w600 font-size-sm">
@@ -904,6 +899,18 @@ open
             document.getElementById("updateDate").value = clicked_id;
 
         }
+
+        // $(document).ready( function () {
+        //     $('#table_id').DataTable({
+        //         responsive: true
+        //     });
+        // });
+
+        // $(document).ready( function () {
+        //     $('#table_id2').DataTable({
+        //         responsive: true
+        //     });
+        // });
 
     </script>
 

@@ -121,13 +121,13 @@ class UserController extends Controller
 
             }
             else if($userLogged->idusertype == 2) { // se for manager
-                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
+                if($users[$i]->idusertype != 1) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
                     $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
                 }
             }
             else if($userLogged->idusertype == 3) { // se for RH
-                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2 && $users[$i]->idusertype != 3) {
+                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
                     $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
                     $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
                 }
@@ -267,6 +267,8 @@ class UserController extends Controller
         $contractNewEmployee = new contract();
         $userDepartment = new users_deps();
 
+        $idusertype = 4;
+
         $accountCreator = Auth::User();
 
         $name = $request->input('name');
@@ -278,6 +280,19 @@ class UserController extends Controller
         else {
             $role = $request->input('role');
         }
+
+        //ID USER TYPE
+
+        if($role == "Manager") {
+
+            $idusertype = 2;
+
+        } else if($role == "Human Resources") {
+
+            $idusertype = 3;
+
+        }
+
         $country = $accountCreator->country;
         $dateNow = date("Y/m/d");
         $department = $request->input('Department');
@@ -288,6 +303,7 @@ class UserController extends Controller
         $employee->password = Hash::make($passwordAutomatica);
         $employee->country = $country;
         $employee->officeAdress = $officeAdressCreator;
+        $employee->idusertype = $idusertype;
         $employee->save();
 
         $contractNewEmployee->iduser = $employee->id;
@@ -384,7 +400,11 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        //
+        $id_user= Auth::user()->id;
+
+        $passUserAuth = DB::table('users')
+        ->where('users.id','=',$id_user)
+        ->select('users.password')->value('password');
 
         $name = $request->input('name');
         $status = $request->input('status');
@@ -401,23 +421,75 @@ class UserController extends Controller
         $iban = $request->input('iban');
         $linkedIn = $request->input('linkedIn');
 
+        $currentPass = $request->input('currentPass');
+        $newPass = $request->input('newPass');
 
         $userLogado = User::find(Auth::User()->id);
 
-        $userLogado->name = $name;
-        $userLogado->status = $status;
-        $userLogado->academicQual = $academic;
-        $userLogado->birthDate = $birthday;
-        $userLogado->phone = $mobile;
-        $userLogado->email = $email;
-        $userLogado->taxNumber = $nif;
-        $userLogado->address = $address;
-        $userLogado->city = $city;
-        $userLogado->zip_code = $zip;
-        $userLogado->sosName = $sosName;
-        $userLogado->sosContact = $sosContact;
-        $userLogado->iban = $iban;
-        $userLogado->linkedIn = $linkedIn;
+        $isPasswordValid = false;
+
+        if($currentPass !== null || $newPass !== null) {
+
+            if (Hash::check($currentPass, $passUserAuth) || $currentPass == $passUserAuth) {
+
+                if($currentPass !== null) {
+
+                    $isPasswordValid = true;
+
+                }
+
+
+            }
+
+            if($currentPass == $newPass && ($currentPass!==null && $newPass!==null)) {
+
+                $msgPass = "Error! The Passwords are the same. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
+            if($isPasswordValid == true) {
+
+                if($newPass !== null) {
+
+                    $userLogado->password = Hash::make($newPass);
+
+                } else {
+
+                    $msgPass = "Error! New Password is empty. Try Again.";
+
+                    return redirect()->action('UserController@index')->with('message', $msgPass);
+
+                }
+
+            } else {
+
+                $msgPass = "Error! Current Password is incorrect. Try Again.";
+
+                return redirect()->action('UserController@index')->with('message', $msgPass);
+
+            }
+
+
+        }
+
+            $userLogado->name = $name;
+            $userLogado->status = $status;
+            $userLogado->academicQual = $academic;
+            $userLogado->birthDate = $birthday;
+            $userLogado->phone = $mobile;
+            $userLogado->email = $email;
+            $userLogado->taxNumber = $nif;
+            $userLogado->address = $address;
+            $userLogado->city = $city;
+            $userLogado->zip_code = $zip;
+            $userLogado->sosName = $sosName;
+            $userLogado->sosContact = $sosContact;
+            $userLogado->iban = $iban;
+            $userLogado->linkedIn = $linkedIn;
+
+
 
 
         $userLogado->save();
@@ -466,6 +538,24 @@ class UserController extends Controller
         $userDep->save();
 
         $userSelected = User::find($userId);
+
+        //ID USER TYPE
+
+        if($newRole == "Manager") {
+
+            $idusertype = 2;
+
+        } else if($newRole == "Human Resources") {
+
+            $idusertype = 3;
+
+        } else {
+
+            $idusertype = 4;
+
+        }
+
+        $userSelected->idusertype = $idusertype;
         $userSelected->compMail = $companyMail;
         $userSelected->compPhone = $companyMobile;
         $userSelected->save();

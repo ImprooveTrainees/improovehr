@@ -9,12 +9,69 @@
     }
 }
 
-@media screen and (min-width: 1000px) {
-    #login_first {
-        width: 100%;
-    }
 
-    .login_box {
-        width: 35%;
+
+@media screen and (min-width: 1000px) {
+     #login_first {
+         width: 100%;
+     }
+
+     .login_box {
+         width: 35%;
+     }
+ }
+
+
+
+@media screen and (max-width: 320px){
+    #linkfp {
+        margin-top: 0px;
+        margin-left: -14px;
+}
+
+    #cardbox {
+        height: 320px;
     }
 }
+
+
+
+@media (min-width: 370px) and (max-width: 375px){
+    #cardbox {
+        height: 295px;
+    }
+}
+
+
+
+@media (min-width: 420px) and (max-width: 425px){
+    #cardbox {
+        height: 295px;
+    }
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1000px){
+     #cardbox {
+         height: 220px;
+     }
+
+     #linkfp {
+         margin-top: 0px;
+         margin-left: -14px;
+     }
+
+     #email input,
+     #password input {
+         width: 130%;
+     }
+ }
+
+
+
+ @media screen and (max-width: 1024px){
+    #cardbox {
+        height: 260px;
+    }
+ }

@@ -327,7 +327,7 @@ active
             </div>
 
             <div id="holidaysExtra5">
-                <button type="button" onclick="addDate()" class="form-group btn btn-outline-primary bprofileSettings">Add date</button>
+                <button id="addDate" type="button" onclick="addDate()" class="form-group btn btn-outline-primary bprofileSettings">Add date</button>
                 <ul id="dateList">
 
                 </ul>
@@ -357,13 +357,13 @@ active
 
             </div>
 
-            <div id="holidaysExtra3">
+            <!-- <div id="holidaysExtra3">
                 <label for="">Absence Justification:</label>
                 <select class="form-control" name="Absence" id="absenceJustificationForm">
                     <option selected="selected">Yes</option>
                     <option >No</option>
                 </select>
-            </div>
+            </div> -->
         </div>
 
 

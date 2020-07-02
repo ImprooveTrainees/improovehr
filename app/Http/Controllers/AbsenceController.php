@@ -1200,8 +1200,9 @@ class AbsenceController extends Controller
             $diff=date_diff($date1,$date2);
             $days = $diff->format("%d%");
             $diasAusencia += $days;
+            $diasAusencia += 1;
         }
-        $diasAusencia += 1;
+
 
 
         //Calendar begin
@@ -1215,7 +1216,7 @@ class AbsenceController extends Controller
 
 
 $eventos = DB::table('sliderView')
-        ->select('*')
+        ->select('*')->where('Name','NOT LIKE','Admin')
         ->get();
 
 
@@ -1230,10 +1231,10 @@ $contagem = 0;
 
 for($l = 0; $l < $blocksNum; $l++) {
     if($l == 0) {
-        $msg .= "<div class='carousel-item active'>";
+        $msg .= "<div class='carousel-item active' id='carItems'>";
     }
      else {
-         $msg .= "<div class='carousel-item'>";
+         $msg .= "<div class='carousel-item' id='carItems'>";
      }
     $msg .= "<div class='row'>";
 
@@ -1243,16 +1244,16 @@ for($l = 0; $l < $blocksNum; $l++) {
             $today = date('Y-m-d', strtotime($today));
             $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
             //filtro para mostrar apenas todos os eventos futuros da data actual
-            // if($eventDate < $today) {
-            //     continue;
-            // }
+            /* if($eventDate < $today) {
+                 continue;
+             } */
             if($i == count($eventos)-1) {
                 continue;
             }
 
 
             $msg .= "<div class='col-md-4 sizeMobile'>";
-                $msg .= "<div class='card mb-2'>";
+                $msg .= "<div class=' mb-2'>";
 
             if($eventos[$i]->{"DateEnd Absence"} != null) {
                 $absenceDateEnd = date('Y-m-d',strtotime($eventos[$i]->{"DateEnd Absence"}));

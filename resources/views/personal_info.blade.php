@@ -45,9 +45,9 @@ open
     <div class="form-group username">
         <label for="">Name:</label>
         @if($users->name == null)
-      <input type="text" name="name" class="form-control" placeholder="Insira o nome">
+      <input id="username2" type="text" name="name" class="form-control" placeholder="Insira o nome" minlength="4" maxlength="10" required>
         @else
-        <input type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}}>
+        <input id="username2" type="text" name="name" class="form-control" placeholder="Insira o nome" value={{$users->name}} minlength="4" maxlength="10">
         @endif
     </div>
 
@@ -208,6 +208,19 @@ open
             @else
             <input type="text" name="linkedIn" class="form-control" placeholder="Insert Link" value={{$users->linkedIn}}>
             @endif
+        </div>
+        <div id="subtitle">
+            <p>Change Password</p>
+            <hr>
+        </div>
+
+        <div class="form-group linkedin">
+            <label id="currentpass" for="">Current Password:</label>
+            <input type="password" name="currentPass" class="form-control" placeholder="Insert Current Password">
+
+            <label id="newpass" for="">New Password:</label>
+            <input id="newpass" type="password" name="newPass" class="form-control" placeholder="Insert New Password">
+
         </div>
     <br>
   <button type="submit" class="form-group btn btn-outline-primary bprofile">Save</button>
