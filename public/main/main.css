@@ -885,7 +885,6 @@
 }
 
 .box2 p {
-  margin: auto;
   color: rgba(128, 128, 128, 0.692);
   font-size: 10pt;
 }
@@ -916,12 +915,6 @@
   .companymobile input {
     margin-left: 40px;
   }
-  .role p,
-  .typeofcontract p,
-  .department p,
-  .companyemail input {
-    margin-left: 40px;
-  }
   .bprofile2,
   #btnupload,
   #inputdoc {
@@ -940,6 +933,10 @@
   .departmentmanager {
     -ms-grid-columns: 160px 160px;
         grid-template-columns: 160px 160px;
+  }
+  .bprofile2,
+  .btnupload {
+    width: 160px;
   }
 }
 
@@ -977,23 +974,16 @@
   .department,
   .admissiondate,
   .endofcontract,
-  .departmentmanager {
-    -ms-grid-columns: 70px 135px;
-        grid-template-columns: 70px 135px;
-  }
-  .role p,
-  .typeofcontract p,
-  .department p,
-  .admissiondate p,
-  .endofcontract p,
-  .departmentmanager p {
-    margin-left: 45px;
-    width: 176px;
+  .departmentmanager,
+  .companymobile,
+  .companyemail {
+    -ms-grid-columns: 165px 110px;
+        grid-template-columns: 165px 110px;
+    margin-left: -20px;
   }
   .companymobile input,
   .companyemail input {
     width: 63%;
-    margin-left: 23px;
   }
   #profile2 {
     margin-left: -14px;
@@ -1059,7 +1049,7 @@
   .companymobile input,
   .companyemail input {
     margin-left: 30px;
-    width: 213px;
+    width: 170px;
   }
   #profile2 {
     margin-left: 33px;
@@ -1077,12 +1067,6 @@
   .endofcontract p,
   .departmentmanager p,
   .companymobile input {
-    margin-left: 40px;
-  }
-  .role p,
-  .typeofcontract p,
-  .department p,
-  .companyemail input {
     margin-left: 40px;
   }
   .bprofile2,
