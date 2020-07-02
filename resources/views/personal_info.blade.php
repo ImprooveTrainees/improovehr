@@ -215,11 +215,11 @@ open
         </div>
 
         <div class="form-group linkedin">
-            <label for="">Current Password:</label>
+            <label id="currentpass" for="">Current Password:</label>
             <input type="password" name="currentPass" class="form-control" placeholder="Insert Current Password">
 
-            <label for="">New Password:</label>
-            <input type="password" name="newPass" class="form-control" placeholder="Insert New Password">
+            <label id="newpass" for="">New Password:</label>
+            <input id="newpass" type="password" name="newPass" class="form-control" placeholder="Insert New Password">
 
         </div>
     <br>

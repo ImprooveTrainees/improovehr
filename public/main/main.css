@@ -656,6 +656,10 @@
   margin-bottom: 0px;
 }
 
+#newpass {
+  margin-top: 20px;
+}
+
 @media screen and (min-width: 768px) {
   .username,
   .academic,
@@ -1660,6 +1664,10 @@ th {
   margin-top: 30px;
 }
 
+#showTeamDetails {
+  margin-left: 30px;
+}
+
 #yourTeams h4 {
   text-align: center;
 }
@@ -1736,6 +1744,10 @@ table {
   width: 100%;
   display: -ms-grid;
   display: grid;
+}
+
+#saveEmployees {
+  width: 240px;
 }
 
 @media screen and (max-width: 600px) {
@@ -1964,7 +1976,7 @@ table {
 .btnSettings {
   margin-left: 30px;
   margin-top: 20px;
-  width: 347px;
+  width: 240px;
 }
 
 .bsettings2 {
@@ -2009,6 +2021,10 @@ table {
   display: -ms-flexbox;
   display: flex;
   margin: 0;
+}
+
+#addDate {
+  width: 240px;
 }
 
 @media (min-width: 320px) and (max-width: 1024px) {
@@ -3530,7 +3546,7 @@ input[type=radio] {
   font-family: helvetica;
   text-align: center;
   margin-left: 20px;
-  width: 100px;
+  width: 240px;
 }
 
 .bsettings11 {

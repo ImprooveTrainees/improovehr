@@ -50,7 +50,7 @@ active
                     </tbody>
         </table>
     </div>
-        <a href="/reports"><button id="reportbtn" class="btn btn-info">Back</button></a>
+        <a href="/reports"><button id="reportbtn" class="form-group btn btn-outline-primary bprofile">Back</button></a>
 </div>
 
 <!-- <table class="table table-striped">

@@ -65,7 +65,7 @@ active
                 </div>
                 <div id="timeAll2">
                 @if($totalHoursTodoCurrentWeek == "N/A" && $totalHours == "N/A")
-                    <h3 id="timeaccomplished">You must configure your Harvest API credentials.</h3>
+                    <h4 id="timeaccomplished">You must configure your Harvest API credentials.</h4>
                 @else
                     <h3 id="timeaccomplished">{{$totalHours}}  of {{$totalHoursTodoCurrentWeek}} hours</h3>
                 @endif
