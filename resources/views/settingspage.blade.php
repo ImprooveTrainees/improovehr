@@ -327,7 +327,7 @@ active
             </div>
 
             <div id="holidaysExtra5">
-                <button type="button" onclick="addDate()" class="form-group btn btn-outline-primary bprofileSettings">Add date</button>
+                <button id="addDate" type="button" onclick="addDate()" class="form-group btn btn-outline-primary bprofileSettings">Add date</button>
                 <ul id="dateList">
 
                 </ul>
