@@ -490,11 +490,13 @@ input.invalid {
                   <button class="btn btn-outline-primary" type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
                 </div>
               </div>
+
             @for($k = 0; $k < count($subCatsHTML); $k++)
-            <div style="float: left; margin-top:10px">
+            <div style="float: left; margin-top:10px; text-align:center">
                 <span class="step">
             </div>
             @endfor
+
 
 <!-- Begin Survey Structure  -->
     <div class="usersSurv">
