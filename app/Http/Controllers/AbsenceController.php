@@ -1216,7 +1216,7 @@ class AbsenceController extends Controller
 
 
 $eventos = DB::table('sliderView')
-        ->select('*')
+        ->select('*')->where('Name','NOT LIKE','Admin')
         ->get();
 
 
@@ -1244,9 +1244,9 @@ for($l = 0; $l < $blocksNum; $l++) {
             $today = date('Y-m-d', strtotime($today));
             $eventDate = date('Y-m-d',strtotime($eventos[$i]->Date));
             //filtro para mostrar apenas todos os eventos futuros da data actual
-            // if($eventDate < $today) {
-            //     continue;
-            // }
+            /* if($eventDate < $today) {
+                 continue;
+             } */
             if($i == count($eventos)-1) {
                 continue;
             }
