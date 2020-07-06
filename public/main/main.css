@@ -693,8 +693,8 @@
   .soscontact,
   .sosusername,
   .linkedin {
-    -ms-grid-columns: 86px 190px 40px;
-        grid-template-columns: 86px 190px 40px;
+    -ms-grid-columns: 86px 190px;
+        grid-template-columns: 86px 190px;
     -ms-grid-rows: auto;
         grid-template-rows: auto;
   }
@@ -749,7 +749,7 @@
     margin-left: 17px;
   }
   .bprofile {
-    width: 342px;
+    width: 310px;
   }
 }
 
@@ -785,7 +785,7 @@
     margin-top: 200px;
   }
   .bprofile {
-    width: 332px;
+    width: 310px;
   }
 }
 
@@ -827,7 +827,7 @@
     width: 176px;
   }
   .bprofile {
-    width: 275px;
+    width: 250px;
   }
   .box1 {
     margin-left: 2px;
@@ -1664,10 +1664,6 @@ th {
   margin-top: 30px;
 }
 
-#showTeamDetails {
-  margin-left: 30px;
-}
-
 #yourTeams h4 {
   text-align: center;
 }
@@ -1756,8 +1752,8 @@ table {
   .newname,
   #rolenew,
   .departmentEmployeesAlign {
-    -ms-grid-columns: 100px 165px;
-        grid-template-columns: 100px 165px;
+    -ms-grid-columns: 100px 150px;
+        grid-template-columns: 100px 150px;
   }
   #newTeamName,
   #selectTeam,
