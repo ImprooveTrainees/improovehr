@@ -68,6 +68,8 @@ class UserController extends Controller
 
         $contractTypes = contractType::All();
 
+        $offices = offices::All();
+
 
         $msg = "";
         // $actualYear = date("Y/m/d");
@@ -76,64 +78,72 @@ class UserController extends Controller
         // $diff=date_diff($date1,$date2);
         // $age = $diff->format("%Y%"); //formato anos
         for($i = 0; $i < count($users); $i++) {
-            if($userLogged->country == $users[$i]->country) { //só users do office do user logado
-                $msg .= "<tr>";
-            if($users[$i]->photo == null) {
-                $msg .= "<td>No profile image</td>";
-            }
-            else {
-                $msg .= "<td>"."<img class='sliderResize' src=".$users[$i]->photo."></td>";
-            }
-            $msg .= "<td>".$users[$i]->name."</td>";
-            if($users[$i]->officeDescricao($users[$i]->id,$users[$i]->country) == null) {
-                $msg .= "<td>Por definir</td>";
-            }
-            else {
-                $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>";
-            }//pôr office
-            $msg .= "<td>".$users[$i]->contractUser->position."</td>";
-            $depart = true;
-            if($users[$i]->departments->first() == null) {
-                $msg .= "<td>Por definir</td>";
-                $depart = false;
-            }
-            else {
-                $msg.= "<td>".$users[$i]->departments->first()->description."</td>";
-            } //departamento
-            $actualYear = date("Y/m/d");
-            $date1=date_create($users[$i]->contractUser->start_date);
-            $date2=date_create($actualYear);
-            $diff=date_diff($date1,$date2);
-            $tempoEmpresa = $diff->format("%Y%")." years";
-            $msg .= "<td>".$tempoEmpresa."</td>";
-            if(!$depart) {
-                $msg.= "<td>Por definir</td>";
-            }
-            else if($users[$i]->name == $users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)) {
-                $msg .= "<td> ------- </td>";
-            }
-            else {
-                $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
-            }
-            if($userLogged->idusertype == 1) { // se for admin
-                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
+
+            if($users[$i]->id !== 1) {
+
+
+                if($userLogged->country == $users[$i]->country) { //só users do office do user logado
+                    $msg .= "<tr>";
+                if($users[$i]->photo == null) {
+                    $msg .= "<td>No profile image</td>";
+                }
+                else {
+                    $msg .= "<td>"."<img class='sliderResize' src=".$users[$i]->photo."></td>";
+                }
+                $msg .= "<td>".$users[$i]->name."</td>";
+                if($users[$i]->officeDescricao($users[$i]->id,$users[$i]->country) == null) {
+                    $msg .= "<td>Por definir</td>";
+                }
+                else {
+                    $msg .= "<td>".$users[$i]->officeDescricao($users[$i]->id,$users[$i]->country)."</td>";
+                }//pôr office
+                $msg .= "<td>".$users[$i]->contractUser->position."</td>";
+                $depart = true;
+                if($users[$i]->departments->first() == null) {
+                    $msg .= "<td>Por definir</td>";
+                    $depart = false;
+                }
+                else {
+                    $msg.= "<td>".$users[$i]->departments->first()->description."</td>";
+                } //departamento
+                $actualYear = date("Y/m/d");
+                $date1=date_create($users[$i]->contractUser->start_date);
+                $date2=date_create($actualYear);
+                $diff=date_diff($date1,$date2);
+                $tempoEmpresa = $diff->format("%Y%")." years";
+                $msg .= "<td>".$tempoEmpresa."</td>";
+                if(!$depart) {
+                    $msg.= "<td>Por definir</td>";
+                }
+                else if($users[$i]->name == $users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)) {
+                    $msg .= "<td> ------- </td>";
+                }
+                else {
+                    $msg .= "<td>".$users[$i]->managerDoUser($users[$i]->departments->first()->description, $users[$i]->country)."</td>";
+                }
+                if($userLogged->idusertype == 1) { // se for admin
+                        $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                        $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
+
+                }
+                else if($userLogged->idusertype == 2) { // se for manager
+                    if($users[$i]->idusertype != 1) {
+                        $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                        $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
+                    }
+                }
+                else if($userLogged->idusertype == 3) { // se for RH
+                    if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
+                        $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
+                        $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
+                    }
+                }
+                $msg .= "</tr>";
+                }
 
             }
-            else if($userLogged->idusertype == 2) { // se for manager
-                if($users[$i]->idusertype != 1) {
-                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
-                }
-            }
-            else if($userLogged->idusertype == 3) { // se for RH
-                if($users[$i]->idusertype != 1 && $users[$i]->idusertype != 2) {
-                    $msg .= "<td>"."<button onclick='modalOpen(".$users[$i]->id.")' value=".$users[$i]->id."><i class='fas fa-user-edit'></i></button>"."</td>";
-                    $msg .= "<td>"."<a onclick='return confirmDelete()' href='/deleteEmployee/".$users[$i]->id."'><i class='fas fa-user-slash'></i></a>"."</td>";
-                }
-            }
-            $msg .= "</tr>";
-            }
+
+
 
 
 
@@ -195,6 +205,7 @@ class UserController extends Controller
             ->with('contractTypes', $contractTypes)
             ->with('departments', $departments)
             ->with('userLeaders', $userLeaders)
+            ->with('offices', $offices)
             ->with('allTeams', $allTeams)
             ->with('selectedTeamMembersArray', $selectedTeamMembersArray)
             ->with('teamDetailsId', $teamDetailsId)
@@ -241,6 +252,7 @@ class UserController extends Controller
         return view('employees')
         ->with('msg', $msg)
         ->with('departmentList', $departmentList)
+        ->with('offices', $offices)
         ->with('userLogged', $userLogged)
         ->with('contractTypes', $contractTypes)
         ->with('departments', $departments)
@@ -524,6 +536,8 @@ class UserController extends Controller
         $contractEnd = $request->input('dateEndEditProf');
         $companyMail = $request->input('companyMailProfInfo');
         $companyMobile = $request->input('companyMobileProfInfo');
+
+        $office = $request->input('office');
 
         $editContractUser = contract::where('iduser', $userId)->first();
         $editContractUser->position = $newRole;

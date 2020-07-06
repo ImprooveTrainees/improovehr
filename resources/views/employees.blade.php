@@ -201,7 +201,7 @@ active
                     <select class="form-control" name="role" id="exampleRole" required>
                              <option>Manager</option>
                              <option value="Project Manager">Project Manager</option>
-                             <option selected="selected" value="Front End Developer">Front-End Developer</option>
+                             <option value="Front End Developer">Front-End Developer</option>
                              <option value="Back End Developer">Back-End Developer</option>
                              <option>Human Resources</option>
                              <option id="otherrole" value="other">Other</option>
@@ -413,7 +413,7 @@ active
             <select class="form-control" name="roleEditProf" id="exampleRole2" required>
                     <option>Manager</option>
                     <option value="Project Manager">Project Manager</option>
-                    <option selected="selected" value="Front End Developer">Front-End Developer</option>
+                    <option value="Front End Developer">Front-End Developer</option>
                     <option value="Back End Developer">Back-End Developer</option>
                     <option>Human Resources</option>
                     <option value="other">Other</option>
