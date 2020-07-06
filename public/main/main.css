@@ -877,7 +877,14 @@
 .endofcontract label,
 .departmentmanager label,
 .companymobile label {
-  margin-left: 20px;
+  text-align: -webkit-center;
+}
+
+.role label,
+.typeofcontract label,
+.department label,
+.companyemail label {
+  text-align: -webkit-center;
 }
 
 #inputdoc {
@@ -912,12 +919,6 @@
         grid-template-columns: 180px 190px;
     -ms-grid-rows: auto;
         grid-template-rows: auto;
-  }
-  .admissiondate p,
-  .endofcontract p,
-  .departmentmanager p,
-  .companymobile input {
-    margin-left: 40px;
   }
   .bprofile2,
   #btnupload,
