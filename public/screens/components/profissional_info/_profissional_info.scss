@@ -1,5 +1,4 @@
 @media (min-width: 1200px) and (max-width: 2000px) {
-
     .role,
     .typeofcontract,
     .companymobile,
@@ -11,7 +10,6 @@
         grid-template-columns: 180px 190px;
         grid-template-rows: auto;
     }
-
     .bprofile2,
     #btnupload,
     #inputdoc {
@@ -20,7 +18,6 @@
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
-
     .role,
     .typeofcontract,
     .companymobile,
@@ -31,7 +28,6 @@
     .departmentmanager {
         grid-template-columns: 160px 160px;
     }
-
     .bprofile2,
     .btnupload {
         width: 160px;
@@ -39,7 +35,6 @@
 }
 
 @media screen and (max-width: 425px) {
-
     .role,
     .typeofcontract,
     .companymobile,
@@ -51,14 +46,12 @@
         grid-template-columns: 130px 120px;
         grid-template-rows: auto;
     }
-
     .role,
     .typeofcontract,
     .department,
     .companyemail {
         float: none;
     }
-
     .admissiondate label,
     .endofcontract label,
     .departmentmanager label,
@@ -67,9 +60,7 @@
     }
 }
 
-
-
-@media screen and (max-width: 320px){
+@media screen and (max-width: 320px) {
     .role,
     .typeofcontract,
     .department,
@@ -81,27 +72,22 @@
         grid-template-columns: 165px 110px;
         margin-left: -20px;
     }
-
     .companymobile input,
     .companyemail input {
         width: 63%;
     }
-
     #profile2 {
         margin-left: -14px;
     }
-
     .bprofile2,
     #btnupload,
-    #inputdoc{
+    #inputdoc {
         width: 275px;
         margin-left: -27px;
     }
 }
 
-
-
-@media (min-width: 370px) and (max-width: 375px){
+@media (min-width: 370px) and (max-width: 375px) {
     .role p,
     .typeofcontract p,
     .department p,
@@ -111,21 +97,17 @@
         margin-left: 30px;
         width: 215px;
     }
-
     .companymobile input,
     .companyemail input {
         width: 85%;
         margin-left: 27px;
     }
-
     .cardbox1 {
         margin-left: 15px;
     }
-
     #profile2 {
         margin-left: 13px;
     }
-
     .bprofile2,
     #btnupload,
     #inputdoc {
@@ -134,9 +116,7 @@
     }
 }
 
-
-
-@media (min-width: 420px) and (max-width: 425px){
+@media (min-width: 420px) and (max-width: 425px) {
     .role,
     .typeofcontract,
     .department,
@@ -146,7 +126,6 @@
         grid-template-columns: 86px 140px;
         grid-template-rows: auto;
     }
-
     .role p,
     .typeofcontract p,
     .department p,
@@ -156,17 +135,14 @@
         margin-left: 30px;
         width: 220px;
     }
-
     .companymobile input,
     .companyemail input {
         margin-left: 30px;
         width: 170px;
     }
-
     #profile2 {
         margin-left: 33px;
     }
-
     .bprofile2,
     #btnupload,
     #inputdoc {
@@ -175,16 +151,7 @@
     }
 }
 
-
-
-@media (min-width: 1445px) and (max-width: 2560px){
-    .admissiondate p,
-    .endofcontract p,
-    .departmentmanager p,
-    .companymobile input {
-        margin-left: 40px;
-    }
-
+@media (min-width: 1445px) and (max-width: 2560px) {
     .bprofile2,
     #btnupload,
     #inputdoc {

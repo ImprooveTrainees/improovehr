@@ -19,7 +19,6 @@
 //      display: flex;
 //      justify-content: center;
 //  }
-
 .role,
 .admissiondate,
 .typeofcontract,
@@ -33,8 +32,7 @@
 
 .role,
 .typeofcontract,
-.department,
-.companyemail {
+.department {
     float: left;
 }
 
@@ -52,19 +50,16 @@
     text-align: -webkit-center;
 }
 
-
 #inputdoc {
     width: 347px;
 }
 
 .box2 {
     margin-left: 30px;
-
     p {
         color: rgba(128, 128, 128, 0.692);
         font-size: 10pt;
     }
-
     hr {
         width: 20%;
         display: inline-block;
